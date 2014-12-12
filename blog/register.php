@@ -151,7 +151,7 @@ if (isset($_POST["submit"])) {
                 ?>
             </div>
             <h1>Inscription</h1>
-            <form action="" method="POST" id='form_inscription'>
+            <form action="" method="POST" id='form_register'>
                 <p>
                     <label for="gender">Genre</label>
                     <input type='radio' name='gender' value='0' checked> Masculin

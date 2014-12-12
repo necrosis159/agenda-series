@@ -1,51 +1,36 @@
 <?php
-session_start();
-
-//On donne ensuite un titre à la page, puis on appelle notre fichier debut.php
-$title = "Index du forum";
-include("includes/pdo.php");
-include("includes/header.php");
-include("includes/menu.php");
+	include './includes/top.php';
+	$title = "Index du forum";
 ?>
 
-<h1>Page d'accueil</h1>
+   <div class="main-container">
+      <div class="main clearfix">
+
+         <article>
+
+            <header>
+               <h1>Titre de l'article</h1>
+               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec.</p>
+            </header>
+
+            <!-- <section>
+            <h2>Contenu de l'article</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
+         </section>
+
+         <footer>
+         <h3>Bas de l'article</h3>
+         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
+      </footer> -->
+
+   </article>
+
+</div> <!-- #main -->
+</div> <!-- #main-container -->
 
 <?php
-$query=$db->prepare('SELECT *
-FROM users
-ORDER BY id');
-$query->execute();
 
-echo'<div id="infos">
-<h2>Table utilisateurs</h2>';
-
-foreach ($query as $user) {
-	// echo $key;
-	echo "<table><tr>";
-	echo 	"<td>".$user["id"]."</td>";
-	echo 	"<td>".$user["gender"]."</td>";
-	echo 	"<td>".$user["name"]."</td>";
-	echo 	"<td>".$user["surname"]."</td>";
-	echo 	"<td>".$user["email"]."</td>";
-	echo 	"<td>".$user["pseudo"]."</td>";
-	echo 	"<td>".$user["password"]."</td>";
-	echo 	"<td>".$user["birthdate"]."</td>";
-	echo 	"<td>".$user["creation_date"]."</td>";
-	echo 	"<td>".$user["last_modification_date"]."</td>";
-	echo 	"<td>".$user["status"]."</td>";
-	echo "</tr></table>";
-
-}
-
-selectAllUsers($db);
-// $derniermembre = stripslashes(htmlspecialchars($donnees['pseudo']));
+   include './includes/footer.php';
 
 
-
-$query->CloseCursor();
-?>
-</div>
-
-<?php
-include("includes/footer.php");
 ?>
