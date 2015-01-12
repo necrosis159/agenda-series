@@ -1,0 +1,30 @@
+<?php session_start() ;
+$id = (isset($_SESSION["id"])) ? (int) $_SESSION["id"] : 0;
+?>
+<!DOCTYPE html>
+
+<html>
+
+   <head>
+      <title>Agenda-Série.fr | Home</title>
+
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+      <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+      <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" />
+
+      <link type="text/css" rel="stylesheet" href="css/jquery.mmenu.all.css" />
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+      <script type="text/javascript" src="js/jquery.mmenu.js"></script>
+      <script type="text/javascript" src="js/script.js"></script>
+
+      <script type="text/javascript">
+      //	The menu on the left
+      $(function() {
+         $('nav#menu-left').mmenu();
+      });
+      </script>
+   </head>
+
+   <body>
