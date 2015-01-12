@@ -1,0 +1,227 @@
+article {
+   margin: 10px;
+   float: left;
+}
+
+footer {
+   margin: 0;
+   padding: 10px 24px;
+}
+
+footer h2 {
+   margin: 0.67em 0;
+   color: #f2e8dc;
+}
+
+/* Base */
+
+html,
+button,
+input,
+select,
+textarea {
+   font-family: 'Ubuntu', sans-serif;
+}
+
+body {
+   margin: 0;
+}
+
+/* Typography */
+
+h1 {
+   font-size: 2em;
+   margin: 0.67em 0;
+   text-align: center;
+}
+
+h2 {
+   font-size: 1.5em;
+   margin: 0.83em 0;
+}
+
+h3 {
+   font-size: 1.17em;
+   margin: 1em 0;
+}
+
+h4 {
+   font-size: 1em;
+   margin: 1.33em 0;
+}
+
+h5 {
+   font-size: 0.83em;
+   margin: 1.67em 0;
+}
+
+h6 {
+   font-size: 0.67em;
+   margin: 2.33em 0;
+}
+
+/* ID */
+
+#main {
+   float: left;
+   width: 500px;
+   background: #9c9;
+}
+
+/* Classes */
+
+.clearfix:after {
+   content: ".";
+   display: block;
+   clear: both;
+   visibility: hidden;
+   line-height: 0;
+   height: 0;
+}
+
+.clearfix {
+   display: block;
+}
+
+html[xmlns] .clearfix {
+   display: block;
+}
+
+* html .clearfix {
+   height: 1%;
+}
+
+.main {
+   width: 100%;
+}
+
+.title {
+   color: #031634;
+}
+
+/* Logo Class */
+.logo {
+   margin-left: 16px;
+   float: left;
+}
+
+p.logo {
+   font-size: 2em;
+   margin: 0.67em 0;
+}
+
+.logo a {
+   color: #aaa;
+   display: block;
+   font-size: 1.6em;
+   line-height: 100px;
+   padding: 0 24px;
+   text-decoration: none;
+
+   -webkit-transition: all 0.2s;
+   -moz-transition: all 0.2s;
+   -ms-transition: all 0.2s;
+   -o-transition: all 0.2s;
+   transition: all 0.2s;
+}
+
+.logo a:hover,
+.logo a:visited {
+   color: #f2e8dc;
+}
+
+.logo a:hover {
+   text-decoration: none;
+
+   -webkit-transition: all 0.2s;
+   -moz-transition: all 0.2s;
+   -ms-transition: all 0.2s;
+   -o-transition: all 0.2s;
+   transition: all 0.2s;
+}
+
+.footer-container {
+   background-color: #031634;
+   height: 25%;
+   bottom: 0;
+}
+
+.footer-container p {
+   color: #f2e8dc;
+}
+
+/* Navigation */
+
+nav {
+   background-color: #031634;
+   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.055);
+   margin-bottom: 10px;
+   color: grey;
+   display: block;
+   overflow: hidden;
+   width: 100%;
+}
+
+nav ul {
+   padding: 0;
+   float: right;
+}
+
+nav ul li {
+   display: inline-block;
+   list-style-type: none;
+}
+
+nav > ul > li > a {
+   color: #aaa;
+   display: block;
+   font-size: 1.3em;
+   line-height: 100px;
+   padding: 0 24px;
+   text-decoration: none;
+
+   -webkit-transition: all 0.2s;
+   -moz-transition: all 0.2s;
+   -ms-transition: all 0.2s;
+   -o-transition: all 0.2s;
+   transition: all 0.2s;
+}
+
+nav a:hover,
+nav a:visited {
+   color: #f2e8dc;
+}
+
+nav a:hover {
+   text-decoration: none;
+
+   -webkit-transition: all 0.2s;
+   -moz-transition: all 0.2s;
+   -ms-transition: all 0.2s;
+   -o-transition: all 0.2s;
+   transition: all 0.2s;
+}
+
+#form_register, #form_account {
+	border: 1px solid black;
+	width: 50%;
+	margin: auto;
+	padding: 10px;
+}
+
+#form_register label, #form_account label {
+   float: left;
+   width: 100%;
+   display: block;
+   cursor: pointer;
+}
+
+.input_form {
+   width: 95%;
+   height: 30px;
+   cursor: pointer;
+}
+
+#erreurFormulaire {
+	color: #CC0000;
+}
