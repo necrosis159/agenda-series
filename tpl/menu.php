@@ -1,6 +1,12 @@
 <?php
 
+   // Récupération du nom du fichier utilisé
    $folder = dirname($_SERVER['PHP_SELF']);
+   $page_name = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/") + 1);
+
+   // Récupération du nom du répertoire courant
+   $cur_dir = explode('\\', getcwd());
+   $dir_name = $cur_dir[count($cur_dir)-1];
 
 ?>
 
@@ -14,10 +20,15 @@
          </div>
          <nav id="menu-left">
             <ul>
-               <li><a href="/">Agenda-série.fr</a></li>
-               <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account.php">Compte</a></li>
-               <li><a href="#">Favoris</a></li>
-               <li><a href="#">Connexion</a></li>
+               <?php if($id != 0): ?>
+                  <li <?php if($dir_name == "localweb"): ?> class="active" <?php endif; ?>><a href="/">Site</a></li>
+                  <li <?php if($dir_name == "account"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Compte</a></li>
+                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Administration</a></li>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
+               <?php else: ?>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
+               <?php endif; ?>
             </ul>
          </nav>
       </div>
@@ -27,19 +38,15 @@
 
          <div class="th_menu">
             <ul>
-               <?php
-               if($id != 0) {
-               ?>
-                  <li><a href="/">Agenda-série.fr</a></li>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Compte</a></li>
-                  <li><a href="#">Administration</a></li>
+               <?php if($id != 0): ?>
+                  <li <?php if($dir_name == "localweb"): ?> class="active" <?php endif; ?>><a href="/">Site</a></li>
+                  <li <?php if($dir_name == "account"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Compte</a></li>
+                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Administration</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
-               <?php
-               } else {
-               ?>
-               <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
-               <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
-               <?php } ?>
+               <?php else: ?>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
+               <?php endif; ?>
             </ul>
          </div>
          <div class="clear"> </div>
@@ -78,7 +85,7 @@
          </div>
          <nav id="menu-left">
             <ul>
-               <li class="mm-selected"><a href="#">Mon profil</a></li>
+               <li <?php if($name_page == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
                <li><a href="#">Mes séries</a></li>
                <li><a href="#">Mon calendrier</a></li>
                <li><a href="#">Mes informations</a></li>
@@ -91,7 +98,7 @@
 
          <div class="h_menu">
             <ul>
-               <li class="active"><a href="#">Mon profil</a></li>
+               <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
                <li><a href="#">Mes séries</a></li>
                <li><a href="#">Mon calendrier</a></li>
                <li><a href="#">Mes informations</a></li>
@@ -109,7 +116,7 @@
    </div>
 </div>
 
-<?php elseif($folder == "/manage"): ?>
+<?php elseif($folder == "/management"): ?>
 
    <!-- start header -->
    <div class="header_btm">
@@ -121,11 +128,10 @@
             </div>
             <nav id="menu-left">
                <ul>
-                  <li class="mm-selected"><a href="/">Accueil</a></li>
-                  <li><a href="#">Les séries</a></li>
-                  <li><a href="#">Services</a></li>
-                  <li><a href="#">Calendrier</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
+                  <li <?php if($page_name == "manage_articles.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
+                  <li <?php if($page_name == "manage_comments.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
+                  <li <?php if($page_name == "manage_users.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_users.php">Utilisateurs</a></li>
                </ul>
             </nav>
          </div>
@@ -135,11 +141,10 @@
 
             <div class="h_menu">
                <ul>
-                  <li class="active"><a href="/">Accueil</a></li>
-                  <li><a href="#">Les séries</a></li>
-                  <li><a href="#">Services</a></li>
-                  <li><a href="#">Calendrier</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
+                  <li <?php if($page_name == "manage_articles.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
+                  <li <?php if($page_name == "manage_comments.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
+                  <li <?php if($page_name == "manage_users.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_users.php">Utilisateurs</a></li>
                </ul>
             </div>
 
@@ -166,7 +171,7 @@
             </div>
             <nav id="menu-left">
                <ul>
-                  <li class="mm-selected"><a href="/">Accueil</a></li>
+                  <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="/">Accueil</a></li>
                   <li><a href="#">Les séries</a></li>
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Calendrier</a></li>
@@ -180,7 +185,7 @@
 
             <div class="h_menu">
                <ul>
-                  <li class="active"><a href="/">Accueil</a></li>
+                  <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="/">Accueil</a></li>
                   <li><a href="#">Les séries</a></li>
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Calendrier</a></li>

@@ -43,9 +43,9 @@ if (isset($_POST["submit"])) {
         // Champ email
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // On vérifie si le mail existe dans la bdd
-            $query = $db->prepare("SELECT email FROM users where email = '".$email."'");
+            $query = $db->prepare("SELECT email FROM user where email = '".$email."'");
             $query->execute();
-            if($query->rowCount() > 0) { 
+            if($query->rowCount() > 0) {
                 $arrayErrors[] = "Le mail existe déjà";
                 $error ++;
             }
@@ -58,9 +58,9 @@ if (isset($_POST["submit"])) {
         // Champ pseudo
         if (!empty($pseudo) && strlen($pseudo) >= 4 && strlen($pseudo) <= 50) {
             // On vérifie si le pseudo existe dans la bdd
-            $query = $db->prepare("SELECT pseudo FROM users where pseudo = '".$pseudo."'");
+            $query = $db->prepare("SELECT pseudo FROM user where pseudo = '".$pseudo."'");
             $query->execute();
-            if($query->rowCount() > 0) { 
+            if($query->rowCount() > 0) {
                 $arrayErrors[] = "Le pseudo existe déjà";
                 $error ++;
             }
@@ -128,7 +128,7 @@ if (isset($_POST["submit"])) {
         if ($error > 0) {
             array_unshift($arrayErrors, "Formulaire invalide");
         } else {
-            $query = $db->prepare("INSERT into users(gender, name, surname, email, pseudo, password, birthdate)
+            $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
                                     VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".$password."', '".$birthdateFormat."')");
             $query->execute();
         }
@@ -175,7 +175,7 @@ if (isset($_POST["submit"])) {
                 </p>
                 <p>
                     <label for="password">Mot de passe</label>
-                    <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="8" value='<?php if(isset($password)) echo $password ?>'> * 
+                    <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="8" value='<?php if(isset($password)) echo $password ?>'> *
                 </p>
                 <p>
                     <label for="password_confirm">Confirmation mot de passe</label>
@@ -195,5 +195,7 @@ if (isset($_POST["submit"])) {
         </div>
 
 <?php
-include("tpl/footer.php");
+
+   include("tpl/footer.php");
+
 ?>

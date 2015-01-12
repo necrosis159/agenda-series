@@ -1,12 +1,12 @@
 <?php
-include ("tpl/top.php");
+
+   include ("tpl/top.php");
+
 ?>
 
 <div id='connection_bloc'>
 
-    <?php
-    if ($id == 0) {
-        ?>
+    <?php if ($id == 0) { ?>
         <div id="connection">
             <fieldset>
                 <legend>Connexion</legend>
@@ -37,8 +37,7 @@ include ("tpl/top.php");
 				Vous devez remplir tous les champs</p>
 				<p>Cliquez <a href="./connection.php">ici</a> pour revenir</p>';
                 } else {
-                    $query = $db->prepare("SELECT id, pseudo, password
-		        FROM users WHERE pseudo = :pseudo");
+                    $query = $db->prepare("SELECT id, pseudo, password FROM user WHERE pseudo = :pseudo");
                     $query->execute(array("pseudo" => $_POST["pseudo"]));
                     // $query->execute();
                     $data = $query->fetch();
@@ -50,8 +49,8 @@ include ("tpl/top.php");
                             document.location.replace("index.php");
                             </script>';
                     } else {
-                        $message = '<p>Une erreur s\'est produite 
-				    pendant votre identification.<br /> Le mot de passe ou le pseudo 
+                        $message = '<p>Une erreur s\'est produite
+				    pendant votre identification.<br /> Le mot de passe ou le pseudo
 			        entré n\'est pas correcte.</p>';
                     }
                     $query->CloseCursor();
@@ -66,4 +65,3 @@ include ("tpl/top.php");
         ?>
     </div>
 </div>
-
