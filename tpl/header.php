@@ -20,11 +20,21 @@ $id = (isset($_SESSION["id"])) ? (int) $_SESSION["id"] : 0;
       <script type="text/javascript" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/js/script.js"></script>
 
       <script type="text/javascript">
-      //	The menu on the left
+      //	Menu mobile
       $(function() {
          $('nav#menu-left').mmenu();
       });
       </script>
+
+      <!-- Ajout de l'interface wysiwyg (TinyMCE) -->
+      <script type="text/javascript" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/tinymce/tinymce.min.js"></script>
+      <script type="text/javascript">
+      tinymce.init({
+         language : "fr_FR",
+         selector: "textarea"
+      });
+      </script>
+
    </head>
 
    <body>

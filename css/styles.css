@@ -54,7 +54,103 @@ body {
 	float: left;
 }
 
-/*--- Icônes sociaux ----*/
+/* Liens-Boutons */
+.button {
+	display: inline-block;
+	white-space: nowrap;
+	background-color: #ccc;
+	background-image: linear-gradient(top, #eee, #ccc);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#cccccc');
+	border: 1px solid #777;
+	padding: 0 1.5em;
+	margin: 0.5em;
+	font: bold 1em/2em Arial, Helvetica;
+	text-decoration: none;
+	color: #333;
+	text-shadow: 0 1px 0 rgba(255,255,255,.8);
+	border-radius: .2em;
+	box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 rgba(0,0,0,.3);
+}
+
+.button:hover {
+	background-color: #ddd;
+	background-image: linear-gradient(top, #fafafa, #ddd);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#fafafa', EndColorStr='#dddddd');
+}
+
+/*--- ID article_form ---*/
+
+/* Boutons */
+#article_form input[type="submit"]  {
+	display: inline-block;
+	white-space: nowrap;
+	background-color: #ccc;
+	background-image: linear-gradient(top, #eee, #ccc);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#cccccc');
+	border: 1px solid #777;
+	padding: 0 1.5em;
+	margin: 1.5em;
+	font: bold 1em/2em Arial, Helvetica;
+	text-decoration: none;
+	color: #333;
+	text-shadow: 0 1px 0 rgba(255,255,255,.8);
+	border-radius: .2em;
+	box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 rgba(0,0,0,.3);
+}
+
+#article_form input[type="submit"]:hover {
+	background-color: #ddd;
+	background-image: linear-gradient(top, #fafafa, #ddd);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#fafafa', EndColorStr='#dddddd');
+	cursor: pointer;
+}
+
+/* Input style par défaut */
+
+#article_form input[type="text"] { box-sizing: border-box; }
+
+#article_form input[type="text"] {
+	display: block;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dedede;
+	margin-bottom: 20px;
+	font-size: 1em;
+	padding: 10px 15px;
+	padding-left: 20px;
+	width: 90%;
+	color: #777;
+
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+
+	transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+	-webkit-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+	-moz-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+	-o-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+}
+
+#article_form input[type="text"]:focus {
+	color: #333;
+	border-color: rgba(41, 92, 161, 0.4);
+
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(41, 92, 161, 0.6);
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(41, 92, 161, 0.6);
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(41, 92, 161, 0.6);
+	outline: 0 none;
+}
+
+#article_form label {
+	font-size: 1.6em;
+	color: #485460;
+	font-weight: 500;
+	line-height: 1.6em;
+	margin-top: 2em;
+	cursor: pointer;
+}
+
+/* Icônes sociaux */
 .text {
 	float: right;
 	padding: 2.4%;
@@ -66,12 +162,11 @@ body {
 	font-style: italic;
 }
 
-/* start top_header_btm */
+/* Bar top */
 .top_header_btm {
 	background: #6D7070;
 }
 
-/* start top menu */
 .th_menu {
 	float: right;
 }
@@ -98,13 +193,12 @@ body {
 	color: #EB6841;
 }
 
-/* start header_btm */
+/* Menu principal */
 .header_btm{
-	background: #00A0B0;
+	background: #2f7485;
 	box-shadow: 0 2px 1px 0px gray;
 }
 
-/* start menu */
 .h_menu{
 	float:left;
 }
@@ -201,7 +295,7 @@ table {
 	text-align: center;
 }
 th {
-	background: steelblue;
+	background: #2f7485;
 	height: 40px;
 	width: 21%;
 	font-size: 16px;
@@ -248,15 +342,15 @@ td input {
 	width: 100%;
 }
 td input:focus {
-	box-shadow: 0 1px 0 steelblue;
+	box-shadow: 0 1px 0 #2f7485;
 	color: steelblue;
 }
 ::-moz-selection {
-	background: steelblue;
+	background: #2f7485;
 	color: white;
 }
 ::selection {
-	background: steelblue;
+	background: #2f7485;
 	color: white;
 }
 .heavyTable {
@@ -264,7 +358,7 @@ td input:focus {
 	animation: float 5s infinite;
 }
 
-/*--- start iphone_nav -----*/
+/* Navigation mobile */
 .sub-head{
 	display:none;
 	background: #FFFFFF;

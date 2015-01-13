@@ -8,6 +8,8 @@
    <section id="manage">
       <h5 class="heading">Mes articles</h5>
 
+      <a class="button" href="manage_add_article.php">Ajouter un article</a>
+
       <table class="heavyTable">
          <thead>
             <tr>

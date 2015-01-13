@@ -23,7 +23,7 @@
                <?php if($id != 0): ?>
                   <li <?php if($dir_name == "localweb"): ?> class="active" <?php endif; ?>><a href="/">Site</a></li>
                   <li <?php if($dir_name == "account"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Compte</a></li>
-                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Administration</a></li>
+                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
                <?php else: ?>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
@@ -41,7 +41,7 @@
                <?php if($id != 0): ?>
                   <li <?php if($dir_name == "localweb"): ?> class="active" <?php endif; ?>><a href="/">Site</a></li>
                   <li <?php if($dir_name == "account"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Compte</a></li>
-                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Administration</a></li>
+                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
                <?php else: ?>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
