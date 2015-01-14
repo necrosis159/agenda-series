@@ -16,12 +16,14 @@
                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
             </div>
             <img src="images/the_flash.jpg">
+            <?php
+            $urlImage = $_SERVER["DOCUMENT_ROOT"]."images/the_flash.jpg";
+            ?>
             <div class="clear"> </div>
          </div>
          <div class="l-grid-1 l-grid-2">
             <div class="desc">
                <h3>Arrow</h3>
-               <?php selectAllUsers($db); ?>
                <span>Saison 3 - Episode 11</span>
                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
             </div>

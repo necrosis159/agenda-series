@@ -1,8 +1,8 @@
 <?php
 
-   include './tpl/header.php';
-   include './tpl/menu.php';
-   include './tpl/pdo.php';
-   include './tpl/functions.php'
+   include $_SERVER['DOCUMENT_ROOT'] . '/tpl/header.php';
+   include $_SERVER['DOCUMENT_ROOT'] . '/tpl/menu.php';
+   include $_SERVER['DOCUMENT_ROOT'] . '/tpl/pdo.php';
+   include $_SERVER['DOCUMENT_ROOT'] . '/tpl/functions.php'
 
 ?>
