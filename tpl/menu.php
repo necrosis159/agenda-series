@@ -25,7 +25,7 @@
                   <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
                <?php else: ?>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/login.php">Connexion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
                <?php endif; ?>
             </ul>
@@ -43,7 +43,7 @@
                   <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
                <?php else: ?>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/login.php">Connexion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
                <?php endif; ?>
             </ul>
