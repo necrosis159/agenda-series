@@ -1,5 +1,23 @@
-<?php session_start() ;
-$id = (isset($_SESSION["id"])) ? (int) $_SESSION["id"] : 0;
+<?php 
+
+  session_start() ;
+  $id = (isset($_SESSION["id"])) ? (int) $_SESSION["id"] : 0;
+
+  // Sécurité : vérification des informations du compte pour l'accès aux pages utilisateur
+
+   // Récupération du dossier courant
+//   $directory = get_directory();
+//
+//   if($directory == "/account" || $directory == "/management") {
+//
+//      if(isset($_SESSION["id"])) {
+//         check_user($_SESSION['id'], $directory);
+//      } else {
+//         // Redirige vers la page d'inscription avec une erreur
+//         header('Location: login.php?error=log');
+//      }
+//   }
+   
 ?>
 <!DOCTYPE html>
 

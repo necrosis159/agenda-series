@@ -296,7 +296,7 @@ table {
 	text-align: center;
 }
 th {
-	background: steelblue;
+	background: #2f7485;
 	height: 40px;
 	width: 21%;
 	font-size: 16px;
@@ -322,16 +322,11 @@ td {
 	padding-bottom: 30px;
 	transition: all 0.2s;
 }
-.table_mod {
+/*.table_mod {
 	padding-top: 16px;
-	padding-bottom: 16px;
-}
+}*/
 td:last-child {
 	border-right: 0px;
-}
-td.selected {
-	background: #d7e4ef;
-	/*z-index: 1;*/
 }
 td input {
 	font-size: 14px;
@@ -344,7 +339,7 @@ td input {
 }
 td input:focus {
 	box-shadow: 0 1px 0 #2f7485;
-	color: steelblue;
+	color: #2f7485;
 }
 ::-moz-selection {
 	background: #2f7485;
@@ -2968,14 +2963,18 @@ ul.sidebar_1 li {
  		FORMULAIRE INSCRIPTION, INFORMATIONS
 ************************************************/
 
-#form_register, #form_account {
-	border: 1px solid black;
-	width: 50%;
+.form_account_bloc {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+.form_account {
 	margin: auto;
 	padding: 10px;
 }
 
-#form_register label, #form_account label {
+.form_account label {
    float: left;
    width: 100%;
    display: block;
@@ -2988,8 +2987,18 @@ ul.sidebar_1 li {
    cursor: pointer;
 }
 
+.form_account input:focus {
+    border: 1px solid black;
+}
+
+.form_account input[type="submit"] {
+    margin-left: 40%;
+}
+
 #erreurFormulaire {
-	color: #CC0000;
+    color: #CC0000;
+    margin: auto;
+    width: 25%;
 }
 
 /***********************************************
@@ -2997,7 +3006,6 @@ ul.sidebar_1 li {
 ************************************************/
 
 #connection_bloc {
-	padding-top: 100px;
 	width: 50%;
 	margin: auto;
 }
@@ -3022,7 +3030,7 @@ ul.sidebar_1 li {
 }
 
 .input_connection input {
-	width: 200px;
+	width: 100%;
 	height: 20px;
 }
 
@@ -3035,6 +3043,15 @@ ul.sidebar_1 li {
    margin: auto;
    display: block;
    float: left;
+   background-color: #fbfbfb;
+}
+
+#user_add_series {
+   margin: 2px 0 20px 0;
+   display: block;
+   float: left;
+   width: 100%;
+   background-color: #fbfbfb;
 }
 
 .serie_user {
@@ -3058,25 +3075,18 @@ ul.sidebar_1 li {
    position: relative;
 }
 
-#user_add_series {
-   margin-top: 2px;
-   display: block;
-   float: left;
-   width: 100%;
-   background-color: lightblue;
-}
-
 .search_series{
-	/*float: right;*/
 	position: relative;
 	margin: 10px auto;
 	width: 24.3333%;
 	background: #FFF;
 	border-radius: 30px;
+        border: 1px solid black;
 	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
 	-o-border-radius: 30px;
 }
+
 .search_series input[type="text"]{
 	-webkit-appearance: none;
 	font-family: 'Lato', sans-serif;
@@ -3094,6 +3104,7 @@ ul.sidebar_1 li {
 	-moz-border-radius: 30px;
 	-o-border-radius: 30px;
 }
+
 .search_series input[type="submit"]{
 	-webkit-appearance: none;
 	background:url('../images/search.png') no-repeat 10px 10px;

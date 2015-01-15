@@ -23,6 +23,41 @@ function login($pseudo) {
   return $query;
 }
 
+// Requête pour vérifier que l'adresse mail d'un utilisateur n'existe pas déjà en base lors de son inscription
+function isEmailExists($email) {
+  
+  // Connection à la base de données
+  $db = call_pdo();
+  
+  $query = $db->prepare("SELECT email FROM user where email = '".$email."'");
+  $query->execute();
+  
+  return $query;
+}
+
+// Requête pour vérifier que pseudo d'un utilisateur n'existe pas déjà en base lors de son inscription
+function isPseudoExists($pseudo) {
+  
+  // Connection à la base de données
+  $db = call_pdo();
+  
+  $query = $db->prepare("SELECT pseudo FROM user where pseudo = '".$pseudo."'");
+  $query->execute();
+  
+  return $query;
+}
+
+function addUser($gender, $name, $surname, $email, $pseudo, $password, $birthdate) {
+  
+  // Connection à la base de données
+  $db = call_pdo();
+  
+  $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
+                         VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".md5($password)."', '".$birthdate."')");
+  $query->execute();
+  
+}
+
 // Requête pour récupérer tous les utilisateurs
 function selectAllUsers($db) {
 
@@ -107,17 +142,69 @@ function error($err = '') {
       <p>Cliquez <a href="./index.php">ici</a> pour revenir à la page d\'accueil</p></div>');
 }
 
+// Fonction de récupération d'un commentaire via son ID
+   function get_comment($id = '') {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération du commentaire
+      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id);
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+   
 // Fonction de récupération des derniers commentaires d'un utilisateur
 function last_user_comments($id = '') {
   // Connection à la base de données
   $db = call_pdo();
 
   // Récupération des commentaires
-  $query = $db->prepare("SELECT * FROM comment WHERE id_user = '" . $id . "' ORDER BY date_publication");
+      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id);
 
   $query->execute();
 
-  return $query;
+      $result = $query->fetchAll();
+
+      return $result;
 }
+
+   // Fonction pour convertir le format d'une date en français
+   function date_convert($date_en) {
+
+      $split = explode("-", $date_en);
+      $year = $split[0];
+      $month = $split[1];
+      $day = $split[2];
+      $date_fr = "$day"."/"."$month"."/"."$year";
+
+      return $date_fr;
+   }
+
+   // Fonction de vérification d'un utilisateur
+   function check_user() {
+
+   }
+
+   // Fonction de récupération du dossier courant
+   function get_directory() {
+
+      $cur_dir = explode('\\', getcwd());
+      $dir_name = $cur_dir[count($cur_dir) - 1];
+
+      return $dir_name;
+   }
+
+   // Fonction de récupération de la page courante
+   function get_page() {
+
+      $cur_dir = explode('\\', getcwd());
+      $dir_name = $cur_dir[count($cur_dir) - 1];
+
+      return $dir_name;
+   }
 
 ?>
