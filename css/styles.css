@@ -149,8 +149,7 @@ body {
 	margin-top: 2em;
 	cursor: pointer;
 }
-
-/* Icônes sociaux */
+/*--- Icônes sociaux ----*/
 .text {
 	float: right;
 	padding: 2.4%;
@@ -162,11 +161,12 @@ body {
 	font-style: italic;
 }
 
-/* Bar top */
+/* start top_header_btm */
 .top_header_btm {
 	background: #6D7070;
 }
 
+/* start top menu */
 .th_menu {
 	float: right;
 }
@@ -193,12 +193,13 @@ body {
 	color: #EB6841;
 }
 
-/* Menu principal */
+/* start header_btm */
 .header_btm{
 	background: #2f7485;
 	box-shadow: 0 2px 1px 0px gray;
 }
 
+/* start menu */
 .h_menu{
 	float:left;
 }
@@ -321,16 +322,11 @@ td {
 	padding-bottom: 30px;
 	transition: all 0.2s;
 }
-.table_mod {
+/*.table_mod {
 	padding-top: 16px;
-	padding-bottom: 16px;
-}
+}*/
 td:last-child {
 	border-right: 0px;
-}
-td.selected {
-	background: #d7e4ef;
-	z-index: ;
 }
 td input {
 	font-size: 14px;
@@ -343,7 +339,7 @@ td input {
 }
 td input:focus {
 	box-shadow: 0 1px 0 #2f7485;
-	color: steelblue;
+	color: #2f7485;
 }
 ::-moz-selection {
 	background: #2f7485;
@@ -353,12 +349,13 @@ td input:focus {
 	background: #2f7485;
 	color: white;
 }
+
 .heavyTable {
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 	animation: float 5s infinite;
 }
 
-/* Navigation mobile */
+/*--- start iphone_nav -----*/
 .sub-head{
 	display:none;
 	background: #FFFFFF;
@@ -476,7 +473,7 @@ td input:focus {
 	font-size: 1.8em;
 	color: #6F6F6F;
 	text-transform: uppercase;
-	margin: 1% 0% 2% 0%;
+	padding: 1% 0% 2% 0%;
 	text-align: left;
 	font-weight: 600;
 }
@@ -1415,7 +1412,7 @@ ul.sidebar_1 li {
 	color: #414A5A;
 	font-size: 1.6em;
 	font-weight: normal;
-	margin: 1em 0em;
+	padding: 1em 0em;
 }
 .images_1
 {
@@ -2582,7 +2579,7 @@ ul.sidebar_1 li {
 		width:100%;
 	}
 	.heading {
-		margin: 0.5em 0em;
+		padding: 0.5em 0em;
 	}
 	.img_1 {
 		padding: 1em;
@@ -3023,45 +3020,6 @@ ul.sidebar_1 li {
 /***********************************************
          		ACCOUNT
 ************************************************/
-
-#menu_account {
-   background-color: #6692cd;
-   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.055);
-   margin-bottom: 10px;
-   color: #FFF;
-   display: block;
-   overflow: hidden;
-   width: 100%;
-   height: 50px;
-   padding: 0;
-}
-
-#menu_account ul {
-   padding: 0;
-   margin: 0;
-   float: left;
-}
-
-#menu_account ul li {
-   display: inline-block;
-   list-style-type: none;
-   line-height: 50px;
-   border-right: 1px solid black;
-   vertical-align: center;
-   padding: 0 10px 0 5px;
-}
-
-#menu_account > ul > li > a {
-   color: #FFF;
-   display: block;
-   text-decoration: none;
-
-   -webkit-transition: all 0.2s;
-   -moz-transition: all 0.2s;
-   -ms-transition: all 0.2s;
-   -o-transition: all 0.2s;
-   transition: all 0.2s;
-}
 
 #user_series {
    width: 100%;

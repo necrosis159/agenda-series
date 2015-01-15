@@ -1,9 +1,7 @@
 <?php
-	include"tpl/header.php";
-	include"tpl/menu.php";
-	session_destroy();
-	$title="Déconnexion";
+  include"tpl/header.php";
+  session_destroy();
 
-	if ($id==0) error(ERR_IS_NOT_CO);
-  	header('Location: index.php');      
+  if ($id == 0) error(ERR_IS_NOT_CO);
+  header('Location: index.php');
 ?>

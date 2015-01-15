@@ -16,6 +16,18 @@
          </div>
 
          <div>
+            <label>Catégorie
+               <select>
+                  <option>x1</option>
+                  <option>x2</option>
+                  <option>x3</option>
+                  <option>x4</option>
+                  <option>x5</option>
+               </select>
+            </label>
+         </div>
+
+         <div>
             <label>Titre
                <input id="title" name="title" type="text" placeholder="Titre de la série" required="">
             </label>

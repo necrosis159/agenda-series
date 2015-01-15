@@ -1,14 +1,9 @@
 <?php
-   $title="Connexion";
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
-   include $_SERVER['DOCUMENT_ROOT'] . "/tpl/menu_account.php";
 
-$query = $db->prepare("SELECT * FROM users
-                       WHERE id = '".$_SESSION['id']."'
-                       ORDER BY id");
-$query->execute();
+$result = selectInfosUser();
 
-while($data = $query->fetch()) {
+while($data = $result->fetch()) {
     $id = $data["id"];
     $gender = $data["gender"];
     $name = $data["name"];
@@ -16,6 +11,7 @@ while($data = $query->fetch()) {
     $email = $data["email"];
     $password = $data["password"];
 }
+
 
 // Test des champs du formulaire à l'envoi
 if (isset($_POST["submit"])) {
@@ -56,7 +52,7 @@ if (isset($_POST["submit"])) {
         // Champ email
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // On vérifie si le mail existe dans la bdd et que ce n'est pas le mail de l'utilisateur
-            $query = $db->prepare("SELECT id, email FROM users where email = '".$email."'");
+            $query = $db->prepare("SELECT id, email FROM user where email = '".$email."'");
             $query->execute();
             $data_user = $query->fetch();
             if($data_user["id"] != $id) {
@@ -78,7 +74,7 @@ if (isset($_POST["submit"])) {
         if ($error > 0) {
             array_unshift($arrayErrors, "Formulaire invalide");
         } else {
-            $query = $db->prepare("UPDATE users
+            $query = $db->prepare("UPDATE user
                                     SET gender = '".$gender."',
                                         name = '".$name."',
                                         surname = '".$surname."',
@@ -86,7 +82,7 @@ if (isset($_POST["submit"])) {
                                         password = '".$password."'
                                     WHERE id = ".$id." ");
             $query->execute();
-            // $query = $db->prepare("INSERT into users(gender, name, surname, email, pseudo, password, birthdate)
+            // $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
             //                         VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".$password."', '".$birthdateFormat."')");
             // $query->execute();
         }

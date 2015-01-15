@@ -7,7 +7,7 @@
    // Récupération du nom du répertoire courant
    $cur_dir = explode('\\', getcwd());
    $dir_name = $cur_dir[count($cur_dir)-1];
-
+   
 ?>
 
 <!-- start top header -->
@@ -26,7 +26,7 @@
                   <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
                <?php else: ?>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/login.php">Connexion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
                <?php endif; ?>
             </ul>
@@ -44,7 +44,7 @@
                   <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
                <?php else: ?>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/connection.php">Connexion</a></li>
+                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/login.php">Connexion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
                <?php endif; ?>
             </ul>
@@ -85,10 +85,10 @@
          </div>
          <nav id="menu-left">
             <ul>
-               <li <?php if($name_page == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
-               <li><a href="#">Mes séries</a></li>
-               <li><a href="#">Mon calendrier</a></li>
-               <li><a href="#">Mes informations</a></li>
+               <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
+               <li <?php if($page_name == "account_series.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_series.php">Mes séries</a></li>
+               <li <?php if($page_name == "account_calendrier.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_calendrier.php">Mon calendrier</a></li>
+               <li <?php if($page_name == "account_info.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_info.php">Mes informations</a></li>
             </ul>
          </nav>
       </div>
@@ -99,9 +99,9 @@
          <div class="h_menu">
             <ul>
                <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
-               <li><a href="#">Mes séries</a></li>
-               <li><a href="#">Mon calendrier</a></li>
-               <li><a href="#">Mes informations</a></li>
+               <li <?php if($page_name == "account_series.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_series.php">Mes séries</a></li>
+               <li <?php if($page_name == "account_calendrier.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_calendrier.php">Mon calendrier</a></li>
+               <li <?php if($page_name == "account_info.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_info.php">Mes informations</a></li>
             </ul>
          </div>
 
