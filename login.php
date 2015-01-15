@@ -1,7 +1,7 @@
 <?php
   include ("tpl/top.php");
 
-   
+   // Fonction pour les requêtes avec en parametre les $_POST
     if (!isset($_POST['pseudo'])) {
       $message = '';
     } else {
@@ -9,21 +9,19 @@
       if (empty($_POST['pseudo']) || empty($_POST['password'])) {
         $message = 'Vous devez renseigner tous les champs';
       } else {
-        $query = $db->prepare("SELECT id, pseudo, password, status FROM user WHERE pseudo = :pseudo");
-        $query->execute(array("pseudo" => $_POST["pseudo"]));
-        // $query->execute();
-        $data = $query->fetch();
+        $pseudo = $_POST["pseudo"];
+        $result = login($pseudo);
+        $data = $result->fetch();
         if ($data['password'] == $_POST['password']) {
           $_SESSION['pseudo'] = $data['pseudo'];
-          $_SESSION['level'] = $data['status'];
+          $_SESSION['status'] = $data['status'];
           $_SESSION['id'] = $data['id'];
           $page = htmlspecialchars($_POST['page']);
           header('Location:'.$page);
-          echo $page;
         } else {
           $message = 'Le mot de passe n\'est pas correct';
         }
-          $query->CloseCursor();
+          $result->CloseCursor();
         }
     }
   
@@ -46,7 +44,7 @@
           <div class="input_connection">
               <input type="password" name="password" id="password" tabindex="2">
           </div>
-          <input type="submit" value="Connexion" />
+            <input type="submit" value="Connexion" />
         </div>
       </form>
       <a href="./register.php">Pas encore inscrit ?</a>

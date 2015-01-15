@@ -1,8 +1,5 @@
 <?php
-include"tpl/header.php";
-include"tpl/menu.php";
-include"tpl/pdo.php";
-$title="Inscription";
+include"tpl/top.php";
 
 // Test des champs du formulaire à l'envoi
 if (isset($_POST["submit"])) {
