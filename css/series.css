@@ -1,0 +1,124 @@
+/*SERIE*/
+
+#series{
+	margin: 20px auto;
+	width: 1200px;
+	overflow: auto;
+}
+
+#search{
+	padding: 20px;
+	width: 1000px;
+	height: 150px;
+	margin: auto;
+}
+#search h2{
+	margin:auto;
+	width:330px;
+}
+
+#listOfSeries{
+	overflow: auto;
+	padding: 20px;
+}
+#highlighting{
+	overflow: auto;
+	height: 335px;
+}
+
+.sticker{
+	width: 180px;
+	height: 250px;
+	margin-left: 50px;
+	float: left;
+}
+
+.sticker a:hover{
+	-webkit-filter: blur(1.5px);
+}
+
+#search input{
+	margin:20px auto auto 33%;
+	width:300px;
+	height: 20px;
+	padding:6px 15px 6px 30px;
+	background-image: url('images/search.png'); 
+	border-radius:15px; 
+	-moz-border-radius:15px; 
+	-webkit-border-radius:15px;
+}
+
+.serie_search{
+
+}
+
+/*SERIE DETAIL*/
+
+#serie_detail{
+	padding: 50px 0px 50px 0px;
+	width: 1000px;
+	margin: auto;
+	height: :auto;
+	overflow: auto;
+}
+
+#serie_detail #title{
+	color: #414A5A;
+	font-size: 1.6em;
+	font-weight: normal;
+}
+
+#ban{
+	margin: auto;
+}
+
+#divLeft{
+	width: 65%;
+	float: left;
+}
+
+#divLeft h3{
+	margin-top: 20px;
+	color: #F26C4F;
+	font-weight: 600em;
+	font-size: 1.2em;
+}
+
+#divLeft #subtitle{
+	color: #353c49;
+	font-size: 1.2em;
+}
+
+#divRight{
+	float: right;
+	width: 30%;
+	background-color: #519548;
+	border-radius: 5px;
+	padding: 20px 10px 20px 10px;
+}
+
+#divRight .button{
+	background-image: linear-gradient(#b2b2b2, #898989);
+	border-radius: 5px;
+	border: 1px solid #898989;
+	padding: 5px;
+}
+
+#containerSerie{
+	margin-top: 50px;
+}
+
+#serie_detail .sendComment{
+	clear: both;
+	padding: 20px 0px 20px 0px;
+}
+
+#serie_detail .sendComment img{
+	margin-left: 10px;
+}
+
+#serie_detail .sendComment textarea{
+	resize: none;
+	height: 80px;
+	width: 500px;
+}
