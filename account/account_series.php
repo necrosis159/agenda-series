@@ -5,12 +5,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
     <section id="my_series">
         <section id="user_add_series">
             <h5 class="heading">Ajouter une série</h5>
-            <!--            <div id="search_series">
-                            <form class="ajax" action="" method="get">
-                                <input type="text" name="q" id="q" placeholder="Rechercher..."/>
-                                <input type="submit" value="">
-                            </form>
-                        </div>-->
             <div class="search_series">
                 <form class="ajax" action="" method="get">
                     <input type="text" name="q" id="q" value="" placeholder="Rechercher...">
@@ -27,7 +21,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
                 foreach ($result as $data) {
                     echo "<div class='serie_user'>";
                     echo "<img src='../images/" . $data['image'] . "'class='image_serie'>";
-                    echo $data["short_description"];
                     echo "</div>";
                 }
                 $result->closeCursor();

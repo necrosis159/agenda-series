@@ -3,35 +3,15 @@
    // Récupération du nom du fichier utilisé
    $folder = dirname($_SERVER['PHP_SELF']);
    $page_name = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/") + 1);
-
    // Récupération du nom du répertoire courant
    $cur_dir = explode('\\', getcwd());
    $dir_name = $cur_dir[count($cur_dir)-1];
-   
+
 ?>
 
 <!-- start top header -->
 <div class="top_header_btm">
    <div class="wrap">
-      <!-- Menu pour res < 768px -->
-      <div id="page">
-         <div id="header">
-            <a class="navicon" href="#menu-left"> </a>
-         </div>
-         <nav id="menu-left">
-            <ul>
-               <?php if($id != 0): ?>
-                  <li <?php if($dir_name == "localweb"): ?> class="active" <?php endif; ?>><a href="/">Site</a></li>
-                  <li <?php if($dir_name == "account"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Compte</a></li>
-                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
-               <?php else: ?>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/login.php">Connexion</a></li>
-                  <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/register.php">Inscription</a></li>
-               <?php endif; ?>
-            </ul>
-         </nav>
-      </div>
 
       <!-- Menu pour res > 768px -->
       <div class="header_sub">
@@ -80,10 +60,7 @@
    <div class="wrap">
       <!-- Menu pour res < 768px -->
       <div id="page">
-         <div id="header">
-            <a class="navicon" href="#menu-left"> </a>
-         </div>
-         <nav id="menu-left">
+         <nav role="navigation" id="navigation">
             <ul>
                <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
                <li <?php if($page_name == "account_series.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_series.php">Mes séries</a></li>
@@ -123,10 +100,7 @@
       <div class="wrap">
          <!-- Menu pour res < 768px -->
          <div id="page">
-            <div id="header">
-               <a class="navicon" href="#menu-left"> </a>
-            </div>
-            <nav id="menu-left">
+            <nav role="navigation" id="navigation">
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
                   <li <?php if($page_name == "manage_articles.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
@@ -166,10 +140,7 @@
       <div class="wrap">
          <!-- Menu pour res < 768px -->
          <div id="page">
-            <div id="header">
-               <a class="navicon" href="#menu-left"> </a>
-            </div>
-            <nav id="menu-left">
+            <nav role="navigation" id="navigation">
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="/">Accueil</a></li>
                   <li><a href="#">Les séries</a></li>

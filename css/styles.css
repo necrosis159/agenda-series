@@ -2963,14 +2963,18 @@ ul.sidebar_1 li {
  		FORMULAIRE INSCRIPTION, INFORMATIONS
 ************************************************/
 
-#form_register, #form_account {
-	border: 1px solid black;
-	width: 50%;
+.form_account_bloc {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+.form_account {
 	margin: auto;
 	padding: 10px;
 }
 
-#form_register label, #form_account label {
+.form_account label {
    float: left;
    width: 100%;
    display: block;
@@ -2983,8 +2987,18 @@ ul.sidebar_1 li {
    cursor: pointer;
 }
 
+.form_account input:focus {
+    border: 1px solid black;
+}
+
+.form_account input[type="submit"] {
+    margin-left: 40%;
+}
+
 #erreurFormulaire {
-	color: #CC0000;
+    color: #CC0000;
+    margin: auto;
+    width: 25%;
 }
 
 /***********************************************
@@ -2992,7 +3006,6 @@ ul.sidebar_1 li {
 ************************************************/
 
 #connection_bloc {
-	padding-top: 100px;
 	width: 50%;
 	margin: auto;
 }
@@ -3008,12 +3021,16 @@ ul.sidebar_1 li {
 	cursor: pointer;
 }
 
+.row_form input[type="submit"] {
+    margin: 20px 0 0 45%;
+}
+
 .input_connection {
 	margin-left: 45%;
 }
 
 .input_connection input {
-	width: 200px;
+	width: 100%;
 	height: 20px;
 }
 
@@ -3023,10 +3040,18 @@ ul.sidebar_1 li {
 
 #user_series {
    width: 100%;
-   padding-left: 20px;
    margin: auto;
    display: block;
    float: left;
+   background-color: #fbfbfb;
+}
+
+#user_add_series {
+   margin: 2px 0 20px 0;
+   display: block;
+   float: left;
+   width: 100%;
+   background-color: #fbfbfb;
 }
 
 .serie_user {
@@ -3050,34 +3075,19 @@ ul.sidebar_1 li {
    position: relative;
 }
 
-#user_add_series {
-   display: block;
-   float: left;
-   width: 100%;
-   background-color: lightblue;
-}
-
-#search_series {
-	background: none repeat scroll 0 0 #fff;
-   	float: left;
-   	margin: 10px 20%;
-	width: 25%;
-	-webkit-appearance: none;
-	font-family: 'Lato', sans-serif;
-	padding:10px 16px;
-	outline: none;
-	color: #312c3c;
-	border: none;
-	line-height: 1.5em;
+.search_series{
 	position: relative;
-	text-transform: capitalize;
+	margin: 10px auto;
+	width: 24.3333%;
+	background: #FFF;
 	border-radius: 30px;
+        border: 1px solid black;
 	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
 	-o-border-radius: 30px;
 }
 
-#search_series input[type="text"]{
+.search_series input[type="text"]{
 	-webkit-appearance: none;
 	font-family: 'Lato', sans-serif;
 	padding:10px 16px;
@@ -3095,7 +3105,7 @@ ul.sidebar_1 li {
 	-o-border-radius: 30px;
 }
 
-#search_series input[type="submit"]{
+.search_series input[type="submit"]{
 	-webkit-appearance: none;
 	background:url('../images/search.png') no-repeat 10px 10px;
 	padding: 10px 0px;
@@ -3107,7 +3117,6 @@ ul.sidebar_1 li {
 	position: absolute;
 	right:0px;
 }
-
-#search_series input[type="submit"]:hover {
+.search_series input[type="submit"]:hover {
 	background: url('../images/search_h.png') no-repeat 10px 10px;
 }

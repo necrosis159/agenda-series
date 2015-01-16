@@ -38,3 +38,9 @@
 
    </section>
 </div>
+
+<?php
+
+include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
+
+?>
