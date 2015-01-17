@@ -63,7 +63,7 @@ body {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#cccccc');
 	border: 1px solid #777;
 	padding: 0 1.5em;
-	margin: 0.5em;
+	/*margin: 0.5em;*/
 	font: bold 1em/2em Arial, Helvetica;
 	text-decoration: none;
 	color: #333;
@@ -3049,6 +3049,7 @@ ul.sidebar_1 li {
    display: block;
    width: 100%;
    background-color: #E1E1E1;
+   position: relative;
 }
 
 #user_series {
@@ -3130,9 +3131,10 @@ ul.sidebar_1 li {
     border-left: 1px solid grey;
     border-right: 1px solid grey;
     border-bottom: 1px solid grey;
-    padding: 10px 0 0 0;
-    position:relative;
-    z-index:2;
+    padding: 10px 0 10px 0;
+    position:absolute;
+    /*z-index:2;*/
+    left: 7px;
 }
 
 .serie_add {
