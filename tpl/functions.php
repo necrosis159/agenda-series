@@ -11,7 +11,7 @@ function call_pdo() {
   return $db;
 }
 
-// Requête de connexion 
+// Requête de connexion
 function login($pseudo) {
 
   // Connection à la base de données
@@ -25,37 +25,37 @@ function login($pseudo) {
 
 // Requête pour vérifier que l'adresse mail d'un utilisateur n'existe pas déjà en base lors de son inscription
 function isEmailExists($email) {
-  
+
   // Connection à la base de données
   $db = call_pdo();
-  
+
   $query = $db->prepare("SELECT email FROM user where email = '".$email."'");
   $query->execute();
-  
+
   return $query;
 }
 
 // Requête pour vérifier que pseudo d'un utilisateur n'existe pas déjà en base lors de son inscription
 function isPseudoExists($pseudo) {
-  
+
   // Connection à la base de données
   $db = call_pdo();
-  
+
   $query = $db->prepare("SELECT pseudo FROM user where pseudo = '".$pseudo."'");
   $query->execute();
-  
+
   return $query;
 }
 
 function addUser($gender, $name, $surname, $email, $pseudo, $password, $birthdate) {
-  
+
   // Connection à la base de données
   $db = call_pdo();
-  
+
   $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
                          VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".md5($password)."', '".$birthdate."')");
   $query->execute();
-  
+
 }
 
 // Requête pour récupérer tous les utilisateurs
@@ -100,7 +100,7 @@ function seriesUser() {
   // Connection à la base de données
   $db = call_pdo();
 
-  $query = $db->prepare("SELECT s.id as serie_id, s.name as serie_name, s.image as serie_image, u.id as user_id, t.id_serie, t.id_user 
+  $query = $db->prepare("SELECT s.id as serie_id, s.name as serie_name, s.image as serie_image, u.id as user_id, t.id_serie, t.id_user
                              FROM serie s, serie_user t, user u
                              WHERE u.id = t.id_user AND t.id_serie = s.id
                              AND u.id = :id_user
@@ -125,13 +125,13 @@ function searchSeries($name, $id) {
                                          WHERE id_user = :id)
                        ");
   $query->execute(array("name" => $name . "%", "id" => $id));
-  
+
   return $query;
 }
 
 // Ajoute un suivi de série pour l'utilisateur
 function addSerieToUser($serie_name, $id){
-  
+
   // Connection à la base de données
   $db = call_pdo();
 
@@ -147,21 +147,21 @@ function addSerieToUser($serie_name, $id){
                          ");
     $query->execute(array(':id_serie' => $id_serie, 'id' => $id));
     $query->closeCursor();
-    
+
   }
 }
 
 function deleteSerieFollow($id_user, $id_serie) {
   // Connection à la base de données
   $db = call_pdo();
-  
-  $query = $db->prepare("DELETE 
+
+  $query = $db->prepare("DELETE
                         FROM serie_user
                         WHERE id_user = :id_user
                         AND id_serie = :id_serie
                         ");
   $query->execute(array(':id_user' => $id_user, ':id_serie' => $id_serie));
-  
+
   $query->closeCursor();
 }
 
@@ -185,20 +185,35 @@ function error($err = '') {
 }
 
 // Fonction de récupération d'un commentaire via son ID
-   function get_comment($id = '') {
-      // Connection à la base de données
-      $db = call_pdo();
+function get_comment($id = '') {
+   // Connection à la base de données
+   $db = call_pdo();
 
-      // Récupération du commentaire
-      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id);
+   // Récupération du commentaire || à modifier avec id du comment
+   $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id);
 
-      $query->execute();
+   $query->execute();
 
-      $result = $query->fetch();
+   $result = $query->fetch();
 
-      return $result;
-   }
-   
+   return $result;
+}
+
+// Fonction de récupération des commentaires d'un utilisateur via son ID
+function user_comments($id = '') {
+   // Connection à la base de données
+   $db = call_pdo();
+
+   // Récupération des commentaires
+   $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id);
+
+   $query->execute();
+
+   $result = $query->fetch();
+
+   return $result;
+}
+
 // Fonction de récupération des derniers commentaires d'un utilisateur
 function last_user_comments($id = '') {
   // Connection à la base de données

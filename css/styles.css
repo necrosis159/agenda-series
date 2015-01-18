@@ -1725,7 +1725,7 @@ ul.sidebar_1 li {
 /*****  Media Quries for 1280px laptops *****/
 @media (max-width: 1280px) {
 	.wrap{
-		width:80%;
+		width: 85%;
 	}
 	.l-grid-1 .desc {
 		width: 100%;
@@ -1786,7 +1786,7 @@ ul.sidebar_1 li {
 /*****  Media Quries for 1024px laptops *****/
 @media (max-width: 1024px) {
 	.wrap{
-		width:80%;
+		width: 85%;
 	}
 	.l-grid-1 .desc {
 		width: 100%;
@@ -1950,7 +1950,7 @@ ul.sidebar_1 li {
 		margin-left: 0em;
 	}
 	.h_search input[type="submit"] {
-		width: 16.33%;
+		width: 10.33%;
 	}
 	.h_menu ul li {
 		margin-right: 9px;
@@ -2011,7 +2011,7 @@ ul.sidebar_1 li {
 		background: url(../images/nav-icon.png) no-repeat;
 	}
 	.h_search {
-		width: 48%;
+		width: 100%;
 		margin: 13px 0;
 	}
 	.text{
@@ -2232,7 +2232,7 @@ ul.sidebar_1 li {
 		background: url(../images/nav-icon.png) no-repeat;
 	}
 	.h_search {
-		width: 48%;
+		width: 100%;
 		margin: 13px 0;
 	}
 	.text{
@@ -2345,7 +2345,7 @@ ul.sidebar_1 li {
 /*****  Media Quries for 480px tabs *****/
 @media (max-width: 480px) {
 	.wrap{
-		width:90%;
+		width: 95%;
 	}
 	.l-grid-1 .desc {
 		width: 100%;
@@ -2461,18 +2461,18 @@ ul.sidebar_1 li {
 		background: url(../images/nav-icon.png) no-repeat;
 	}
 	.h_search {
-		width:66%;
+		width: 100%;
 		margin: 13px 0;
 	}
 
 	.text{
-		display:none;
+		display: none;
 	}
 	.first_grid p:nth-child(2){
-		display:none;
+		display: none;
 	}
 	.first_grid_2 p:nth-child(2){
-		display:none;
+		display: none;
 	}
 	.get-left {
 		width: 100%;
@@ -3145,4 +3145,4 @@ ul.sidebar_1 li {
 
 .serie_add:hover {
     background-color: lightgrey;
-} 
+}

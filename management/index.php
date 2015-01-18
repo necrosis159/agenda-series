@@ -2,9 +2,7 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   $id_user = $_SESSION['id'];
-
-   $data = last_user_comments($id_user);
+   $data = last_user_comments($_SESSION['id']);
 
 ?>
 
@@ -24,9 +22,9 @@
          </thead>
          <tbody>
             <?php
-            if(count($data)):
-               foreach($data as $value):
-                  $id_comment = $value["id_user"];
+               if($data != false):
+                  foreach($data as $value):
+                     $id_comment = $value["id_user"];
             ?>
             <tr>
                <td><span style="color: #d8871e;"># </span><?php echo $value["id_user"]; ?></td>
@@ -44,7 +42,7 @@
             </tr>
             <?php
                endforeach;
-                  else:
+               else:
             ?>
             <tr>
                <td colspan="5">Aucune entrée récente</td>

@@ -30,10 +30,9 @@
       <meta name="viewport" content="initial-scale=1.0, width=device-width">
 
       <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+      
       <link href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/styles.css" rel="stylesheet" type="text/css" media="all" />
-
       <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/menu.css" />
-      <script type="text/javascript" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/js/jquery.min.js"></script>
       <script type="text/javascript" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/js/script.js"></script>
 
 	<!-- Ajout de l'interface wysiwyg (TinyMCE) -->

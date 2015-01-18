@@ -11,13 +11,19 @@
       <form id="article_form">
          <div>
             <label>Permalien
-               <input name="name" type="text" placeholder="Ex : arrow-s01-e01" required="" autofocus="">
+               <input id="rewrite" name="rewrite" type="text" placeholder="Ex : arrow-s01-e01">
             </label>
          </div>
 
          <div>
             <label>Titre
-               <input id="title" name="title" type="text" placeholder="Titre de la série" required="">
+               <input id="title" name="title" type="text" placeholder="Titre de la série" required="" autofocus="">
+            </label>
+         </div>
+
+         <div>
+            <label>Catégorie(s)
+               <input id="category" name="category" type="text" placeholder="Catégorien de la série">
             </label>
          </div>
 
