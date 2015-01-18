@@ -1,6 +1,5 @@
 <?php
-
-   include ("tpl/top.php");
+include ("tpl/top.php");
 
 // Fonction pour les requêtes avec en parametre les $_POST
 if (!isset($_POST['pseudo'])) {
@@ -13,7 +12,7 @@ if (!isset($_POST['pseudo'])) {
     $pseudo = $_POST["pseudo"];
     $result = login($pseudo);
     $data = $result->fetch();
-   //  echo $data['password']. " => ". md5($_POST['password']);
+    echo $data['password']. " => ". md5($_POST['password']);
     if ($data['password'] == md5($_POST['password'])) {
       $_SESSION['pseudo'] = $data['pseudo'];
       $_SESSION['status'] = $data['status'];
@@ -32,7 +31,6 @@ if ($id == 0) {
   <div class="wrap">
     <div id='connection_bloc'>
       <h5 class="heading">Connexion</h5>
-      <div id="connection">
         <fieldset>
           <legend>Connexion</legend>
           <form method="post" action="">
@@ -48,12 +46,13 @@ if ($id == 0) {
               <div class="input_connection">
                 <input type="password" name="password" id="password" tabindex="2">
               </div>
+            </div>
+            <div class="row_form">
               <input class="button" type="submit" value="Connexion">
             </div>
           </form>
           <a href="./register.php">Pas encore inscrit ?</a>
         </fieldset>
-      </div>
     </div>
   </div>
   <?php
@@ -61,3 +60,6 @@ if ($id == 0) {
   $message = "Vous êtes déjà connecté";
 }
 echo $message;
+
+include "tpl/footer.php";
+

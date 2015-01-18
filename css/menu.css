@@ -106,7 +106,7 @@
 /* Global deco */
 
 a {color: #345}
-ul {padding-left: 1em; list-style-position: inside}
+.header_sub ul {padding-left: 1em; list-style-position: inside}
 
 
 /* orientation */
