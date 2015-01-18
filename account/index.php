@@ -12,6 +12,6 @@ Date d'inscription, nombre de séries suivies
 
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
+   include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
 
 ?>
