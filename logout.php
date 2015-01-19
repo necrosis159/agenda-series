@@ -1,5 +1,5 @@
 <?php
-  include"tpl/header.php";
+  include"tpl/top.php";
   session_destroy();
 
   if ($id == 0) error(ERR_IS_NOT_CO);

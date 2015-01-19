@@ -2,10 +2,10 @@
 
    // Récupération du nom du fichier utilisé
    $folder = dirname($_SERVER['PHP_SELF']);
-   $page_name = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/") + 1);
+   $page_name = get_page();
+
    // Récupération du nom du répertoire courant
-   $cur_dir = explode('\\', getcwd());
-   $dir_name = $cur_dir[count($cur_dir)-1];
+   $dir_name = get_directory();
 
 ?>
 

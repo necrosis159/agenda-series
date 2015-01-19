@@ -184,6 +184,21 @@ function error($err = '') {
       <p>Cliquez <a href="./index.php">ici</a> pour revenir à la page d\'accueil</p></div>');
 }
 
+// Fonction de récupération d'un article/épisode via son ID
+function get_episode($id = '') {
+   // Connection à la base de données
+   $db = call_pdo();
+
+   // Récupération de l'épisode || à modifier avec id de l'auteur
+   $query = $db->prepare("SELECT * FROM episode");
+
+   $query->execute();
+
+   $result = $query->fetch();
+
+   return $result;
+}
+
 // Fonction de récupération d'un commentaire via son ID
 function get_comment($id = '') {
    // Connection à la base de données
@@ -258,10 +273,9 @@ function last_user_comments($id = '') {
    // Fonction de récupération de la page courante
    function get_page() {
 
-      $cur_dir = explode('\\', getcwd());
-      $dir_name = $cur_dir[count($cur_dir) - 1];
+      $page_name = substr($_SERVER["SCRIPT_NAME"], strrpos($_SERVER["SCRIPT_NAME"], "/") + 1);
 
-      return $dir_name;
+      return $page_name;
    }
 
 ?>
