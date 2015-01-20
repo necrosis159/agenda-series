@@ -2,7 +2,9 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   $data = get_episode($_SESSION['id']);
+   $data = user_episodes($_SESSION['id']);
+
+   // die(var_dump($data));
 
 ?>
 
@@ -16,8 +18,8 @@
          <thead>
             <tr>
                <th class="th_small">ID</th>
-               <th>Titre</th>
-               <th>Contenu</th>
+               <th>Série</th>
+               <th>Episode</th>
                <th class="th_small">Date publication</th>
                <th class="th_small">Modération</th>
             </tr>
@@ -26,15 +28,15 @@
             <?php
             if($data != false):
                foreach($data as $value):
-                  $id_comment = $value["id_user"];
+                  $id_episode = $value["id"];
                   ?>
                   <tr>
-                     <td><span style="color: #d8871e;"># </span><?php echo $value["id_user"]; ?></td>
-                     <td><?php echo $value['title']; ?></td>
-                     <td><?php echo $value['content']; ?></td>
-                     <td><?php echo date_convert($value['date_publication']); ?></td>
+                     <td><span style="color: #d8871e;"># </span><?php echo $value["id"]; ?></td>
+                     <td><?php echo $value['serie_name']; ?></td>
+                     <td><?php echo $value['name']; ?></td>
+                     <td><?php if(isset($value['release_date'])) { echo date_convert($value['release_date']); } else { echo "Aucune date"; } ?></td>
                      <td class="table_mod">
-                        <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_comment.php?id=<?php echo $id_episode; ?>">
+                        <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_article.php?id=<?php echo $id_episode; ?>">
                            <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
                         </a>
                         <a href="#">
