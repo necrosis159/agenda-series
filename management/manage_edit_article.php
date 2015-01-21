@@ -12,10 +12,11 @@
 
       $id = $_POST["id"];
       $name = $_POST["name"];
+      $number = $_POST["number"];
       $resume = $_POST["resume"];
 
       // Modification du contenu
-      $result_update = update_episode($id, $name, $resume);
+      $result_update = update_episode($id, $name, $resume, $number);
 
    }
 
@@ -54,6 +55,13 @@
          </div>
 
          <div>
+            <label>Date de sortie
+               <input type="date" id="release_date" name="release_date" value="<?php echo date('Y-m-d', strtotime($data["release_date"])); ?>" size="30" class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10" value="">
+            </label>
+         </div>
+
+
+         <div>
             <label>Titre de l'épisode
                <input id="name" name="name" type="text" value="<?php echo $data['name']; ?>" placeholder="Titre de la série" required="required" autofocus="">
             </label>
@@ -61,7 +69,7 @@
 
          <div>
             <label>Numéro de l'épisode
-               <input id="number" name="number" type="text" value="<?php echo "" ?>" placeholder="Numéro de l'épisode" required="required">
+               <input id="number" name="number" type="text" value="<?php echo $data['number']; ?>" placeholder="Numéro de l'épisode" required="required">
             </label>
          </div>
 
@@ -78,3 +86,9 @@
 
    </section>
 </div>
+
+<?php
+
+   include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
+
+?>

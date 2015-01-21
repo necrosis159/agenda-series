@@ -184,6 +184,32 @@
          <p>Cliquez <a href="./index.php">ici</a> pour revenir à la page d\'accueil</p></div>');
    }
 
+   // Fonction de création d'un épisode
+   function create_episode($serie, $name, $number, $resume, $release_date) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Ajout des nouveaux champs de l'épisode
+      $query = $db->prepare('INSERT INTO episode VALUES ( , "' . $serie . '", "' . $name . '", "' . $number . '", "' . $resume . '", "' . $release_date . '")');
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de suppression d'un épisode
+   function delete_episode($id) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Suppression de l'épisode
+      $query = $db->prepare('DELETE FROM episode WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
    // Fonction de récupération d'un article/épisode via son ID
    function get_episode($id = '') {
       // Connection à la base de données
@@ -215,12 +241,40 @@
    }
 
    // Fonction de modification d'un épisode
-   function update_episode($id, $name, $resume) {
+   function update_episode($id, $name, $resume, $number) {
       // Connection à la base de données
       $db = call_pdo();
 
       // Ajout des nouveaux champs de l'épisode
-      $query = $db->prepare('UPDATE episode SET name = "' . $name . '", resume = "' . $resume . '" WHERE id = ' . $id);
+      $query = $db->prepare('UPDATE episode SET name = "' . $name . '", resume = "' . $resume . '", number = "' . $number . '" WHERE id = ' . $id);
+
+      // die(var_dump($query));
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de création d'un commentaire
+   function create_comment($user, $serie, $season, $episode, $title, $content, $publication_date) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Ajout des nouveaux champs du commentaire
+      $query = $db->prepare('INSERT INTO comment VALUES ("' . $user . '", "' . $episode . '", "' . $season . '", "' . $serie . '", "' . $publication_date . '", "' . $title . '", "' . $content . '")');
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de suppression d'un commentaie
+   function delete_comment($id) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Suppression de l'épisode
+      $query = $db->prepare('DELETE FROM comment WHERE id = ' . $id);
 
       $query->execute();
 
@@ -277,7 +331,7 @@
       // Connection à la base de données
       $db = call_pdo();
 
-      // Ajout des nouveaux champs du commentaire
+      // Mise à jour des nouveaux champs du commentaire
       $query = $db->prepare('UPDATE comment SET name = "' . $name . '", content = "' . $content . '" WHERE id = ' . $id);
 
       $query->execute();
@@ -299,7 +353,7 @@
 
    // Fonction de vérification d'un utilisateur
    function check_user() {
-
+      // à faire
    }
 
    // Fonction de récupération du dossier courant
@@ -319,12 +373,40 @@
       return $page_name;
    }
 
+   // Fonction de récupération des utilisateurs du site
+   function users_list() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM user");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
    // Fonction de récupération de la liste des séries
    function series_list() {
       // Connection à la base de données
       $db = call_pdo();
 
       $query = $db->prepare("SELECT * FROM serie");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
+   // Fonction de récupération des saisons de la série concernée
+   function seasons_list($id_serie) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM season WHERE id_serie = " . $id_serie . "");
 
       $query->execute();
 

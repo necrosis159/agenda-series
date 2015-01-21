@@ -103,8 +103,8 @@
             <nav role="navigation" id="navigation">
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
-                  <li <?php if($page_name == "manage_articles.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
-                  <li <?php if($page_name == "manage_comments.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
+                  <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
+                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_edit_comment.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
                   <li <?php if($page_name == "manage_users.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_users.php">Utilisateurs</a></li>
                </ul>
             </nav>
@@ -116,8 +116,8 @@
             <div class="h_menu">
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
-                  <li <?php if($page_name == "manage_articles.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
-                  <li <?php if($page_name == "manage_comments.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
+                  <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
+                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_edit_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
                   <li <?php if($page_name == "manage_users.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_users.php">Utilisateurs</a></li>
                </ul>
             </div>
