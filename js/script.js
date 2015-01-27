@@ -114,5 +114,12 @@ $(document).ready(function() {
       }
     });
   }
+  
+    // Permet de scroller jusqu'au bloc désiré
+    $('#yo').click(function(){
+        var offset = $('#last_comments').offset();
+        $('html,body').animate({scrollTop: offset.top}, 1000);
+        return false;
+    });
 
 });

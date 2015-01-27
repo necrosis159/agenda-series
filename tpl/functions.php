@@ -373,6 +373,31 @@
       return $page_name;
    }
 
+   // Fonction de suppression d'un utilisateurs via son ID
+   function delete_user($id) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("DELETE FROM user WHERE id = :id");
+
+      $query->execute(array(':id' => $id));
+
+      $query->closeCursor();
+   }
+
+   // Requête pour modifier les informations d'un utilisateur
+   function update_user($id, $name, $surname, $gender, $intro, $nickname, $password, $email) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare('UPDATE user SET name = "' . $name . '", surname = "' . $surname . '", gender = "' . $gender . '", intro = "' . $intro . '", nickname = "' . $nickname . '", password = "' . $password . '", email = "' . $email . '" WHERE id = ' . $id);
+      $query->execute();
+
+      return $query;
+   }
+
    // Fonction de récupération des utilisateurs du site
    function users_list() {
       // Connection à la base de données
@@ -383,6 +408,21 @@
       $query->execute();
 
       $result = $query->fetchAll();
+
+      return $result;
+   }
+
+   // Fonction de récupération d'un utilisateur
+   function get_user($id = '') {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération de l'utilisateur via son ID
+      $query = $db->prepare("SELECT * FROM user WHERE id = " . $id);
+
+      $query->execute();
+
+      $result = $query->fetch();
 
       return $result;
    }
@@ -413,6 +453,22 @@
       $result = $query->fetchAll();
 
       return $result;
+   }
+
+   // Fonction retourne un message de validation
+   function valid_message($message = '') {
+
+      $result = '<p class="right">' . $message . '</p>';
+
+      echo $result;
+   }
+
+   // Fonction retourne un message de validation
+   function error_message($message = 'Une erreur est survenue!') {
+
+      $result = '<p class="wrong">' . $message . '</p>';
+
+      echo $result;
    }
 
 ?>

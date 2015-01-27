@@ -118,7 +118,7 @@
                   <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
                   <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
                   <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_edit_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
-                  <li <?php if($page_name == "manage_users.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_users.php">Utilisateurs</a></li>
+                  <?php if($_SESSION['status'] > 2): ?><li <?php if($page_name == "manage_admin.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_admin.php">Administration</a></li><?php endif; ?>
                </ul>
             </div>
 

@@ -5,6 +5,15 @@
    // Récupération des utilisateur du site
    $data = users_list();
 
+   $message = "";
+
+   if(isset($_GET['delete']) && $_GET['delete'] != false) {
+      valid_message($message = "Utilisateur supprimé!");
+   }
+   elseif(isset($_GET['delete']) && $_GET['delete'] == false) {
+      error_message($message);
+   }
+
 ?>
 
 <div class="wrap">
@@ -33,13 +42,10 @@
                   <td><?php echo $value['surname']; ?></td>
                   <td><?php if(isset($value['birthdate'])) { echo date_convert($value['birthdate']); } else { echo "&mdash;"; } ?></td>
                   <td><?php echo $value['email']; ?></td>
-                  <td><?php if(isset($value['release_date'])) { echo date_convert($value['creation_date']); }  else { echo "&mdash;"; } ?></td>
+                  <td><?php if(isset($value['creation_date']) && $value['creation_date'] != 00-00-0000) { echo date_convert($value['creation_date']); }  else { echo "&mdash;"; } ?></td>
                   <td class="table_mod">
-                     <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_article.php?id=<?php echo $id_user; ?>">
+                     <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_user.php?id=<?php echo $id_user; ?>">
                         <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
-                     </a>
-                     <a href="#">
-                        <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_remove.png" alt="Supprimer" />
                      </a>
                   </td>
                </tr>

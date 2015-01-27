@@ -27,10 +27,10 @@
    $series_list = series_list();
 
    if(isset($result_update) && $result_update != false) {
-      echo '<p class="right">Modifications enregistrées!</p>';
+      valid_message($message = "Modifications enregistrées!");
    }
    elseif(isset($result_update) && $result_update == false) {
-      echo '<p class="wrong">Désolé, une erreur s\'est produite</p>';
+      error_message($message = "Une erreur s'est produite!");
    }
 
 ?>

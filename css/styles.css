@@ -30,11 +30,26 @@ body {
 	font-size: 100%;
 }
 .wrap {
-	margin:0 auto;
-	width:80%;
+	margin: 0 auto;
+	width: 80%;
 }
 .header_bg {
 	background: #21B7C6;
+}
+#manage {
+	padding: 20px;
+}
+.admin_links {
+	margin: 20px 5px;
+}
+.admin_links li {
+	margin: 20px 5px;
+}
+.admin_links a {
+	color: #21B7C6;
+}
+.admin_links a:hover {
+	color: #EB6841;
 }
 #page {
 	display:none;
@@ -1612,7 +1627,7 @@ ul.sidebar_1 li {
 .comments-area h2 {
 	color: #555;
 	font-size: 1.5em;
-	margin-bottom:10px;
+	margin-bottom: 10px;
 	text-transform: uppercase;
 }
 .comments-area p {
@@ -3182,4 +3197,28 @@ ul.sidebar_1 li {
 
 .serie_add:hover {
     background-color: lightgrey;
+}
+
+// PROFILE
+#profile_bloc {
+    border: 1px solid black;
+}
+
+#profile_avatar {
+    float: left;
+    margin-right: 50px;
+}
+
+.avatar_image {
+    height: 200px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+#profile_informations {
+    float: left;
+}
+
+#profile_informations ul li {
+    margin-bottom: 10px;
 }
