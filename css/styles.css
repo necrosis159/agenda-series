@@ -81,6 +81,23 @@ body {
 
 /*--- ID article_form ---*/
 
+.wrong, .right {
+	text-align: center;
+	background-color: #F5A9A9;
+	border-top: 2px solid #962222;
+	border-bottom: 2px solid #962222;
+	height: 60px;
+	width: 100%;
+	padding-top: 15px;
+	margin: 10px 0px;
+}
+
+.right {
+	border-top: 2px solid #609b39;
+	border-bottom: 2px solid #609b39;
+	background-color: #D0F5A9;
+}
+
 /* Boutons */
 #article_form input[type="submit"]  {
 	display: inline-block;
@@ -126,6 +143,26 @@ body {
 	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
 	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
 
+	transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+	-webkit-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+	-moz-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+	-o-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
+}
+
+#article_form select {
+	display: block;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #dedede;
+	margin-bottom: 10px;
+	font-size: 0.7em;
+	padding: 10px 15px;
+	padding-left: 20px;
+	width: 50%;
+	color: #777;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
 	transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
 	-webkit-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
 	-moz-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
@@ -1725,7 +1762,7 @@ ul.sidebar_1 li {
 /*****  Media Quries for 1280px laptops *****/
 @media (max-width: 1280px) {
 	.wrap{
-		width:80%;
+		width: 85%;
 	}
 	.l-grid-1 .desc {
 		width: 100%;
@@ -1786,7 +1823,7 @@ ul.sidebar_1 li {
 /*****  Media Quries for 1024px laptops *****/
 @media (max-width: 1024px) {
 	.wrap{
-		width:80%;
+		width: 85%;
 	}
 	.l-grid-1 .desc {
 		width: 100%;
@@ -1950,7 +1987,7 @@ ul.sidebar_1 li {
 		margin-left: 0em;
 	}
 	.h_search input[type="submit"] {
-		width: 16.33%;
+		width: 10.33%;
 	}
 	.h_menu ul li {
 		margin-right: 9px;
@@ -2011,7 +2048,7 @@ ul.sidebar_1 li {
 		background: url(../images/nav-icon.png) no-repeat;
 	}
 	.h_search {
-		width: 48%;
+		width: 100%;
 		margin: 13px 0;
 	}
 	.text{
@@ -2232,7 +2269,7 @@ ul.sidebar_1 li {
 		background: url(../images/nav-icon.png) no-repeat;
 	}
 	.h_search {
-		width: 48%;
+		width: 100%;
 		margin: 13px 0;
 	}
 	.text{
@@ -2345,7 +2382,7 @@ ul.sidebar_1 li {
 /*****  Media Quries for 480px tabs *****/
 @media (max-width: 480px) {
 	.wrap{
-		width:90%;
+		width: 95%;
 	}
 	.l-grid-1 .desc {
 		width: 100%;
@@ -2461,18 +2498,18 @@ ul.sidebar_1 li {
 		background: url(../images/nav-icon.png) no-repeat;
 	}
 	.h_search {
-		width:66%;
+		width: 100%;
 		margin: 13px 0;
 	}
 
 	.text{
-		display:none;
+		display: none;
 	}
 	.first_grid p:nth-child(2){
-		display:none;
+		display: none;
 	}
 	.first_grid_2 p:nth-child(2){
-		display:none;
+		display: none;
 	}
 	.get-left {
 		width: 100%;
@@ -3145,4 +3182,28 @@ ul.sidebar_1 li {
 
 .serie_add:hover {
     background-color: lightgrey;
-} 
+}
+
+// PROFILE
+#profile_bloc {
+    border: 1px solid black;
+}
+
+#profile_avatar {
+    float: left;
+    margin-right: 50px;
+}
+
+.avatar_image {
+    height: 200px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+#profile_informations {
+    float: left;
+}
+
+#profile_informations ul li {
+    margin-bottom: 10px;
+}
