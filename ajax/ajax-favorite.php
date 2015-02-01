@@ -1,15 +1,10 @@
 <?php 
 include $_SERVER['DOCUMENT_ROOT']."/tpl/functions.php";
 
-$comment = $_GET["q"];
+$idSerie = $_GET["id"];
 $idUser = $_SESSION["id"];
-$idSerie= $id_Serie;
-$idSeason = 1;
-$idEpisode = 1;
-$notation = 1;
-$date = 0;
-add_comment($idUser, $idEpisode, $idSeason, $idSerie, $date, $comment, $notation);
 
+add_favorite($idUser, $idSerie, $notation);
 /*	$db = call_pdo();
 
     $query = $db->query("INSERT INTO `agendaserie`.`comment` (`id`, `id_user`, `id_episode`, `id_season`, `id_serie`, `date_publication`, `content`, `notation`) 

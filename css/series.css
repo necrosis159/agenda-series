@@ -62,7 +62,16 @@
 	overflow: auto;
 }
 
+#serie_detail h3{
+	margin-top: 20px;
+	color: #F26C4F;
+	font-weight: 600em;
+	font-size: 1.2em;
+	clear: both;
+}
+}
 #serie_detail #title{
+	margin-bottom: 10px;
 	color: #414A5A;
 	font-size: 1.6em;
 	font-weight: normal;
@@ -77,13 +86,6 @@
 	float: left;
 }
 
-#divLeft h3{
-	margin-top: 20px;
-	color: #F26C4F;
-	font-weight: 600em;
-	font-size: 1.2em;
-}
-
 #divLeft #subtitle{
 	color: #353c49;
 	font-size: 1.2em;
@@ -92,6 +94,28 @@
 #divRight{
 	float: right;
 	width: 30%;
+}
+
+#divRight #user_options{
+	background-color: #519548;
+	border-radius: 5px;
+	padding: 20px 10px 20px 10px;
+}
+
+#divRight h2{
+	color: #fff;
+	font-size: 1.2em;
+}
+
+#divRight #seasons_list{
+	margin-top: 20px;
+	background-color: #519548;
+	border-radius: 5px;
+	padding: 20px 10px 20px 10px;
+}
+
+#divRight #episode_easy_access{
+	margin-top: 20px;
 	background-color: #519548;
 	border-radius: 5px;
 	padding: 20px 10px 20px 10px;
@@ -108,6 +132,42 @@
 	margin-top: 50px;
 }
 
+#containerSerie #episode{
+	clear: both;
+	margin-top: 20px;
+}
+
+
+#containerSerie #episode .list_episode{
+  	list-style: none;
+  	width: 800px;
+  	margin: auto;
+}
+
+#containerSerie #episode .list_episode li{
+	border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(#000, .1);
+    position: relative;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+#containerSerie #episode .list_episode li p{
+	padding: 20px 20px 20px 20px;
+	border-top: 1px solid black;
+}
+
+#containerSerie #episode .list_episode li #name_episode{
+	padding: 0px 20px 0px 20px;
+	color: #21b7c6;
+    line-height: 40px;
+}
+
+#containerSerie #episode .list_episode li #name_episode a{
+	color: #21b7c6;
+}
+
+
 #serie_detail .sendComment{
 	clear: both;
 	padding: 20px 0px 20px 0px;
@@ -121,4 +181,56 @@
 	resize: none;
 	height: 80px;
 	width: 500px;
+}
+
+#serie_detail .list_comment{
+	max-width: 800px;
+	padding-left: 80px;
+  	list-style: none;
+  	clear: both;
+}
+
+#serie_detail .list_comment li{
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(#000, .1);
+    position: relative;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+#serie_detail .list_comment li:before{
+	  position: absolute;
+	  border-style: solid;
+      border-color: transparent white;
+      border-width: 10px 10px 10px 0;
+      content: '';
+      top: 10px;
+      left: -10px;
+}
+
+#serie_detail .list_comment #username_comment{
+	padding-left: 20px;
+	color: #21b7c6;
+    line-height: 40px;
+}
+
+#serie_detail .list_comment #avatar_comment{
+		width: 60px;
+        height: 60px;
+        background: #fff;
+        border: 4px solid #fff;
+        border-radius: 2px;
+        box-shadow: 0 1px 2px rgba(#000, .1);
+        position: absolute;
+        top: 0;
+        left: -80px;
+	}
+
+#serie_detail .list_comment p{
+	padding: 20px 20px 20px 20px;
+	border-top: 1px solid black;
+}
+
+#serie_detail .list_comment p textarea{
+	width: 620px;
 }

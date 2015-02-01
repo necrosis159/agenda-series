@@ -90,7 +90,57 @@ $(document).ready(function() {
 });
 
 
+// détection de la saisie dans le champ de recherche
+    $('#send_comment').click(function(){
+    $field = $('#comment');
+    $('#results').html(''); // on vide les resultats
+    $('#ajax-loader').remove(); // on retire le loader
+ 
+    // on commence à traiter à partir du 2ème caractère saisie
+    if( $field.val().length > 0 ) {
+        // on envoie la valeur recherché en GET au fichier de traitement
+        $.ajax({
+                type : 'GET', // envoi des données en GET ou POST
+                url : '/ajax/ajax-comment.php' , // url du fichier de traitement
+                data : 'q='+$(this).val() , // données à envoyer en  GET ou POST
+                beforeSend : function() { // traitements JS à faire AVANT l'envoi
+                    $("#send_comment").remove();
+                    $field.after('<img src="../images/loader.gif" alt="loader" id="test" />'); // ajout d'un loader pour signifier l'action
+                },
+                success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
+                    $('#test').remove(); // on enleve le loader
+                    $('#results').html("<img style='width: 46px;' src='../images/ok.png' />"); // affichage des résultats dans le bloc
+                    }
+                failed : function(data){ //traitement JS à faire si c'est un echec
+                    $('#results').html("<img style='width: 46px;' src='../images/notOk.png' />"); // affichage des résultats dans le bloc
+                }
+        });
+    }    
+});
 
-
+// détection de la saisie dans le champ de recherche
+    $('#favorite').click(function(){
+    $field = $('#favorite');
+    $('#results').html(''); // on vide les resultats
+    $('#ajax-loader').remove(); // on retire le loader
+        // on envoie la valeur recherché en GET au fichier de traitement
+        $.ajax({
+                type : 'GET', // envoi des données en GET ou POST
+                url : '/ajax/ajax-favorite.php' , // url du fichier de traitement
+                data : 'q='+$(this).val() , // données à envoyer en  GET ou POST
+                beforeSend : function() { // traitements JS à faire AVANT l'envoi
+                    $("#send_comment").remove();
+                    $field.after('<img src="../images/loader.gif" alt="loader" id="test" />'); // ajout d'un loader pour signifier l'action
+                },
+                success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
+                    $('#test').remove(); // on enleve le loader
+                    $('#results').html("<img style='width: 46px;' src='../images/ok.png' />"); // affichage des résultats dans le bloc
+                    }
+                failed : function(data){ //traitement JS à faire si c'est un echec
+                    $('#results').html("<img style='width: 46px;' src='../images/notOk.png' />"); // affichage des résultats dans le bloc
+                }
+        });
+        
+});
 
 });
