@@ -14,8 +14,9 @@ $explode_birthdate = explode('-', $result['birthdate']);
 $birthdate = $explode_birthdate[1].'/'.$explode_birthdate[0].'/'.$explode_birthdate[2];
 ?>
 
-<div class="wrap">
+
     <div id="profile_bloc">
+      <div class="wrap">
         <h1 class="heading">Mon Profil</h1>
         <div id="profile_avatar">
             <img src="../images/<?php echo $avatar; ?>" class="avatar_image">
@@ -34,6 +35,8 @@ $birthdate = $explode_birthdate[1].'/'.$explode_birthdate[0].'/'.$explode_birthd
                 <li>Nombre de notes attribuées : </li>
             </ul>
         </div>
-        <h1 class='heading'></h1>
     </div>
 </div>
+<?php
+    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
+?>

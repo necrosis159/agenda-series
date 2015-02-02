@@ -153,4 +153,5 @@ if (isset($_POST["submit"])) {
   </div>
 </div>
 <?php
+    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
 ?>
