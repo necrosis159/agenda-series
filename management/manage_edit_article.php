@@ -75,7 +75,7 @@
 
          <div>
             <label>Contenu
-               <textarea id="resume" name="resume"><?php echo $data['resume']; ?></textarea>
+               <textarea class="wysiwyg" id="resume" name="resume"><?php echo $data['resume']; ?></textarea>
             </label>
          </div>
 

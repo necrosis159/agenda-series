@@ -6,28 +6,31 @@
 
       $result_update = false;
 
+      $id_user = $_SESSION['id'];
+
+      // Récupération des champs
       $serie = $_POST["serie"];
       $name = $_POST["name"];
       $release_date = $_POST["release_date"];
-      $number = $_POST["number"];
+      $duration = $_POST["duration"];
+      $season = $_POST["season"];
+      $episode = $_POST["episode"];
+      $description = $_POST["description"];
       $resume = $_POST["resume"];
 
-      // Modification du contenu
-      $result_insert = create_episode($serie, $name, $number, $resume, $release_date);
+      // Ajout du contenu
+      $result_insert = create_episode($id_user, $serie, $name, $season, $episode, $description, $resume, $release_date, $duration);
 
    }
 
    // Récupération des séries dans la BDD
    $series_list = series_list();
 
-   // Récupération des saison de la série
-   //$seasons_list = seasons_list($id_serie);
-
    if(isset($result_insert) && $result_insert != false) {
-      header('Location: index.php');
+      valid_message($message = "Ajout réussi. Article en attente de validation par un administrateur.");
    }
    elseif(isset($result_insert) && $result_insert == false) {
-      echo '<p class="wrong">Désolé, une erreur s\'est produite</p>';
+      error_message($message = "Désolé, une erreur s'est produite!");
    }
 
 ?>
@@ -49,12 +52,14 @@
          </div>
 
          <div>
-            <label>Saison
-               <select name="serie" onchange="updated(this)" required="required">
-                  <?php foreach($seasons_list as $value): ?>
-                     <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                  <?php endforeach; ?>
-               </select>
+            <label>Numéro de la saison
+               <input id="season" name="season" type="text" placeholder="Numéro de la saison" required="required">
+            </label>
+         </div>
+
+         <div>
+            <label>Numéro de l'épisode
+               <input id="episode" name="episode" type="text" placeholder="Numéro de l'épisode" required="required">
             </label>
          </div>
 
@@ -72,14 +77,20 @@
          </div>
 
          <div>
-            <label>Numéro de l'épisode
-               <input id="number" name="number" type="text" placeholder="Numéro de l'épisode" required="required">
+            <label>Durée de l'épisode
+               <input id="duration" name="duration" type="time" placeholder="Durée de l'épisode">
             </label>
          </div>
 
          <div>
-            <label>Contenu
-               <textarea id="resume" name="resume"></textarea>
+            <label>Description
+               <input id="description" name="description" type="text" placeholder="Déscription de l'épisode">
+            </label>
+         </div>
+
+         <div>
+            <label>Résumé
+               <textarea class="wysiwyg" id="resume" name="resume"></textarea>
             </label>
          </div>
 

@@ -41,7 +41,7 @@
       <script type="text/javascript">
       tinymce.init({
          language : "fr_FR",
-         selector: "textarea"
+         selector: "textarea.wysiwyg"
       });
       </script>
    </head>

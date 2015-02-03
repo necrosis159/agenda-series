@@ -10,7 +10,7 @@
 if (isset($_POST["submit"])) {
   $arrayErrors = array();
   // On vérifie qu'aucun champ du formulaire n'a été ajouté par l'utilisateur
-  $liste_champs = array("gender", "name", "surname", "email", "pseudo", "password", "password_confirm", "birthdate", "submit");
+  $liste_champs = array("gender", "name", "surname", "email", "username", "password", "password_confirm", "birthdate", "submit");
   if (count(array_diff($liste_champs, array_keys($_POST))) === 0) {
     $error = 0;
 
@@ -19,7 +19,7 @@ if (isset($_POST["submit"])) {
     $name = trim($_POST['name']);
     $surname = trim($_POST['surname']);
     $email = trim($_POST['email']);
-    $pseudo = trim($_POST['pseudo']);
+    $username = trim($_POST['username']);
     $password = trim($_POST['password']);
     $password_confirm = trim($_POST['password_confirm']);
     $birthdate = trim($_POST['birthdate']);
@@ -58,12 +58,12 @@ if (isset($_POST["submit"])) {
       $error ++;
     }
 
-    // Champ pseudo
-    if (!empty($pseudo) && strlen($pseudo) >= 4 && strlen($pseudo) <= 50) {
-      // On vérifie si le pseudo existe dans la bdd
-//            $query = $db->prepare("SELECT pseudo FROM user where pseudo = '".$pseudo."'");
+    // Champ username
+    if (!empty($username) && strlen($username) >= 4 && strlen($username) <= 50) {
+      // On vérifie si le username existe dans la bdd
+//            $query = $db->prepare("SELECT username FROM user where username = '".$username."'");
 //            $query->execute();
-      $result = isPseudoExists($pseudo);
+      $result = isUsernameExists($username);
       if ($result->rowCount() > 0) {
         $arrayErrors[] = "Le pseudo existe déjà";
         $error ++;
@@ -139,14 +139,14 @@ if (isset($_POST["submit"])) {
     if ($error > 0) {
       array_unshift($arrayErrors, "Formulaire invalide");
     } else {
-//            $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
-//                                    VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".$password."', '".$birthdateFormat."')");
+//            $query = $db->prepare("INSERT into user(gender, name, surname, email, username, password, birthdate)
+//                                    VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$username."', '".$password."', '".$birthdateFormat."')");
 //            $query->execute();
-      addUser($gender, $name, $surname, $email, $pseudo, $password, $birthdateFormat);
+      addUser($gender, $name, $surname, $email, $username, $password, $birthdateFormat);
       echo "Inscription réussie";
     }
   } else {
-    $arrayErrors[] = "Petit coquinou qui essaye d'insérer des champs :o";
+    $arrayErrors[] = "Une erreur s'est produite!";
   }
 }
 ?>
@@ -193,8 +193,8 @@ endif;
           <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
           </label>
 
-          <label for="pseudo">Pseudo *
-          <input type='text' id='pseudo' name='pseudo' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($pseudo)) echo $pseudo ?>'>
+          <label for="username">username *
+          <input type='text' id='username' name='username' class="input_form" placeholder='username' size="30" maxlength="50" value='<?php if (isset($username)) echo $username ?>'>
           </label>
 
           <label for="password">Mot de passe *

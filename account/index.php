@@ -3,7 +3,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
 $result = selectInfosUser()->fetch();
 if ($result['avatar'] == '') {
-    if ($result['gender'] == '1') {
+    if ($result['gender'] == '0') {
         $avatar = 'avatar_woman.png';
     } else {
         $avatar = 'avatar_man.png';

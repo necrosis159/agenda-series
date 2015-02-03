@@ -6,7 +6,7 @@
       header('Location: ../account/index.php');
    }
 
-   if(isset($_GET['error'])) {
+   if(isset($_GET['error']) && $_GET['error'] == "log") {
       $message = "Vous devez vous connecter!";
    }
 

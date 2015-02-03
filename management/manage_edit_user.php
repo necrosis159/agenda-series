@@ -1,58 +1,67 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
+   include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-$message = "Une erreur s'est produite!";
+   if(isset($_GET['id'])) {
+      $id = $_GET['id'];
+   }
 
-if(isset($_GET['id'])) {
-   $id = $_GET['id'];
-}
+   // Vérification des droits d'aministrateur
+   check_admin($_SESSION['status']);
 
-// Récupération de l'épisode selon son ID
-$data = get_user($id);
+   // Vérification de l'existance de l'utilisateur
+   check_record($id, "user");
 
-if(isset($_POST['submit'])) {
+   // Initialisation du message d'erreur
+   $message = "Une erreur s'est produite!";
 
-   if($_POST["password"] === $_POST["password_verif"]) {
+   if(isset($_POST['submit'])) {
 
-      $result_update = false;
+      if($_POST["password"] === $_POST["password_verif"]) {
+
+         $result_update = false;
+
+         $id = $_POST["id"];
+
+         $name = $_POST["name"];
+         $surname = $_POST["surname"];
+         $gender = $_POST["gender"];
+         $birthdate = $_POST["birthdate"];
+         $presentation = $_POST["presentation"];
+
+         $status = $_POST["status"];
+         $email = $_POST["email"];
+         $username = $_POST["username"];
+         $password = $_POST["password"];
+
+         // Modification des informations
+         $result_update = update_user($id, $name, $surname, $gender, $birthdate, $presentation, $username, $password, $email, $status);
+      }
+      else {
+         $message = "Les deux mots de passe doivent correspondre!";
+      }
+
+   }
+   elseif(isset($_POST['submit_remove'])) {
 
       $id = $_POST["id"];
 
-      $name = $_POST["name"];
-      $surname = $_POST["surname"];
-      $gender = $_POST["gender"];
-      $birthdate = $_POST["birthdate"];
-      $presentation = $_POST["presentation"];
+      // Suppression de l'utilisateur
+      delete_user($id);
 
-      $username = $_POST["username"];
-      $password = $_POST["password"];
+      header('Location: manage_users.php?delete=true');
 
-      // Modification des informations
-      $result_update = update_user($id, $name, $resume, $number);
-   }
-   else {
-      $message = "Les deux mots de passe doivent correspondre!";
    }
 
-}
-elseif(isset($_POST['submit_remove'])) {
+   // Récupération de l'épisode selon son ID
+   $data = get_user($id);
 
-   $id = $_POST["id"];
-
-   // Suppression de l'utilisateur
-   delete_user($id);
-
-   header('Location: manage_users.php?delete=true');
-
-}
-
-if(isset($result_update) && $result_update != false) {
-   valid_message($message = "Modifications enregistrées!");
-}
-elseif(isset($result_update) && $result_update == false) {
-   error_message($message);
-}
+   if(isset($result_update) && $result_update != false) {
+      valid_message($message = "Modifications enregistrées!");
+   }
+   elseif(isset($result_update) && $result_update == false) {
+      error_message($message);
+   }
 
 ?>
 
@@ -101,6 +110,22 @@ elseif(isset($result_update) && $result_update == false) {
          <h3 class="heading">Compte</h3>
 
          <div>
+            <label>Statut
+               <select name="status" onchange="updated(this)">
+                  <option value="1" <?php if($data['status'] == 1) { echo "selected"; } ?>>Utilisateur</option>
+                  <option value="2" <?php if($data['status'] == 2) { echo "selected"; } ?>>Contributeur</option>
+                  <option value="3" <?php if($data['status'] == 3) { echo "selected"; } ?>>Administrateur</option>
+               </select>
+            </label>
+         </div>
+
+         <div>
+            <label>Email
+               <input id="email" name="email" type="email" value="<?php echo $data['email']; ?>" placeholder="Email" required="required">
+            </label>
+         </div>
+
+         <div>
             <label>Pseudo
                <input id="username" name="username" type="text" value="<?php echo $data['username']; ?>" placeholder="Pseudonyme" required="required">
             </label>
@@ -119,7 +144,7 @@ elseif(isset($result_update) && $result_update == false) {
          </div>
 
          <div>
-            <input name="submit" type="submit" value="Enregistrer"> <input name="submit_remove" type="submit" value="Supprimer">
+            <input name="submit" type="submit" value="Enregistrer"> <?php if($_SESSION['id']    != $id): ?><input name="submit_remove" type="submit" value="Supprimer"><?php endif; ?>
          </div>
       </form>
 

@@ -12,13 +12,13 @@
    }
 
    // Requête de connexion
-   function login($pseudo) {
+   function login($username) {
 
      // Connection à la base de données
      $db = call_pdo();
 
-     $query = $db->prepare("SELECT id, pseudo, password, status FROM user WHERE pseudo = :pseudo");
-     $query->execute(array("pseudo" => $pseudo));
+     $query = $db->prepare("SELECT id, username, password, status FROM user WHERE username = :username");
+     $query->execute(array("username" => $username));
 
      return $query;
    }
@@ -35,25 +35,25 @@
      return $query;
    }
 
-   // Requête pour vérifier que pseudo d'un utilisateur n'existe pas déjà en base lors de son inscription
-   function isPseudoExists($pseudo) {
+   // Requête pour vérifier que username d'un utilisateur n'existe pas déjà en base lors de son inscription
+   function isUsernameExists($username) {
 
      // Connection à la base de données
      $db = call_pdo();
 
-     $query = $db->prepare("SELECT pseudo FROM user where pseudo = '".$pseudo."'");
+     $query = $db->prepare("SELECT username FROM user where username = '".$username."'");
      $query->execute();
 
      return $query;
    }
 
-   function addUser($gender, $name, $surname, $email, $pseudo, $password, $birthdate) {
+   function addUser($gender, $name, $surname, $email, $username, $password, $birthdate) {
 
      // Connection à la base de données
      $db = call_pdo();
 
-     $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
-                            VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".md5($password)."', '".$birthdate."')");
+     $query = $db->prepare("INSERT into user(gender, name, surname, email, username, password, birthdate)
+                            VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$username."', '".md5($password)."', '".$birthdate."')");
      $query->execute();
 
    }
@@ -185,12 +185,12 @@
    }
 
    // Fonction de création d'un épisode
-   function create_episode($serie, $name, $number, $resume, $release_date) {
+   function create_episode($id_user, $serie, $name, $season, $episode, $description, $resume, $release_date, $duration) {
       // Connection à la base de données
       $db = call_pdo();
 
       // Ajout des nouveaux champs de l'épisode
-      $query = $db->prepare('INSERT INTO episode VALUES ( , "' . $serie . '", "' . $name . '", "' . $number . '", "' . $resume . '", "' . $release_date . '")');
+      $query = $db->prepare('INSERT INTO episode VALUES ("" , "' . $name . '", "' . $season . '", "' . $serie . '", "' . $description . '", "' . $resume . '", "' . $release_date . '", "' . $duration . '", "' . $id_user . '", "' . $episode . '")');
 
       $query->execute();
 
@@ -255,6 +255,21 @@
       return $query;
    }
 
+   // Fonction de récupération des derniers articles d'un utilisateur
+   function last_user_articles($id = '') {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération des articles
+      $query = $db->prepare("SELECT E.*, S.name AS serie_name FROM episode E, serie S GROUP BY id HAVING E.id_user = " . $id . " LIMIT 5");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
    // Fonction de création d'un commentaire
    function create_comment($user, $serie, $season, $episode, $title, $content, $publication_date) {
       // Connection à la base de données
@@ -296,6 +311,21 @@
       return $result;
    }
 
+   // Fonction de récupération de tous les commentaires
+   function get_comments() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération du commentaire || à modifier avec id du comment
+      $query = $db->prepare("SELECT * FROM comment");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
    // Fonction de récupération des commentaires d'un utilisateur via son ID
    function user_comments($id = '') {
       // Connection à la base de données
@@ -317,7 +347,7 @@
      $db = call_pdo();
 
      // Récupération des commentaires
-      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id);
+      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id . " LIMIT 5");
 
       $query->execute();
 
@@ -351,8 +381,32 @@
       return $date_fr;
    }
 
-   // Fonction de vérification d'un utilisateur
-   function check_user() {
+   // Fonction de vérification
+   function check_record($id, $table) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM " . $table . " WHERE id = " . $id);
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      if(!$result) {
+         header('Location: index.php');
+      }
+   }
+
+   // Fonction de vérification d'un administrateur
+   function check_admin($status) {
+      if($status != 3) {
+
+         header('Location: index.php');
+      }
+   }
+
+   // Fonction de vérification d'un administrateur
+   function check_id() {
       // à faire
    }
 
@@ -387,12 +441,12 @@
    }
 
    // Requête pour modifier les informations d'un utilisateur
-   function update_user($id, $name, $surname, $gender, $intro, $nickname, $password, $email) {
+   function update_user($id, $name, $surname, $gender, $birthdate, $presentation, $username, $password, $email, $status) {
 
       // Connection à la base de données
       $db = call_pdo();
 
-      $query = $db->prepare('UPDATE user SET name = "' . $name . '", surname = "' . $surname . '", gender = "' . $gender . '", intro = "' . $intro . '", nickname = "' . $nickname . '", password = "' . $password . '", email = "' . $email . '" WHERE id = ' . $id);
+      $query = $db->prepare('UPDATE user SET name = "' . $name . '", surname = "' . $surname . '", gender = "' . $gender . '", presentation = "' . $presentation . '", username = "' . $username . '", password = "' . md5($password) . '", email = "' . $email . '", status = "' . $status . '" WHERE id = ' . $id);
       $query->execute();
 
       return $query;
@@ -423,6 +477,20 @@
       $query->execute();
 
       $result = $query->fetch();
+
+      return $result;
+   }
+
+   // Fonction de récupération de la liste des séries
+   function get_series_suggestions() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM serie");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
 
       return $result;
    }

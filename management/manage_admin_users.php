@@ -25,9 +25,9 @@
             <tr>
                <th class="th_small">ID</th>
                <th>Pseudo</th>
-               <th class="th_small">Anniversaire</th>
+               <th class="th_small">Statut</th>
                <th>Mail</th>
-               <th class="th_small">Date d'inscription</th>
+               <th class="th_small">Inscription</th>
                <th class="th_small">Modération</th>
             </tr>
          </thead>
@@ -40,7 +40,7 @@
                <tr>
                   <td><span style="color: #d8871e;"># </span><?php echo $value["id"]; ?></td>
                   <td><?php echo $value['surname']; ?></td>
-                  <td><?php if(isset($value['birthdate'])) { echo date_convert($value['birthdate']); } else { echo "&mdash;"; } ?></td>
+                  <td><?php if($value['status'] == 1) { echo "Utilisateur"; } elseif($value['status'] == 2) { echo "Contributeur"; } elseif($value['status'] == 3) { echo "Administrateur"; } ?></td>
                   <td><?php echo $value['email']; ?></td>
                   <td><?php if(isset($value['creation_date']) && $value['creation_date'] != 00-00-0000) { echo date_convert($value['creation_date']); }  else { echo "&mdash;"; } ?></td>
                   <td class="table_mod">
