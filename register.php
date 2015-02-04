@@ -1,5 +1,10 @@
 <?php
-include"tpl/top.php";
+
+   include"tpl/top.php";
+
+   if(isset($_SESSION['id'])) {
+      header('Location: ../account/index.php');
+   }
 
 // Test des champs du formulaire à l'envoi
 if (isset($_POST["submit"])) {
@@ -149,49 +154,66 @@ if (isset($_POST["submit"])) {
   <div class="form_account_bloc">
     <div id="erreurFormulaire">
 <?php
-if (isset($_POST["submit"])) {
-  if (count($arrayErrors) > 0) {
-    foreach ($arrayErrors as $row) {
-      echo $row;
-      echo "<br/>";
-    }
-  }
-}
+if (isset($_POST["submit"])) :
+  if (count($arrayErrors) > 0) : ?>
+      <ul style="list-style: circle">
+<?php
+    foreach ($arrayErrors as $row) : ?>
+      <li><?php echo $row; ?></li>
+<?php
+    endforeach; ?>
+    </ul>
+<?php
+  endif;
+endif;
 ?>
     </div>
     <h5 class="heading">Inscription</h5>
     <fieldset>
       <legend>Inscription</legend>
-      <form action="" method="POST" class="form_account">
-          <label for="gender">Genre</label>
-          <input type='radio' name='gender' value='0' checked> Masculin
-          <input type='radio' name='gender' value='1'> Féminin
-          
-          <label for="name">Nom</label>
+      <!--<form action="" method="POST" class="form_account">-->
+      <form action="" method="POST" id="article_form">
+
+          <label for="name">Nom *
           <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
+          </label>
 
-          <label for="surname">Prénom</label>
+          <label for="surname">Prénom *
           <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
+          </label>
 
-          <label for="email">Adresse Mail</label>
-          <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'> *
+          <label for="gender">Genre *
+            <p>
+              <input type='radio' name='gender' value='0' checked> Masculin
+              <input type='radio' name='gender' value='1'> Féminin
+            </p>
+          </label>
 
-          <label for="pseudo">Pseudo</label>
-          <input type='text' id='pseudo' name='pseudo' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($pseudo)) echo $pseudo ?>'> *
+          <label for="email">Adresse Mail *
+          <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
+          </label>
 
-          <label for="password">Mot de passe</label>
-          <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="20" value='<?php if (isset($password)) echo $password ?>'> *
+          <label for="pseudo">Pseudo *
+          <input type='text' id='pseudo' name='pseudo' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($pseudo)) echo $pseudo ?>'>
+          </label>
 
-          <label for="password_confirm">Confirmation mot de passe</label>
-          <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30"> *
+          <label for="password">Mot de passe *
+          <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="20" value='<?php if (isset($password)) echo $password ?>'>
+          </label>
 
-          <label for="birthdate">Date de naissance</label>
-          <input type="date" id="birthdate" name="birthdate" size="30"  class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10" value='<?php if (isset($birthdate)) echo $birthdate ?>'> *
+          <label for="password_confirm">Confirmation mot de passe *
+          <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
+          </label>
+
+          <label for="birthdate">Date de naissance *
+          <input type="date" id="birthdate" name="birthdate" size="30"  class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10" value='<?php if (isset($birthdate)) echo $birthdate ?>'>
+          </label>
+
           <br/><br/>
           * Champs obligatoires
           <br/><br/>
           <input class="button" type='submit' id='submit' name='submit' value='Envoyer'>
-          
+
       </form>
     </fieldset>
   </div>

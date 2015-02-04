@@ -2,7 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT']."/tpl/functions.php";
 
 $name = $_GET["q"];
-$result = searchSeries($name);
+$result = series_get_all_series($name);
 
 if(count($result) == 0) {
   echo "Aucune série n'a été trouvé pour la recherche '".$_GET['q'].".";
