@@ -19,7 +19,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
       <h5 class="heading">Mes séries</h5>
         <div id="series_follow">
           <?php
-          $data = seriesUser();
+          $data = seriesUser($id);
           if(count($data)): ?>
             <ul>
         <?php foreach ($data as $value) : ?>
