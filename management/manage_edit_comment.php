@@ -52,7 +52,7 @@
          </div>
 
          <div>
-            <input name="submit" type="submit" value="Enregistrer">
+            <input name="submit" type="submit" value="Valider" disabled> <input name="submit" type="submit" value="Refuser" disabled>
          </div>
       </form>
 

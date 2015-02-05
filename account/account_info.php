@@ -52,16 +52,12 @@ if (isset($_POST["submit"])) {
     // Champ email
     if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
       // On vérifie si le mail existe dans la bdd et que ce n'est pas le mail de l'utilisateur
-      $query = $db->prepare("SELECT id, email FROM user where email = '" . $email . "'");
-      $query->execute();
-      $data_user = $query->fetch();
-      if ($data_user["id"] != $id) {
-        if ($query->rowCount() > 0) {
-          $arrayErrors[] = "Le mail existe déjà";
-          $error ++;
-        }
+      $result = isEmailExists($email);
+      if ($result->rowCount() > 0) {
+        $arrayErrors[] = "Le mail existe déjà";
+        $error ++;
       }
-      $query->closeCursor();
+      $result->closeCursor();
     }
 
     // Champ password
@@ -74,14 +70,7 @@ if (isset($_POST["submit"])) {
     if ($error > 0) {
       array_unshift($arrayErrors, "Formulaire invalide");
     } else {
-      $query = $db->prepare("UPDATE user
-                                    SET gender = '" . $gender . "',
-                                        name = '" . $name . "',
-                                        surname = '" . $surname . "',
-                                        email = '" . $email . "',
-                                        password = '" . $password . "'
-                                    WHERE id = " . $id . " ");
-      $query->execute();
+      updateUser($gender, $name, $surname, $email, $password);
       // $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
       //                         VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".$password."', '".$birthdateFormat."')");
       // $query->execute();
@@ -153,4 +142,5 @@ if (isset($_POST["submit"])) {
   </div>
 </div>
 <?php
+    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
 ?>

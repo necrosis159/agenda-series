@@ -45,8 +45,6 @@ if (isset($_POST["submit"])) {
     // Champ email
     if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
       // On vérifie si le mail existe dans la bdd
-//            $query = $db->prepare("SELECT email FROM user where email = '".$email."'");
-//            $query->execute();
       $result = isEmailExists($email);
       if ($result->rowCount() > 0) {
         $arrayErrors[] = "Le mail existe déjà";
@@ -58,11 +56,9 @@ if (isset($_POST["submit"])) {
       $error ++;
     }
 
-    // Champ username
+    // Champ pseudo
     if (!empty($username) && strlen($username) >= 4 && strlen($username) <= 50) {
-      // On vérifie si le username existe dans la bdd
-//            $query = $db->prepare("SELECT username FROM user where username = '".$username."'");
-//            $query->execute();
+      // On vérifie si le pseudo existe dans la bdd
       $result = isUsernameExists($username);
       if ($result->rowCount() > 0) {
         $arrayErrors[] = "Le pseudo existe déjà";
@@ -84,16 +80,7 @@ if (isset($_POST["submit"])) {
         $error ++;
       }
     }
-//        if (empty($password) || preg_match("/^(?=.*\d)(?=.*[A-Z]).{4,8}$/", $password) === 0) {
-//            $arrayErrors[] = "Le mot de passe n'est pas valide";
-//            $error ++;
-//        } else {
-//            // Champ password_confirm
-//            if(empty($password_confirm) || preg_match("/^(?=.*\d)(?=.*[A-Z]).{4,8}$/", $password_confirm) === 0 || $password!=$password_confirm) {
-//                $arrayErrors[] = "Les 2 mots de passe ne sont pas identiques";
-//                $error ++;
-//            }
-//        }
+
     // Champ date
     if (!empty($birthdate)) {
       // format dd/mm/yyyy
@@ -139,9 +126,6 @@ if (isset($_POST["submit"])) {
     if ($error > 0) {
       array_unshift($arrayErrors, "Formulaire invalide");
     } else {
-//            $query = $db->prepare("INSERT into user(gender, name, surname, email, username, password, birthdate)
-//                                    VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$username."', '".$password."', '".$birthdateFormat."')");
-//            $query->execute();
       addUser($gender, $name, $surname, $email, $username, $password, $birthdateFormat);
       echo "Inscription réussie";
     }
@@ -171,7 +155,7 @@ endif;
     <h5 class="heading">Inscription</h5>
     <fieldset>
       <legend>Inscription</legend>
-      <!--<form action="" method="POST" class="form_account">-->
+
       <form action="" method="POST" id="article_form">
 
           <label for="name">Nom *
@@ -193,8 +177,8 @@ endif;
           <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
           </label>
 
-          <label for="username">username *
-          <input type='text' id='username' name='username' class="input_form" placeholder='username' size="30" maxlength="50" value='<?php if (isset($username)) echo $username ?>'>
+          <label for="username">Pseudo *
+          <input type='text' id='username' name='username' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($username)) echo $username ?>'>
           </label>
 
           <label for="password">Mot de passe *
@@ -220,5 +204,5 @@ endif;
 </div>
 
 <?php
-include("tpl/footer.php");
+   include("tpl/footer.php");
 ?>

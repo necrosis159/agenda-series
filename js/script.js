@@ -122,4 +122,89 @@ $(document).ready(function() {
         return false;
     });
 
+  /********************************************************
+   * 
+   *                SERIES
+   * 
+   ********************************************************/
+
+
+    // détection de la saisie dans le champ de recherche
+    $('#rechercheSerie').keyup(function(){
+    $field = $(this);
+    $('#resultsSeries').html(''); // on vide les resultats
+    $('#ajax-loader').remove(); // on retire le loader
+ 
+    // on commence à traiter à partir du 2ème caractère saisie
+    if( $field.val().length > 0 ) {
+        // on envoie la valeur recherché en GET au fichier de traitement
+        $.ajax({
+                type : 'GET', // envoi des données en GET ou POST
+                url : '/ajax/ajax-search_series.php' , // url du fichier de traitement
+                data : 'q='+$(this).val() , // données à envoyer en  GET ou POST
+                beforeSend : function() { // traitements JS à faire AVANT l'envoi
+                    $field.after('<img src="../images/loader.gif" alt="loader" id="ajax-loader" />'); // ajout d'un loader pour signifier l'action
+                },
+                success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
+                    $('#ajax-loader').remove(); // on enleve le loader
+                    $('#resultsSeries').html(data); // affichage des résultats dans le bloc
+                    }
+        });
+    }
+    else{
+        $('#resultsSeries').html("Vous n'avez rien rechercher!");
+    }       
+});
+
+
+// détection de la saisie dans le champ de recherche
+    $('#send_comment').click(function(){
+    $field = $('#comment');
+    $('#results').html(''); // on vide les resultats
+    $('#ajax-loader').remove(); // on retire le loader
+ 
+    // on commence à traiter à partir du 2ème caractère saisie
+    if( $field.val().length > 0 ) {
+        // on envoie la valeur recherché en GET au fichier de traitement
+        $.ajax({
+                type : 'GET', // envoi des données en GET ou POST
+                url : '/ajax/ajax-comment.php' , // url du fichier de traitement
+                data : 'q='+$field.val() , // données à envoyer en  GET ou POST
+                beforeSend : function() { // traitements JS à faire AVANT l'envoi
+                    $("#send_comment").remove();
+                    $field.after('<img src="../images/loader.gif" alt="loader" id="test" />'); // ajout d'un loader pour signifier l'action
+                },
+                success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
+                    $('#test').remove(); // on enleve le loader
+                    $('#commentZone').html("Merci!"); // affichage des résultats dans le bloc
+                    }                
+        });
+    }    
+});
+
+// détection de la saisie dans le champ de recherche
+    $('#favorite').click(function(){
+    $field = $('#favorite');
+    $('#results').html(''); // on vide les resultats
+    $('#ajax-loader').remove(); // on retire le loader
+        // on envoie la valeur recherché en GET au fichier de traitement
+        $.ajax({
+                type : 'GET', // envoi des données en GET ou POST
+                url : '/ajax/ajax-favorite.php' , // url du fichier de traitement
+                data : 'q='+$(this).val() , // données à envoyer en  GET ou POST
+                beforeSend : function() { // traitements JS à faire AVANT l'envoi
+                    $("#send_comment").remove();
+                    $field.after('<img src="../images/loader.gif" alt="loader" id="test" />'); // ajout d'un loader pour signifier l'action
+                },
+                success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
+                    $('#test').remove(); // on enleve le loader
+                    $('#results').html("<img style='width: 46px;' src='../images/ok.png' />"); // affichage des résultats dans le bloc
+                    }
+                
+        });
+        
+});
+
+/*FIN SERIE*/
+
 });

@@ -33,6 +33,7 @@
 
       <link href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/styles.css" rel="stylesheet" type="text/css" media="all" />
       <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/menu.css" />
+      <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/series.css" />
       <script type="text/javascript" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/js/jquery.min.js"></script>
       <script type="text/javascript" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/js/script.js"></script>
 
@@ -41,7 +42,7 @@
       <script type="text/javascript">
       tinymce.init({
          language : "fr_FR",
-         selector: "textarea.wysiwyg"
+         selector: "textarea"
       });
       </script>
    </head>

@@ -17,9 +17,9 @@
             <tr>
                <th class="th_small">ID</th>
                <th>Série</th>
-               <th>Mon commentaire</th>
-               <th class="th_small">Date</th>
-               <th class="th_small">Modération</th>
+               <th>Commentaire</th>
+               <th class="th_small">Date d'ajout</th>
+               <th class="th_small">Options</th>
             </tr>
          </thead>
          <tbody>
@@ -35,10 +35,7 @@
                <td><?php echo date_convert($value['date_publication']); ?></td>
                <td class="table_mod">
                   <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_comment.php?id=<?php echo $id_comment; ?>">
-                     <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
-                  </a>
-                  <a href="#">
-                     <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_remove.png" alt="Supprimer" />
+                     Voir
                   </a>
                </td>
             </tr>
@@ -63,7 +60,7 @@
             <tr>
                <th class="th_small">ID</th>
                <th>Série</th>
-               <th class="th_small">N° Episode</th>
+               <th class="th_small">Saison</th>
                <th class="th_small">Episode</th>
                <th class="th_small">Statut</th>
                <th class="th_small">Date d'ajout</th>

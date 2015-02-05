@@ -4,7 +4,7 @@
 
    if(isset($_POST['submit'])) {
 
-      $result_update = false;
+      $result_insert = false;
 
       $id_user = $_SESSION['id'];
 

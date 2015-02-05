@@ -40,38 +40,34 @@
       </div>
 
       <script>
-      // Configuration des ID du menu et du point du rupture
-      var maxBreakpoint = 768; // Point de rupture max
-      var navID = 'navigation'; // ID du menu responsive
-      var buttonID = 'toggle-nav'; // ID du bouton de défilement du menu
+      // config
+      var maxBreakpoint = 768; // maximum breakpoint
+      var targetID = 'navigation'; // target ID (must be present in DOM)
+      var triggerID = 'toggle-nav'; // trigger/button ID (will be created into targetID)
 
-      // On récupère le menu via son ID
-      var n = document.getElementById(navID);
+      // targeting navigation
+      var n = document.getElementById(targetID);
 
-      // On l'initialise en état fermé
+      // nav initially closed is JS enabled
       n.classList.add('is-closed');
 
-      // Fonction d'affichage et de fermeture du menu
+      // global navigation function
       function navi() {
-         // Affichage du bouton de défilement lors du passage en petite résolution
-         // MatchMedia() permet de définir un point de rupture du côté JS, ici je le calcule grâce au maxBreakpoint définit
-         if (window.matchMedia("(max-width:" + maxBreakpoint +"px)").matches && document.getElementById(buttonID) == undefined) {
-            n.insertAdjacentHTML('afterBegin','<button id=' + buttonID + ' title="open/close navigation"></button>');
-            t = document.getElementById(buttonID);
+         // when small screen, create a switch button, and toggle navigation class
+         if (window.matchMedia("(max-width:" + maxBreakpoint +"px)").matches && document.getElementById(triggerID)==undefined) {
+            n.insertAdjacentHTML('afterBegin','<button id='+triggerID+' title="open/close navigation"></button>');
+            t = document.getElementById(triggerID);
             t.onclick=function(){ n.classList.toggle('is-closed');}
          }
-         // On repasse sur la résolution de grand écran et masque le bouton
-         // On initialise le point de rupture minimum
+         // when big screen, delete switch button, and toggle navigation class
          var minBreakpoint = maxBreakpoint + 1;
-         if (window.matchMedia("(min-width: " + minBreakpoint +"px)").matches && document.getElementById(buttonID)) {
-            // Si ce point est dépassé on masque le bouton
-            document.getElementById(buttonID).outerHTML = "";
+         if (window.matchMedia("(min-width: " + minBreakpoint +"px)").matches && document.getElementById(triggerID)) {
+            document.getElementById(triggerID).outerHTML="";
          }
       }
-
       navi();
 
-      // Lorsque l'évènement de redimmensionnement est appelé on relance la fonction pour modifier le menu en conséquence
+      // when resize or orientation change, reload function
       window.addEventListener('resize', navi);
       </script>
    </body>
