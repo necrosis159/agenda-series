@@ -32,6 +32,8 @@ $avatar = $result['avatar'];
     <div id="create_logo" style="display:none;">
       <h1> Avatar </h1>
       <br/>
+      
+      <!--Sélection de l'image-->
       <p>
         1) Sélectionnez une image.
       </p>
@@ -43,8 +45,18 @@ $avatar = $result['avatar'];
       <form method="post" enctype="multipart/form-data">
         <input type="file" name="image"><span id="red">*</span>
         <br/>
-        Limite : <?php echo $maxsize; ?>o<br/>
+        Taille maximale de l'image : <?php echo $maxsize; ?>o<br/>
+        <br/>
+        <input type="submit" name='submit_image' class="button" value='Télécharger'>
         <br/><br/>
+        <?php 
+          if(isset($_POST['submit_image'])) {
+            valid_message('Image de profil modifiée.');
+          }
+        
+        ?>
+        
+        <!--Ajout et personnalisation du texte-->
         <p>2) Ajoutez du texte et personnalisez le.</p>
         <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $maxsize_octet; ?>">
         <div id="font_bloc">
@@ -102,7 +114,7 @@ $avatar = $result['avatar'];
           <textarea name="description" placeholder="Texte à écrire sur l'image"><?php if (isset($_POST["description"])) echo $_POST["description"] ?></textarea>
         </div>
         <br/><br/>
-        <input type="submit" id="logo_submit" name="submit" value="Envoyer">
+        <input type="submit" id="logo_submit" class="button" name="submit" value="Envoyer">
         <br/>
       </form>
 
@@ -111,7 +123,11 @@ $avatar = $result['avatar'];
       //Création d'un tableau php avec les extensions valides
       $extensions_valides = array('jpg', 'jpeg', 'png');
       //chemin en relatif d'upload
-      $upload_directory = "./uploads";
+//      $upload_directory = "./uploads";
+      $upload_directory = '/images/avatar';
+       ?>
+      <img src='<?php echo $upload_directory ?>/avatar_man.png' width="200px" height="200px">
+           <?php
       $fonts_directory = "./fonts";
 
       if (isset($_POST["submit"])) {
@@ -226,7 +242,7 @@ $avatar = $result['avatar'];
                       echo "<br/>Prévisualisation - ";
                       echo "<a href=\"download.php?file=" . $nom . "&root=" . $upload_directory . "/\">Télécharger</a>";
                       echo "<br/><br/>";
-                      echo "<img src='" . $upload_directory . "/" . $nom . "' width='75%' height='75%'>";
+                      echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
 
                       echo "<br/>";
                     } else {

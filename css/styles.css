@@ -1463,12 +1463,6 @@ FORMULAIRE INSCRIPTION, INFORMATIONS
 	cursor: pointer;
 }
 
-/*.input_form {
-width: 95%;
-height: 30px;
-cursor: pointer;
-}*/
-
 .form_account input:focus {
 	border: 1px solid black;
 }
@@ -1493,28 +1487,12 @@ CONNECTION
 	margin: auto auto 100px;
 }
 
-.row_form {
-	margin: auto;
-	margin-bottom: 10px;
-}
-.row_form label {
-	width: 40%;
-	float: left;
-	text-align: right;
-	cursor: pointer;
-}
-
-.row_form input[type="submit"] {
-	margin: 20px 0 0 45%;
+#connection_btn_bloc {
+    text-align: center;
 }
 
 .input_connection {
 	margin-left: 45%;
-}
-
-.input_connection input {
-	width: 100%;
-	height: 20px;
 }
 
 /***********************************************
@@ -1667,7 +1645,7 @@ ACCOUNT
   clear: both;
   background-color: #FFF;
   border: 1px solid black;
-  width: 50%;
+  width: 75%;
   text-align: center;
   margin: auto;
   margin-top: 20px;
@@ -1677,7 +1655,7 @@ ACCOUNT
 #font_bloc {
   border: 1px solid black;
   margin: auto;
-  width: 75%;
+  width: 90%;
   padding: 10px;
 }
 

@@ -115,13 +115,6 @@ $(document).ready(function() {
     });
   }
   
-    // Permet de scroller jusqu'au bloc désiré
-    $('#yo').click(function(){
-        var offset = $('#last_comments').offset();
-        $('html,body').animate({scrollTop: offset.top}, 1000);
-        return false;
-    });
-
   /********************************************************
    * 
    *                SERIES
@@ -221,13 +214,21 @@ $(document).ready(function() {
           }
           return false;
   });
-
-    if($('#create_logo textarea').val() != "") {
-      console.log("yo");
-      $('#create_logo').show();
-      $('html, body').animate({
-        scrollTop:$('#create_logo').offset().top
-      }, 'slow');
+    
+    // Permet de scroller jusqu'au bloc désiré
+    $('#yo').click(function(){
+        var offset = $('#last_comments').offset();
+        $('html,body').animate({scrollTop: offset.top}, 1000);
+        return false;
+    });
+    
+    if(location.href == getBaseURL()+'/account/index.php') {
+        if($('#create_logo textarea').val() != "") {
+          $('#create_logo').show();
+          $('html, body').animate({
+            scrollTop:$('#create_logo').offset().top
+          }, 'slow');
+        }
     }
 
 
