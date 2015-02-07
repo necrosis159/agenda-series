@@ -1,11 +1,9 @@
 <?php
+
    function addUser($gender, $name, $surname, $email, $username, $password, $birthdate) {
 
      // Connection à la base de données
      $db = call_pdo();
-     
-     // Date et heure de la création de l'utilisateur
-     $currentDate = date("Y-m-d H:i:s");
      
      // Ajout d'un avatar par défaut en fonction du genre de l'utilisateur
       if ($gender == 1) {
@@ -14,8 +12,8 @@
         $avatar = 'avatar/avatar_man.png';
       }
       
-     $query = $db->prepare("INSERT into user(gender, name, surname, avatar, email, username, password, birthdate, creation_date)
-                            VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$avatar."', '".$email."', '".$username."', '".md5($password)."', '".$birthdate."', '".$currentDate."')");
+     $query = $db->prepare("INSERT into user(gender, name, surname, avatar, email, username, password, birthdate)
+                            VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$avatar."', '".$email."', '".$username."', '".md5($password)."', '".$birthdate."')");
      $query->execute();
    }
    
@@ -247,8 +245,11 @@
      $query->execute();
    }
    
-   function updateAvatar() {
+   function updateAvatar($id, $imageUrl) {
+     $db = call_pdo();
      
+     $query = $db->prepare("UPDATE user SET avatar = '".$imageUrl."' WHERE id = ".$id);
+     $query->execute();
    }
 
 ?>

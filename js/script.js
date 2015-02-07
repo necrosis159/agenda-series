@@ -201,18 +201,28 @@ $(document).ready(function() {
 /*FIN SERIE*/
 
   $('#avatar_modify').click(function(){
-          var ancre = $(this).attr("#create_logo");
-          $('#create_logo').toggle();
-          if($('#create_logo').css('display') === 'block') {
+          var ancre = $("#create_logo");
+          $(ancre).slideToggle(400, function() {
+            if($(ancre).css('display') === 'block') {
               $('html, body').animate({
-                  scrollTop:$('#create_logo').offset().top
+                  scrollTop:$('#profile_bloc').offset().top
               }, 'slow');
           } else {
               $('html, body').animate({
                   scrollTop:$('.top_header_btm').offset().top
               }, 'slow');
           }
+          });
           return false;
+  });
+  
+  $('#show_text_options').click(function() {
+    $('#font_bloc').slideToggle(200, function() {
+      $('html, body').animate({
+        scrollTop:$('#create_logo').offset().top
+      }, 'slow');
+    });
+    $('#create_logo_ou').slideToggle();
   });
     
     // Permet de scroller jusqu'au bloc désiré
@@ -222,14 +232,14 @@ $(document).ready(function() {
         return false;
     });
     
-    if(location.href == getBaseURL()+'/account/index.php') {
-        if($('#create_logo textarea').val() != "") {
-          $('#create_logo').show();
-          $('html, body').animate({
-            scrollTop:$('#create_logo').offset().top
-          }, 'slow');
-        }
-    }
+//    if(location.href === getBaseURL()+'/account/index.php') {
+//      if($('#create_logo textarea').val() !== "") {
+//        $('#create_logo').show();
+//        $('html, body').animate({
+//          scrollTop:$('#create_logo').offset().top
+//        }, 'slow');
+//      }
+//    }
 
 
 });
