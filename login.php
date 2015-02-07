@@ -11,17 +11,17 @@
    }
 
    // Fonction pour les requêtes avec en parametre les $_POST
-   if (isset($_POST['pseudo'])) {
+   if (isset($_POST['username'])) {
 
-     if (empty($_POST['pseudo']) || empty($_POST['password'])) {
+     if (empty($_POST['username']) || empty($_POST['password'])) {
        $message = 'Vous devez renseigner tous les champs';
      } else {
-       $pseudo = $_POST["pseudo"];
-       $result = login($pseudo);
+       $username = $_POST["username"];
+       $result = login($username);
        $data = $result->fetch();
       //  echo $data['password']. " => ". md5($_POST['password']);
        if ($data['password'] == md5($_POST['password'])) {
-         $_SESSION['pseudo'] = $data['pseudo'];
+         $_SESSION['username'] = $data['username'];
          $_SESSION['status'] = $data['status'];
          $_SESSION['id'] = $data['id'];
          $page = htmlspecialchars($_POST['page']);
@@ -44,9 +44,9 @@
           <form method="post" action="">
             <input type="hidden" name="page" value="<?php echo $_SERVER['HTTP_REFERER']; ?>">
             <div class="row_form">
-              <label for="pseudo">Pseudo *</label>
+              <label for="username">Pseudo *</label>
               <div class="input_connection">
-                <input name="pseudo" type="text" id="pseudo" tabindex="1"><br />
+                <input name="username" type="text" id="username" tabindex="1"><br />
               </div>
             </div>
             <div class="row_form">

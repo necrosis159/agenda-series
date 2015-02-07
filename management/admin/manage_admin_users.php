@@ -5,12 +5,12 @@
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/check_admin.php";
 
    // Récupération des utilisateur du site
-   $data = users_list();
+   $data = get_users();
 
-   $message = "";
+   $message = "Une erreur est survenue!";
 
    if(isset($_GET['delete']) && $_GET['delete'] != false) {
-      valid_message($message = "Utilisateur supprimé!");
+      valid_message("Utilisateur supprimé!");
    }
    elseif(isset($_GET['delete']) && $_GET['delete'] == false) {
       error_message($message);

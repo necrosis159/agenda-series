@@ -2,6 +2,13 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
+   if(isset($_GET['error_exists']) && $_GET['error_exists'] == true) {
+      valid_message("Aucun contenu ne possède cet ID!");
+   }
+   else if(isset($_GET['add_serie']) && $_GET['add_serie'] == true) {
+      valid_message("Ajout réussi. Article en attente de validation par un administrateur.");
+   }
+
    $data_comments = last_user_comments($_SESSION['id']);
 
    $data_articles = last_user_articles($_SESSION['id']);
@@ -10,7 +17,9 @@
 
 <div class="wrap">
    <section id="manage">
-   	<h5 class="heading">Mes derniers commentaires</h5>
+   	<h1 class="heading">Tableau de bord</h1>
+
+      <h2 class="heading">Mes derniers commentaires</h2>
 
       <table class="heavyTable">
          <thead>
@@ -35,7 +44,7 @@
                <td><?php echo date_convert($value['date_publication']); ?></td>
                <td class="table_mod">
                   <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_comment.php?id=<?php echo $id_comment; ?>">
-                     Voir
+                     <img class="tab_icons" src="../images/magnify.png" alt="Voir" />
                   </a>
                </td>
             </tr>
@@ -53,7 +62,7 @@
    </section>
 
    <section id="account">
-      <h5 class="heading">Mes derniers ajouts</h5>
+      <h2 class="heading">Mes derniers ajouts</h2>
 
       <table class="heavyTable">
          <thead>
@@ -78,11 +87,11 @@
                      <td><?php echo $value['serie_name']; ?></td>
                      <td><?php echo $value['name']; ?></td>
                      <td><?php echo $value['number']; ?></td>
-                     <td><?php if($value['status'] == 0) { echo '<span class="color_pending">En attente</span>'; } elseif($value['status'] == 1) { echo '<span class="color_validate">Validé</span>'; } else { echo '<span class="color_error">Refusé</span>'; } ?></td>
+                     <td><?php if($value['status'] == 1) { echo '<img class="tab_icons" src="../images/accept.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 2) { echo '<img class="tab_icons" src="../images/delete.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/pending.png" title="En attente" alt="En attente" />'; } ?></td>
                      <td><?php echo date_convert($value['release_date']); ?></td>
                      <td class="table_mod">
                         <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_article.php?id=<?php echo $id_article; ?>">
-                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
+                           <img class="tab_icons" src="../images/manage_edit.png" alt="Modifier" />
                         </a>
                      </td>
                   </tr>

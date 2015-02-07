@@ -6,7 +6,7 @@ function create_episode($id_user, $serie, $name, $season, $episode, $description
    $db = call_pdo();
 
    // Ajout des nouveaux champs de l'épisode
-   $query = $db->prepare('INSERT INTO episode VALUES ("" , "' . $name . '", "' . $season . '", "' . $serie . '", "' . $description . '", "' . $resume . '", "' . $release_date . '", "' . $duration . '", "' . $id_user . '", "' . $episode . '")');
+   $query = $db->prepare('INSERT INTO episode VALUES ("", "' . $name . '", "' . $season . '", "' . $serie . '", "' . $description . '", "' . $resume . '", "' . $release_date . '", "' . $duration . '", "' . $id_user . '", "' . $episode . '")');
 
    $query->execute();
 
@@ -57,7 +57,7 @@ function delete_episode($id) {
    }
 
    // Fonction de modification d'un épisode
-   function update_episode($id, $name, $resume, $number) {
+   function update_episode($id, $name, $resume) {
       // Connection à la base de données
       $db = call_pdo();
 
@@ -80,7 +80,9 @@ function delete_episode($id) {
 
       $query->execute();
 
-      return $query;
+      $result = $query->fetchAll();
+
+      return $result;
    }
 
 ?>

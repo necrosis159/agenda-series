@@ -29,6 +29,18 @@ body {
 	font-family: 'Lato', sans-serif;
 	font-size: 100%;
 }
+h1 {
+	text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	text-align: center !important;
+	font-size: 1.6em;
+}
+
+h2 {
+	text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	font-size: 1.2em !important;
+}
+
 .wrap {
 	margin: 0 auto;
 	width: 80%;
@@ -38,6 +50,13 @@ body {
 }
 #manage {
 	padding: 20px;
+}
+
+#manage a {
+	color: #21B7C6;
+}
+#manage a:hover {
+	color: #EB6841;
 }
 .admin_links {
 	margin: 20px 5px;
@@ -81,7 +100,7 @@ body {
 	/*margin: 0.5em;*/
 	font: bold 1em/2em Arial, Helvetica;
 	text-decoration: none;
-	color: #333;
+	color: #333 !important;
 	text-shadow: 0 1px 0 rgba(255,255,255,.8);
 	border-radius: .2em;
 	box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 rgba(0,0,0,.3);
@@ -355,13 +374,9 @@ body {
 	box-sizing: border-box;
 }
 
-h1 {
-	text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-	text-align: center;
-}
-
 .tab_icons {
-	width: 40px;
+	padding-top: 10px;
+	width: 22px;
 }
 
 table {
@@ -735,6 +750,7 @@ td input:focus {
 }
 
 /********end-blog**************/
+
 /*******star_blog_innerpage***/
 .para p,.text a,.heading_1{
 	font-size: 0.85em;
@@ -1520,6 +1536,8 @@ CONNECTION
 /***********************************************
 ACCOUNT
 ************************************************/
+
+/*Page mes séries*/
 #my_series {
 	padding-top: 3px;
 }
@@ -1635,6 +1653,7 @@ ACCOUNT
 	background-color: lightgrey;
 }
 
+/*Page profil*/
 #profile_avatar {
 	float: left;
 	margin-right: 50px;
@@ -1660,216 +1679,30 @@ ACCOUNT
 	margin-bottom: 10px;
 }
 
-/***********************************************
- 		FORMULAIRE INSCRIPTION, INFORMATIONS
-************************************************/
-
-.form_account_bloc {
-    margin: auto;
-    margin-bottom: 20px;
-    width: 70%;
+#create_logo {
+  clear: both;
+  background-color: #FFF;
+  border: 1px solid black;
+  width: 50%;
+  text-align: center;
+  margin: auto;
+  margin-top: 20px;
+  padding-bottom: 10px;
 }
 
-.form_account {
-	margin: auto;
-	padding: 10px;
+#font_bloc {
+  border: 1px solid black;
+  margin: auto;
+  width: 75%;
+  padding: 10px;
 }
 
-.form_account label {
-   float: left;
-   width: 100%;
-   display: block;
-   cursor: pointer;
+#create_logo p {
+  font-style: italic;
+  color : #696969;
 }
 
-/*.input_form {
-   width: 95%;
-   height: 30px;
-   cursor: pointer;
-}*/
-
-.form_account input:focus {
-    border: 1px solid black;
-}
-
-.form_account input[type="submit"] {
-    margin-left: 40%;
-}
-
-#erreurFormulaire {
-    color: #CC0000;
-    margin: auto;
-    width: 50%;
-    padding-top: 20px;
-}
-
-/***********************************************
-         		CONNECTION
-************************************************/
-
-#connection_bloc {
-	width: 50%;
-	margin: auto auto 100px;
-}
-
-.row_form {
-	margin: auto;
-	margin-bottom: 10px;
-}
-.row_form label {
-	width: 40%;
-	float: left;
-	text-align: right;
-	cursor: pointer;
-}
-
-.row_form input[type="submit"] {
-    margin: 20px 0 0 45%;
-}
-
-.input_connection {
-	margin-left: 45%;
-}
-
-.input_connection input {
-	width: 100%;
-	height: 20px;
-}
-
-/***********************************************
-         		ACCOUNT
-************************************************/
-#my_series {
-    padding-top: 3px;
-}
-
-#user_add_series {
-   margin: 2px 0 20px 0;
-   padding: 0 0 10px 10px;
-   display: block;
-   width: 100%;
-   background-color: #E1E1E1;
-   position: relative;
-}
-
-#user_series {
-   width: 100%;
-   margin: auto;
-   display: block;
-   float: left;
-   background-color: #E1E1E1;
-   margin-bottom: 20px;
-}
-
-#series_follow {
-  float: left;
-}
-
-.serie_user {
-    padding-left: 20px;
-    margin-bottom: 10px;
-    float: left;
-    position: relative;
-/*    width: 20%;*/
-    /*height: 300px;*/
-}
-
-.serie_delete {
-    z-index: 2;
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-}
-
-.image_serie {
-   height: 300px;
-   width: 200px;
-   /*float: left;*/
-   display: block;
-}
-
-.serie_title {
-    text-align: center;
-}
-
-.serie_user p {
-   float: left;
-   display: block;
-   position: relative;
-}
-
-.search_series {
-    margin: auto;
-    width: 100%;
-}
-
-.search_series input[type="text"] {
-    width: 25%;
-    margin-left: 30%;
-    font-family: 'Lato', sans-serif;
-    padding:8px 14px;
-    outline: none;
-    color: #969090;
-    line-height: 1.5em;
-    font-size: 1em;
-    border: 1px solid grey;
-}
-
-.search_series input[type="text"]:focus {
-    color: #969090;
-    border-color: rgba(41, 92, 161, 0.4);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(41, 92, 161, 0.6);
-    -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(41, 92, 161, 0.6);
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px rgba(41, 92, 161, 0.6);
-    outline: 0 none;
-}
-
-#results_bloc {
-    width: 100%;
-    margin: auto;
-    text-align: left;
-}
-
-#results {
-    display: none;
-    background-color: #FFF;
-    margin-left: 30%;
-    width: 25%;
-    border-left: 1px solid grey;
-    border-right: 1px solid grey;
-    border-bottom: 1px solid grey;
-    padding: 10px 0 10px 0;
-    position:absolute;
-    /*z-index:2;*/
-    left: 7px;
-}
-
-.serie_add {
-    cursor: pointer;
-    padding-left: 5px;
-    margin: 0 1px 1px 1px;
-}
-
-.serie_add:hover {
-    background-color: lightgrey;
-}
-
-#profile_avatar {
-    float: left;
-    margin-right: 50px;
-    margin-bottom: 20px;
-}
-
-.avatar_image {
-    height: 200px;
-    width: 200px;
-    margin-bottom: 20px;
-}
-
-#profile_informations {
-    float: left;
-}
-
-#profile_informations ul li {
-    margin-bottom: 10px;
+#create_logo textarea {
+  width: 200px;
+  height: 50px;
 }

@@ -8,7 +8,7 @@
 
 <div class="wrap">
    <section id="manage">
-      <h5 class="heading">Mes commentaires</h5>
+      <h1 class="heading">Mes commentaires</h1>
 
       <table class="heavyTable">
          <thead>
@@ -18,7 +18,7 @@
                <th>Mon commentaire</th>
                <th class="th_small">Date</th>
                <th class="th_small">Statut</th>
-               <th class="th_small">Modération</th>
+               <th class="th_small">Option</th>
             </tr>
          </thead>
          <tbody>
@@ -32,13 +32,10 @@
                      <td><?php echo $value['title']; ?></td>
                      <td><?php echo $value['content']; ?></td>
                      <td><?php if(isset($value['date_publication'])) { echo date_convert($value['date_publication']); } else { echo "Aucune date"; } ?></td>
-                     <td><?php echo $value['status']; ?></td>
+                     <td><?php if($value['status'] == 1) { echo '<img class="tab_icons" src="../images/accept.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 2) { echo '<img class="tab_icons" src="../images/delete.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/pending.png" title="En attente" alt="En attente" />'; } ?></td>
                      <td class="table_mod">
-                        <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_comment.php?id=<?php echo $id_comment; ?>">
-                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
-                        </a>
-                        <a href="#">
-                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_remove.png" alt="Supprimer" />
+                        <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_view_comment.php?id=<?php echo $id_comment; ?>">
+                           <img class="tab_icons" src="../images/magnify.png" alt="Modifier" />
                         </a>
                      </td>
                   </tr>

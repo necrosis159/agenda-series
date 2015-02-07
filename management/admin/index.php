@@ -2,11 +2,18 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
+   if(isset($_GET['add_user']) && $_GET['add_user'] == true) {
+      valid_message("L'utilisateur à bien été ajouté!");
+   }
+   else if(isset($_GET['add_serie']) && $_GET['add_serie'] == true) {
+      valid_message("Ajout réussi. Article en attente de validation par un administrateur.");
+   }
+
 ?>
 
 <div class="wrap">
    <section id="manage">
-      <h5 class="heading">Espace administration</h5>
+      <h1 class="heading">Espace administration</h1>
 
       <ul class="admin_links">
          <a href="manage_admin_users.php"><li>- Gérer des utilisteurs</li></a>

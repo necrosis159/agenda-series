@@ -8,7 +8,7 @@
 
 <div class="wrap">
    <section id="manage">
-      <h5 class="heading">Commentaires en attente</h5>
+      <h1 class="heading">Commentaires en attente</h1>
 
       <table class="heavyTable">
          <thead>

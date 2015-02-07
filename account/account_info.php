@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-$result = selectInfosUser();
+$result = selectInfosUser($_SESSION['id']);
 
 while ($data = $result->fetch()) {
   $id = $data["id"];
@@ -44,7 +44,7 @@ if (isset($_POST["submit"])) {
     }
 
     // On vérifie que le name et le Prénom ne sont pas égaux
-    if (!empty($name) && !empty($surname) && $name == $surname) {
+    if (!empty($name) && !empty($surname) && mb_strtolower($name) == mb_strtolower($surname)) {
       $arrayErrors[] = "Le prénom et le nom sont identiques";
       $error ++;
     }
@@ -52,7 +52,7 @@ if (isset($_POST["submit"])) {
     // Champ email
     if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
       // On vérifie si le mail existe dans la bdd et que ce n'est pas le mail de l'utilisateur
-      $result = isEmailExists($email);
+      $result = isEmailExistsWhenUpdate($_SESSION['id'], $email);
       if ($result->rowCount() > 0) {
         $arrayErrors[] = "Le mail existe déjà";
         $error ++;
@@ -70,10 +70,7 @@ if (isset($_POST["submit"])) {
     if ($error > 0) {
       array_unshift($arrayErrors, "Formulaire invalide");
     } else {
-      updateUser($gender, $name, $surname, $email, $password);
-      // $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
-      //                         VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".$password."', '".$birthdateFormat."')");
-      // $query->execute();
+      update_user($_SESSION['id'], $gender, $name, $surname, $email, $password);
     }
   } else {
     $arrayErrors[] = "Petit coquinou qui essaye d'insérer des champs :o";

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
    include $_SERVER['DOCUMENT_ROOT'] . '/tpl/functions/global_functions.php';
    include $_SERVER['DOCUMENT_ROOT'] . '/tpl/functions/user_functions.php';
@@ -9,7 +9,7 @@ session_start();
 $serie_id = $_GET['serie_id'];
 deleteSerieFollow($_SESSION['id'], $serie_id);
 
-$data = seriesUser();
+$data = seriesUser($_SESSION['id']);
 if (count($data)):
   ?>
   <ul>

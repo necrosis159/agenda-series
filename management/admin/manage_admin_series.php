@@ -2,8 +2,6 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   include $_SERVER['DOCUMENT_ROOT'] . "/tpl/check_admin.php";
-
    $data = get_series();
 
 ?>
@@ -40,8 +38,9 @@
                      <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_admin_edit_series.php?id=<?php echo $id_serie; ?>">
                         <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
                      </a>
+                     &nbsp;&nbsp;
                      <a href="#">
-                        <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_remove.png" alt="Supprimer" />
+                        <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/bin.png" title="Suspendre" alt="Suspendre" />
                      </a>
                   </td>
                </tr>

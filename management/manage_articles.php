@@ -10,7 +10,7 @@
 
 <div class="wrap">
    <section id="manage">
-      <h5 class="heading">Mes articles</h5>
+      <h1 class="heading">Mes articles</h1>
 
       <table class="heavyTable">
          <thead>
@@ -35,10 +35,7 @@
                      <td><?php if(isset($value['release_date'])) { echo date_convert($value['release_date']); } else { echo "Aucune date"; } ?></td>
                      <td class="table_mod">
                         <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_article.php?id=<?php echo $id_episode; ?>">
-                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
-                        </a>
-                        <a href="#">
-                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_remove.png" alt="Supprimer" />
+                           <img class="tab_icons" src="../images/manage_edit.png" title="Modifier" alt="Modifier" />
                         </a>
                      </td>
                   </tr>

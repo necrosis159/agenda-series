@@ -5,10 +5,16 @@
      // Connection à la base de données
      $db = call_pdo();
 
-     $query = $db->prepare("INSERT into user(gender, name, surname, email, username, password, birthdate)
-                            VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$username."', '".md5($password)."', '".$birthdate."')");
-     $query->execute();
+     // Ajout d'un avatar par défaut en fonction du genre de l'utilisateur
+      if ($gender == 1) {
+        $avatar = 'avatar/avatar_woman.png';
+      } else {
+        $avatar = 'avatar/avatar_man.png';
+      }
 
+     $query = $db->prepare("INSERT into user(gender, name, surname, avatar, email, username, password, birthdate)
+                            VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$avatar."', '".$email."', '".$username."', '".md5($password)."', '".$birthdate."')");
+     $query->execute();
    }
 
    // Requête pour vérifier que l'adresse mail d'un utilisateur n'existe pas déjà en base lors de son inscription
@@ -30,6 +36,17 @@
       $db = call_pdo();
 
       $query = $db->prepare("SELECT username FROM user where username = '".$username."'");
+      $query->execute();
+
+      return $query;
+   }
+// Requête pour vérifier que l'adresse mail d'un utilisateur n'existe pas déjà en base lors de son inscription
+   function isEmailExistsWhenUpdate($id, $email) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT email FROM user where email = '".$email."' and id != " . $id);
       $query->execute();
 
       return $query;
@@ -58,13 +75,13 @@
    }
 
    // Requête pour récupérer les informations sur un utilisateur
-   function selectInfosUser() {
+   function selectInfosUser($id) {
 
      // Connection à la base de données
      $db = call_pdo();
 
      $query = $db->prepare("SELECT * FROM user
-                                  WHERE id = '" . $_SESSION['id'] . "'
+                                  WHERE id = '" . $id . "'
                                   ORDER BY id");
      $query->execute();
 
@@ -72,7 +89,7 @@
    }
 
    // Requête pour récupérer les séries suivies d'un utilisateur
-   function seriesUser() {
+   function seriesUser($id) {
 
      // Connection à la base de données
      $db = call_pdo();
@@ -83,7 +100,7 @@
                                 AND u.id = :id_user
                                 LIMIT 0,10
                                 ");
-     $query->execute(array("id_user" => $_SESSION['id']));
+     $query->execute(array("id_user" => $id));
      $result = $query->fetchAll();
 
      return $result;
@@ -170,8 +187,8 @@
       $query->closeCursor();
    }
 
-   // Requête pour modifier les informations d'un utilisateur
-   function update_user($id, $name, $surname, $gender, $birthdate, $presentation, $username, $password, $email, $status) {
+   // Requête pour modifier les informations d'un utilisateur à partir de l'interface d'administration
+   function admin_update_user($id, $name, $surname, $gender, $birthdate, $presentation, $username, $password, $email, $status) {
 
       // Connection à la base de données
       $db = call_pdo();
@@ -182,8 +199,20 @@
       return $query;
    }
 
+   // Requête pour modifier les informations d'un utilisateur
+   function update_user($id, $gender, $name, $surname, $password, $email) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare('UPDATE user SET name = "' . $name . '", surname = "' . $surname . '", gender = "' . $gender . '", password = "' . md5($password) . '", email = "' . '" WHERE id = ' . $id);
+      $query->execute();
+
+
+   }
+
    // Fonction de récupération des utilisateurs du site
-   function users_list() {
+   function get_users() {
       // Connection à la base de données
       $db = call_pdo();
 
@@ -219,6 +248,32 @@
       }
 
       return $result;
+   }
+
+   function updateLastLogin($id) {
+     $db = call_pdo();
+     $currentDate = date("Y-m-d H:i:s");
+     $query = $db->prepare("UPDATE user SET last_login = '".$currentDate."' WHERE id = ".$id);
+     $query->execute();
+   }
+
+   function admin_add_user($presentation, $gender, $name, $surname, $email, $username, $password, $birthdate) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Ajout d'un avatar par défaut en fonction du genre de l'utilisateur
+      if ($gender == 1) {
+         $avatar = 'avatar/avatar_woman.png';
+      } else {
+         $avatar = 'avatar/avatar_man.png';
+      }
+
+      $query = $db->prepare("INSERT into user(presentation, gender, name, surname, avatar, email, username, password, birthdate)
+      VALUES('" . $presentation . "', " . $gender . ", '" . ucfirst($name) . "', '" . ucfirst($surname) . "', '" . $avatar . "', '" . $email . "', '" . $username . "', '" . md5($password) . "', '" . $birthdate . "')");
+      $query->execute();
+
+      return $query;
    }
 
 ?>

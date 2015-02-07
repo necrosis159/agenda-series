@@ -34,7 +34,7 @@
          $password = $_POST["password"];
 
          // Modification des informations
-         $result_update = update_user($id, $name, $surname, $gender, $birthdate, $presentation, $username, $password, $email, $status);
+         $result_update = admin_update_user($id, $name, $surname, $gender, $birthdate, $presentation, $username, $password, $email, $status);
       }
       else {
          $message = "Les deux mots de passe doivent correspondre!";
@@ -67,6 +67,8 @@
 <div class="wrap">
 
    <section id="manage">
+      <h1 class="heading">Modifier un compte :</h1>
+
       <h2 class="heading">Informations personnelles</h2>
 
       <form id="article_form" method="POST">
@@ -106,15 +108,11 @@
             </label>
          </div>
 
-         <h3 class="heading">Compte</h3>
+         <h2 class="heading">Compte</h2>
 
          <div>
-            <label>Statut
-               <select name="status" onchange="updated(this)">
-                  <option value="0" <?php if($data['status'] == 0) { echo "selected"; } ?>>Utilisateur</option>
-                  <option value="1" <?php if($data['status'] == 1) { echo "selected"; } ?>>Editeur</option>
-                  <option value="2" <?php if($data['status'] == 2) { echo "selected"; } ?>>Administrateur</option>
-               </select>
+            <label>Pseudo
+               <input id="username" name="username" type="text" value="<?php echo $data['username']; ?>" placeholder="Pseudonyme" required="required">
             </label>
          </div>
 
@@ -125,8 +123,12 @@
          </div>
 
          <div>
-            <label>Pseudo
-               <input id="username" name="username" type="text" value="<?php echo $data['username']; ?>" placeholder="Pseudonyme" required="required">
+            <label>Statut
+               <select name="status" onchange="updated(this)">
+                  <option value="0" <?php if($data['status'] == 0) { echo "selected"; } ?>>Utilisateur</option>
+                  <option value="1" <?php if($data['status'] == 1) { echo "selected"; } ?>>Editeur</option>
+                  <option value="2" <?php if($data['status'] == 2) { echo "selected"; } ?>>Administrateur</option>
+               </select>
             </label>
          </div>
 
@@ -143,7 +145,7 @@
          </div>
 
          <div>
-            <input name="submit" type="submit" value="Enregistrer"> <?php if($_SESSION['id']    != $id): ?><input name="submit_remove" type="submit" value="Suspendre"><?php endif; ?>
+            <input name="submit" type="submit" value="Enregistrer"> <?php if($_SESSION['id'] != $id): ?><input name="submit_remove" type="submit" value="Suspendre"><?php endif; ?>
          </div>
       </form>
 
