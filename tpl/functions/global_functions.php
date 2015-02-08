@@ -65,9 +65,7 @@
 
       $result = $query->fetch();
 
-      if(!$result) {
-         header('Location: index.php');
-      }
+      return $result;
    }
 
    // Fonction de vérification d'un administrateur
@@ -103,7 +101,7 @@
    // Fonction retourne un message de validation
    function error_message($message = 'Une erreur est survenue!') {
 
-      $result = '<p class="wrong">' . $message . '</p>';
+      $result = '<p class="wrong"><img class="message_icons" src="' . $_SERVER['DOCUMENT_ROOT'] . '/images/error.png" title="Erreur" alt="Erreur" align="middle"> &nbsp; ' . $message . '</p>';
 
       echo $result;
    }
@@ -111,7 +109,7 @@
    // Fonction retourne un message de validation
    function valid_message($message = '') {
 
-      $result = '<p class="right">' . $message . '</p>';
+      $result = '<p class="right"><img class="message_icons" src="' . $_SERVER['DOCUMENT_ROOT'] . '/images/valid.png" title="Réussi" alt="Réussi" align="middle"> &nbsp; ' . $message . '</p>';
 
       echo $result;
    }

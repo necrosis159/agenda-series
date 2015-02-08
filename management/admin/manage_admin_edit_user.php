@@ -2,14 +2,14 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   include $_SERVER['DOCUMENT_ROOT'] . "/tpl/check_admin.php";
-
    if(isset($_GET['id'])) {
       $id = $_GET['id'];
-   }
 
-   // Vérification de l'existance de l'utilisateur
-   check_record($id, "user");
+      // Test de l'existance de l'utilisateur
+      if(!check_record($id, "user")) {
+         header('Location: ./index.php?error_exists=true');
+      }
+   }
 
    // Initialisation du message d'erreur
    $message = "Une erreur s'est produite!";
@@ -56,7 +56,7 @@
    $data = get_user($id);
 
    if(isset($result_update) && $result_update != false) {
-      valid_message($message = "Modifications enregistrées!");
+      valid_message("Modifications enregistrées!");
    }
    elseif(isset($result_update) && $result_update == false) {
       error_message($message);

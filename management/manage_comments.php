@@ -25,14 +25,14 @@
             <?php
             if($data != false):
                foreach($data as $value):
-                  $id_comment = $value["id_user"];
+                  $id_comment = $value["id"];
                   ?>
                   <tr>
-                     <td><span style="color: #d8871e;"># </span><?php echo $value["id_user"]; ?></td>
+                     <td><span style="color: #d8871e;"># </span><?php echo $id_comment; ?></td>
                      <td><?php echo $value['title']; ?></td>
                      <td><?php echo $value['content']; ?></td>
                      <td><?php if(isset($value['date_publication'])) { echo date_convert($value['date_publication']); } else { echo "Aucune date"; } ?></td>
-                     <td><?php if($value['status'] == 1) { echo '<img class="tab_icons" src="../images/accept.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 2) { echo '<img class="tab_icons" src="../images/delete.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/pending.png" title="En attente" alt="En attente" />'; } ?></td>
+                     <td><?php if($value['status'] == 4) { echo '<img class="tab_icons" src="../images/valid.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 5) { echo '<img class="tab_icons" src="../images/error.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/warning.png" title="En attente" alt="En attente" />'; } ?></td>
                      <td class="table_mod">
                         <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_view_comment.php?id=<?php echo $id_comment; ?>">
                            <img class="tab_icons" src="../images/magnify.png" alt="Modifier" />

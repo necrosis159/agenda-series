@@ -193,7 +193,7 @@
       // Connection à la base de données
       $db = call_pdo();
 
-      $query = $db->prepare('UPDATE user SET name = "' . $name . '", surname = "' . $surname . '", gender = "' . $gender . '", presentation = "' . $presentation . '", username = "' . $username . '", password = "' . md5($password) . '", email = "' . $email . '", status = "' . $status . '" WHERE id = ' . $id);
+      $query = $db->prepare('UPDATE user SET name = "' . $name . '", surname = "' . $surname . '", gender = "' . $gender . '", birthdate = "' . $birthdate . '", presentation = "' . $presentation . '", username = "' . $username . '", password = "' . md5($password) . '", email = "' . $email . '", status = "' . $status . '" WHERE id = ' . $id);
       $query->execute();
 
       return $query;

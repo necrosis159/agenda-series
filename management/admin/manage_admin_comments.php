@@ -34,11 +34,12 @@
                      <td><?php if(isset($value['date_publication'])) { echo date_convert($value['date_publication']); } else { echo "Aucune date"; } ?></td>
                      <td><?php echo $value['status']; ?></td>
                      <td class="table_mod">
-                        <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_comment.php?id=<?php echo $id_comment; ?>">
+                        <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_admin_edit_comment.php?id=<?php echo $id_comment; ?>">
                            <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
                         </a>
+                        &nbsp;
                         <a href="#">
-                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_remove.png" alt="Supprimer" />
+                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/trash.png" alt="Désactiver" />
                         </a>
                      </td>
                   </tr>

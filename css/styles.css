@@ -58,6 +58,9 @@ h2 {
 #manage a:hover {
 	color: #EB6841;
 }
+#article_form {
+	margin-top: 15px;
+}
 .admin_links {
 	margin: 20px 5px;
 }
@@ -376,6 +379,10 @@ h2 {
 
 .tab_icons {
 	padding-top: 10px;
+	width: 22px;
+}
+
+.message_icons {
 	width: 22px;
 }
 
@@ -1664,6 +1671,10 @@ ACCOUNT
 	height: 200px;
 	width: 200px;
 	margin-bottom: 20px;
+}
+
+.thumb {
+	width: 35%;
 }
 
 #avatar_modify {

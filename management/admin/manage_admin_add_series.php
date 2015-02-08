@@ -8,6 +8,10 @@
    // Récupération des status
    $status_data = get_status();
 
+   // Initialisation de la taille maximale de l'image
+   $maxsize = ini_get("upload_max_filesize");
+   $maxsize_octet = 1024 * 1024 * str_replace("M", "", $maxsize);
+
    // Initialisation du message d'erreur
    $message = "Une erreur s'est produite!";
 
@@ -25,7 +29,50 @@
       $channel = $_POST["channel"];
       $year_start = $_POST["year_start"];
       $year_end = $_POST["year_end"];
-      if(isset($_POST["image"])) { die("ok"); $image = $_POST["image"]; } else { $image = ""; };
+      $image = "";
+
+      if(isset($_FILES['file']))
+      {
+         // Test de la présence d'une image
+         if($_FILES['file']['error'] == 0)
+         {
+            // Test de la taille de l'image
+            if($_FILES['file']['size'] < $maxsize_octet)
+            {
+               // Initialisation du répertoire de destination
+               $uploads_dir = $_SERVER['DOCUMENT_ROOT'] . '/images/series/';
+
+               // Initialisation du tableau des formats acceptés
+               $tabExt = array('jpg','png','jpeg');
+
+               //Récupération des champs
+               $file_name = $_FILES['file']['name'];
+               $extension  = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+
+               // Test de l'existance du dossier de destination et s'il n'existe pas on le créée
+               if(!file_exists($uploads_dir))
+               {
+                  mkdir($uploads_dir);
+               }
+
+               //Test de l'extension du fichier passé
+               if(in_array(strtolower($extension), $tabExt))
+               {
+                  move_uploaded_file($_FILES['file']['tmp_name'], $uploads_dir . $file_name);
+                  $image = 'series/' . $file_name;
+               }
+               else
+               {
+                  $message = "L'extension ne correspond pas!";
+               }
+            }
+            else
+            {
+               $message = "La taille de votre image est trop grande!";
+            }
+         }
+      }
+
       $video = $_POST["video"];
       $rewrite = $_POST["rewrite"];
       $category = $_POST["category"];
@@ -38,13 +85,13 @@
 
    }
 
-   // Récupération des séries dans la BDD
-   $series_list = get_series();
-
    if(isset($result_insert) && $result_insert != false) {
-      header('Location: index.php?add_series=true');
+      header('Location: manage_admin_series.php?add_series=true');
    }
    elseif(isset($result_insert) && $result_insert == false) {
+      error_message($message);
+   }
+   elseif(isset($image_error) && $image_error == false) {
       error_message($message);
    }
 
@@ -54,9 +101,7 @@
    <section id="manage">
       <h1 class="heading">Ajouter une nouvelle série</h1>
 
-      <a class="button" href="">Ajouter une saison</a>
-
-      <form id="article_form" method="POST">
+      <form id="article_form" method="POST" enctype='multipart/form-data'>
 
          <div>
             <label>Nom
@@ -144,14 +189,14 @@
          <h2 class="heading">Partie média :</h2>
 
          <div>
-            <label>Lien vidéo
-               <input id="video" name="video" type="text" placeholder="Lien vers la vidéo">
+            <label>Image de la série<br>
+               <input name="file" type='file' maxlength='<?php echo $maxsize_octet; ?>'>
             </label>
          </div>
 
          <div>
-            <label>Image de la série<br>
-               <input name="image" type='file' accept='image/gif image/png' maxlength='200000'>
+            <label>Lien vidéo
+               <input id="video" name="video" type="text" placeholder="Lien vers la vidéo">
             </label>
          </div>
 
