@@ -1,10 +1,9 @@
 <?php
+include"tpl/top.php";
 
-   include"tpl/top.php";
-
-   if(isset($_SESSION['id'])) {
-      header('Location: ../account/index.php');
-   }
+if (isset($_SESSION['id'])) {
+  header('Location: ../account/index.php');
+}
 
 // Test des champs du formulaire à l'envoi
 if (isset($_POST["submit"])) {
@@ -25,13 +24,13 @@ if (isset($_POST["submit"])) {
     $birthdate = trim($_POST['birthdate']);
 
     // Champ name
-    if (strlen($name) > 50) {
+    if (empty($name) || strlen($name) > 50) {
       $arrayErrors[] = "Le nom n'est pas valide";
       $error ++;
     }
 
     // Champ Prénom
-    if (strlen($surname) > 50) {
+    if (empty($surname) || strlen($surname) > 50) {
       $arrayErrors[] = "Le prénom n'est pas valide";
       $error ++;
     }
@@ -128,78 +127,69 @@ if (isset($_POST["submit"])) {
       valid_message("Inscription réussie");
     }
   } else {
-      error_message("Une erreur s'est produite !");
+    error_message("Une erreur s'est produite !");
   }
 }
 ?>
+<div id="erreurFormulaire" style="display: none;">
+    <?php
+    if (isset($_POST["submit"])) :
+      if (count($arrayErrors) > 0) :
+      echo error_message($arrayErrors[0]);
+      endif;
+    endif;
+    ?>
+  </div>
 <div class="wrap">
+  <h5 class="heading">Inscription</h5>
   <div class="form_account_bloc">
-    <div id="erreurFormulaire">
-<?php
-if (isset($_POST["submit"])) :
-  if (count($arrayErrors) > 0) : ?>
-<?php
-    foreach ($arrayErrors as $row) : ?>
-        <?php error_message($row); ?>
-<?php
-    endforeach; ?>
-<?php
-  endif;
-endif;
-?>
-    </div>
-    <h5 class="heading">Inscription</h5>
-    <fieldset>
-      <legend>Inscription</legend>
+    <form action="" method="POST" id="article_form">
 
-      <form action="" method="POST" id="article_form">
+      <label for="name">Nom *
+        <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
+      </label>
 
-          <label for="name">Nom *
-          <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
-          </label>
+      <label for="surname">Prénom *
+        <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
+      </label>
 
-          <label for="surname">Prénom *
-          <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
-          </label>
+      <label for="gender">Genre *
+        <p>
 
-          <label for="gender">Genre *
-            <p>
-              
-              <input type='radio' name='gender' value='0' checked> Masculin
-              <input type='radio' name='gender' value='1' <?php if (isset($gender) && $gender == 1) echo "checked";?> > Féminin
-            </p>
-          </label>
+          <input type='radio' name='gender' value='0' checked> Masculin
+          <input type='radio' name='gender' value='1' <?php if (isset($gender) && $gender == 1) echo "checked"; ?> > Féminin
+        </p>
+      </label>
 
-          <label for="email">Adresse Mail *
-          <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
-          </label>
+      <label for="email">Adresse Mail *
+        <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
+      </label>
 
-          <label for="username">Pseudo *
-          <input type='text' id='username' name='username' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($username)) echo $username ?>'>
-          </label>
+      <label for="username">Pseudo *
+        <input type='text' id='username' name='username' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($username)) echo $username ?>'>
+      </label>
 
-          <label for="password">Mot de passe *
-          <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="20" value='<?php if (isset($password)) echo $password ?>'>
-          </label>
+      <label for="password">Mot de passe *
+        <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="20" value='<?php if (isset($password)) echo $password ?>'>
+      </label>
 
-          <label for="password_confirm">Confirmation mot de passe *
-          <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
-          </label>
+      <label for="password_confirm">Confirmation mot de passe *
+        <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
+      </label>
 
-          <label for="birthdate">Date de naissance *
-          <input type="date" id="birthdate" name="birthdate" size="30"  class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10" value='<?php if (isset($birthdate)) echo $birthdate ?>'>
-          </label>
+      <label for="birthdate">Date de naissance *
+        <input type="date" id="birthdate" name="birthdate" size="30"  class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10" value='<?php if (isset($birthdate)) echo $birthdate ?>'>
+      </label>
 
-          <br/><br/>
-          * Champs obligatoires
-          <br/><br/>
-          <input class="button" type='submit' id='submit' name='submit' value='Envoyer'>
+      <br/><br/>
+      * Champs obligatoires
+      <br/><br/>
+      <input class="button" type='submit' id='submit' name='submit' value='Envoyer'>
 
-      </form>
-    </fieldset>
+    </form>
   </div>
 </div>
 
 <?php
-   include("tpl/footer.php");
+include("tpl/footer.php");
 ?>

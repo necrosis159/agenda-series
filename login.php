@@ -41,10 +41,8 @@
 ?>
 
   <div class="wrap">
+    <h5 class="heading">Connexion</h5>
     <div id='connection_bloc'>
-      <h5 class="heading">Connexion</h5>
-        <fieldset>
-          <legend>Connexion</legend>
           <form method="post" action="" id="article_form">
             <input type="hidden" name="page" value="<?php echo $_SERVER['HTTP_REFERER']; ?>">
             <label for="username">Pseudo
@@ -55,11 +53,10 @@
             </label>
             <div id="connection_btn_bloc">
               <input class="button" type="submit" value="Connexion">
-              <input class="button" type="button" value="S'inscrire">
+              <a href="register.php" class="button">S'inscrire</a>
             </div>
           </form>
           <!--<a href="./register.php">Pas encore inscrit ?</a>-->
-        </fieldset>
     </div>
   </div>
 

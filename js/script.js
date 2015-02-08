@@ -241,5 +241,7 @@ $(document).ready(function() {
 //      }
 //    }
 
-
+if(typeof($('#erreurFormulaire')) !== 'undefined' && $.trim($('#erreurFormulaire').html()) !== "") {
+  $('#erreurFormulaire').show();
+}
 });

@@ -248,6 +248,16 @@
    function updateAvatar($id, $imageUrl) {
      $db = call_pdo();
      
+     // Récupère l'avatar de l'utilisateur
+     $query = $db->prepare("SELECT avatar FROM user WHERE id = ".$id);
+     $query->execute();
+     $data = $query->fetch();
+     // Supprime l'avatar de l'utilisateur si ce n'est pas celui par défaut 
+     if($data['avatar'] != 'avatar/avatar_man.png' && $data['avatar'] != 'avatar/avatar_woman.png') {
+       unlink('../'.$data['avatar']);
+     }
+     
+     // Ajoute le nouvel avatar de l'utilisateur
      $query = $db->prepare("UPDATE user SET avatar = '".$imageUrl."' WHERE id = ".$id);
      $query->execute();
    }

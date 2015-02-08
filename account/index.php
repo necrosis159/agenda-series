@@ -42,7 +42,6 @@ if (isset($_POST["submit"])) {
             // ici on fait tout
             // On transfert le fichier dans le répertoire d'upload
             if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_directory . "/" . $nom)) {
-              // echo "Transfert réussi<br/>";
               // Création de l'image en fonction de l'extension
               if ($extension_upload == "png") {
                 $image = imagecreatefrompng($upload_directory . "/" . $nom);
@@ -132,10 +131,9 @@ if (isset($_POST["submit"])) {
 //                echo "<a href=\"download.php?file=" . $nom . "&root=" . $upload_directory . "/\">Télécharger</a>";
 //                echo "<br/><br/>";
 //                echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
-                updateAvatar($_SESSION['id'], '/images/avatar/'.$nom);
-                $newAvatarUrl = '/images/avatar/'.$nom;
+                updateAvatar($_SESSION['id'], 'avatar/'.$nom);
+                $newAvatarUrl = 'avatar/'.$nom;
                 $error = -1;
-                echo "<br/>";
               } else {
                 error_message("Erreur de paramètres du texte");
               }
@@ -177,7 +175,7 @@ if (isset($_POST["submit"])) {
 if(isset($error) && $error == -1) {
   valid_message('Avatar modifié');
 }
-if(isset($_FILES) && isset($_POST['submit'])) {
+if(isset($newAvatarUrl)) {
   $avatar = $newAvatarUrl;
 }
 ?>
@@ -186,7 +184,7 @@ if(isset($_FILES) && isset($_POST['submit'])) {
   <div class="wrap">
     <h1 class="heading">Mon Profil</h1>
     <div id="profile_avatar">
-      <img src="..<?php echo $avatar; ?>" class="avatar_image">
+      <img src="../images/<?php echo $avatar; ?>" class="avatar_image">
       <div id='avatar_modify'>
         <a href='#' class="button">Modifier l'Avatar</a>
       </div>

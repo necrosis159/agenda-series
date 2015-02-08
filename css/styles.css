@@ -1449,6 +1449,9 @@ FORMULAIRE INSCRIPTION, INFORMATIONS
 	margin: auto;
 	margin-bottom: 20px;
 	width: 70%;
+        border: 1px solid #CFD1D6;
+        padding: 25px;
+        border-radius: 3px;
 }
 
 .form_account {
@@ -1473,9 +1476,9 @@ FORMULAIRE INSCRIPTION, INFORMATIONS
 
 #erreurFormulaire {
 	color: #CC0000;
-	margin: auto;
-	width: 50%;
-	padding-top: 20px;
+	margin: 0;
+	padding-top: 1px;
+        display: none;
 }
 
 /***********************************************
@@ -1485,6 +1488,9 @@ CONNECTION
 #connection_bloc {
 	width: 50%;
 	margin: auto auto 100px;
+        border: 1px solid #CFD1D6;
+        padding: 20px;
+        border-radius: 3px;
 }
 
 #connection_btn_bloc {
