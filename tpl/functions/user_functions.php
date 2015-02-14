@@ -269,8 +269,8 @@
    function gs_get_user($search) {
      $db = call_pdo();
      
-     $query = $db->prepare("SELECT id, username, avatar FROM user WHERE surname LIKE :surname LIMIT 0,5");
-     $query->execute(array("surname" => "%".$search."%"));
+     $query = $db->prepare("SELECT id, username, avatar FROM user WHERE username LIKE :username LIMIT 0,5");
+     $query->execute(array("username" => "%".$search."%"));
      
      $result = $query->fetchAll();
      
