@@ -101,7 +101,7 @@
    // Fonction retourne un message de validation
    function error_message($message = 'Une erreur est survenue!') {
 
-      $result = '<p class="wrong"><img class="message_icons" src="' . $_SERVER['DOCUMENT_ROOT'] . '/images/error.png" title="Erreur" alt="Erreur" align="middle"> &nbsp; ' . $message . '</p>';
+      $result = '<p class="wrong"><img class="message_icons" src="/images/error.png" title="Echec" alt="Echec" align="middle"> &nbsp; ' . $message . '</p>';
 
       echo $result;
    }
@@ -109,9 +109,64 @@
    // Fonction retourne un message de validation
    function valid_message($message = '') {
 
-      $result = '<p class="right"><img class="message_icons" src="' . $_SERVER['DOCUMENT_ROOT'] . '/images/valid.png" title="Réussi" alt="Réussi" align="middle"> &nbsp; ' . $message . '</p>';
+      $result = '<p class="right"><img class="message_icons" src="/images/valid.png" title="Réussi" alt="Réussi" align="middle"> &nbsp; ' . $message . '</p>';
 
       echo $result;
+   }
+
+   // Fonction de calcul de la pagination
+   function pagination($rows, $table, $current_page) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare('SELECT COUNT(*) AS total FROM ' . $table); // Nous récupérons le contenu de la requête.
+      $query->execute(array('total'));
+
+      $result = $query->fetch(PDO::FETCH_ASSOC); // On range le retour sous la forme d'un tableau.
+
+      $total = $result['total']; // On récupère le total pour le placer dans la variable $total.
+
+      // Nous allons maintenant compter le nombre de pages.
+      $pages_number = ceil($total / $rows);
+
+      return $pages_number;
+   }
+
+   // Fonction de récupération des données de la pagination
+   function pagination_data($rows, $current_page, $pages_number, $table, $status_table = '') {
+
+      if($current_page > $pages_number) // Si la valeur de $current_page (le numéro de la page) est plus grande que $pages_number.
+      {
+         $current_page = $pages_number;
+      }
+
+      $first_entries = ($current_page - 1) * $rows; // On calcul la première entrée à lire
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Découpage de la requête avec test de l'existance d'un statut
+      $query = 'SELECT T.*';
+
+      // Test du statut pour le SELECT
+      if($status_table != "") {
+         $query .= ', OT.name AS status_name';
+      }
+      $query .= ' FROM ' . $table . ' T';
+
+      // Test du statut pour le FROM et condition dans le WHERE
+      if($status_table != "") {
+         $query .= ', ' . $status_table . ' OT WHERE T.status = OT.id';
+      }
+      $query .= ' ORDER BY T.id LIMIT ' . $first_entries . ', ' . $rows;
+
+      $query = $db->prepare($query);
+
+      $query->execute();
+
+      $data = $query->fetchAll();
+
+      return $data;
    }
 
 ?>

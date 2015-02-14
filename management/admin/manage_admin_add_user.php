@@ -47,6 +47,8 @@
    <section id="manage">
       <h1 class="heading">Ajouter un nouvel utilisateur</h1>
 
+      <a class="button" href="manage_admin_users.php">Retour à la liste des utilisateurs</a>
+
       <form id="article_form" method="POST">
 
          <div>

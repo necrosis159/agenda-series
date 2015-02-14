@@ -5,6 +5,12 @@
    if(isset($_GET['add_series']) && $_GET['add_series'] == true) {
       valid_message("La série à bien été ajoutée!");
    }
+   else if(isset($_GET['error_selected']) && $_GET['error_selected'] == true) {
+      error_message("Aucune série n'a été sélectionnée!");
+   }
+   else if(isset($_GET['error_exists']) && $_GET['error_exists'] == true) {
+      error_message("Le contenu n'existe pas!");
+   }
    else if(isset($_GET['action']) && $_GET['action'] == "delete") {
 
       $id = $_GET['id'];
@@ -26,7 +32,7 @@
 
 <div class="wrap">
    <section id="manage">
-      <h5 class="heading">Propositions de séries</h5>
+      <h1 class="heading">Gestion des séries</h1>
 
       <a class="button" href="manage_admin_add_series.php">Ajouter une série</a>
 
@@ -68,7 +74,7 @@
 
                   <td class="table_mod">
                      <a href="./manage_admin_edit_series.php?id=<?php echo $id_serie; ?>">
-                        <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
+                        <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" title="Modifier" alt="Modifier" />
                      </a>
                      &nbsp; &nbsp;
                      <?php if($value['status'] != 3): ?>

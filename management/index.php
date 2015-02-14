@@ -28,7 +28,7 @@
                <th>Série</th>
                <th>Commentaire</th>
                <th class="th_small">Date d'ajout</th>
-               <th class="th_small">Statut</th>
+               <!-- <th class="th_small">Statut</th> -->
                <th class="th_small">Options</th>
             </tr>
          </thead>
@@ -43,7 +43,7 @@
                <td><?php echo $value['title']; ?></td>
                <td><?php echo $value['content']; ?></td>
                <td><?php echo date_convert($value['date_publication']); ?></td>
-               <td><?php if($value['status'] == 1) { echo '<img class="tab_icons" src="../images/valid.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 2) { echo '<img class="tab_icons" src="../images/error.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/warning.png" title="En attente" alt="En attente" />'; } ?></td>
+               <!-- <td><?php if($value['status'] == 1) { echo '<img class="tab_icons" src="../images/valid.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 2) { echo '<img class="tab_icons" src="../images/error.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/warning.png" title="En attente" alt="En attente" />'; } ?></td> -->
                <td class="table_mod">
                   <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_view_comment.php?id=<?php echo $id_comment; ?>">
                      <img class="tab_icons" src="../images/magnify.png" alt="Voir" />
@@ -64,7 +64,7 @@
    </section>
 
    <section id="account">
-      <h2 class="heading">Mes derniers ajouts</h2>
+      <h2 class="heading">Mes derniers articles</h2>
 
       <table class="heavyTable">
          <thead>

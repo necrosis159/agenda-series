@@ -104,7 +104,7 @@
                   <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
                   <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
                   <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_view_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
-                  <?php if($_SESSION['status'] == 1): ?><li <?php if($dir_name == "admin"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/admin/index.php">Administration</a></li><?php endif; ?>
+                  <?php if($_SESSION['status'] == 2): ?><li <?php if($dir_name == "admin"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/admin/index.php">Administration</a></li><?php endif; ?>
                </ul>
             </nav>
          </div>
@@ -114,7 +114,7 @@
 
             <div class="h_menu">
                <ul>
-                  <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
+                  <li <?php if($page_name == "index.php" && $dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
                   <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_add_proposal.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
                   <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_view_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
                   <?php if($_SESSION['status'] == 2): ?><li <?php if($dir_name == "admin"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/admin/index.php">Administration</a></li><?php endif; ?>

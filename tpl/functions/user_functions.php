@@ -216,7 +216,7 @@
       // Connection à la base de données
       $db = call_pdo();
 
-      $query = $db->prepare("SELECT U.*, SU.name FROM user U, status_user SU WHERE U.status = SU.id GROUP BY U.id");
+      $query = $db->prepare("SELECT SU.name FROM user U, status_user SU WHERE U.status = SU.id");
 
       $query->execute();
 

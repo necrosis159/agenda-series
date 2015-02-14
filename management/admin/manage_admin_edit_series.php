@@ -6,7 +6,7 @@
       $id = $_GET['id'];
 
       // Test de l'existance de la série
-      if(!check_record($id, "serie")) {
+      if(!$serie_data = check_record($id, "serie")) {
          header('Location: ./index.php?error_exists=true');
       }
    }
@@ -28,14 +28,13 @@
 
       $id_user = $_SESSION['id'];
 
-      if(isset($_FILES['file']))
-      {
+      $image = $_POST["image"];
+
+      if(isset($_FILES['file'])) {
          // Test de la présence d'une image
-         if($_FILES['file']['error'] == 0)
-         {
+         if($_FILES['file']['error'] == 0) {
             // Test de la taille de l'image
-            if($_FILES['file']['size'] < $maxsize_octet)
-            {
+            if($_FILES['file']['size'] < $maxsize_octet) {
                // Initialisation du répertoire de destination
                $uploads_dir = $_SERVER['DOCUMENT_ROOT'] . '/images/series/';
 
@@ -47,52 +46,45 @@
                $extension  = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
                // Test de l'existance du dossier de destination et s'il n'existe pas on le créée
-               if(!file_exists($uploads_dir))
-               {
+               if(!file_exists($uploads_dir)) {
                   mkdir($uploads_dir);
                }
 
                // Test de l'extension du fichier passé
-               if(in_array(strtolower($extension), $tabExt))
-               {
+               if(in_array(strtolower($extension), $tabExt)) {
                   move_uploaded_file($_FILES['file']['tmp_name'], $uploads_dir . $file_name);
                   $image = 'series/' . $file_name;
                }
-               else
-               {
+               else {
                   $message = "L'extension de l'image n'est pas autorisée!";
                   $image_error = true;
                }
             }
-            else
-            {
+            else {
                $message = "La taille de votre image est trop grande!";
                $image_error = true;
             }
          }
-         else
-         {
-            $result_update = false;
 
-            // Récupération des champs
-            $name = $_POST["name"];
-            $short_description = $_POST["short_description"];
-            $description = $_POST["description"];
-            $nationality = $_POST["nationality"];
-            $channel = $_POST["channel"];
-            $year_start = $_POST["year_start"];
-            $year_end = $_POST["year_end"];
-            $image = $_POST["image"];
-            $video = $_POST["video"];
-            $rewrite = $_POST["rewrite"];
-            $category = $_POST["category"];
-            $meta_keywords = $_POST["meta_keywords"];
-            $status = $_POST["status"];
-            $highlight = $_POST["highlight"];
+         $result_update = false;
 
-            // Modification du contenu
-            $result_update = update_serie($id, $name, $short_description, $description, $nationality, $channel, $year_start, $year_end, $image, $video, $rewrite, $category, $status, $meta_keywords, $id_user, $highlight);
-         }
+         // Récupération des champs
+         $name = $_POST["name"];
+         $short_description = $_POST["short_description"];
+         $description = $_POST["description"];
+         $nationality = $_POST["nationality"];
+         $channel = $_POST["channel"];
+         $year_start = $_POST["year_start"];
+         $year_end = $_POST["year_end"];
+         $video = $_POST["video"];
+         $rewrite = $_POST["rewrite"];
+         $category = $_POST["category"];
+         $meta_keywords = $_POST["meta_keywords"];
+         $status = $_POST["status"];
+         $highlight = $_POST["highlight"];
+
+         // Modification du contenu
+         $result_update = update_serie($id, $name, $short_description, $description, $nationality, $channel, $year_start, $year_end, $image, $video, $rewrite, $category, $status, $meta_keywords, $id_user, $highlight);
       }
    }
 
@@ -113,9 +105,11 @@
 
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Modifier une série</h1>
+      <h1 class="heading">Modification d'une série : "<?php echo $serie_data['name']; ?>"</h1>
 
-      <p align="center"><a class="button" href="#">Ajouter une saison</a> &nbsp; <a class="button" href="#">Ajouter un épisode</a></p>
+      <a class="button" href="manage_admin_series.php">Retour à la liste des séries</a><br>
+
+      <p align="right"><a class="button" href="manage_admin_add_season.php?id=<?php echo $id; ?>">Ajouter une saison</a> &nbsp; <a class="button" href="manage_admin_seasons.php?id=<?php echo $id; ?>">Modifier une saison</a></p>
 
       <form id="article_form" method="POST" enctype='multipart/form-data'>
 
@@ -161,13 +155,13 @@
 
          <div>
             <label>Date de début
-               <input type="text" id="year_start" name="year_start" size="30" class="input_form" value="<?php echo $data["year_start"]; ?>" placeholder="AAAA" maxlength="4">
+               <input type="text" id="year_start" name="year_start" size="30" class="input_form" <?php if($data["year_start"] != 0000): ?> value="<?php echo $data["year_start"]; ?>" <?php endif; ?> placeholder="AAAA" maxlength="4">
             </label>
          </div>
 
          <div>
             <label>Date de fin
-               <input type="text" id="year_end" name="year_end" max="year" size="30" class="input_form" value="<?php echo $data["year_end"]; ?>" placeholder="AAAA" maxlength="4">
+               <input type="text" id="year_end" name="year_end" max="year" size="30" class="input_form" <?php if($data["year_end"] != 0000): ?> value="<?php echo $data["year_end"]; ?>" <?php endif; ?> placeholder="AAAA" maxlength="4">
             </label>
          </div>
 

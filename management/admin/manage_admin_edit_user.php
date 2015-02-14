@@ -67,7 +67,9 @@
 <div class="wrap">
 
    <section id="manage">
-      <h1 class="heading">Modifier un compte :</h1>
+      <h1 class="heading">Modifier un compte : "<?php echo $data['username']; ?>"</h1>
+
+      <a class="button" href="manage_admin_users.php">Retour à la liste des utilisateurs</a>
 
       <h2 class="heading">Informations personnelles</h2>
 

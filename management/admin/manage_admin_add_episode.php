@@ -2,15 +2,14 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   // Récupération des catégories séries
-   $category_data = get_categories();
+   // Récupération de la série
+   $serie_data = get_serie();
+
+   // Récupération de la saison
+   $season_data = get_season();
 
    // Récupération des status
    $status_data = get_status();
-
-   // Initialisation de la taille maximale de l'image
-   $maxsize = ini_get("upload_max_filesize");
-   $maxsize_octet = 1024 * 1024 * str_replace("M", "", $maxsize);
 
    // Initialisation du message d'erreur
    $message = "Une erreur s'est produite!";
@@ -25,48 +24,6 @@
       $name = $_POST["name"];
       $short_description = $_POST["short_description"];
       $description = $_POST["description"];
-      $nationality = $_POST["nationality"];
-      $channel = $_POST["channel"];
-      $year_start = $_POST["year_start"];
-      $year_end = $_POST["year_end"];
-      $image = "";
-
-      if(isset($_FILES['file'])) {
-         // Test de la présence d'une image
-         if($_FILES['file']['error'] == 0) {
-            // Test de la taille de l'image
-            if($_FILES['file']['size'] < $maxsize_octet) {
-               // Initialisation du répertoire de destination
-               $uploads_dir = $_SERVER['DOCUMENT_ROOT'] . '/images/series/';
-
-               // Initialisation du tableau des formats acceptés
-               $tabExt = array('jpg','png','jpeg');
-
-               //Récupération des champs
-               $file_name = $_FILES['file']['name'];
-               $extension  = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
-
-               // Test de l'existance du dossier de destination et s'il n'existe pas on le créée
-               if(!file_exists($uploads_dir)) {
-                  mkdir($uploads_dir);
-               }
-
-               //Test de l'extension du fichier passé
-               if(in_array(strtolower($extension), $tabExt)) {
-                  move_uploaded_file($_FILES['file']['tmp_name'], $uploads_dir . $file_name);
-                  $image = 'series/' . $file_name;
-               }
-               else {
-                  $message = "L'extension ne correspond pas!";
-               }
-            }
-            else
-            {
-               $message = "La taille de votre image est trop grande!";
-            }
-         }
-      }
-
       $video = $_POST["video"];
       $rewrite = $_POST["rewrite"];
       $category = $_POST["category"];
@@ -75,12 +32,12 @@
       $highlight = $_POST["highlight"];
 
       // Ajout du contenu
-      $result_insert = create_serie($name, $short_description, $description, $nationality, $channel, $year_start, $year_end, $image, $video, $rewrite, $category, $status, $meta_keywords, $id_user, $highlight);
+      $result_insert = create_episode($name, $short_description, $description, $nationality, $channel, $year_start, $year_end, $image, $video, $rewrite, $category, $status, $meta_keywords, $id_user, $highlight);
 
    }
 
    if(isset($result_insert) && $result_insert != false) {
-      header('Location: manage_admin_series.php?add_series=true');
+      header('Location: manage_admin_series.php?add_episode=true');
    }
    elseif(isset($result_insert) && $result_insert == false) {
       error_message($message);
@@ -93,9 +50,7 @@
 
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Ajouter une nouvelle série</h1>
-
-      <a class="button" href="manage_admin_series.php">Retour à la liste des séries</a>
+      <h1 class="heading">Ajouter d'un épisode : <?php echo $serie_data['name']; ?></h1>
 
       <form id="article_form" method="POST" enctype='multipart/form-data'>
 
@@ -141,13 +96,13 @@
 
          <div>
             <label>Date de début
-               <input type="text" id="year_start" name="year_start" size="30" class="input_form" placeholder="AAAA" maxlength="4">
+               <input type="date" id="year_start" name="year_start" size="30" class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10">
             </label>
          </div>
 
          <div>
             <label>Date de fin
-               <input type="text" id="year_end" name="year_end" max="year" size="30" class="input_form" placeholder="AAAA" maxlength="4">
+               <input type="date" id="year_end" name="year_end" size="30" class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10">
             </label>
          </div>
 
@@ -206,6 +161,6 @@
 
 <?php
 
-   include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/tpl/footer.php";
 
 ?>

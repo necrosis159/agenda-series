@@ -28,7 +28,7 @@
       <h2 class="heading">Titre : "<?php echo $data['title']; ?>"</h2>
 
       <h2 class="heading">Contenu :</h2>
-      <p>"<?php echo $data['content']; ?>"</p>
+      <textarea rows="10" cols="100" disabled>"<?php echo $data['content']; ?>"</textarea>
 
    </section>
 </div>

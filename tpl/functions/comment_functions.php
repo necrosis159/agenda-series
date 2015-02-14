@@ -126,4 +126,19 @@
       return $query;
    }
 
+   // Fonction de récupération de tous les commentaires en attente
+   function get_awaiting_comments() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération des commentaires en attente
+      $query = $db->prepare("SELECT * FROM comment WHERE status = 0");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
 ?>

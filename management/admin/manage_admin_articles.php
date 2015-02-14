@@ -8,7 +8,7 @@
 
 <div class="wrap">
    <section id="manage">
-      <h5 class="heading">Articles en attente de validation</h5>
+      <h1 class="heading">Articles en attente de validation</h1>
 
       <table class="heavyTable">
          <thead>
