@@ -27,5 +27,29 @@
 
       return $result;
    }
+   
+   // Fonction de récupération des séries via l'entrée de la recherche globale
+   function gs_get_series($search) {
+     $db = call_pdo();
+     
+     $query = $db->prepare("SELECT id, name, short_description, description, image, notation FROM serie WHERE name LIKE :name LIMIT 0,5");
+     $query->execute(array("name" => "%".$search . "%"));
+     
+     $result = $query->fetchAll();
+     
+     return $result;
+   }
+   
+   // Fonction de récupération du nombre d'utilisateurs qui suivent une série
+   function getNbFollowersSeries($idSerie) {
+     $db = call_pdo();
+     
+     $query = $db->prepare("SELECT COUNT(*) FROM serie_user WHERE id_serie = :idSerie");
+     $query->execute(array("idSerie" => $idSerie));
+     
+     $result = $query->fetch();
+     
+     return $result;
+   }
 
 ?>

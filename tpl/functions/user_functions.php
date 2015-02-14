@@ -94,7 +94,7 @@
      // Connection à la base de données
      $db = call_pdo();
 
-     $query = $db->prepare("SELECT s.id as serie_id, s.name as serie_name, s.image as serie_image, u.id as user_id, t.id_serie, t.id_user
+     $query = $db->prepare("SELECT s.id as serie_id, s.name as serie_name, s.image as serie_image, s.short_description as serie_short_description, u.id as user_id, t.id_serie, t.id_user
                                 FROM serie s, serie_user t, user u
                                 WHERE u.id = t.id_user AND t.id_serie = s.id
                                 AND u.id = :id_user
@@ -118,7 +118,7 @@
                                             FROM serie_user
                                             WHERE id_user = :id)
                           ");
-     $query->execute(array("name" => $name . "%", "id" => $id));
+     $query->execute(array("name" => "%". $name . "%", "id" => $id));
 
      return $query;
    }
@@ -144,7 +144,8 @@
 
      }
    }
-
+   
+   // Fonction de suppression d'une série suivie par l'utilisateur
    function deleteSerieFollow($id_user, $id_serie) {
      // Connection à la base de données
      $db = call_pdo();
@@ -238,6 +239,7 @@
       return $result;
    }
    
+   // Fonction permettant d'entrée en base la date de dernière connexion d'un utilisateur
    function updateLastLogin($id) {
      $db = call_pdo();
      $currentDate = date("Y-m-d H:i:s");
@@ -245,6 +247,7 @@
      $query->execute();
    }
    
+   // Fonction permettant de modifier l'avatar d'un utilisateur et de supprimer l'ancien
    function updateAvatar($id, $imageUrl) {
      $db = call_pdo();
      
@@ -260,6 +263,18 @@
      // Ajoute le nouvel avatar de l'utilisateur
      $query = $db->prepare("UPDATE user SET avatar = '".$imageUrl."' WHERE id = ".$id);
      $query->execute();
+   }
+   
+   // Fonction de récupération des utilisateurs via la barre de recherche globale
+   function gs_get_user($search) {
+     $db = call_pdo();
+     
+     $query = $db->prepare("SELECT id, username, avatar FROM user WHERE surname LIKE :surname LIMIT 0,5");
+     $query->execute(array("surname" => "%".$search."%"));
+     
+     $result = $query->fetchAll();
+     
+     return $result;
    }
 
 ?>

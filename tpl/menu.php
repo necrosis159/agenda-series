@@ -82,8 +82,8 @@
          </div>
 
          <div class="h_search">
-            <form>
-               <input type="text" value="" placeholder="Rechercher...">
+           <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+               <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                <input type="submit" value="">
             </form>
          </div>
@@ -122,8 +122,8 @@
             </div>
 
             <div class="h_search">
-               <form>
-                  <input type="text" value="" placeholder="Rechercher...">
+               <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+                  <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                   <input type="submit" value="">
                </form>
             </div>
@@ -164,8 +164,8 @@
             </div>
 
             <div class="h_search">
-               <form>
-                  <input type="text" value="" placeholder="Rechercher...">
+               <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+                  <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                   <input type="submit" value="">
                </form>
             </div>

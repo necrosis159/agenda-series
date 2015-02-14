@@ -328,7 +328,7 @@ body {
 	line-height: 1.5em;
 	position: relative;
 	font-size: 0.8725em;
-	text-transform: capitalize;
+	/*text-transform: capitalize;*/
 	border-radius: 30px;
 	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
@@ -1515,7 +1515,6 @@ ACCOUNT
 	padding: 0 0 10px 10px;
 	display: block;
 	width: 100%;
-	background-color: #E1E1E1;
 	position: relative;
 }
 
@@ -1524,7 +1523,6 @@ ACCOUNT
 	margin: auto;
 	display: block;
 	float: left;
-	background-color: #E1E1E1;
 	margin-bottom: 20px;
 }
 
@@ -1546,6 +1544,34 @@ ACCOUNT
 	position: absolute;
 	right: 0;
 	cursor: pointer;
+}
+
+.serie_user:hover {
+  opacity: 0.7;
+}
+
+.serie_user p {
+  height: 300px;
+  line-height: 300px;
+  text-align: center;
+  position: absolute;
+}
+
+.serie_txt_img {
+  display: none;
+}
+
+.serie_user:hover .serie_txt_img {
+  display: inline-block;
+  line-height: normal;
+  position: absolute;
+  vertical-align: middle;
+  color: #FFF;
+  height: 300px;
+  width: 200px;
+  background-color: #000;
+  opacity: 0.8;
+  padding-top: 30px;
 }
 
 .image_serie {
@@ -1636,7 +1662,7 @@ ACCOUNT
 
 #avatar_modify {
 	margin: auto;
-	width: 156px;
+        text-align: center;
 }
 
 #profile_informations {
@@ -1674,4 +1700,66 @@ ACCOUNT
 #create_logo textarea {
   width: 200px;
   height: 50px;
+}
+
+/***********************************************
+GLOBAL SEARCH
+************************************************/
+
+#gs_series {
+  
+}
+
+.gs_row {
+  width: 50%;
+  /*clear: both;*/
+  float: left;
+  margin-bottom: 20px;
+}
+
+.gs_image {
+  float: left;
+  margin-right: 2%;
+}
+
+.gs_image:hover {
+  opacity: 0.7;
+}
+
+.gs_image p {
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  position: absolute;
+}
+
+.gs_text_img {
+  display: none;
+}
+
+.gs_image:hover span {
+  display: inline-block;
+  line-height: normal;
+  position: absolute;
+  vertical-align: middle;
+  color: #FFF;
+  height: 200px;
+  width: 150px;
+  background-color: #000;
+  opacity: 0.8;
+  padding-top: 30px;
+}
+
+.gs_description {
+  float: left;
+  width: 70%;
+}
+
+.gs_description p {
+  font-style: italic;
+}
+
+#gs_user {
+  clear: both;
+  margin-bottom: 30px;
 }
