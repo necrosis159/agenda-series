@@ -22,6 +22,9 @@
 
          valid_message("La série à été suspendue!");
       }
+      else {
+         error_message("Le contenu n'existe pas!");
+      }
    }
 
    $data = get_series();
@@ -89,7 +92,7 @@
                else:
             ?>
                <tr>
-                  <td colspan="6">Aucune proposition de série en cours</td>
+                  <td colspan="6">Aucune série n'a été créée</td>
                </tr>
             <?php endif; ?>
          </tbody>

@@ -5,7 +5,7 @@
       // Connection à la base de données
       $db = call_pdo();
 
-      $query = $db->prepare("SELECT * FROM serie ORDER BY status");
+      $query = $db->prepare("SELECT * FROM serie ORDER BY name");
 
       $query->execute();
 
@@ -51,7 +51,7 @@
       // Récupération de la date actuelle
       $current_date = date('Y-m-d');
 
-      $query = $db->prepare('INSERT INTO serie VALUES("", "' . ucfirst($name) . '", "' . $short_description . '", "' . $description . '", "' . $nationality . '", "' . $channel . '", "' . $year_start . '", "' . $year_end . '", "' . $image . '", "' . $video . '", 0, "' . $rewrite . '", ' . $category . ', ' . $status . ', "' . $meta_keywords . '", ' . $id_user . ', 0000-00-00, ' . $current_date . ', ' . $highlight . ')');
+      $query = $db->prepare('INSERT INTO serie VALUES("", "' . ucfirst($name) . '", "' . $short_description . '", "' . $description . '", "' . $nationality . '", "' . $channel . '", "' . $year_start . '", "' . $year_end . '", "' . $image . '", "' . $video . '", 0, "' . $rewrite . '", ' . $category . ', ' . $status . ', "' . $meta_keywords . '", ' . $id_user . ', "0000-00-00", "' . $current_date . '", ' . $highlight . ')');
 
       $result = $query->execute();
 
@@ -123,7 +123,7 @@
       // Récupération de la date actuelle
       $current_date = date('Y-m-d');
 
-      $query = $db->prepare('INSERT INTO season VALUES("", ' . $id_serie . ', ' . $number . ', "' . ucfirst($name) . '", "' . ucfirst($description) . '", ' . $status . ', 0, "' . $year_start . '", "' . $year_end . '", ' . $current_date . ', "' . $rewrite . '")');
+      $query = $db->prepare('INSERT INTO season VALUES("", ' . $id_serie . ', ' . $number . ', "' . ucfirst($name) . '", "' . ucfirst($description) . '", ' . $status . ', 0, "' . $year_start . '", "' . $year_end . '", "' . $current_date . '", "' . $rewrite . '")');
 
       $result = $query->execute();
 

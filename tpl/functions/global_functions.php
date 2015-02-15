@@ -169,4 +169,32 @@
       return $data;
    }
 
+   // Fonction pour compter le nombre de lignes dans une table
+   function row_count($table) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT COUNT(id) FROM " . $table);
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+
+   // Fonction de vérification de nouveau contenu dans une table
+   function new_content($table) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT COUNT(id) FROM " . $table . " WHERE status = 0");
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+
 ?>

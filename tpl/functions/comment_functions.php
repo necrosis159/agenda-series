@@ -65,7 +65,7 @@
       $db = call_pdo();
 
       // Récupération des commentaires
-      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id . " LIMIT 5");
+      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id . " LIMIT 5 ORDER BY date_publication");
 
       $query->execute();
 
@@ -133,6 +133,21 @@
 
       // Récupération des commentaires en attente
       $query = $db->prepare("SELECT * FROM comment WHERE status = 0");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
+   // Fonction de récupération de tous les commentaires
+   function get_pending_comments() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération des commentaires selon leurs statuts
+      $query = $db->prepare("SELECT * FROM comment WHERE status = 3 OR status = 0");
 
       $query->execute();
 

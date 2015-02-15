@@ -165,7 +165,7 @@
       $db = call_pdo();
 
       // Récupération des articles
-      $query = $db->prepare("SELECT E.*, S.name AS serie_name FROM episode E, serie S GROUP BY id HAVING E.last_contributor = " . $id . " LIMIT 5");
+      $query = $db->prepare("SELECT E.*, S.name AS serie_name FROM episode E, serie S GROUP BY id HAVING E.last_contributor = " . $id . " LIMIT 5 ORDER BY date_publication");
 
       $query->execute();
 
@@ -262,15 +262,19 @@
       // Connection à la base de données
       $db = call_pdo();
 
+      // Récupération de la date actuelle
+      $current_date = date('Y-m-d');
+
       // Ajout d'un avatar par défaut en fonction du genre de l'utilisateur
       if ($gender == 1) {
          $avatar = 'avatar/avatar_woman.png';
-      } else {
+      }
+      else {
          $avatar = 'avatar/avatar_man.png';
       }
 
-      $query = $db->prepare("INSERT into user(presentation, gender, name, surname, avatar, email, username, password, birthdate)
-      VALUES('" . $presentation . "', " . $gender . ", '" . ucfirst($name) . "', '" . ucfirst($surname) . "', '" . $avatar . "', '" . $email . "', '" . $username . "', '" . md5($password) . "', '" . $birthdate . "')");
+      $query = $db->prepare("INSERT into user(presentation, gender, name, surname, avatar, email, username, password, birthdate, creation_date)
+      VALUES('" . $presentation . "', " . $gender . ", '" . ucfirst($name) . "', '" . ucfirst($surname) . "', '" . $avatar . "', '" . $email . "', '" . $username . "', '" . md5($password) . "', '" . $birthdate . "', '" . $current_date . "')");
       $query->execute();
 
       return $query;

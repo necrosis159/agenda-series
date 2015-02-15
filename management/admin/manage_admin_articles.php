@@ -2,7 +2,17 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   $data = pending_episodes();
+   if(isset($_GET['error_exists']) && $_GET['error_exists'] == true) {
+      error_message("Le contenu n'existe pas!");
+   }
+   else if(isset($_GET['validate']) && $_GET['validate'] == true) {
+      valid_message("Article validé, son contenu est désormais associé à l'épisode");
+   }
+   else if(isset($_GET['reject']) && $_GET['reject'] == true) {
+      valid_message("Article refusé");
+   }
+
+   $data = get_proposals();
 
 ?>
 
@@ -28,12 +38,12 @@
                   ?>
                   <tr>
                      <td><span style="color: #d8871e;"># </span><?php echo $value["id"]; ?></td>
-                     <td><?php echo $value['serie_name']; ?></td>
-                     <td><?php echo $value['name']; ?></td>
+                     <td><a href="manage_admin_edit_series.php?id=<?php echo $value['id_serie']; ?>"><?php echo $value['serie']; ?></a></td>
+                     <td><?php echo $value['episode']; ?></td>
                      <td><?php if(isset($value['release_date'])) { echo date_convert($value['release_date']); } else { echo "Aucune date"; } ?></td>
                      <td class="table_mod">
-                        <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_article.php?id=<?php echo $id_article; ?>">
-                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" alt="Modifier" />
+                        <a href="manage_admin_edit_article.php?id=<?php echo $id_article; ?>">
+                           <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" title="Modérer l'article" alt="Modérer l'article" />
                         </a>
                      </td>
                   </tr>

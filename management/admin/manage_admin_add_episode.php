@@ -2,13 +2,22 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   // Récupération de la série
-   $serie_data = get_serie();
+   // Récupération de la saison si on est pas passé par l'interface de modification d'une saison
+   if(isset($_GET['id'])) {
+      $id_season = $_GET['id'];
+
+      if(!$season_data = get_season($id_season)) {
+         header('Location: manage_admin_series.php?error_exists=true');
+      }
+   }
 
    // Récupération de la saison
-   $season_data = get_season();
+   $season_data = get_season($id_season);
 
-   // Récupération des status
+   // Récupération de la série
+   $serie_data = get_serie($season_data['id_serie']);
+
+   // Récupération des statuts
    $status_data = get_status();
 
    // Initialisation du message d'erreur
@@ -32,12 +41,12 @@
       $highlight = $_POST["highlight"];
 
       // Ajout du contenu
-      $result_insert = create_episode($name, $short_description, $description, $nationality, $channel, $year_start, $year_end, $image, $video, $rewrite, $category, $status, $meta_keywords, $id_user, $highlight);
+      $result_insert = create_episode($id_user, $id_serie, $name, $id_season, $episode, $description, $resume, $release_date, $duration);
 
    }
 
    if(isset($result_insert) && $result_insert != false) {
-      header('Location: manage_admin_series.php?add_episode=true');
+      header('Location: manage_admin_episodes.php?add_episode=true');
    }
    elseif(isset($result_insert) && $result_insert == false) {
       error_message($message);
@@ -50,71 +59,27 @@
 
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Ajouter d'un épisode : <?php echo $serie_data['name']; ?></h1>
+      <h1 class="heading">Ajout d'un épisode : "<?php echo $serie_data['name']; ?>" dans "<?php echo $season_data['name']; ?>"</h1>
+
+      <a class="button" href="manage_admin_edit_season.php?id=<?php echo $id_season; ?>">Retour à la saison <?php echo $season_data['number']; ?> de <?php echo $serie_data['name']; ?></a>
 
       <form id="article_form" method="POST" enctype='multipart/form-data'>
 
          <div>
             <label>Nom
-               <input id="name" name="name" type="text" placeholder="Nom de la série" required="required">
+               <input id="name" name="name" type="text" placeholder="Nom de l'épisode" required="required">
+            </label>
+         </div>
+
+         <div>
+            <label>Numéro
+               <input id="number" name="number" type="text" size="30" placeholder="Numéro de l'épisode" required="required">
             </label>
          </div>
 
          <div>
             <label>URL
                <input id="rewrite" name="rewrite" type="text" placeholder="URL de réécriture" required="required">
-            </label>
-         </div>
-
-         <div>
-            <label>Nationalité
-               <input id="nationality" name="nationality" type="text" placeholder="Nationalité" required="required">
-            </label>
-         </div>
-
-         <div>
-            <label>Catégorie
-               <select name="category" onchange="updated(this)">
-                  <?php foreach($category_data as $value) : ?>
-                     <option value="<?php echo $value['id'] ?>" <?php if(isset($category) && $category == $value['id']) { echo "selected"; } ?>><?php echo $value['category'] ?></option>
-                  <?php endforeach; ?>
-               </select>
-            </label>
-         </div>
-
-         <div>
-            <label>Description rapide
-               <input id="short_description" name="short_description" type="text" placeholder="Description rapide de l'épisode">
-            </label>
-         </div>
-
-         <div>
-            <label>Chaîne de diffusion
-               <input id="channel" name="channel" type="text" placeholder="Chaîne de diffusion">
-            </label>
-         </div>
-
-         <div>
-            <label>Date de début
-               <input type="date" id="year_start" name="year_start" size="30" class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10">
-            </label>
-         </div>
-
-         <div>
-            <label>Date de fin
-               <input type="date" id="year_end" name="year_end" size="30" class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10">
-            </label>
-         </div>
-
-         <div>
-            <label>Description
-               <textarea class="wysiwyg" id="description" name="description"></textarea>
-            </label>
-         </div>
-
-         <div>
-            <label>Mots-clés
-               <input id="meta_keywords" name="meta_keywords" type="text" placeholder="Mots-clés">
             </label>
          </div>
 
@@ -129,25 +94,14 @@
          </div>
 
          <div>
-            <label for="highlight">Mettre en avant
-               <p>
-                  <input type='radio' name='highlight' value='0'> Oui
-                  <input type='radio' name='highlight' value='1' checked> Non
-               </p>
-            </label>
-         </div>
-
-         <h2 class="heading">Partie média :</h2>
-
-         <div>
-            <label>Image de la série<br>
-               <input name="file" type='file' maxlength='<?php echo $maxsize_octet; ?>'>
+            <label>Description rapide
+               <input id="short_description" name="short_description" type="text" placeholder="Description rapide de l'épisode">
             </label>
          </div>
 
          <div>
-            <label>Lien vidéo
-               <input id="video" name="video" type="text" placeholder="Lien vers la vidéo">
+            <label>Résumé
+               <textarea class="wysiwyg" id="summary" name="summary"></textarea>
             </label>
          </div>
 

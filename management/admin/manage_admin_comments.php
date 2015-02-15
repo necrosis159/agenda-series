@@ -2,7 +2,25 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   $data = get_comments();
+   $data = get_pending_comments();
+
+   // Déclaration des paramètres de la pagination
+   $rows = 5;
+   $table = "comment";
+   $status_table = "status_article";
+
+   if(isset($_GET['page'])) {
+      $current_page = intval($_GET['page']);
+   }
+   else {
+      $current_page = 1; // La page actuelle est la n°1
+   }
+
+   // Récupération du nombre de pages
+   $pages_number = pagination($rows, $table, $current_page);
+
+   // Récupération des données de la page en fonction
+   $data = pagination_data($rows, $current_page, $pages_number, $table, $status_table);
 
 ?>
 
@@ -67,6 +85,22 @@
             <?php endif; ?>
          </tbody>
       </table>
+
+      <?php if($pages_number > 1): ?>
+         <p class="pagination">
+            <?php
+            for($i = 1; $i <= $pages_number; $i++):
+               if($i == $current_page):
+                  ?>
+                  <span class="active"><?php echo $i; ?></span>
+               <?php else: ?>
+                  &nbsp; <a href="manage_admin_comments.php?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                  <?php
+               endif;
+            endfor;
+            ?>
+         </p>
+      <?php endif; ?>
 
    </section>
 </div>

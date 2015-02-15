@@ -35,7 +35,7 @@
    $users_list = get_users();
 
    if(isset($result_insert) && $result_insert != false) {
-      header('Location: index.php?add_user=true');
+      header('Location: manage_admin_users.php?add_user=true');
    }
    elseif(isset($result_insert) && $result_insert == false) {
       error_message($message);

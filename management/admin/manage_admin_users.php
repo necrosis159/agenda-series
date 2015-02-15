@@ -4,6 +4,19 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/check_admin.php";
 
+   $message = "Une erreur est survenue!";
+
+   if(isset($_GET['add_user']) && $_GET['add_user'] == true) {
+      valid_message("L'utilisateur à bien été ajouté!");
+   }
+
+   if(isset($_GET['delete']) && $_GET['delete'] != false) {
+      valid_message("Utilisateur suspendu!");
+   }
+   else if(isset($_GET['delete']) && $_GET['delete'] == false) {
+      error_message($message);
+   }
+
    // Déclaration des paramètres de la pagination
    $rows = 5;
    $table = "user";
@@ -21,16 +34,6 @@
 
    // Récupération des données de la page en fonction
    $data = pagination_data($rows, $current_page, $pages_number, $table, $status_table);
-
-
-   $message = "Une erreur est survenue!";
-
-   if(isset($_GET['delete']) && $_GET['delete'] != false) {
-      valid_message("Utilisateur suspendu!");
-   }
-   elseif(isset($_GET['delete']) && $_GET['delete'] == false) {
-      error_message($message);
-   }
 
 ?>
 

@@ -17,7 +17,7 @@
    }
 
    if(isset($_GET['id_season']) || isset($_GET['action'])) {
-      $id_season = $_GET['id'];
+      $id_season = $_GET['id_season'];
 
       if(!check_record($id_season, "season")) {
          header('Location: manage_admin_series.php?error_exists=true');

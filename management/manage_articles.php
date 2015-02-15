@@ -44,7 +44,7 @@
             else:
                ?>
                <tr>
-                  <td colspan="6">Vous n'avez ajouté aucun épisode</td>
+                  <td colspan="6">Vous n'avez ajouté aucun article</td>
                </tr>
             <?php endif; ?>
          </tbody>
