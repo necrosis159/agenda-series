@@ -1,8 +1,10 @@
 ﻿<?php
 	$main_folder = $_SERVER['DOCUMENT_ROOT'];
    include $main_folder.'./tpl/top.php';
-   $id_Serie = $_GET['id'];
-$_SESSION['id']=1;
+
+	//Retourne l'id de la série avec le nom disponible sur l'URL
+	$id_Serie = series_get_id_by_name($_GET['name']);
+	
    //Retourne toutes les détails de la série
    $series = series_get_detail($id_Serie);
 	while ($donnees = $series->fetch()){
@@ -12,10 +14,10 @@ $_SESSION['id']=1;
 			$name = $donnees['name'];
 			$nationality = $donnees['nationality'];
 			$channel = $donnees['channel'];
-			$yearStart = $donnees['yearStart'];
-			$yearEnd = $donnees['yearEnd'];
-			$nbseason = $donnees['nb_seasons'];
-			$nbepisode = $donnees['nb_episodes'];
+			$yearStart = $donnees['year_start'];
+			$yearEnd = $donnees['year_end'];
+			$nbseason = $donnees['nb_season'];
+			$nbepisode = $donnees['nb_episode'];
 		}
 
 	$series->closeCursor();
@@ -24,10 +26,13 @@ $_SESSION['id']=1;
 	$list_comment = series_get_comment($id_Serie);
 
 	//Retourne toutes les saisons de la série
-	$series_seasons= series_get_all_seasons($id_Serie);
+	$series_seasons= series_get_active_season($id_Serie);
 
 	//Ajoute la série dans les favoris de l'utilisateur connecté.
 	$notation=3;
+	if(empty($_GET['addFavorite'])){
+		$_GET['addFavorite']=0;
+	}
 	if($_GET['addFavorite']==1){
 		add_favorite($_SESSION['id'], $id_Serie, $notation);
 	}
@@ -72,7 +77,7 @@ $_SESSION['id']=1;
 						$i=1;
 						while($donnees = $series_seasons->fetch()){
 							$i++;
-							echo "<a href='../../series/season_detail.php?id=".$id_Serie."&saison=".$donnees['ID']."'>".$donnees['name']."</a><br>";
+							echo "<a href='../../les-series/".$name."/saison-".$donnees['number']."'>".$donnees['name']."</a><br>";
 						}
 						if($i==1){
 							echo "Aucune saison a été trouvée pour cette série.";

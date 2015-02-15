@@ -62,10 +62,10 @@
       <div id="page">
          <nav role="navigation" id="navigation">
             <ul>
-               <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
-               <li <?php if($page_name == "account_series.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_series.php">Mes séries</a></li>
-               <li <?php if($page_name == "account_calendrier.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_calendrier.php">Mon calendrier</a></li>
-               <li <?php if($page_name == "account_info.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_info.php">Mes informations</a></li>
+               <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Mon profil</a></li>
+               <li <?php if($page_name == "account_series.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_series.php">Mes séries</a></li>
+               <li <?php if($page_name == "account_calendrier.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_calendrier.php">Mon calendrier</a></li>
+               <li <?php if($page_name == "account_info.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/account_info.php">Mes informations</a></li>
             </ul>
          </nav>
       </div>
@@ -102,10 +102,10 @@
          <div id="page">
             <nav role="navigation" id="navigation">
                <ul>
-                  <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
-                  <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
-                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_edit_comment.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
-                  <li <?php if($page_name == "manage_users.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_users.php">Utilisateurs</a></li>
+                  <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
+                  <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
+                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_add_proposal.php" || $page_name == "manage_edit_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
+                  <?php if($_SESSION['status'] > 2): ?><li <?php if($page_name == "manage_admin.php" || $page_name == "manage_admin_users.php" || $page_name == "manage_admin_series.php" || $page_name == "manage_admin_comments.php" || $page_name == "manage_admin_articles.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_admin.php">Administration</a></li><?php endif; ?>
                </ul>
             </nav>
          </div>
@@ -116,9 +116,9 @@
             <div class="h_menu">
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
-                  <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
+                  <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_add_proposal.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
                   <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_edit_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
-                  <li <?php if($page_name == "manage_users.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_users.php">Utilisateurs</a></li>
+                  <?php if($_SESSION['status'] > 2): ?><li <?php if($page_name == "manage_admin.php" || $page_name == "manage_admin_users.php" || $page_name == "manage_admin_series.php" || $page_name == "manage_admin_comments.php" || $page_name == "manage_admin_articles.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_admin.php">Administration</a></li><?php endif; ?>
                </ul>
             </div>
 
@@ -142,8 +142,8 @@
          <div id="page">
             <nav role="navigation" id="navigation">
                <ul>
-                  <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="/">Accueil</a></li>
-                  <li <?php if($page_name == "index.php"): ?> class="mm-selected" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/series/">Les séries</a></li>
+                  <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="/">Accueil</a></li>
+                  <li <?php if($page_name == "serie_list.php" || $page_name == "serie_detail.php" || $page_name == "episode_detail.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT']?>/les-series">Les séries</a></li>
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Calendrier</a></li>
                   <li><a href="#">Contact</a></li>
@@ -157,7 +157,7 @@
             <div class="h_menu">
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="/">Accueil</a></li>
-                  <li <?php if($page_name == "series_list.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/series/series_list.php">Les séries</a></li>
+                  <li <?php if($page_name == "series_list.php" || $page_name == "serie_detail.php" || $page_name == "episode_detail.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT']?>/les-series">Les séries</a></li>
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Calendrier</a></li>
                   <li><a href="#">Contact</a></li>

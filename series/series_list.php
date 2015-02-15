@@ -2,7 +2,7 @@
 $main_folder = $_SERVER['DOCUMENT_ROOT'];
 include $main_folder."/tpl/top.php";
 $seriesHightlight = series_get_hightlight();
-
+$seriesOnline = series_get_online();
 ?>
 
 <!-- SERIES -->
@@ -13,22 +13,29 @@ $seriesHightlight = series_get_hightlight();
                 <input class="serie_search" type="text" name="rechercheSerie" id="rechercheSerie" placeholder="Rechercher..."/>
 	</div>
 	<div id="listOfSeries"> 
-		<div id="highlighting">
+
+		<div id='recherche'>
+		</div>
+
+		<div id="highlighting" style="clear:both;">
 			<h2 class="heading">Mise en avant</h2>
 			<?php
-			while ($donnees = $seriesHightlight->fetch()){
-				$test= $donnees['image'];
-				echo "<div class='sticker'>";
-				echo "<a href='../series/serie_detail.php?id=".$donnees['ID']."'><img src=../images/series/vignette_".$test."></a>";
-				echo "</div>";
+			while ($donnees = $seriesHightlight->fetch()){				
+				echo "<span class='sticker'>";
+				echo "<a href='../les-series/".$donnees['name']."'><img src=../images/series/vignette_".$donnees['image']."></a>";
+				echo "</span>";
 			}
 			?>
-		</div>
-		<div id='recherche'>
-			<h2 class="heading">Recherche</h2>
-			<div id="resultsSeries">
-				<p>Vous n'avez rien rechercher!</p>
-			</div>
+		</div>	
+		<div id="">
+			<h2 class="heading">Les séries</h2>
+		<?php		
+			while ($donnees = $seriesOnline->fetch()){				
+				echo "<span class='sticker'>";
+				echo "<a href='../les-series/".$donnees['name']."'><img src=../images/series/vignette_".$donnees['image']."></a>";
+				echo "</span>";
+			}
+			?>
 		</div>
 	</div>
 

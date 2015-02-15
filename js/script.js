@@ -136,23 +136,23 @@ $(document).ready(function() {
     $('#ajax-loader').remove(); // on retire le loader
  
     // on commence à traiter à partir du 2ème caractère saisie
-    if( $field.val().length > 0 ) {
+    if( $field.val().length > 2 ) {
         // on envoie la valeur recherché en GET au fichier de traitement
         $.ajax({
                 type : 'GET', // envoi des données en GET ou POST
-                url : '/ajax/ajax-search_series.php' , // url du fichier de traitement
+                url : '/ajax/ajax_search_series.php' , // url du fichier de traitement
                 data : 'q='+$(this).val() , // données à envoyer en  GET ou POST
                 beforeSend : function() { // traitements JS à faire AVANT l'envoi
                     $field.after('<img src="../images/loader.gif" alt="loader" id="ajax-loader" />'); // ajout d'un loader pour signifier l'action
                 },
                 success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
                     $('#ajax-loader').remove(); // on enleve le loader
-                    $('#resultsSeries').html(data); // affichage des résultats dans le bloc
+                    $('#recherche').html("<h2 class='heading'>Recherche</h2><div id='resultsSeries'><p>"+data+"</p></div>"); // affichage des résultats dans le bloc
                     }
         });
     }
     else{
-        $('#resultsSeries').html("Vous n'avez rien rechercher!");
+        $('#recherche').html("");
     }       
 });
 
@@ -168,15 +168,15 @@ $(document).ready(function() {
         // on envoie la valeur recherché en GET au fichier de traitement
         $.ajax({
                 type : 'GET', // envoi des données en GET ou POST
-                url : '/ajax/ajax-comment.php' , // url du fichier de traitement
-                data : 'q='+$field.val() , // données à envoyer en  GET ou POST
+                url : '/ajax/ajax_comment.php' , // url du fichier de traitement
+                data : 'q='+$field.val()+'&id_User='+$('#id_user').val()+'&id_episode='+$('#id_episode').val() , // données à envoyer en  GET ou POST
                 beforeSend : function() { // traitements JS à faire AVANT l'envoi
                     $("#send_comment").remove();
                     $field.after('<img src="../images/loader.gif" alt="loader" id="test" />'); // ajout d'un loader pour signifier l'action
                 },
                 success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
                     $('#test').remove(); // on enleve le loader
-                    $('#commentZone').html("Merci!"); // affichage des résultats dans le bloc
+                    $('#commentZone').html("<img style='width: 15px;' src='../images/ok.png' /> Merci! Votre commentaire est en cour d'approbation."); // affichage des résultats dans le bloc
                     }                
         });
     }    
@@ -190,7 +190,7 @@ $(document).ready(function() {
         // on envoie la valeur recherché en GET au fichier de traitement
         $.ajax({
                 type : 'GET', // envoi des données en GET ou POST
-                url : '/ajax/ajax-favorite.php' , // url du fichier de traitement
+                url : '/ajax/ajax_favorite.php' , // url du fichier de traitement
                 data : 'q='+$(this).val() , // données à envoyer en  GET ou POST
                 beforeSend : function() { // traitements JS à faire AVANT l'envoi
                     $("#send_comment").remove();

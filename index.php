@@ -1,7 +1,6 @@
 <?php
-
    include './tpl/top.php';
-
+   $seriesHightlight = series_get_hightlight();
 ?>
 
 <div class="last_posts">
@@ -9,33 +8,35 @@
    <div class="wrap">
       <h5 class="heading">Dernières séries ajoutées</h5>
       <div class="l-grids">
-         <div class="l-grid-1">
-            <div class="desc">
-               <h3>The Flash</h3>
-               <span>Saison 2 - Episode 12</span>
-               <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
-            </div>
-            <img src="images/the_flash.jpg">
-            <?php
-            $urlImage = $_SERVER["DOCUMENT_ROOT"]."images/the_flash.jpg";
-            ?>
-            <div class="clear"> </div>
-         </div>
-         <div class="l-grid-1 l-grid-2">
-            <div class="desc">
-               <h3>Arrow</h3>
-               <span>Saison 3 - Episode 11</span>
-               <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
-            </div>
-            <img src="images/arrow.jpg">
-            <div class="clear"> </div>
-         </div>
-         <div class="clear"> </div>
+         <?php 
+            $temp = null;
+            $i = 1;
+            while($donnees = $seriesHightlight->fetch()){
+               echo '<div class="l-grid-1 '.$temp.'" style="margin-top: 10px;"> <div class="desc">';
+               echo "<h3>".$donnees['name']."</h3>";
+               echo "<span>".$donnees['nb_season']." saisons - ".$donnees['nb_episode']." episodes</span>";
+               echo "<p>".$donnees['short_description']."</p>";
+               echo "</div><img src='images/series/vignette_".$donnees['image']."'><div class='clear'> </div> </div>";
+               if($i%2==0){
+                  if($temp != "l-grid-2")
+                     $temp = null;
+                  else
+                     $temp = "l-grid-2";
+                  continue;
+               }
+
+               if($temp != "l-grid-2")
+                  $temp = "l-grid-2";
+               else
+                  $temp = null;
+               $i++;
+            }
+         ?>
       </div>
    </div>
 </div>
 
-<div class="last_comments">
+<div style="clear:both;" class="last_comments">
    <!-- start last_posts -->
    <div class="wrap">
       <h5 class="heading">Derniers commentaires</h5>
