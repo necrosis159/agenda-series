@@ -2,37 +2,39 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-   if(isset($_GET['id'])) {
-      $id_season = $_GET['id'];
+   if(isset($_GET['id_season'])) {
+      $id_season = $_GET['id_season'];
 
       if(!check_record($id_season, "season")) {
          header('Location: manage_admin_series.php?error_exists=true');
       }
       else {
          $season_data = get_season($id_season);
+         $serie_data = get_serie($season_data['id_serie']);
       }
    }
    else {
       header('Location: manage_admin_series.php?error_selected=true');
    }
 
-   if(isset($_GET['add_episode']) && $_GET['add_episode'] == true) {
-      valid_message("L'épisode à bien été ajouté!");
-   }
-   else if(isset($_GET['id_episode']) && isset($_GET['action']) && $_GET['action'] == "delete") {
+   if(isset($_GET['id']) && isset($_GET['action']) && $_GET['action'] == "delete") {
 
-      $id_episode = $_GET['id_episode'];
+      $id_episode = $_GET['id'];
 
       $check = check_record($id_episode, "episode");
 
       if($check == true) {
-         // $result = suspend_episode($id_episode);
+         $result = suspend_episode($id_episode);
 
          valid_message("L'épisode à été suspendu!");
       }
    }
 
-   $data = get_series_seasons($id_serie);
+   if(isset($_GET['add_episode']) && $_GET['add_episode'] == true) {
+      valid_message("L'épisode à bien été ajouté!");
+   }
+
+   $data = get_season_episodes($id_season);
 
    $data_status = get_status();
 
@@ -40,9 +42,9 @@
 
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Gestion des épisodes de la saison "<?php echo $season_data['number']; ?>" de "<?php echo $serie_data['name']; ?>"</h1>
+      <h1 class="heading">Gestion des épisodes : "saison <?php echo $season_data['number']; ?>" dans "<?php echo $serie_data['name']; ?>"</h1>
 
-      <a class="button" href="manage_admin_add_episode.php?id=<?php echo $id_season; ?>">Ajouter un épisode</a>
+      <a class="button" href="manage_admin_add_episode.php?id=<?php echo $id_season; ?>">Ajouter un épisode</a> &nbsp; <a class="button" href="manage_admin_seasons.php?id=<?php echo $serie_data['id']; ?>">Retour aux saisons de <?php echo $serie_data['name']; ?></a>
 
       <table class="heavyTable">
          <thead>
@@ -59,10 +61,10 @@
             <?php
             if($data != false):
             foreach($data as $value):
-            $id_season = $value["id"];
+            $id_episode = $value["id"];
             ?>
             <tr>
-               <td><span style="color: #d8871e;"># </span><?php echo $id_season; ?></td>
+               <td><span style="color: #d8871e;"># </span><?php echo $id_episode; ?></td>
                <td><?php echo $value['name']; ?></td>
                <td><?php echo $value['description']; ?></td>
                <td>
@@ -81,12 +83,12 @@
                </td>
 
                <td class="table_mod">
-                  <a href="./manage_admin_edit_season.php?id=<?php echo $id_season; ?>">
+                  <a href="./manage_admin_edit_episode.php?id=<?php echo $id_episode; ?>">
                      <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" title="Modifier" alt="Modifier" />
                   </a>
                   &nbsp; &nbsp;
                   <?php if($value['status'] != 3): ?>
-                     <a href="./manage_admin_seasons.php?id=<?php echo $id_serie; ?>&id_season=<?php echo $id_season; ?>&action=delete">
+                     <a href="./manage_admin_episodes.php?id=<?php echo $id_episode; ?>&id_season=<?php echo $id_season; ?>&action=delete">
                         <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/trash.png" title="Suspendre" alt="Suspendre" />
                      </a>
                   <?php endif; ?>
@@ -97,7 +99,7 @@
             else:
             ?>
             <tr>
-               <td colspan="6">Cette série ne possède pas encore de saisons</td>
+               <td colspan="6">Cette série ne possède pas encore d'épisodes</td>
             </tr>
          <?php endif; ?>
       </tbody>

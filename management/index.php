@@ -87,8 +87,8 @@
                   <tr>
                      <td><span style="color: #d8871e;"># </span><?php echo $value["id"]; ?></td>
                      <td><?php echo $value['serie_name']; ?></td>
+                     <td><?php echo $value['season']; ?></td>
                      <td><?php echo $value['name']; ?></td>
-                     <td><?php echo $value['number']; ?></td>
                      <td><?php if($value['status'] == 1) { echo '<img class="tab_icons" src="../images/valid.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 2) { echo '<img class="tab_icons" src="../images/error.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/warning.png" title="En attente" alt="En attente" />'; } ?></td>
                      <td><?php echo date_convert($value['release_date']); ?></td>
                      <td class="table_mod">

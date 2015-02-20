@@ -6,7 +6,7 @@
       $id = $_GET['id'];
 
       // Test de l'existance de la série
-      if(!$serie_data = check_record($id, "serie")) {
+      if(!check_record($id, "serie")) {
          header('Location: ./index.php?error_exists=true');
       }
    }
@@ -105,7 +105,7 @@
 
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Modification d'une série : "<?php echo $serie_data['name']; ?>"</h1>
+      <h1 class="heading">Modification d'une série : "<?php echo $data['name']; ?>"</h1>
 
       <a class="button" href="manage_admin_series.php">Retour à la liste des séries</a><br>
 

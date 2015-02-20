@@ -15,25 +15,37 @@
       $content = $_POST["content"];
 
       // Modification du contenu
-      // $result_update = update_comment($id, $title, $content);
+      $result_validate = validate_comment($id, $title, $content);
 
+   }
+   else if(isset($_POST['submit_reject'])) {
+
+      $result_reject = false;
+
+      $id = $_POST["id"];
+
+      // Modification du contenu
+      $result_reject = reject_comment($id);
+   }
+
+   if(isset($result_validate) && $result_validate != false) {
+      header('Location: manage_admin_comments.php?validate=true');
+   }
+   elseif(isset($result_reject) && $result_reject != false) {
+      header('Location: manage_admin_comments.php?reject=true');
+   }
+   elseif(isset($result_validate) && $result_validate == false) {
+      error_message("Une erreur s'est produite!");
    }
 
    // Récupération de l'épisode selon son ID
    $data = get_comment($id);
 
-   if(isset($result_update) && $result_update != false) {
-      echo '<p class="right">Modifications enregistrées!</p>';
-   }
-   elseif(isset($result_update) && $result_update == false) {
-      echo '<p class="wrong">Désolé, une erreur s\'est produite</p>';
-   }
-
 ?>
 
 <div class="wrap">
    <section id="manage">
-      <h5 class="heading">Modifier le commentaire : # <?php echo $data['id_user']; ?></h5>
+      <h1 class="heading">Modération d'un commentaire : "<?php echo $data['title']; ?>"</h1>
 
       <form id="article_form" method="POST">
 
@@ -52,7 +64,7 @@
          </div>
 
          <div>
-            <input name="submit" type="submit" value="Valider" disabled> <input name="submit" type="submit" value="Refuser" disabled>
+            <input name="submit" type="submit" value="Valider"> <input name="submit_reject" type="submit" value="Refuser">
          </div>
       </form>
 

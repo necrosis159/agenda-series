@@ -55,7 +55,7 @@
    <section id="manage">
       <h1 class="heading">Modification d'une saison : "<?php echo $data['name']; ?>" dans "<?php echo $data['serie']; ?>"</h1>
 
-      <a class="button" href="manage_admin_seasons.php?id=<?php echo $data['id_serie']; ?>">Retour aux saisons de <?php echo $data['serie']; ?></a> <p align="right"><a class="button" href="manage_admin_add_episode.php?id=<?php echo $id_season; ?>">Ajouter un épisode</a>  &nbsp; <a class="button" href="manage_admin_episodes.php?id=<?php echo $id; ?>">Modifier un épisode</a> &nbsp;</p>
+      <a class="button" href="manage_admin_seasons.php?id=<?php echo $data['id_serie']; ?>">Retour aux saisons de <?php echo $data['serie']; ?></a> <p align="right"><a class="button" href="manage_admin_add_episode.php?id=<?php echo $id_season; ?>">Ajouter un épisode</a>  &nbsp; <a class="button" href="manage_admin_episodes.php?id_season=<?php echo $id_season; ?>">Modifier un épisode</a> &nbsp;</p>
 
       <form id="article_form" method="POST" enctype='multipart/form-data'>
 

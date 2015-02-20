@@ -85,7 +85,7 @@
             </tr>
 
             <tr>
-               <td><a href="manage_admin_comments.php">Commentaires en attente</a></td>
+               <td><a href="manage_admin_comments.php">Commentaires</a></td>
                <td><?php echo $comments[0]; ?></td>
                <td>
                   <?php if($check_comments[0] == 0): ?>
@@ -102,7 +102,7 @@
             </tr>
 
             <tr>
-               <td><a href="manage_admin_articles.php">Propositions en attente</a></td>
+               <td><a href="manage_admin_articles.php">Articles</a></td>
                <td><?php echo $proposals[0]; ?></td>
                <td>
                   <?php if($check_proposals[0] == 0): ?>

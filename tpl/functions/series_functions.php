@@ -171,4 +171,19 @@
       return $result;
    }
 
+   // Fonction de test de l'existance d'un numéro d'épisode ou de saison
+   function check_number($id_parent, $parent, $number, $table) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM " . $table . " WHERE number = " . $number . " AND " . $parent . " = " . $id_parent);
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+
 ?>

@@ -65,7 +65,7 @@
       $db = call_pdo();
 
       // Récupération des commentaires
-      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id . " LIMIT 5 ORDER BY date_publication");
+      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id . " ORDER BY date_publication LIMIT 5");
 
       $query->execute();
 
@@ -114,12 +114,25 @@
    }
 
    // Fonction de modification d'un commentaire
-   function update_comment($id, $name, $content) {
+   function validate_comment($id, $title, $content) {
       // Connection à la base de données
       $db = call_pdo();
 
       // Mise à jour des nouveaux champs du commentaire
-      $query = $db->prepare('UPDATE comment SET name = "' . $name . '", content = "' . $content . '" WHERE id = ' . $id);
+      $query = $db->prepare('UPDATE comment SET title = "' . $title . '", content = "' . $content . '", status = 4 WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de modification d'un commentaire
+   function reject_comment($id) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Mise à jour des nouveaux champs du commentaire
+      $query = $db->prepare('UPDATE comment SET status = 5 WHERE id = ' . $id);
 
       $query->execute();
 

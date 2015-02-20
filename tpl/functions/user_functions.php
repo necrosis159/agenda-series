@@ -165,7 +165,7 @@
       $db = call_pdo();
 
       // Récupération des articles
-      $query = $db->prepare("SELECT E.*, S.name AS serie_name FROM episode E, serie S GROUP BY id HAVING E.last_contributor = " . $id . " LIMIT 5 ORDER BY date_publication");
+      $query = $db->prepare("SELECT E.*, S.name AS serie_name, SE.number AS season FROM episode E, serie S, season SE WHERE E.id_serie = S.id AND E.id_season = SE.id GROUP BY id HAVING E.last_contributor = " . $id . " ORDER BY date_publication LIMIT 5");
 
       $query->execute();
 

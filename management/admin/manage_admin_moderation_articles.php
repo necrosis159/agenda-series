@@ -18,9 +18,9 @@
 
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Liste des articles</h1>
+      <h1 class="heading">Articles en attente de validation</h1>
 
-      <a class="button" href="manage_admin_moderation_articles.php">Voir les articles en attente</a>
+      <a class="button" href="manage_admin_articles.php">Retour à la liste des articles</a>
 
       <table class="heavyTable">
          <thead>
@@ -50,18 +50,18 @@
                      </td>
                   </tr>
                   <?php
-                  endforeach;
-                  else:
-                  ?>
-                  <tr>
-                     <td colspan="6">Il n'y a aucun article</td>
-                  </tr>
-               <?php endif; ?>
-            </tbody>
-         </table>
+               endforeach;
+            else:
+               ?>
+               <tr>
+                  <td colspan="6">Il n'y a aucun article en attente de modération</td>
+               </tr>
+            <?php endif; ?>
+         </tbody>
+      </table>
 
-      </section>
-   </div>
+   </section>
+</div>
 
 <?php
 

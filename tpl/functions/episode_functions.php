@@ -1,33 +1,33 @@
 <?php
 
-// Fonction de création d'un épisode
-function create_episode($serie, $season, $name, $number, $description, $status, $summary, $release_date, $duration, $id_user) {
-   // Connection à la base de données
-   $db = call_pdo();
+   // Fonction de création d'un épisode
+   function create_episode($id_user, $id_serie, $id_season, $name, $number, $rewrite, $status, $short_description, $summary) {
+      // Connection à la base de données
+      $db = call_pdo();
 
-   // Récupération de la date actuelle
-   $current_date = date('Y-m-d');
+      // Récupération de la date actuelle
+      $current_date = date('Y-m-d');
 
-   // Ajout des nouveaux champs de l'épisode
-   $query = $db->prepare('INSERT INTO episode VALUES ("", ' . $serie . ', ' . $season . ', "' . $name . '", ' . $number . ', "' . $description . '", ' . $status . ', "' . $summary . '", 0, "' . $duration . '", "' . $rewrite . '", "' . $release_date . '", "' . $current_date . '", "' . $current_date . '", ' . $id_user . ')');
+      // Ajout des nouveaux champs de l'épisode
+      $query = $db->prepare('INSERT INTO episode VALUES ("", ' . $id_serie . ', ' . $id_season . ', "' . $name . '", ' . $number . ', "' . $short_description . '", ' . $status . ', "' . $summary . '", 0, 0, "' . $rewrite . '", 0000-00-00, "' . $current_date . '", "' . $current_date . '", ' . $id_user . ')');
 
-   $query->execute();
+      $query->execute();
 
-   return $query;
-}
+      return $query;
+   }
 
-// Fonction de suppression d'un épisode
-function delete_episode($id) {
-   // Connection à la base de données
-   $db = call_pdo();
+   // Fonction de suppression d'un épisode
+   function delete_episode($id) {
+      // Connection à la base de données
+      $db = call_pdo();
 
-   // Suppression de l'épisode
-   $query = $db->prepare('DELETE FROM episode WHERE id = ' . $id);
+      // Suppression de l'épisode
+      $query = $db->prepare('DELETE FROM episode WHERE id = ' . $id);
 
-   $query->execute();
+      $query->execute();
 
-   return $query;
-}
+      return $query;
+   }
 
    // Fonction de récupération d'un article/épisode via son ID
    function get_episode($id = '') {
@@ -64,7 +64,7 @@ function delete_episode($id) {
       $db = call_pdo();
 
       // Récupération des données des épisode en attente de validation
-      $query = $db->prepare('SELECT ME.*, SE.id AS id_serie, SE.name AS serie, S.number AS season, E.name AS episode FROM moderation_episode ME, status_article SA, episode E, season S, serie SE WHERE ME.status = SA.id AND ME.id_episode = E.id AND E.id_season = S.id AND S.id_serie = SE.id AND ME.status = 0 ORDER BY ME.date_publication');
+      $query = $db->prepare('SELECT ME.*, SE.id AS id_serie, SE.name AS serie, S.number AS season, E.name AS episode FROM moderation_episode ME, status_article SA, episode E, season S, serie SE WHERE ME.status = SA.id AND ME.id_episode = E.id AND E.id_season = S.id AND S.id_serie = SE.id ORDER BY ME.date_publication');
 
       $query->execute();
 
@@ -118,6 +118,66 @@ function delete_episode($id) {
 
       // Ajout des nouveaux champs de l'épisode
       $query = $db->prepare('UPDATE moderation_episode SET status = 5 WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de récupération des épisodes d'une saison
+   function get_season_episodes($id_season = '') {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération des épisodes
+      $query = $db->prepare("SELECT DISTINCT * FROM episode WHERE id_season = " . $id_season);
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
+   // Fonction de suspension d'une série via son ID
+   function suspend_episode($id) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("UPDATE episode SET status = 3 WHERE id = :id");
+
+      $query->execute(array(':id' => $id));
+
+      $query->closeCursor();
+   }
+
+   // Fonction de mise à jour d'un épisode
+   function update_episode($id, $name, $number, $rewrite, $status, $short_description, $summary) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération de la date actuelle
+      $current_date = date('Y-m-d');
+
+      // Ajout des nouveaux champs de l'épisode
+      $query = $db->prepare('UPDATE episode SET name = "' . $name . '", number = ' . $number . ', description = "' . $short_description . '", status = ' . $status . ', summary = "' . $summary . '", rewrite = "' . $rewrite . '", last_modification = ' . $current_date . ' WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de mise à jour d'un épisode
+   function update_user_episode($id, $name, $number, $rewrite, $status, $short_description, $summary) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération de la date actuelle
+      $current_date = date('Y-m-d');
+
+      // Ajout des nouveaux champs de l'épisode
+      $query = $db->prepare('UPDATE episode SET name = "' . $name . '", number = ' . $number . ', description = "' . $short_description . '", status = ' . $status . ', summary = "' . $summary . '", rewrite = "' . $rewrite . '", last_modification = ' . $current_date . ' WHERE id = ' . $id);
 
       $query->execute();
 

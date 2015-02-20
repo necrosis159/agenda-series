@@ -80,6 +80,10 @@
                         <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" title="Modifier" alt="Modifier" />
                      </a>
                      &nbsp; &nbsp;
+                     <a href="./manage_admin_seasons.php?id=<?php echo $id_serie; ?>">
+                        <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/files.png" title="Voir les saisons" alt="Voir les saisons" />
+                     </a>
+                     &nbsp; &nbsp;
                      <?php if($value['status'] != 3): ?>
                      <a href="./manage_admin_series.php?action=delete&id=<?php echo $id_serie; ?>">
                         <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/trash.png" title="Suspendre" alt="Suspendre" />

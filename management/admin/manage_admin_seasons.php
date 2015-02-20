@@ -53,7 +53,7 @@
    <section id="manage">
       <h1 class="heading">Gestion des saisons de "<?php echo $serie_data['name']; ?>"</h1>
 
-      <a class="button" href="manage_admin_add_season.php?id=<?php echo $id_serie; ?>">Ajouter une saison</a>
+      <a class="button" href="manage_admin_add_season.php?id=<?php echo $id_serie; ?>">Ajouter une saison</a> &nbsp; <a class="button" href="manage_admin_edit_series.php?id=<?php echo $id_serie; ?>">Retour à la série <?php echo $serie_data['name']; ?></a>
 
       <table class="heavyTable">
          <thead>
@@ -94,6 +94,10 @@
                   <td class="table_mod">
                      <a href="./manage_admin_edit_season.php?id=<?php echo $id_season; ?>">
                         <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/manage_edit.png" title="Modifier" alt="Modifier" />
+                     </a>
+                     &nbsp; &nbsp;
+                     <a href="./manage_admin_episodes.php?id_season=<?php echo $id_season; ?>">
+                        <img class="tab_icons" src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/files.png" title="Voir les épisodes" alt="Voir les épisodes" />
                      </a>
                      &nbsp; &nbsp;
                      <?php if($value['status'] != 3): ?>
