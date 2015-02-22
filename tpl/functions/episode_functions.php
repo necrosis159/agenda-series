@@ -45,12 +45,12 @@
    }
 
    // Fonction de récupération des articles d'un utilisateur
-   function user_episodes($id = '') {
+   function get_user_proposals($id = '') {
       // Connection à la base de données
       $db = call_pdo();
 
       // Récupération des épisodes avec l'ID de l'auteur
-      $query = $db->prepare("SELECT E.*, S.name serie_name FROM episode E, serie S WHERE E.last_contributor = " . $id . " AND E.id_serie = S.id");
+      $query = $db->prepare("SELECT ME.*, SE.name AS serie, S.number AS season, E.name AS episode FROM moderation_episode ME, status_article SA, episode E, season S, serie SE WHERE ME.status = SA.id AND ME.id_episode = E.id AND E.id_season = S.id AND S.id_serie = SE.id AND ME.author = " . $id);
 
       $query->execute();
 
@@ -182,6 +182,36 @@
       $query->execute();
 
       return $query;
+   }
+
+   // Fonction de mise à jour d'un épisode
+   function update_proposal($id, $release_date, $name, $summary) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération de la date actuelle
+      $current_date = date('Y-m-d');
+
+      // Ajout des nouveaux champs de l'épisode
+      $query = $db->prepare('UPDATE moderation_episode SET name = "' . $name . '", status = 0, summary = "' . $summary . '", release_date =  "' . $release_date . '", date_publication = "' . $current_date . '" WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
+   function get_awaiting_proposals() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération des données des épisode en attente de validation
+      $query = $db->prepare('SELECT ME.*, SE.id AS id_serie, SE.name AS serie, S.number AS season, E.name AS episode FROM moderation_episode ME, status_article SA, episode E, season S, serie SE WHERE ME.status = 0 AND ME.id_episode = E.id AND E.id_season = S.id AND S.id_serie = SE.id ORDER BY ME.date_publication');
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
    }
 
 ?>

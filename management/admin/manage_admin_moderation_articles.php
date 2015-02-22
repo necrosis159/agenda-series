@@ -12,7 +12,7 @@
       valid_message("Article refusé");
    }
 
-   $data = get_proposals();
+   $data = get_awaiting_proposals();
 
 ?>
 

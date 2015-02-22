@@ -5,6 +5,9 @@
    if(isset($_GET['error_exists']) && $_GET['error_exists'] == true) {
       error_message("Aucun contenu ne possède cet ID!");
    }
+   else if(isset($_GET['error_permission']) && $_GET['error_permission'] == true) {
+      error_message("Vous n'êtes pas autorisé à voir ce contenu!");
+   }
    else if(isset($_GET['add_serie']) && $_GET['add_serie'] == true) {
       valid_message("Ajout réussi. Article en attente de validation par un administrateur.");
    }
@@ -75,7 +78,7 @@
                <th class="th_small">Episode</th>
                <th class="th_small">Statut</th>
                <th class="th_small">Date d'ajout</th>
-               <th class="th_small">Modération</th>
+               <th class="th_small">Editer</th>
             </tr>
          </thead>
          <tbody>
@@ -90,7 +93,7 @@
                      <td><?php echo $value['season']; ?></td>
                      <td><?php echo $value['name']; ?></td>
                      <td><?php if($value['status'] == 1) { echo '<img class="tab_icons" src="../images/valid.png" title="Validé" alt="Validé" />'; } else if($value['status'] == 2) { echo '<img class="tab_icons" src="../images/error.png" title="refusé" alt="Refusé" />'; } else { echo '<img class="tab_icons" src="../images/warning.png" title="En attente" alt="En attente" />'; } ?></td>
-                     <td><?php echo date_convert($value['release_date']); ?></td>
+                     <td><?php echo date_convert($value['date_publication']); ?></td>
                      <td class="table_mod">
                         <a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_edit_article.php?id=<?php echo $id_article; ?>">
                            <img class="tab_icons" src="../images/manage_edit.png" alt="Modifier" />

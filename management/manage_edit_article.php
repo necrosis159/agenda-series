@@ -2,16 +2,18 @@
 
    include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
+   $id_user = $_SESSION['id'];
+
    if(isset($_GET['id'])) {
       $id = $_GET['id'];
 
       // Test de l'existance de l'article
-      if(!get_episode($id)) {
-         header('Location: ./index.php?error_exists=true');
+      if(!check_record($id, "moderation_episode")) {
+         header('Location: index.php?error_exists=true');
       }
    }
    else {
-      header('Location: ./index.php');
+      header('Location: index.php');
    }
 
    if(isset($_POST['submit'])) {
@@ -21,14 +23,19 @@
       $id = $_POST["id"];
       $name = $_POST["name"];
       $summary = $_POST["summary"];
+      $release_date = $_POST["release_date"];
 
       // Modification du contenu
-      $result_update = update_episode($id, $name, $summary);
+      $result_update = update_proposal($id, $release_date, $name, $summary);
 
    }
 
    // Récupération de l'épisode selon son ID
-   $data = get_episode($id);
+   $data = get_proposal($id);
+
+   if($data['author'] != $id_user) {
+      header('Location: index.php?error_permission=true');
+   }
 
    // Récupération des séries dans la BDD
    $series_list = get_series();
@@ -45,7 +52,11 @@
 <div class="wrap">
 
    <section id="manage">
-      <h1 class="heading">Modifier l'article : # <?php echo $data['id']; ?></h1>
+      <h1 class="heading">Modifier l'article : "<?php echo $data['name']; ?>"</h1>
+
+      <a class="button" href="manage_articles.php?id=<?php echo $id_user; ?>">Retour la liste de mes articles</a>
+
+      <p style="margin-top: 10px;">Si l'article est modifié il sera soumis en modération à nouveau.</p>
 
       <form id="article_form" method="POST">
 

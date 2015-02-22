@@ -165,7 +165,7 @@
       $db = call_pdo();
 
       // Récupération des articles
-      $query = $db->prepare("SELECT E.*, S.name AS serie_name, SE.number AS season FROM episode E, serie S, season SE WHERE E.id_serie = S.id AND E.id_season = SE.id GROUP BY id HAVING E.last_contributor = " . $id . " ORDER BY date_publication LIMIT 5");
+      $query = $db->prepare("SELECT ME.*, S.name AS serie_name, SE.number AS season FROM moderation_episode ME, episode E, serie S, season SE WHERE ME.id_episode = E.id AND E.id_season = SE.id AND SE.id_serie = S.id GROUP BY ME.id HAVING ME.author = " . $id . " ORDER BY date_publication LIMIT 5");
 
       $query->execute();
 
@@ -278,6 +278,16 @@
       $query->execute();
 
       return $query;
+   }
+
+   function check_user($id) {
+      $result = false;
+
+      if($id_status == 2) {
+         $result = true;
+      }
+
+      return $result;
    }
 
 ?>
