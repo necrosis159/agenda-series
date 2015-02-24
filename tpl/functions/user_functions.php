@@ -144,7 +144,7 @@
 
      }
    }
-   
+
    // Fonction de suppression d'une série suivie par l'utilisateur
 
    function deleteSerieFollow($id_user, $id_serie) {
@@ -251,7 +251,7 @@
 
       return $result;
    }
-   
+
    // Fonction permettant d'entrée en base la date de dernière connexion d'un utilisateur
 
    function updateLastLogin($id) {
@@ -264,16 +264,16 @@
    function updateAvatar($id, $imageUrl) {
 
      $db = call_pdo();
-     
+
      // Récupère l'avatar de l'utilisateur
      $query = $db->prepare("SELECT avatar FROM user WHERE id = ".$id);
      $query->execute();
      $data = $query->fetch();
-     // Supprime l'avatar de l'utilisateur si ce n'est pas celui par défaut 
+     // Supprime l'avatar de l'utilisateur si ce n'est pas celui par défaut
      if($data['avatar'] != 'avatar/avatar_man.png' && $data['avatar'] != 'avatar/avatar_woman.png') {
        unlink('../'.$data['avatar']);
      }
-     
+
      // Ajoute le nouvel avatar de l'utilisateur
 
      $query = $db->prepare("UPDATE user SET avatar = '".$imageUrl."' WHERE id = ".$id);
@@ -313,17 +313,27 @@
 
       return $result;
    }
-   
+
    // Fonction de récupération des utilisateurs via la barre de recherche globale
    function gs_get_user($search) {
      $db = call_pdo();
-     
+
      $query = $db->prepare("SELECT id, username, avatar FROM user WHERE username LIKE :username LIMIT 0,5");
      $query->execute(array("username" => "%".$search."%"));
-     
+
      $result = $query->fetchAll();
-     
+
      return $result;
+   }
+
+   function check_user_editor($id_status) {
+      $result = false;
+
+      if($id_status == 1) {
+         $result = true;
+      }
+
+      return $result;
    }
 
 ?>

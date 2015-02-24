@@ -1,0 +1,236 @@
+/*SERIE*/
+
+#series{
+	margin: 20px auto;
+	width: 1200px;
+	overflow: auto;
+}
+
+#search{
+	padding: 20px;
+	width: 1000px;
+	height: 150px;
+	margin: auto;
+}
+#search h2{
+	margin:auto;
+	width:330px;
+}
+
+#listOfSeries{
+	overflow: auto;
+	padding: 20px;
+}
+#highlighting{
+	overflow: auto;
+	height: 335px;
+}
+
+.sticker{
+	width: 180px;
+	height: 250px;
+	margin-left: 50px;
+	float: left;
+}
+
+.sticker a:hover{
+	-webkit-filter: blur(1.5px);
+}
+
+#search input{
+	margin:20px auto auto 33%;
+	width:300px;
+	height: 20px;
+	padding:6px 15px 6px 30px;
+	background-image: url('images/search.png'); 
+	border-radius:15px; 
+	-moz-border-radius:15px; 
+	-webkit-border-radius:15px;
+}
+
+.serie_search{
+
+}
+
+/*SERIE DETAIL*/
+
+#serie_detail{
+	padding: 50px 0px 50px 0px;
+	width: 1000px;
+	margin: auto;
+	height: :auto;
+	overflow: auto;
+}
+
+#serie_detail h3{
+	margin-top: 20px;
+	color: #F26C4F;
+	font-weight: 600em;
+	font-size: 1.2em;
+	clear: both;
+}
+}
+#serie_detail #title{
+	margin-bottom: 10px;
+	color: #414A5A;
+	font-size: 1.6em;
+	font-weight: normal;
+}
+
+#ban{
+	margin: auto;
+}
+
+#divLeft{
+	width: 65%;
+	float: left;
+}
+
+#divLeft #subtitle{
+	color: #353c49;
+	font-size: 1.2em;
+}
+
+#divRight{
+	float: right;
+	width: 30%;
+}
+
+#divRight #user_options{
+	background-color: #519548;
+	border-radius: 5px;
+	padding: 20px 10px 20px 10px;
+}
+
+#divRight h2{
+	color: #fff;
+	font-size: 1.2em;
+}
+
+#divRight #seasons_list{
+	margin-top: 20px;
+	background-color: #519548;
+	border-radius: 5px;
+	padding: 20px 10px 20px 10px;
+}
+
+#divRight #episode_easy_access{
+	margin-top: 20px;
+	background-color: #519548;
+	border-radius: 5px;
+	padding: 20px 10px 20px 10px;
+}
+
+#divRight .button{
+	background-image: linear-gradient(#b2b2b2, #898989);
+	border-radius: 5px;
+	border: 1px solid #898989;
+	padding: 5px;
+}
+
+#containerSerie{
+	margin-top: 50px;
+}
+
+#containerSerie #episode{
+	clear: both;
+	margin-top: 20px;
+}
+
+
+#containerSerie #episode .list_episode{
+  	list-style: none;
+  	width: 800px;
+  	margin: auto;
+}
+
+#containerSerie #episode .list_episode li{
+	border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(#000, .1);
+    position: relative;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+#containerSerie #episode .list_episode li p{
+	padding: 20px 20px 20px 20px;
+	border-top: 1px solid black;
+}
+
+#containerSerie #episode .list_episode li #name_episode{
+	padding: 0px 20px 0px 20px;
+	color: #21b7c6;
+    line-height: 40px;
+}
+
+#containerSerie #episode .list_episode li #name_episode a{
+	color: #21b7c6;
+}
+
+
+#serie_detail .sendComment{
+	clear: both;
+	padding: 20px 0px 20px 0px;
+}
+
+#serie_detail .sendComment img{
+	margin-left: 10px;
+}
+
+#serie_detail .sendComment textarea{
+	resize: none;
+	height: 80px;
+	width: 500px;
+}
+
+#serie_detail .list_comment{
+	max-width: 800px;
+	padding-left: 80px;
+  	list-style: none;
+  	clear: both;
+}
+
+#serie_detail .list_comment li{
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(#000, .1);
+    position: relative;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+#serie_detail .list_comment li:before{
+	  position: absolute;
+	  border-style: solid;
+      border-color: transparent white;
+      border-width: 10px 10px 10px 0;
+      content: '';
+      top: 10px;
+      left: -10px;
+}
+
+#serie_detail .list_comment #username_comment{
+	padding-left: 20px;
+	color: #21b7c6;
+    line-height: 40px;
+}
+
+#serie_detail .list_comment #avatar_comment{
+		width: 60px;
+        height: 60px;
+        background: #fff;
+        border: 4px solid #fff;
+        border-radius: 2px;
+        box-shadow: 0 1px 2px rgba(#000, .1);
+        position: absolute;
+        top: 0;
+        left: -80px;
+	}
+
+#serie_detail .list_comment p{
+	padding: 20px 20px 20px 20px;
+	border-top: 1px solid black;
+}
+
+#serie_detail .list_comment p textarea{
+	width: 620px;
+}

@@ -42,6 +42,7 @@
             </tr>
          </thead>
          <tbody>
+            <?php if($_SESSION['status'] == 2): ?>
             <tr>
                <td><a href="manage_admin_users.php">Utilisateurs</a></td>
                <td><?php echo $users[0]; ?></td>
@@ -62,6 +63,7 @@
                   </a>
                </td>
             </tr>
+         <?php endif; ?>
 
             <tr>
                <td><a href="manage_admin_series.php">Séries</a></td>
@@ -84,6 +86,7 @@
                </td>
             </tr>
 
+            <?php if($_SESSION['status'] == 2): ?>
             <tr>
                <td><a href="manage_admin_comments.php">Commentaires</a></td>
                <td><?php echo $comments[0]; ?></td>
@@ -117,6 +120,7 @@
                   </a>
                </td>
             </tr>
+         <?php endif; ?>
 
          </tbody>
       </table>
