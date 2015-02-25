@@ -22,6 +22,19 @@
 
      return $query;
    }
+   
+   // Requête de selection de l'id a partir du username
+   function user_id($username) {
+
+     // Connection à la base de données
+     $db = call_pdo();
+
+     $query = $db->prepare("SELECT id FROM user WHERE username = :username");
+     $query->execute(array("username" => $username));
+	 
+	 $donnees = $query->fetch();
+     return $donnees['id'];
+   }
 
    // Fonction de calcul de l'âge, date en paramètre au format mm/dd/yyyy
    function age($date) {
