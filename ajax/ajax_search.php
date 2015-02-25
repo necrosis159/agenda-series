@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 session_start();
    include $_SERVER['DOCUMENT_ROOT'] . '/tpl/functions/global_functions.php';
    include $_SERVER['DOCUMENT_ROOT'] . '/tpl/functions/user_functions.php';

@@ -20,9 +20,10 @@ $seriesOnline = series_get_online();
 		<div id="highlighting" style="clear:both;">
 			<h2 class="heading">Mise en avant</h2>
 			<?php
-			while ($donnees = $seriesHightlight->fetch()){				
+			while ($donnees = $seriesHightlight->fetch()){		
+				$imageVignette = explode("/", $donnees['image']);
 				echo "<span class='sticker'>";
-				echo "<a href='../les-series/".$donnees['name']."'><img src=../images/series/vignette_".$donnees['image']."></a>";
+				echo "<a href='../les-series/".$donnees['name']."'><img src=../images/series/vignette_".$imageVignette[1]."></a>";
 				echo "</span>";
 			}
 			?>
@@ -30,9 +31,10 @@ $seriesOnline = series_get_online();
 		<div id="">
 			<h2 class="heading">Les séries</h2>
 		<?php		
-			while ($donnees = $seriesOnline->fetch()){				
+			while ($donnees = $seriesOnline->fetch()){	
+				$imageVignette = explode("/", $donnees['image']);			
 				echo "<span class='sticker'>";
-				echo "<a href='../les-series/".$donnees['name']."'><img src=../images/series/vignette_".$donnees['image']."></a>";
+				echo "<a href='../les-series/".$donnees['name']."'><img src=../images/series/vignette_".$imageVignette[1]."></a>";
 				echo "</span>";
 			}
 			?>

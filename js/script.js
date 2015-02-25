@@ -115,19 +115,17 @@ $(document).ready(function() {
     });
   }
   
-    // Permet de scroller jusqu'au bloc désiré
-    $('#yo').click(function(){
-        var offset = $('#last_comments').offset();
-        $('html,body').animate({scrollTop: offset.top}, 1000);
-        return false;
-    });
-
   /********************************************************
    * 
    *                SERIES
    * 
    ********************************************************/
 
+    //Convertis tous les simple cote en \\'
+    function addslashes(ch) {
+    ch = ch.replace(/\'/g,"\\'")
+    return ch
+    }
 
     // détection de la saisie dans le champ de recherche
     $('#rechercheSerie').keyup(function(){
@@ -154,35 +152,35 @@ $(document).ready(function() {
     else{
         $('#recherche').html("");
     }       
-});
+    });
 
-
-// détection de la saisie dans le champ de recherche
+    // détection de la saisie dans le champ de recherche
     $('#send_comment').click(function(){
     $field = $('#comment');
+    $valueTest= addslashes($field.val());
     $('#results').html(''); // on vide les resultats
     $('#ajax-loader').remove(); // on retire le loader
- 
+
     // on commence à traiter à partir du 2ème caractère saisie
     if( $field.val().length > 0 ) {
         // on envoie la valeur recherché en GET au fichier de traitement
         $.ajax({
                 type : 'GET', // envoi des données en GET ou POST
                 url : '/ajax/ajax_comment.php' , // url du fichier de traitement
-                data : 'q='+$field.val()+'&id_User='+$('#id_user').val()+'&id_episode='+$('#id_episode').val() , // données à envoyer en  GET ou POST
+                data : 'q='+addslashes($field.val())+'&id_User='+$('#id_user').val()+'&id_episode_commentaire='+$('#id_episode_commentaire').val() , // données à envoyer en  GET ou POST
                 beforeSend : function() { // traitements JS à faire AVANT l'envoi
                     $("#send_comment").remove();
-                    $field.after('<img src="../images/loader.gif" alt="loader" id="test" />'); // ajout d'un loader pour signifier l'action
+                    $field.after('<img src="../../../images/loader.gif" alt="loader" id="test" />'); // ajout d'un loader pour signifier l'action
                 },
                 success : function(data){ // traitements JS à faire APRES le retour d'ajax-search.php
                     $('#test').remove(); // on enleve le loader
-                    $('#commentZone').html("<img style='width: 15px;' src='../images/ok.png' /> Merci! Votre commentaire est en cour d'approbation."); // affichage des résultats dans le bloc
+                    $('#commentZone').html("<img style='width: 15px;' src='../../../images/ok.png' /> Merci! Votre commentaire est en cour d'approbation."); // affichage des résultats dans le bloc
                     }                
         });
     }    
-});
+  });
 
-// détection de la saisie dans le champ de recherche
+    // détection de la saisie dans le champ de recherche
     $('#favorite').click(function(){
     $field = $('#favorite');
     $('#results').html(''); // on vide les resultats
@@ -203,8 +201,52 @@ $(document).ready(function() {
                 
         });
         
-});
+    });
 
 /*FIN SERIE*/
 
+  $('#avatar_modify').click(function(){
+          var ancre = $("#create_logo");
+          $(ancre).slideToggle(400, function() {
+            if($(ancre).css('display') === 'block') {
+              $('html, body').animate({
+                  scrollTop:$('#profile_bloc').offset().top
+              }, 'slow');
+          } else {
+              $('html, body').animate({
+                  scrollTop:$('.top_header_btm').offset().top
+              }, 'slow');
+          }
+          });
+          return false;
+  });
+  
+  $('#show_text_options').click(function() {
+    $('#font_bloc').slideToggle(200, function() {
+      $('html, body').animate({
+        scrollTop:$('#create_logo').offset().top
+      }, 'slow');
+    });
+    $('#create_logo_ou').slideToggle();
+  });
+    
+    // Permet de scroller jusqu'au bloc désiré
+    $('#yo').click(function(){
+        var offset = $('#last_comments').offset();
+        $('html,body').animate({scrollTop: offset.top}, 1000);
+        return false;
+    });
+    
+//    if(location.href === getBaseURL()+'/account/index.php') {
+//      if($('#create_logo textarea').val() !== "") {
+//        $('#create_logo').show();
+//        $('html, body').animate({
+//          scrollTop:$('#create_logo').offset().top
+//        }, 'slow');
+//      }
+//    }
+
+if(typeof($('#erreurFormulaire')) !== 'undefined' && $.trim($('#erreurFormulaire').html()) !== "") {
+  $('#erreurFormulaire').show();
+}
 });

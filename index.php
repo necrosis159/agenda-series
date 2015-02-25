@@ -1,6 +1,7 @@
 <?php
    include './tpl/top.php';
-   $seriesHightlight = series_get_hightlight();
+   $seriesHightlight = series_get_last_published();
+   $commentHightlight = series_get_comment_highlight();
 ?>
 
 <div class="last_posts">
@@ -9,14 +10,14 @@
       <h5 class="heading">Dernières séries ajoutées</h5>
       <div class="l-grids">
          <?php 
-            $temp = null;
+            $temp = null; //Permet d'intervertir entre les deux CSS (Vert, Orange)
             $i = 1;
             while($donnees = $seriesHightlight->fetch()){
                echo '<div class="l-grid-1 '.$temp.'" style="margin-top: 10px;"> <div class="desc">';
                echo "<h3>".$donnees['name']."</h3>";
                echo "<span>".$donnees['nb_season']." saisons - ".$donnees['nb_episode']." episodes</span>";
                echo "<p>".$donnees['short_description']."</p>";
-               echo "</div><img src='images/series/vignette_".$donnees['image']."'><div class='clear'> </div> </div>";
+               echo "</div><img style='height:443px;' src='images/".$donnees['image']."'><div class='clear'> </div> </div>";
                if($i%2==0){
                   if($temp != "l-grid-2")
                      $temp = null;
@@ -36,32 +37,45 @@
    </div>
 </div>
 
-<div style="clear:both;" class="last_comments">
+<div class="last_comments">
    <!-- start last_posts -->
    <div class="wrap">
-      <h5 class="heading">Derniers commentaires</h5>
-      <div class="grids">
-         <div class="first_grid">
-            <h3>A propos de The Walking dead</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-         </div>
-         <div class="img_1">
-            <img src="images/avator.png">
-         </div>
-         <div class="clear"> </div>
-      </div>
-      <div class="grids">
-         <div class="img_2">
-            <img src="images/avator.png">
-         </div>
-         <div class="first_grid_2">
-            <h3>The Flash WTF ?!</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-         </div>
-         <div class="clear"> </div>
-      </div>
+      <h5 class="heading">Commentaires mis en avant</h5>
+
+      <?php
+         $tempContent = "first_grid"; //Permet d'intervertir entre les deux CSS (grid 1 / grid 2)
+         $tempImage = "img_1"; //Permet d'intervertir entre les deux CSS (image gauche/droite)
+         $i = 1;
+         while($donnees = $commentHightlight->fetch()){
+               echo  '<div class="grids">';
+               echo     '<div class="'.$tempContent.'">';
+               echo        "<h3>".$donnees['title']."</h3>";
+               echo        "<p>".$donnees['content']."</p>";
+               echo     "</div>";
+               echo     '<div class="'.$tempImage.'">
+                           <img src="images/avator.png">
+                        </div>
+                        <div class="clear"> </div>
+                     </div>';
+               if($i%2==0){
+                  if($tempContent != "first_grid_2"){
+                     $tempContent = "first_grid";
+                     $tempImage = "img_1";}
+                  else{
+                     $tempContent = "first_grid_2";
+                     $tempImage = "img_2";}
+                  continue;
+               }
+
+               if($tempContent != "first_grid_2"){
+                  $tempContent = "first_grid_2";
+                  $tempImage = "img_2";}
+               else{
+                  $tempContent = "first_grid";
+                  $tempImage = "img_1";}
+               $i++;
+            }
+      ?>
    </div>
 </div>
 

@@ -1,16 +1,15 @@
 <?php
+include"tpl/top.php";
 
-   include"tpl/top.php";
-
-   if(isset($_SESSION['id'])) {
-      header('Location: ../account/index.php');
-   }
+if (isset($_SESSION['id'])) {
+  header('Location: ../account/index.php');
+}
 
 // Test des champs du formulaire à l'envoi
 if (isset($_POST["submit"])) {
   $arrayErrors = array();
   // On vérifie qu'aucun champ du formulaire n'a été ajouté par l'utilisateur
-  $liste_champs = array("gender", "name", "surname", "email", "pseudo", "password", "password_confirm", "birthdate", "submit");
+  $liste_champs = array("gender", "name", "surname", "email", "username", "password", "password_confirm", "birthdate", "submit");
   if (count(array_diff($liste_champs, array_keys($_POST))) === 0) {
     $error = 0;
 
@@ -19,25 +18,25 @@ if (isset($_POST["submit"])) {
     $name = trim($_POST['name']);
     $surname = trim($_POST['surname']);
     $email = trim($_POST['email']);
-    $pseudo = trim($_POST['pseudo']);
+    $username = trim($_POST['username']);
     $password = trim($_POST['password']);
     $password_confirm = trim($_POST['password_confirm']);
     $birthdate = trim($_POST['birthdate']);
 
     // Champ name
-    if (strlen($name) > 50) {
+    if (empty($name) || strlen($name) > 50) {
       $arrayErrors[] = "Le nom n'est pas valide";
       $error ++;
     }
 
     // Champ Prénom
-    if (strlen($surname) > 50) {
+    if (empty($surname) || strlen($surname) > 50) {
       $arrayErrors[] = "Le prénom n'est pas valide";
       $error ++;
     }
 
     // On vérifie que le name et le Prénom ne sont pas égaux
-    if (!empty($name) && !empty($surname) && $name == $surname) {
+    if (!empty($name) && !empty($surname) && mb_strtolower($name) == mb_strtolower($surname)) {
       $arrayErrors[] = "Le prénom et le nom sont identiques";
       $error ++;
     }
@@ -45,8 +44,6 @@ if (isset($_POST["submit"])) {
     // Champ email
     if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
       // On vérifie si le mail existe dans la bdd
-//            $query = $db->prepare("SELECT email FROM user where email = '".$email."'");
-//            $query->execute();
       $result = isEmailExists($email);
       if ($result->rowCount() > 0) {
         $arrayErrors[] = "Le mail existe déjà";
@@ -59,11 +56,9 @@ if (isset($_POST["submit"])) {
     }
 
     // Champ pseudo
-    if (!empty($pseudo) && strlen($pseudo) >= 4 && strlen($pseudo) <= 50) {
+    if (!empty($username) && strlen($username) >= 4 && strlen($username) <= 50) {
       // On vérifie si le pseudo existe dans la bdd
-//            $query = $db->prepare("SELECT pseudo FROM user where pseudo = '".$pseudo."'");
-//            $query->execute();
-      $result = isPseudoExists($pseudo);
+      $result = isUsernameExists($username);
       if ($result->rowCount() > 0) {
         $arrayErrors[] = "Le pseudo existe déjà";
         $error ++;
@@ -84,16 +79,7 @@ if (isset($_POST["submit"])) {
         $error ++;
       }
     }
-//        if (empty($password) || preg_match("/^(?=.*\d)(?=.*[A-Z]).{4,8}$/", $password) === 0) {
-//            $arrayErrors[] = "Le mot de passe n'est pas valide";
-//            $error ++;
-//        } else {
-//            // Champ password_confirm
-//            if(empty($password_confirm) || preg_match("/^(?=.*\d)(?=.*[A-Z]).{4,8}$/", $password_confirm) === 0 || $password!=$password_confirm) {
-//                $arrayErrors[] = "Les 2 mots de passe ne sont pas identiques";
-//                $error ++;
-//            }
-//        }
+
     // Champ date
     if (!empty($birthdate)) {
       // format dd/mm/yyyy
@@ -136,86 +122,71 @@ if (isset($_POST["submit"])) {
     }
 
     // Si il y a une erreur on retourne le message d'erreur sinon on insert dans la bdd
-    if ($error > 0) {
-      array_unshift($arrayErrors, "Formulaire invalide");
-    } else {
-//            $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
-//                                    VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".$password."', '".$birthdateFormat."')");
-//            $query->execute();
-      addUser($gender, $name, $surname, $email, $pseudo, $password, $birthdateFormat);
-      echo "Inscription réussie";
+    if ($error == 0) {
+      addUser($gender, $name, $surname, $email, $username, $password, $birthdateFormat);
+      valid_message("Inscription réussie");
     }
   } else {
-    $arrayErrors[] = "Petit coquinou qui essaye d'insérer des champs :o";
+    error_message("Une erreur s'est produite !");
   }
 }
 ?>
+<div id="erreurFormulaire" style="display: none;">
+    <?php
+    if (isset($_POST["submit"])) :
+      if (count($arrayErrors) > 0) :
+      echo error_message($arrayErrors[0]);
+      endif;
+    endif;
+    ?>
+  </div>
 <div class="wrap">
+  <h5 class="heading">Inscription</h5>
   <div class="form_account_bloc">
-    <div id="erreurFormulaire">
-<?php
-if (isset($_POST["submit"])) :
-  if (count($arrayErrors) > 0) : ?>
-      <ul style="list-style: circle">
-<?php
-    foreach ($arrayErrors as $row) : ?>
-      <li><?php echo $row; ?></li>
-<?php
-    endforeach; ?>
-    </ul>
-<?php
-  endif;
-endif;
-?>
-    </div>
-    <h5 class="heading">Inscription</h5>
-    <fieldset>
-      <legend>Inscription</legend>
-      <!--<form action="" method="POST" class="form_account">-->
-      <form action="" method="POST" id="article_form">
+    <form action="" method="POST" id="article_form">
 
-          <label for="name">Nom *
-          <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
-          </label>
+      <label for="name">Nom *
+        <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
+      </label>
 
-          <label for="surname">Prénom *
-          <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
-          </label>
+      <label for="surname">Prénom *
+        <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
+      </label>
 
-          <label for="gender">Genre *
-            <p>
-              <input type='radio' name='gender' value='0' checked> Masculin
-              <input type='radio' name='gender' value='1'> Féminin
-            </p>
-          </label>
+      <label for="gender">Genre *
+        <p>
 
-          <label for="email">Adresse Mail *
-          <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
-          </label>
+          <input type='radio' name='gender' value='0' checked> Masculin
+          <input type='radio' name='gender' value='1' <?php if (isset($gender) && $gender == 1) echo "checked"; ?> > Féminin
+        </p>
+      </label>
 
-          <label for="pseudo">Pseudo *
-          <input type='text' id='pseudo' name='pseudo' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($pseudo)) echo $pseudo ?>'>
-          </label>
+      <label for="email">Adresse Mail *
+        <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
+      </label>
 
-          <label for="password">Mot de passe *
-          <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="20" value='<?php if (isset($password)) echo $password ?>'>
-          </label>
+      <label for="username">Pseudo *
+        <input type='text' id='username' name='username' class="input_form" placeholder='Pseudo' size="30" maxlength="50" value='<?php if (isset($username)) echo $username ?>'>
+      </label>
 
-          <label for="password_confirm">Confirmation mot de passe *
-          <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
-          </label>
+      <label for="password">Mot de passe *
+        <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="20" value='<?php if (isset($password)) echo $password ?>'>
+      </label>
 
-          <label for="birthdate">Date de naissance *
-          <input type="date" id="birthdate" name="birthdate" size="30"  class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10" value='<?php if (isset($birthdate)) echo $birthdate ?>'>
-          </label>
+      <label for="password_confirm">Confirmation mot de passe *
+        <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
+      </label>
 
-          <br/><br/>
-          * Champs obligatoires
-          <br/><br/>
-          <input class="button" type='submit' id='submit' name='submit' value='Envoyer'>
+      <label for="birthdate">Date de naissance *
+        <input type="date" id="birthdate" name="birthdate" size="30"  class="input_form" placeholder="JJ/MM/AAAA ou JJ-MM-AAAA" maxlength="10" value='<?php if (isset($birthdate)) echo $birthdate ?>'>
+      </label>
 
-      </form>
-    </fieldset>
+      <br/><br/>
+      * Champs obligatoires
+      <br/><br/>
+      <input class="button" type='submit' id='submit' name='submit' value='Envoyer'>
+
+    </form>
   </div>
 </div>
 

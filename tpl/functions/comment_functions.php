@@ -28,6 +28,22 @@
       return $result;
    }
 
+   // Fonction de récupération de tous les commentaires
+   function get_comment($id = '') {
+      // Connection à la base de données
+      $db = call_pdo();
+
+
+      // Récupération du commentaire d'un utilisateur
+      $query = $db->prepare("SELECT C.*, U.username AS author, E.name AS episode, SA.name AS status FROM comment C, user U, episode E, status_article SA WHERE C.id = " . $id . " AND C.id_episode = E.id AND C.id_user = U.id AND C.status = SA.id");
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+
    // Fonction de récupération des commentaires d'un utilisateur via son ID
    function user_comments($id = '') {
       // Connection à la base de données
@@ -49,7 +65,7 @@
       $db = call_pdo();
 
       // Récupération des commentaires
-      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id . " LIMIT 5");
+      $query = $db->prepare("SELECT * FROM comment WHERE id_user = " . $id . " ORDER BY date_publication LIMIT 5");
 
       $query->execute();
 
@@ -59,30 +75,98 @@
    }
 
    // Fonction de suppression d'un commentaie
-   function delete_comment($id) {
+   function remove_comment($id) {
       // Connection à la base de données
       $db = call_pdo();
 
-      // Suppression de l'épisode
-      $query = $db->prepare('DELETE FROM comment WHERE id = ' . $id);
+      // Mise à jour du statut
+      $query = $db->prepare('UPDATE comment SET status = 4 WHERE id = ' . $id);
 
       $query->execute();
 
       return $query;
    }
 
-
-   // Fonction de modification d'un commentaire
-   function update_comment($id, $name, $content) {
+   // Fonction de désactivation d'un commentaie
+   function suspend_comment($id) {
       // Connection à la base de données
       $db = call_pdo();
 
-      // Mise à jour des nouveaux champs du commentaire
-      $query = $db->prepare('UPDATE comment SET name = "' . $name . '", content = "' . $content . '" WHERE id = ' . $id);
+      // Mise à jour du statut
+      $query = $db->prepare('UPDATE comment SET status = 2 WHERE id = ' . $id);
 
       $query->execute();
 
       return $query;
+   }
+
+   // Fonction de réactivation d'un commentaie
+   function unsuspend_comment($id) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Mise à jour du statut
+      $query = $db->prepare('UPDATE comment SET status = 3 WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de modification d'un commentaire
+   function validate_comment($id, $title, $content) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Mise à jour des nouveaux champs du commentaire
+      $query = $db->prepare('UPDATE comment SET title = "' . $title . '", content = "' . $content . '", status = 4 WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de modification d'un commentaire
+   function reject_comment($id) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Mise à jour des nouveaux champs du commentaire
+      $query = $db->prepare('UPDATE comment SET status = 5 WHERE id = ' . $id);
+
+      $query->execute();
+
+      return $query;
+   }
+
+   // Fonction de récupération de tous les commentaires en attente
+   function get_awaiting_comments() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération des commentaires en attente
+      $query = $db->prepare("SELECT * FROM comment WHERE status = 0");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
+   // Fonction de récupération de tous les commentaires
+   function get_pending_comments() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération des commentaires selon leurs statuts
+      $query = $db->prepare("SELECT * FROM comment WHERE status = 3 OR status = 0");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
    }
 
 ?>

@@ -1,82 +1,11 @@
 <?php
 
-   // Fonction de création d'un épisode
-   function create_episode($id_user, $serie, $name, $season, $episode, $description, $resume, $release_date, $duration) {
-      // Connection à la base de données
-      $db = call_pdo();
-
-      // Ajout des nouveaux champs de l'épisode
-      $query = $db->prepare('INSERT INTO episode VALUES ("" , "' . $name . '", "' . $season . '", "' . $serie . '", "' . $description . '", "' . $resume . '", "' . $release_date . '", "' . $duration . '", "' . $id_user . '", "' . $episode . '")');
-
-      $query->execute();
-
-      return $query;
-   }
-
-   // Fonction de suppression d'un épisode
-   function delete_episode($id) {
-      // Connection à la base de données
-      $db = call_pdo();
-
-      // Suppression de l'épisode
-      $query = $db->prepare('DELETE FROM episode WHERE id = ' . $id);
-
-      $query->execute();
-
-      return $query;
-   }
-
-   // Fonction de récupération d'un article/épisode via son ID
-   function get_episode($id = '') {
-      // Connection à la base de données
-      $db = call_pdo();
-
-      // Récupération de l'épisode
-      $query = $db->prepare("SELECT E.*, S.name serie_name FROM episode E, serie S WHERE E.id = " . $id . " AND E.id_serie = S.id");
-
-      $query->execute();
-
-      $result = $query->fetch();
-
-      return $result;
-   }
-
-   // Fonction de récupération des articles d'un utilisateur
-   function user_episodes($id = '') {
-      // Connection à la base de données
-      $db = call_pdo();
-
-      // Récupération des épisodes avec l'ID de l'auteur
-      $query = $db->prepare("SELECT E.*, S.name serie_name FROM episode E, serie S WHERE E.last_contributor = " . $id . " AND E.id_serie = S.id");
-
-      $query->execute();
-
-      $result = $query->fetchAll();
-
-      return $result;
-   }
-
-   // Fonction de modification d'un épisode
-   function update_episode($id, $name, $resume, $number) {
-      // Connection à la base de données
-      $db = call_pdo();
-
-      // Ajout des nouveaux champs de l'épisode
-      $query = $db->prepare('UPDATE episode SET name = "' . $name . '", resume = "' . $resume . '", number = "' . $number . '" WHERE id = ' . $id);
-
-      // die(var_dump($query));
-
-      $query->execute();
-
-      return $query;
-   }
-
    // Fonction de récupération de la liste des séries
-   function series_list() {
+   function get_series() {
       // Connection à la base de données
       $db = call_pdo();
 
-      $query = $db->prepare("SELECT * FROM serie");
+      $query = $db->prepare("SELECT * FROM serie ORDER BY name");
 
       $query->execute();
 
@@ -86,15 +15,207 @@
    }
 
    // Fonction de récupération des saisons de la série concernée
-   function seasons_list($id_serie) {
+   function get_series_seasons($id_serie) {
       // Connection à la base de données
       $db = call_pdo();
 
-      $query = $db->prepare("SELECT * FROM season WHERE id_serie = " . $id_serie . "");
+      $query = $db->prepare("SELECT S.*, SE.name AS serie FROM season S, serie SE WHERE S.id_serie = " . $id_serie . " AND SE.id = " . $id_serie . " ORDER BY S.number");
 
       $query->execute();
 
       $result = $query->fetchAll();
+
+      return $result;
+   }
+
+      // Fonction de récupération des séries via l'entrée de la recherche globale
+   function gs_get_series($search) {
+
+
+     $db = call_pdo();
+     
+     $query = $db->prepare("SELECT id, name, short_description, description, image, notation, rewrite FROM serie WHERE name LIKE :name LIMIT 0,5");
+     $query->execute(array("name" => "%".$search . "%"));
+     
+
+
+
+
+
+     $result = $query->fetchAll();
+     
+
+     return $result;
+   }
+
+   // Fonction de récupération de la liste des séries
+   function get_categories() {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM category");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
+   // Fonction de création d'une fiche de série
+   function create_serie($name, $short_description, $description, $nationality, $channel, $year_start, $year_end, $image, $video, $rewrite, $category, $status, $meta_keywords, $id_user, $highlight) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération de la date actuelle
+      $current_date = date('Y-m-d');
+
+      $query = $db->prepare('INSERT INTO serie VALUES("", "' . ucfirst($name) . '", "' . $short_description . '", "' . $description . '", "' . $nationality . '", "' . $channel . '", "' . $year_start . '", "' . $year_end . '", "' . $image . '", "' . $video . '", 0, "' . $rewrite . '", ' . $category . ', ' . $status . ', "' . $meta_keywords . '", ' . $id_user . ', "0000-00-00", "' . $current_date . '", ' . $highlight . ')');
+
+      $result = $query->execute();
+
+      return $result;
+   }
+
+   // Fonction de récupération de la liste des status
+   function get_status() {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM status_article");
+
+      $query->execute();
+
+      $result = $query->fetchAll();
+
+      return $result;
+   }
+
+   // Fonction de récupération d'une série en fonction de son ID
+   function get_serie($id) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM serie WHERE id = " . $id);
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+
+   // Fonction de mise à jour d'une série
+   function update_serie($id_serie, $name, $short_description, $description, $nationality, $channel, $year_start, $year_end, $image, $video, $rewrite, $category, $status, $meta_keywords, $id_user, $highlight) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare('UPDATE serie SET name = "' . ucfirst($name) . '", short_description = "' . $short_description . '", description = "' . $description . '", nationality = "' . $nationality . '", channel = "' . $channel . '", year_start = "' . $year_start . '", year_end = "' . $year_end . '", image = "' . $image . '", video = "' . $video . '", rewrite = "' . $rewrite . '", id_category = ' . $category . ', meta_keywords = "' . $meta_keywords . '", author = ' . $id_user . ', status = ' . $status . ', release_date = "' . $year_start . '", highlighting = ' . $highlight . ' WHERE id = ' . $id_serie);
+
+      $result = $query->execute();
+
+      return $result;
+   }
+
+   // Fonction de suspension d'une série via son ID
+   function suspend_serie($id) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("UPDATE serie SET status = 3 WHERE id = :id");
+
+      $query->execute(array(':id' => $id));
+
+      $query->closeCursor();
+   }
+
+   // Fonction de création d'une nouvelle saison d'une série
+   function create_season($id_serie, $number, $name, $description, $status, $year_start, $year_end, $rewrite) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      // Récupération de la date actuelle
+      $current_date = date('Y-m-d');
+
+      $query = $db->prepare('INSERT INTO season VALUES("", ' . $id_serie . ', ' . $number . ', "' . ucfirst($name) . '", "' . ucfirst($description) . '", ' . $status . ', 0, "' . $year_start . '", "' . $year_end . '", "' . $current_date . '", "' . $rewrite . '")');
+
+      $result = $query->execute();
+
+      return $result;
+   }
+
+   // Fonction de mise à jour d'une saison
+   function update_season($id, $number, $name, $description, $status, $year_start, $year_end, $rewrite) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare('UPDATE season SET number = ' . $number . ', name = "' . $name . '", description = "' . $description . '", status = ' . $status . ', year_start = "' . $year_start . '", year_end = "' . $year_end . '", rewrite = "' . $rewrite . '" WHERE id = ' . $id);
+      // die(var_dump($query));
+
+      $result = $query->execute();
+
+      return $result;
+   }
+
+   // Fonction de suspension d'une saison via son ID
+   function suspend_season($id) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("UPDATE season SET status = 3 WHERE id = :id");
+
+      $query->execute(array(':id' => $id));
+
+      $query->closeCursor();
+   }
+
+   // Fonction de récupération d'une série en fonction de son ID
+   function get_season($id) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT S.*, SE.id AS id_serie, SE.name AS serie FROM season S, serie SE WHERE S.id = $id AND S.id_serie = SE.id");
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+   
+     // Fonction de récupération du nombre d'utilisateurs qui suivent une série
+   function getNbFollowersSeries($idSerie) {
+
+     $db = call_pdo();
+
+     $query = $db->prepare("SELECT COUNT(*) FROM serie_user WHERE id_serie = :idSerie");
+
+     $query->execute(array("idSerie" => $idSerie));
+     
+     $result = $query->fetch();
+     
+     return $result;
+   }
+
+   // Fonction de test de l'existance d'un numéro d'épisode ou de saison
+   function check_number($id_parent, $parent, $number, $table) {
+
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT * FROM " . $table . " WHERE number = " . $number . " AND " . $parent . " = " . $id_parent);
+
+      $query->execute();
+
+      $result = $query->fetch();
 
       return $result;
    }

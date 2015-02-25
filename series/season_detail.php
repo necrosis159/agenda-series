@@ -6,21 +6,23 @@
 	//Retourne l'id de la série avec le nom disponible sur l'URL
 	$id_Serie = series_get_id_by_name($_GET['name']);
 	
-	$id_Season = $_GET['saison'];
-	$series_seasons= series_get_active_season($id_Serie);
+	$number_Season = $_GET['saison'];
+	$id_Season = series_get_id_season($id_Serie, $number_Season);
+	$series_seasons= series_get_season($id_Serie, $number_Season);
 	while ($donnees = $series_seasons->fetch()){
-		$number_Season = $donnees['number'];
+		$nb_episode = $donnees['nb_episode'];
 		$name_Season = $donnees['name'];
 		$description_Season = $donnees['description'];
-		$date_start_Season = $donnees['date_start'];
-		$date_end_Season = $donnees['date_end'];
+		$date_start_Season = $donnees['year_start'];
+		$date_end_Season = $donnees['year_end'];
+		$date_publication = $donnees['date_publication'];
 	}
 	$series_seasons->closeCursor();
 
 	//Retourne les épisodes d'une saison
 	//1er= Retourne juste l'ID et le nom. 2eme = Retourne toutes les colonnes
-	$series_seasons_episodes_fast= series_get_active_episode_fast($id_Season, $id_Serie);
-	$series_seasons_episodes= series_get_active_episode($id_Season, $id_Serie);
+	$series_seasons_episodes_fast= series_get_active_episode_fast($id_Serie, $id_Season);
+	$series_seasons_episodes= series_get_active_episode($id_Serie, $id_Season);
 
 	//Retourne le nom de la série grâce à l'ID
 	$serieName= get_series_name_by_id($id_Serie);
@@ -32,15 +34,14 @@
 	<div id="serie_detail">
 		<div id="ban">
 			<?php 
-				$ban_picture = '../images/series/season_'.$id_Season.'.png';
-				if(file_exists($ban_picture)){echo "<img src='$ban_picture'>";}else{echo "<img src='../images/misssing_picture.jpg'>";}
+				if(file_exists('../images/series/season_'.$id_Season.'.png')){echo "<img src='../../images/series/season_".$id_Season.".png'>";}else{echo "<img src='../../images/missing_picture.jpg'>";}
 			?>
 		</div>
 		<div id="containerSerie">
 			<div id="divLeft">
 				<span id="title"> <?php echo $name_Season;?> </span><br>
 				<div id='subtitle'>
-					<?php echo $date_start_Season." - ".$date_end_Season."<br>"."Nombre d'épisode: ".$number_Season; ?>
+					<?php echo $date_start_Season." - ".$date_end_Season."<br>Nombre d'épisode: ".$nb_episode."<br>Date de publication:".$date_publication; ?>
 				</div>
 				<h3>Description:</h3><br>
 				<?php echo $description_Season; ?>
@@ -55,7 +56,7 @@
 						echo $i++." - <a href='../../les-series/".$_GET['name']."/saison-".$number_Season."/episode-".$donnees['number']."'>".$donnees['name']."</a><br>";
 					}
 					if($i==1){
-						echo '<p>Aucun épisode trouvé pour cette saison.</p>';
+						echo '<p>Aucun épisode a été trouvé pour cette saison.</p>';
 					}
 				?>
 				</div>
@@ -76,7 +77,7 @@
 						';
 					}
 						if($i==1){
-							echo 'Aucun épisode trouvé pour cette saison.';
+							echo 'Aucun épisode a été trouvé pour cette saison.';
 						}
 					
 					?>

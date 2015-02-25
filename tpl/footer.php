@@ -1,35 +1,40 @@
+        <div id="fb-root"></div>
+        <script>
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=868208133202056&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
          <div class="footer">
             <div class="wrap">
+
+               <!-- Facebook -->
                <div class="footer-left">
-                  <h3>A propos</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                  <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
                   <div class="detail">
                      <ul>
-                        <li><a href="#">Rejoignez-nous sur les réseaux sociaux</a></li>
+                        <h3>Rejoignez-nous sur Facebook !</h3>
+                        <li>
+                          <div class="fb-like-box" data-href="https://www.facebook.com/pages/Agenda-Seriefr/1377372375894645" 
+                          data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true">
+                          </div>
+                        </li>
                         <div class="clear"> </div>
                      </ul>
                   </div>
-                  <div class="soc_icons soc_icons1">
-                     <ul>
-                        <li><a class="icon1" href="#"> </a> </li>
-                        <li><a class="icon2" href="#"> </a></li>
-                        <li><a class="icon3" href="#"> </a></li>
-                        <div class="clear"> </div>
-                     </ul>
 
-                  </div>
                </div>
+               <!-- Twitter -->
                <div class="footer-right">
-                  <h3>Derniers Twitts</h3>
-                  <div class="comments1">
-                     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident. consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                     <span>~ Il y a 15 minutes</span>
-                  </div>
-                  <div class="comments1">
-                     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                     <span>~ Il y a 2 jours</span>
-                  </div>
+                  <h3>L'actu sur Twitter !</h3>
+                  <a class="twitter-timeline"  href="https://twitter.com/agendaserie" data-widget-id="566673345341820930">Tweets de @agendaserie</a>
+                  <script>
+                    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id))
+                    {js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}
+                    (document,"script","twitter-wjs");
+                  </script>
                </div>
                <div class="clear"> </div>
             </div>

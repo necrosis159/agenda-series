@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/tpl/top.php";
 
-$result = selectInfosUser();
+$result = selectInfosUser($_SESSION['id']);
 
 while ($data = $result->fetch()) {
   $id = $data["id"];
@@ -44,7 +44,7 @@ if (isset($_POST["submit"])) {
     }
 
     // On vérifie que le name et le Prénom ne sont pas égaux
-    if (!empty($name) && !empty($surname) && $name == $surname) {
+    if (!empty($name) && !empty($surname) && mb_strtolower($name) == mb_strtolower($surname)) {
       $arrayErrors[] = "Le prénom et le nom sont identiques";
       $error ++;
     }
@@ -52,16 +52,12 @@ if (isset($_POST["submit"])) {
     // Champ email
     if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
       // On vérifie si le mail existe dans la bdd et que ce n'est pas le mail de l'utilisateur
-      $query = $db->prepare("SELECT id, email FROM user where email = '" . $email . "'");
-      $query->execute();
-      $data_user = $query->fetch();
-      if ($data_user["id"] != $id) {
-        if ($query->rowCount() > 0) {
-          $arrayErrors[] = "Le mail existe déjà";
-          $error ++;
-        }
+      $result = isEmailExistsWhenUpdate($_SESSION['id'], $email);
+      if ($result->rowCount() > 0) {
+        $arrayErrors[] = "Le mail existe déjà";
+        $error ++;
       }
-      $query->closeCursor();
+      $result->closeCursor();
     }
 
     // Champ password
@@ -74,17 +70,7 @@ if (isset($_POST["submit"])) {
     if ($error > 0) {
       array_unshift($arrayErrors, "Formulaire invalide");
     } else {
-      $query = $db->prepare("UPDATE user
-                                    SET gender = '" . $gender . "',
-                                        name = '" . $name . "',
-                                        surname = '" . $surname . "',
-                                        email = '" . $email . "',
-                                        password = '" . $password . "'
-                                    WHERE id = " . $id . " ");
-      $query->execute();
-      // $query = $db->prepare("INSERT into user(gender, name, surname, email, pseudo, password, birthdate)
-      //                         VALUES(".$gender.", '".ucfirst($name)."', '".ucfirst($surname)."', '".$email."', '".$pseudo."', '".$password."', '".$birthdateFormat."')");
-      // $query->execute();
+      update_user($_SESSION['id'], $gender, $name, $surname, $email, $password);
     }
   } else {
     $arrayErrors[] = "Petit coquinou qui essaye d'insérer des champs :o";
@@ -105,51 +91,47 @@ if (isset($_POST["submit"])) {
   ?>
 </div>
 <div class="wrap">
+  <h5 class="heading">Mes Informations</h5>
   <div class="form_account_bloc">
-    <h5 class="heading">Mes Informations</h5>
-    <fieldset>
-      <legend>Mes Informations</legend>
-      <form action="" method="POST" id="article_form">
+    <form action="" method="POST" id="article_form">
 
-        <label for="name">Nom
-        <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
-        </label>
-        
-        <label for="surname">Prénom
-        <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
-        </label>
-        
-        <label for="gender">Genre
-        <?php
-        if ($gender == 0): ?>
-          <p>
-            <input type='radio' name='gender' value='0' checked> Masculin
-            <input type='radio' name='gender' value='1'> Féminin
-          </p>
-        <?php else : ?>
-          <p>
-            <input type='radio' name='gender' value='0'> Masculin
-            <input type='radio' name='gender' value='1' checked> Féminin
-          </p>
-        <?php endif; ?>
-        </label>
-          
-        <label for="email">Adresse Mail
-        <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
-        </label>
-        
-        <label for="password">Mot de passe
-        <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="8" value=''>
-        </label>
-        
-        <label for="password_confirm">Confirmation mot de passe
-        <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="8" size="30">
-        </label>
-        
-        <input class="button" type='submit' id='submit' name='submit' value='Modifier'>
-      </form>
-    </fieldset>
+      <label for="name">Nom
+      <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
+      </label>
 
+      <label for="surname">Prénom
+      <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
+      </label>
+
+      <label for="gender">Genre
+      <?php
+      if ($gender == 0): ?>
+        <p>
+          <input type='radio' name='gender' value='0' checked> Masculin
+          <input type='radio' name='gender' value='1'> Féminin
+        </p>
+      <?php else : ?>
+        <p>
+          <input type='radio' name='gender' value='0'> Masculin
+          <input type='radio' name='gender' value='1' checked> Féminin
+        </p>
+      <?php endif; ?>
+      </label>
+
+      <label for="email">Adresse Mail
+      <input type='email' id='email' name='email' class="input_form" placeholder='exemple@exemple.com' size="30" value='<?php if (isset($email)) echo $email ?>'>
+      </label>
+
+      <label for="password">Mot de passe
+      <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="8" value=''>
+      </label>
+
+      <label for="password_confirm">Confirmation mot de passe
+      <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="8" size="30">
+      </label>
+
+      <input class="button" type='submit' id='submit' name='submit' value='Modifier'>
+    </form>
   </div>
 </div>
 <?php

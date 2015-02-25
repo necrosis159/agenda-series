@@ -3,7 +3,7 @@
    include $_SERVER['DOCUMENT_ROOT'] . '/tpl/functions/front_functions.php';
 $comment = $_GET["q"];
 $idUser = $_GET["id_User"];
-$idEpisode = $_GET['id_episode'];
+$idEpisode = $_GET['id_episode_commentaire'];
 $notation = 1;
 $title = $_GET['name'];
 $date = date("Y-m-d");

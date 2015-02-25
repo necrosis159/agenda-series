@@ -12,9 +12,9 @@ if(count($result) == 0) {
   echo "Aucune série n'a été trouvé pour la recherche '".$_GET['q'].".";
 }
 while($data  = $result->fetch()) {
-	$test= $data['image'];
+  $imageVignette = explode("/", $data['image']);
 	echo "<div class='sticker'>";
-	echo "<a href='../les-series/".$data['name']."'><img src=../images/series/vignette_".$test."></a>";
+	echo "<a href='../les-series/".$data['name']."'><img src=../images/series/vignette_".$imageVignette[1]."></a>";
 	echo "</div>";
 }
 $result->closeCursor();

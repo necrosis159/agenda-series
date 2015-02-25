@@ -1,7 +1,6 @@
 <?php
 
    // Récupération du nom du fichier utilisé
-   $folder = dirname($_SERVER['PHP_SELF']);
    $page_name = get_page();
 
    // Récupération du nom du répertoire courant
@@ -19,9 +18,9 @@
          <div class="th_menu">
             <ul>
                <?php if($id != 0): ?>
-                  <li <?php if($dir_name == "localweb"): ?> class="active" <?php endif; ?>><a href="/">Site</a></li>
+                  <li <?php if($dir_name == "www"): ?> class="active" <?php endif; ?>><a href="/">Site</a></li>
                   <li <?php if($dir_name == "account"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/account/index.php">Compte</a></li>
-                  <li <?php if($dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
+                  <li <?php if($dir_name == "management" || $dir_name == "admin"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Gestion</a></li>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/logout.php">Déconnexion</a></li>
                <?php else: ?>
                   <li><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/login.php">Connexion</a></li>
@@ -53,7 +52,7 @@
    </div>
 </div>
 
-<?php if($folder == "/account"): ?>
+<?php if($dir_name == "account"): ?>
 
 <!-- start header -->
 <div class="header_btm">
@@ -83,8 +82,8 @@
          </div>
 
          <div class="h_search">
-            <form>
-               <input type="text" value="" placeholder="Rechercher...">
+           <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+               <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                <input type="submit" value="">
             </form>
          </div>
@@ -93,7 +92,7 @@
    </div>
 </div>
 
-<?php elseif($folder == "/management"): ?>
+<?php elseif($dir_name == "management" || $dir_name == "admin"): ?>
 
    <!-- start header -->
    <div class="header_btm">
@@ -104,8 +103,8 @@
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
                   <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
-                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_add_proposal.php" || $page_name == "manage_edit_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
-                  <?php if($_SESSION['status'] > 2): ?><li <?php if($page_name == "manage_admin.php" || $page_name == "manage_admin_users.php" || $page_name == "manage_admin_series.php" || $page_name == "manage_admin_comments.php" || $page_name == "manage_admin_articles.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_admin.php">Administration</a></li><?php endif; ?>
+                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_view_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
+                  <?php if($_SESSION['status'] == 2 || $_SESSION['status'] == 1): ?><li <?php if($dir_name == "admin"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/admin/index.php">Administration</a></li><?php endif; ?>
                </ul>
             </nav>
          </div>
@@ -115,16 +114,16 @@
 
             <div class="h_menu">
                <ul>
-                  <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
+                  <li <?php if($page_name == "index.php" && $dir_name == "management"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/index.php">Tableau de bord</a></li>
                   <li <?php if($page_name == "manage_articles.php"  || $page_name == "manage_add_article.php" || $page_name == "manage_add_proposal.php" || $page_name == "manage_edit_article.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_articles.php">Mes articles</a></li>
-                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_edit_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
-                  <?php if($_SESSION['status'] > 2): ?><li <?php if($page_name == "manage_admin.php" || $page_name == "manage_admin_users.php" || $page_name == "manage_admin_series.php" || $page_name == "manage_admin_comments.php" || $page_name == "manage_admin_articles.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_admin.php">Administration</a></li><?php endif; ?>
+                  <li <?php if($page_name == "manage_comments.php" || $page_name == "manage_add_comment.php" || $page_name == "manage_view_comment.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/manage_comments.php">Mes commentaires</a></li>
+                  <?php if($_SESSION['status'] == 2 || $_SESSION['status'] == 1): ?><li <?php if($dir_name == "admin"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/management/admin/index.php">Administration</a></li><?php endif; ?>
                </ul>
             </div>
 
             <div class="h_search">
-               <form>
-                  <input type="text" value="" placeholder="Rechercher...">
+               <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+                  <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                   <input type="submit" value="">
                </form>
             </div>
@@ -143,10 +142,10 @@
             <nav role="navigation" id="navigation">
                <ul>
                   <li <?php if($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="/">Accueil</a></li>
-                  <li <?php if($page_name == "serie_list.php" || $page_name == "serie_detail.php" || $page_name == "episode_detail.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT']?>/les-series">Les séries</a></li>
+                  <li <?php if($page_name == "series_list.php" || $page_name == "serie_detail.php" || $page_name == "episode_detail.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT']?>/les-series">Les séries</a></li>
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Calendrier</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li> <?php if($page_name == "contact.php"): ?> class="active" <?php endif; ?><a href="contact.php">Contact</a></li>
                </ul>
             </nav>
          </div>
@@ -160,13 +159,13 @@
                   <li <?php if($page_name == "series_list.php" || $page_name == "serie_detail.php" || $page_name == "episode_detail.php"): ?> class="active" <?php endif; ?>><a href="<?php $_SERVER['DOCUMENT_ROOT']?>/les-series">Les séries</a></li>
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Calendrier</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li <?php if($page_name == "contact.php"): ?> class="active" <?php endif; ?>><a href="contact.php">Contact</a></li>
                </ul>
             </div>
 
             <div class="h_search">
-               <form>
-                  <input type="text" value="" placeholder="Rechercher...">
+               <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+                  <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                   <input type="submit" value="">
                </form>
             </div>

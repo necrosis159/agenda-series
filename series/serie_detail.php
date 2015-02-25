@@ -7,8 +7,9 @@
 	
    //Retourne toutes les détails de la série
    $series = series_get_detail($id_Serie);
+
 	while ($donnees = $series->fetch()){
-			$image = $donnees['image'];
+			$image = explode("/", $donnees['image']);
 			$short_description = $donnees['short_description']; 
 			$description = $donnees['description'];
 			$name = $donnees['name'];
@@ -18,6 +19,7 @@
 			$yearEnd = $donnees['year_end'];
 			$nbseason = $donnees['nb_season'];
 			$nbepisode = $donnees['nb_episode'];
+			$rewrite = $donnees['rewrite'];
 		}
 
 	$series->closeCursor();
@@ -41,7 +43,10 @@
 <div class="wrap">
 	<div id="serie_detail">
 		<div id="ban">
-			<?php echo "<img src='../images/series/ban_".$image."'>"; ?>
+			<?php
+if(file_exists('../images/series/ban_'.$image[1].'')){echo "<img src='../../images/series/ban_".$image[1]."'>";}else{echo "<img src='../../images/missing_picture.jpg'>";}
+			?>
+
 		</div>
 		<div id="containerSerie">
 			<div id="divLeft">
@@ -77,7 +82,7 @@
 						$i=1;
 						while($donnees = $series_seasons->fetch()){
 							$i++;
-							echo "<a href='../../les-series/".$name."/saison-".$donnees['number']."'>".$donnees['name']."</a><br>";
+							echo "<a href='../../les-series/".$rewrite."/saison-".$donnees['number']."'>".$donnees['name']."</a><br>";
 						}
 						if($i==1){
 							echo "Aucune saison a été trouvée pour cette série.";

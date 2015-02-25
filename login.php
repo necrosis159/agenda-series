@@ -7,29 +7,33 @@
    }
 
    if(isset($_GET['error'])) {
-      $message = "Vous devez vous connecter!";
+      error_message("Vous devez vous connecter !");
    }
 
    // Fonction pour les requêtes avec en parametre les $_POST
-   if (isset($_POST['pseudo'])) {
+   if (isset($_POST['username'])) {
 
-     if (empty($_POST['pseudo']) || empty($_POST['password'])) {
-       $message = 'Vous devez renseigner tous les champs';
+     if (empty($_POST['username']) || empty($_POST['password'])) {
+       error_message('Vous devez renseigner tous les champs');
      } else {
-       $pseudo = $_POST["pseudo"];
-       $result = login($pseudo);
+       $username = $_POST["username"];
+       $result = login($username);
        $data = $result->fetch();
-      //  echo $data['password']. " => ". md5($_POST['password']);
-       if ($data['password'] == md5($_POST['password'])) {
-         $_SESSION['pseudo'] = $data['pseudo'];
-         $_SESSION['status'] = $data['status'];
-         $_SESSION['id'] = $data['id'];
-         $page = htmlspecialchars($_POST['page']);
-         header('Location:' . $page);
-       } else {
-         $message = 'Le mot de passe n\'est pas correct';
-       }
+       if($data != 0) {
+         if ($data['password'] == md5($_POST['password'])) {
+           $_SESSION['username'] = $data['username'];
+           $_SESSION['status'] = $data['status'];
+           $_SESSION['id'] = $data['id'];
+           updateLastLogin($_SESSION['id']);
+           $page = htmlspecialchars($_POST['page']);
+           header('Location:' . $page);
+         } else {
+           error_message('Le mot de passe n\'est pas correct');
 
+         }
+       } else {
+         error_message('Le pseudo n\'existe pas');
+       }
        $result->CloseCursor();
      }
    }
@@ -37,31 +41,22 @@
 ?>
 
   <div class="wrap">
+    <h5 class="heading">Connexion</h5>
     <div id='connection_bloc'>
-      <h5 class="heading">Connexion</h5>
-        <fieldset>
-          <legend>Connexion</legend>
-          <form method="post" action="">
+          <form method="post" action="" id="article_form">
             <input type="hidden" name="page" value="<?php echo $_SERVER['HTTP_REFERER']; ?>">
-            <div class="row_form">
-              <label for="pseudo">Pseudo *</label>
-              <div class="input_connection">
-                <input name="pseudo" type="text" id="pseudo" tabindex="1"><br />
-              </div>
-            </div>
-            <div class="row_form">
-              <label for="password">Mot de Passe *</label>
-              <div class="input_connection">
-                <input type="password" name="password" id="password" tabindex="2">
-              </div>
-            </div>
-            <div class="row_form">
-               <?php if(isset($message)) { echo '<p style="text-align: center;"><span style="color: red;">' . $message . '</span></p>'; } ?>
+            <label for="username">Pseudo
+              <input name="username" class="input_form" type="text" id="username" tabindex="1">
+            </label>
+            <label for="password">Mot de Passe
+              <input type="password" name="password" id="password" tabindex="2">
+            </label>
+            <div id="connection_btn_bloc">
               <input class="button" type="submit" value="Connexion">
+              <a href="register.php" class="button">S'inscrire</a>
             </div>
           </form>
-          <a href="./register.php">Pas encore inscrit ?</a>
-        </fieldset>
+          <!--<a href="./register.php">Pas encore inscrit ?</a>-->
     </div>
   </div>
 
