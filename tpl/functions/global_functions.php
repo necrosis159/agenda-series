@@ -116,4 +116,18 @@
       echo $result;
    }
 
+   // Fonction pour compter le nombre de lignes dans une table pour un utilisateur donné
+   function row_count_by_id_user($idUser, $table) {
+      // Connection à la base de données
+      $db = call_pdo();
+
+      $query = $db->prepare("SELECT COUNT(*) FROM " . $table ." WHERE id_user = " . $idUser);
+
+      $query->execute();
+
+      $result = $query->fetch();
+
+      return $result;
+   }
+   
 ?>

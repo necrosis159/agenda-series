@@ -55,7 +55,7 @@ if (isset($_POST["submit"])) {
               // Récup données formulaires
               // Texte à écrire sur l'image
               $texte = $_POST["description"];
-              echo $texte;
+              
               // Taile de la police
               if (is_numeric($_POST["font_size"])) {
                 $font_size = $_POST["font_size"];
@@ -178,6 +178,10 @@ if(isset($error) && $error == -1) {
 if(isset($newAvatarUrl)) {
   $avatar = $newAvatarUrl;
 }
+
+$nbCommentsPosted = row_count_by_id_user($_SESSION['id'], 'comment');
+$nbNotationOnEpisode = row_count_by_id_user($_SESSION['id'], 'notation_episode');
+$nbNotationOnSeries = row_count_by_id_user($_SESSION['id'], 'notation_serie');
 ?>
 
 <div id="profile_bloc">
@@ -195,9 +199,8 @@ if(isset($newAvatarUrl)) {
         <li>Age : <?php echo age($result['birthdate']); ?></li>
         <li>Dernière connexion : <?php echo $result['last_login']; ?></li>
         <li>Nombre de séries suivies : <?php echo count(seriesUser($id)); ?></li>
-        <li>Nombre d'articles postés : </li>
-        <li>Nombre de commentaires rédigés : </li>
-        <li>Nombre de notes attribuées : </li>
+        <li>Nombre de commentaires postés : <?php echo $nbCommentsPosted[0]; ?></li>
+        <li>Nombre de notes attribuées : <?php echo $nbNotationOnEpisode[0] + $nbNotationOnSeries[0]; ?></li>
       </ul>
     </div>
     
