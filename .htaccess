@@ -1,0 +1,11 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /MVC3EBGRP1/
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{Request_URI} !/web
+
+#RewriteRule ^.*$ /index.php [L]
+RewriteRule ^(.*)$ /index.php?url=$1 [QSA,L]
+
