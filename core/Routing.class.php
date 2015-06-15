@@ -37,8 +37,7 @@ class Routing{
 				return $route->call();
 			}
 		}
-
-		throw new Exception('No routes with this request method');
+		throw new Exception('No routes found');
 	}
 
 	/*	Générateur d'url
