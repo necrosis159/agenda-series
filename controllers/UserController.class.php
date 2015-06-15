@@ -6,7 +6,6 @@ class UserController extends baseView {
 	public function index() {
 		$this->render("userInsert");
 	}
-
 	//fonction avec get
 	public function show($name, $username) {
 		//Création de la class
@@ -23,6 +22,7 @@ class UserController extends baseView {
 		$this->assign('user',$user)
 				//Appel view : userIndex
 				->render("userShow");
+			 ->render("userShow");
 	}
 
 	//fonction avec post
@@ -45,10 +45,8 @@ class UserController extends baseView {
 
 		//Appeler la méthode save
 		$user->insert();
-
 		//appeller une autre page si vous souhaitez un affichage après l'insertion
 	}
-
 	//syntaxe de la fonction update
 	public function update()
 	{

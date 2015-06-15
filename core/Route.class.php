@@ -44,16 +44,15 @@ class Route {
 
 		return '([^/]+)';
 	}
-
 	/*
 	Permet d'enchainer les appels
 	exemple : $router->get('/user/:id-:name', 'User@show')
 					 ->with('id', '[0-9]+')
 					 ->with('name', '[a-zA-Z0-9\-]+');
-	*/
 	public function with($param, $regex) {
 		$this->params[$param] = str_replace('(', '(?:', $regex);
 		return $this;
+		*/
 	}
 
 	//Appel le controller, la method et envoie les paramètres.

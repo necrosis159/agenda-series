@@ -3,6 +3,8 @@
     //Chargement de la class Routing
     $router = new Routing();
 
+    //Index
+    $router->get('/index', 'Index@index');
     /*
     Exemple de route :
     url : /user
@@ -30,10 +32,12 @@
         ->with('name', '[a-zA-Z0-9\-]+')
         ->with('username', '[a-zA-Z0-9\-]+');
 
-    //autre route
+    //Ajout user
     $router->post('/user/insert', 'User@insert');
+
 
     //Si l'url existe on prend l'url, sinon on mets "/"
     $url = (isset($_GET['url'])) ? $_GET['url'] : '/';
+    
     //Traitement de l'url
     $router->parse($url);

@@ -1,15 +1,10 @@
 <!DOCTYPE html>
-<?php
-
-// require '/core/Routing.class.php';
-// require '/core/Route.class.php';
-
-?>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>Mon titre</title>
 		<meta name="description" content="Ma description">
+		<link rel="stylesheet" href="/css/style.css">
 	</head>
 	<body>
 

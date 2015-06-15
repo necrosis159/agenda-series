@@ -6,7 +6,7 @@ class baseModels{
 	protected $columns = [];
 	private $query='';
 
-	//initialisation (pas besoin de commenter)
+	//initialisation
 	public function __construct(){
 		try{
 			$this->pdo = new PDO("mysql:host=localhost;dbname=agendaseltserie", "root", "");
