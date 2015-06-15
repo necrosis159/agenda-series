@@ -4,6 +4,7 @@
     $router = new Routing();
 
     //Index
+    $router->get('/', 'Index@index');
     $router->get('/index', 'Index@index');
     //Ajout d'utilisateur
     $router->get('/user/ajout', 'User@index');
