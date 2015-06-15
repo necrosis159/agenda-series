@@ -8,12 +8,13 @@ class UserController extends baseView {
 	}
 
 	public function show($name, $username) {
+
 		$user = new User();
-		$user = new User($user->select()
-							  ->where('name', $name)
-							  ->andWhere('surname', $username)
-							  ->execute());
-		$this->assign('user',$user)
+		$resultat=$user->select()
+			 ->where('name', $name)
+			 ->andWhere('surname', $username)
+			 ->execute();
+		$this->assign('user',$resultat)
 			 ->render("userShow");
 	}
 

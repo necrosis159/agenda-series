@@ -5,7 +5,8 @@
 
     //Index
     $router->get('/index', 'Index@index');
-    $router->get('/user', 'User@index');
+    //Ajout d'utilisateur
+    $router->get('/user/ajout', 'User@index');
 
     //Affiche user
     $router->get('/user/:name-:username', 'User@show')
