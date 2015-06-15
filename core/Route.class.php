@@ -8,17 +8,11 @@ class Route {
 	private $params = [];
 
 	public function __construct($path, $callable) {
-		//trim : enlève les espaces et "/" avant et après la chaine
 		$this->path = trim($path, '/');
 		$this->callable = $callable;
 	}
 
-	/*
-	Entrée : /user/1-dupont
-	Sortie : true ou false si sa correspond
-
-	Exemple : si /user/1-dupont correspond (a une route existante) /user/:id-:name
-	*/
+	//Verification de la route
 	public function match($url) {
 		$url = trim($url, '/');
 		//remplace la première expression regulière par la deuxième si elle existe
@@ -44,15 +38,13 @@ class Route {
 
 		return '([^/]+)';
 	}
+
 	/*
-	Permet d'enchainer les appels
-	exemple : $router->get('/user/:id-:name', 'User@show')
-					 ->with('id', '[0-9]+')
-					 ->with('name', '[a-zA-Z0-9\-]+');
+	Permet d'enchainer les fonctions
+	*/
 	public function with($param, $regex) {
 		$this->params[$param] = str_replace('(', '(?:', $regex);
 		return $this;
-		*/
 	}
 
 	//Appel le controller, la method et envoie les paramètres.
