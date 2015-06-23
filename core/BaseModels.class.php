@@ -38,7 +38,7 @@ class baseModels{
 
 	}
 
-	public function select(){
+	public function selectAll(){
 
 		//Récupérer les variables le la class enfant
 		$data = get_object_vars($this);
@@ -52,6 +52,22 @@ class baseModels{
 		}
 
 		$this->query = 'SELECT * FROM '.strtolower($this->table);
+		return $this;
+	}
+
+	public function select(){
+		$args=func_get_args();
+		//on verifie si les paramètres entré existe
+		foreach ($args as $value) {
+			if(property_exists($this,$value))
+				$data[]=$value;
+		}
+		if(isset($data))
+			if(sizeof($data)>1)
+				$this->query = 'SELECT '.implode(", ", $data).' FROM '.strtolower($this->table);
+			else
+				$this->query = 'SELECT '.$data[0].' FROM '.strtolower($this->table);
+
 		return $this;
 	}
 
@@ -103,26 +119,14 @@ class baseModels{
 		return $this;
 	}
 
-	//fonction set générique
-	public function set($var, $val) {
-		if (!property_exists($this, $var)) {
-			echo 'Nope';
-			return;
-		}
-		$this->$var = $val;
-
-		//enregistrement des valeurs modifier pour la fonction update
-		$this->columns[$var] = $val;
-	}
-
-
 	public function update(){
 		$set=[];
-		foreach ($this->columns as $key => $value) {
+		$args=func_get_args();
+		/*foreach ($tabdata as $key => $value) {
 			$set[] = "$key = '$value'";
 		}
 
 		$this->query = 'UPDATE '.strtolower($this->table).' SET '.implode(" , ", $set);
-		return $this;
+		return $this;*/
 	}
 }
