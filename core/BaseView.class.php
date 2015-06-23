@@ -15,27 +15,24 @@ class baseView
         extract($this->data);
 
         try {
+            //Vue
+            $view = APPLICATION_PATH . '/views/' . $view . '.php';
+
+            if (!file_exists($view)) {
+                include($view);
+                throw new Exception('View : ' . $view . ' not found!');
+            }
             //Layout
             $file_layout = APPLICATION_PATH . '/views/' . $layout . '.php';
 
             if (file_exists($file_layout)) {
-                $this->layout = $file_layout;
+                include($file_layout);
             } else {
                 throw new Exception('Layout : ' . $file_layout . ' not found!');
-            }
-            //Vue
-            $view = APPLICATION_PATH . '/views/' . $view . '.php';
-
-            if (file_exists($view)) {
-                include($view);
-            } else {
-                throw new Exception('View : ' . $view . ' not found!');
             }
         }
         catch (Exception $e) {
             echo $e->errorMessage();
         }
     }
-
-
 }
