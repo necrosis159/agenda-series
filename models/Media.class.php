@@ -2,15 +2,49 @@
 
 class Media extends baseModels{
 
-	public $id='';
-	public $name;
-	public $path;
-	public $type;
+	private $id='';
+	private $name;
+	private $path;
+	private $type;
 
 	public function __construct(){
 		parent::__construct();
 
 	}
+	
+	//Id
+	public function setId($id){
+		$this->id=$id;
+	}
 
-	//Pas besoin de faire tous les SET, la "baseModels" le fait deja
+	public function getId(){
+		return $this->id;	
+	}
+
+	//Name
+	public function setName($name){
+		$this->name=$name;
+	}
+
+	public function getName(){
+		return $this->Name;	
+	}
+
+	//Path
+	public function setPath($path){
+		$this->path=$path;
+	}
+
+	public function getPath(){
+		return $this->path;	
+	}
+
+	//Type
+	public function setType($type){
+		$this->type=$type;
+	}
+
+	public function getType(){
+		return $this->type;	
+	}
 }
