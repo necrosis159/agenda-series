@@ -17,6 +17,13 @@ class UserController extends baseView {
 		$this->assign('user',$resultat)
 			 ->render("userShow");
 	}
+        
+        public function test() {
+            $model_user = new User();
+            $result = $model_user->test();
+            $this->assign("test", $result);
+            $this->render("user/userTest");
+        }
 
 	public function insert(){
 

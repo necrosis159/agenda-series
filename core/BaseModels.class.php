@@ -6,6 +6,10 @@ class baseModels {
     protected $table;
     protected $columns = [];
     private $query = '';
+    private $select = "";
+    private $columns_select = array();
+    private $from = "";
+    private $where = "";
 
     //initialisation
     public function __construct() {
@@ -53,28 +57,70 @@ class baseModels {
         return $this;
     }
 
+//    public function select() {
+//        $args = func_get_args();
+//        //on verifie si les paramètres entré existe
+//        foreach ($args as $value) {
+//            if (property_exists($this, $value))
+//                $data[] = $value;
+//        }
+//        if (isset($data))
+//            if (sizeof($data) > 1)
+//                $this->query = 'SELECT ' . implode(", ", $data) . ' FROM ' . strtolower($this->table);
+//            else
+//                $this->query = 'SELECT ' . $data[0] . ' FROM ' . strtolower($this->table);
+//
+//        return $this;
+//    }
+
     public function select() {
-        $args = func_get_args();
-        //on verifie si les paramètres entré existe
-        foreach ($args as $value) {
-            if (property_exists($this, $value))
-                $data[] = $value;
-        }
-        if (isset($data))
-            if (sizeof($data) > 1)
-                $this->query = 'SELECT ' . implode(", ", $data) . ' FROM ' . strtolower($this->table);
-            else
-                $this->query = 'SELECT ' . $data[0] . ' FROM ' . strtolower($this->table);
+        $this->select = "SELECT ";
 
         return $this;
     }
-
+    
+    public function from($table = array(), $columns = array()) {
+        $keys = array_keys($table);
+        $alias = $keys[0];
+        $this->from = " FROM " . $table[$alias] . " " . $alias ;
+        foreach($columns as $column) {
+            $this->columns_select[] = $alias . "." . $column;
+        }
+        return $this;
+    }
+    
+    public function join($table = array(), $columns = array(), $jointure) {
+        $keys = array_keys($table);
+        $alias = $keys[0];
+        $this->from .= ', ' . $table[$alias] . " " . $alias;
+        if(count($columns) > 0) {
+            foreach($columns as $column) {
+                $this->columns_select[] = $alias . "." . $column;
+            }
+            $this->where .= " AND ".$jointure;
+        }
+        
+        return $this;
+    }
+    
     //execute la requète
+//    public function execute() {
+//        $req = $this->pdo->prepare($this->query);
+//        $req->execute();
+//
+//        $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
+//        return $data;
+//    }
+    
     public function execute() {
+        $columns = implode(",", $this->columns_select);
+        $this->query = $this->select . $columns . $this->from . $this->where;
+//        var_dump($this->query);die();
         $req = $this->pdo->prepare($this->query);
         $req->execute();
 
-        $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
+        $result = $req->fetchAll();
+        $data = array_unique($result[0]);
         return $data;
     }
 
@@ -111,7 +157,7 @@ class baseModels {
         }
 
 
-        $this->query .= " $key `$col` $operator $val";
+        $this->where .= " $key $col $operator $val";
         return $this;
     }
 
@@ -124,6 +170,10 @@ class baseModels {
 
           $this->query = 'UPDATE '.strtolower($this->table).' SET '.implode(" , ", $set);
           return $this; */
+    }
+
+    public function getQuery() {
+        return $this->query;
     }
 
 }

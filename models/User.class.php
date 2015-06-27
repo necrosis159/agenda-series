@@ -20,7 +20,31 @@ class User extends baseModels{
 		parent::__construct();
 
 	}
-
+        
+//        public function getUser($name, $username) {
+//            $resultat = $this->select('id', 'name', 'surname')
+//			 ->where('name', $name)
+//			 ->andWhere('surname', $username)
+//			 ->execute();
+//            return $resultat;
+//        }
+//        
+//        public function getAllUsers() {
+//            $resultat = $this->select('id', 'name', 'surname')
+//			 ->execute();
+//            return $resultat;
+//        }
+        
+        public function test() {
+            $query = $this->select()
+                    ->from(array("u" =>"user"), array("id", "user_name"))
+                    ->where("u.id", "=", 10)
+                    ->join(array("su" => "serie_user"), array(), "u.id = su.id_user")
+                    ->join(array("s" => "serie"), array("name"), "su.id_serie = s.id")
+                    ->execute();
+            return $query;
+        }
+    
 	//Id
 	public function setId($id){
 		$this->id=$id;
