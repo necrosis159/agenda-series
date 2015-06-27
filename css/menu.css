@@ -131,3 +131,42 @@ pre {
    font-family: consolas, 'DejaVu Sans Mono', courier, monospace;
    line-height: 1em;
 }
+
+#account_menu {
+    float: none !important;
+    display: none;
+}
+
+#gestion_menu {
+    float: none !important;
+    display: none;
+}
+
+.h_menu ul li:hover #account_menu {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    background-color: #2F7485;
+    border-radius: 0px 0px 10px 10px;
+    padding: 0 10px 10px 10px;
+    box-shadow: 0 2px 1px 0 gray;
+}
+
+.h_menu ul li:hover #gestion_menu {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    background-color: #2F7485;
+    border-radius: 0px 0px 10px 10px;
+    padding: 0 10px 10px 10px;
+    box-shadow: 0 2px 1px 0 gray;
+}
+
+.h_menu ul li:hover li {
+    float: none !important;
+    padding: 5px !important;
+}
+
+.h_menu ul li:hover li a {
+    padding: 0px !important;
+}
