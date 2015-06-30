@@ -5,6 +5,7 @@ class Category extends baseModels{
 	private $id='';
 	private $category;
 	private $age;
+	private $prefixe="category";
 
 	public function __construct(){
 		parent::__construct();

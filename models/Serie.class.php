@@ -17,6 +17,7 @@ class Serie extends baseModels{
 	private $meta_keywords;
 	private $air_date;
 	private $highlighting;
+	private $prefixe="serie";
 
 	public function __construct(){
 		parent::__construct();

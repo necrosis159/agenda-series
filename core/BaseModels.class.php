@@ -32,26 +32,16 @@ class baseModels {
         unset($data['columns']);
 
         foreach ($data as $key => $value) {
-            $sql_columns[] = ":" . $key;
+            $sql_data[]=$prefixe."_".$key
+            $sql_columns[] = ":" .$prefixe."_". $key;
         }
 
         //requete
-        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
+        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($sql_data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
         $success = $request->execute($data);
     }
 
     public function selectAll() {
-
-        //Récupérer les variables le la class enfant
-        $data = get_object_vars($this);
-        unset($data['pdo']);
-        unset($data['table']);
-        unset($data['query']);
-        unset($data['columns']);
-
-        foreach ($data as $key => $value) {
-            $sql_columns[] = ":" . $key;
-        }
 
         $this->query = 'SELECT * FROM ' . strtolower($this->table);
         return $this;
@@ -163,7 +153,7 @@ class baseModels {
         }
 
 
-        $this->where .= " $key $col $operator $val";
+        $this->where .= " $prefixe_$key $col $operator $val";
         return $this;
     }
     

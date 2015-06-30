@@ -15,6 +15,7 @@ class User extends baseModels{
 	private $creation_date;
 	private $last_login;
 	private $status;
+	private $prefixe="user";
 
 	public function __construct(){
 		parent::__construct();

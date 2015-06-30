@@ -12,6 +12,7 @@ class Season extends baseModels{
 	private $notation;
 	private $year_start;
 	private $year_end;
+	private $prefixe="season";
 
 	public function __construct(){
 		parent::__construct();

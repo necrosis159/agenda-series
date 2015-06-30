@@ -5,6 +5,7 @@ class Notation_serie extends baseModels{
 	private $id_serie;
 	private $id_user;
 	private $notation;
+	private $prefixe="ns";
 	
 	public function __construct(){
 		parent::__construct();

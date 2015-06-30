@@ -11,6 +11,7 @@ class Comment extends baseModels{
 	private $notation;
 	private $status;
 	private $highlighting;
+	private $prefixe="comment";
 
 	public function __construct(){
 		parent::__construct();

@@ -13,6 +13,7 @@ class Episode extends baseModels{
 	private $notation;
 	private $duration;
 	private $air_date;
+	private $prefixe="episode";
 
 	public function __construct(){
 		parent::__construct();

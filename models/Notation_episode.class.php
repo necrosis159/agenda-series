@@ -5,6 +5,7 @@ class Notation_episode extends baseModels{
 	private $id_episode;
 	private $id_user;
 	private $notation;
+	private $prefixe="ne";
 	
 	public function __construct(){
 		parent::__construct();

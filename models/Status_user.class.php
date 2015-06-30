@@ -4,6 +4,7 @@ class Status_user extends baseModels{
 
 	private $id='';
 	private $name;
+	private $prefixe="status_user";
 
 	public function __construct(){
 		parent::__construct();
