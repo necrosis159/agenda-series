@@ -17,6 +17,13 @@
     //404
     $router->get('/404', 'Default@index404'); 
 
+    //Account
+    $router->get('/account/', 'Account@login');
+    $router->get('/account/index', 'Account@login');
+    $router->get('/account/login', 'Account@login');
+    $router->post('/account/check-login', 'Account@checkLogin');
+    
+    
 //Route Avec Paramètre
     //Affiche user
     $router->get('/user/show/:name-:username', 'User@show')

@@ -57,21 +57,21 @@ class baseModels {
         return $this;
     }
 
-//    public function select() {
-//        $args = func_get_args();
-//        //on verifie si les paramètres entré existe
-//        foreach ($args as $value) {
-//            if (property_exists($this, $value))
-//                $data[] = $value;
-//        }
-//        if (isset($data))
-//            if (sizeof($data) > 1)
-//                $this->query = 'SELECT ' . implode(", ", $data) . ' FROM ' . strtolower($this->table);
-//            else
-//                $this->query = 'SELECT ' . $data[0] . ' FROM ' . strtolower($this->table);
-//
-//        return $this;
-//    }
+    public function select_objet() {
+        $args = func_get_args();
+        //on verifie si les paramètres entré existe
+        foreach ($args as $value) {
+            if (property_exists($this, $value))
+                $data[] = $value;
+        }
+        if (isset($data))
+            if (sizeof($data) > 1)
+                $this->query = 'SELECT ' . implode(", ", $data) . ' FROM ' . strtolower($this->table);
+            else
+                $this->query = 'SELECT ' . $data[0] . ' FROM ' . strtolower($this->table);
+
+        return $this;
+    }
 
     public function select() {
         $this->select = "SELECT ";
@@ -104,13 +104,14 @@ class baseModels {
     }
     
     //execute la requète
-//    public function execute() {
-//        $req = $this->pdo->prepare($this->query);
-//        $req->execute();
-//
-//        $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
-//        return $data;
-//    }
+    public function execute_objet() {
+        $req = $this->pdo->prepare($this->query.$this->where);
+//        var_dump($this->query);die();
+        $req->execute();
+
+        $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
+        return $data;
+    }
     
     public function execute() {
         $columns = implode(",", $this->columns_select);
@@ -120,7 +121,12 @@ class baseModels {
         $req->execute();
 
         $result = $req->fetchAll();
-        $data = array_unique($result[0]);
+        
+        $data = array();
+        foreach($result as $line) {
+            $data[] = array_unique($line);
+        }
+//        $data = array_unique($result[0]);
         return $data;
     }
 
@@ -160,7 +166,7 @@ class baseModels {
         $this->where .= " $key $col $operator $val";
         return $this;
     }
-
+    
     public function update() {
         $set = [];
         $args = func_get_args();

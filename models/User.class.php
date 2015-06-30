@@ -37,14 +37,22 @@ class User extends baseModels{
         
         public function test() {
             $query = $this->select()
-                    ->from(array("u" =>"user"), array("id", "user_name"))
-                    ->where("u.id", "=", 10)
-                    ->join(array("su" => "serie_user"), array(), "u.id = su.id_user")
-                    ->join(array("s" => "serie"), array("name"), "su.id_serie = s.id")
+                    ->from(array("u" =>"user"), array("user_id", "user_name"))
+                    ->where("u.user_id", "=", 10)
+                    ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
+                    ->join(array("s" => "serie"), array("serie_name"), "su.su_id_serie = s.serie_id")
                     ->execute();
             return $query;
         }
-    
+        
+        public function login($username) {
+            $query = $this->select()
+                    ->from(array("u" => "user"), array("user_id", "user_username", "user_password", "user_status"))
+                    ->where("u.user_username", "=", $username)
+                    ->execute();
+            return $query;
+        }
+        
 	//Id
 	public function setId($id){
 		$this->id=$id;

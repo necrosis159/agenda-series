@@ -7,12 +7,13 @@ class UserController extends baseView {
 		$this->render("userInsert");
 	}
 
-	public function show($name, $username) {
+	public function show($name, $surname) {
 
 		$user = new User();
-		$resultat=$user->select('id', 'name', 'surname')
-			 ->where('name', $name)
-			 ->andWhere('surname', $username)
+		$resultat=$user->select()
+                        ->from(array("u" =>"user"), array("user_id", "user_surname", "user_name"))
+//			 ->where('user_name', "=", $name)
+//			 ->andWhere('user_surname', "=", $surname)
 			 ->execute();
 		$this->assign('user',$resultat)
 			 ->render("userShow");
@@ -23,6 +24,10 @@ class UserController extends baseView {
             $result = $model_user->test();
             $this->assign("test", $result);
             $this->render("user/userTest");
+        }
+        
+        public function edit() {
+            
         }
 
 	public function insert(){

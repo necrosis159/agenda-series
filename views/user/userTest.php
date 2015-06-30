@@ -1,8 +1,8 @@
 <?php
 
 var_dump($test);
-echo $test["id"];
+echo $test["user_id"];
 echo"<br>";
 echo $test["user_name"];
 echo"<br>";
-echo $test["name"];
+echo $test["serie_name"];
