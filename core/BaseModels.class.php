@@ -21,28 +21,16 @@ class baseModels {
         }
     }
 
-    public function insert() {
+    public function insert($args) {
 
-        //Récupérer les variables de la class enfant
-        $data = get_object_vars($this);
-        //retirer les variables inutile
-        unset($data['pdo']);
-        unset($data['table']);
-        unset($data['columns']);
-        unset($data['prefixe']);
-        unset($data['query']);
-        unset($data['select']);
-        unset($data['columns_select']);
-        unset($data['from']);
-        unset($data['where']);
-
-        foreach ($data as $key => $value) {
+        foreach ($args as $key => $value) {
             $sql_columns[] = ":".$key;
         }
 
         //requete
-        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
-        $success = $request->execute($data);
+        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($args)) . ') VALUES (' . implode(",", $sql_columns) . ')');
+        var_dump($request);
+        $success = $request->execute($args);
     }
 
     public function selectAll() {
@@ -103,6 +91,8 @@ class baseModels {
         $req = $this->pdo->prepare($this->query.$this->where);
         $req->execute();
 
+          var_dump($this->query.$this->where);
+
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
         return $data;
     }
@@ -113,7 +103,6 @@ class baseModels {
 //        var_dump($this->query);die();
         $req = $this->pdo->prepare($this->query);
         $req->execute();
-
         $result = $req->fetchAll();
         
         $data = array();

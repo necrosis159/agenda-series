@@ -33,31 +33,34 @@ class UserController extends baseView {
 	public function insert(){
 
 		$user = new User();
-		$user->set('name',$_POST['name']);
-		$user->set('surname',$_POST['surname']);
-		$user->set('avatar',"avatar/83fb6ef6170818216cb140fd7f04ce2d.png");
-		$user->set('gender',1);
-		$user->set('presentation',"bonjour");
-		$user->set('username',"testMVC");
-		$user->set('password',"testMVCpw");
-		$user->set('email',"test@mvc.fr");
-		$user->set('birthdate','0000-00-00');
-		$user->set('creation_date','0000-00-00');
-		$user->set('last_login','0000-00-00');
-		$user->set('status',2);
+		$tab['user_name']=$_POST['name'];
+		$tab['user_surname']=$_POST['surname'];
+		$tab['user_avatar']="avatar/83fb6ef6170818216cb140fd7f04ce2d.png";
+		$tab['user_gender']=1;
+		$tab['user_presentation']="bonjour";
+		$tab['user_username']="testMVC";
+		//Pensez a encoder le password
+		$tab['user_password']=md5("testMVCpw");
+		$tab['user_email']="test@mvc.fr";
+		$tab['user_birthdate']='0000-00-00';
+		$tab['user_creation_date']='0000-00-00';
+		$tab['user_last_login']='0000-00-00';
+		$tab['user_status']=2;
 
-		$user->insert();
+		$user->insert($tab);
 	}
 
 	public function update()
 	{
 		$user = new User();
-		$tab['name']='modif';
+		$tab['user_name']='modif';
 		//Créer un tableau  $tab[$key]=$val 
 		//$key(nom du champ)
 		//$val(valeur du champ)
+		$name='Zbra';
 		$user->update($tab)
-				->where('name',$name)
-				->execute();
+				->where('user_name',$name)->execute_objet();
+
+		$this->render("indexIndex");
 	}
 }
