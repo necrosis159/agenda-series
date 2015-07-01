@@ -14,7 +14,6 @@ class Episode extends baseModels{
 
 	public function __construct(){
 		parent::__construct();
-		$prefixe="episode";
 	}
 
 	//Id
