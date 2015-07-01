@@ -29,52 +29,6 @@ body {
 	font-family: 'Lato', sans-serif;
 	font-size: 100%;
 }
-h1 {
-	text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-	text-align: center !important;
-	font-size: 1.6em;
-}
-
-h2 {
-	text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-	text-align: center;
-	font-size: 1.2em !important;
-	padding: 10px 0;
-}
-
-.pagination {
-	text-align: center;
-	padding: 20px;
-}
-.pagination a {
-	margin-bottom: 20px;
-	display: inline-block;
-	padding: 6px 10px;
-	margin-right: 4px;
-	border-radius: 3px;
-	border: solid 1px #c0c0c0;
-	background: #e9e9e9;
-	box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
-	font-size: .875em;
-	font-weight: bold;
-	text-decoration: none;
-	color: #717171;
-	text-shadow: 0px 1px 0px rgba(255,255,255, 1);
-}
-.pagination a:hover {
-	background: #fefefe;
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FEFEFE), to(#f0f0f0));
-	background: -moz-linear-gradient(0% 0% 270deg, #FEFEFE, #f0f0f0);
-}
-.pagination .active {
-	border-radius: 3px;
-	padding: 5.3px 10px;
-	border: none;
-	background: #616161;
-	box-shadow: inset 0px 0px 8px rgba(0,0,0, .5), 0px 1px 0px rgba(255,255,255, .8);
-	color: #F59C81;
-	text-shadow: 0px 0px 3px rgba(0,0,0, .5);
-}
 .wrap {
 	margin: 0 auto;
 	width: 80%;
@@ -84,16 +38,6 @@ h2 {
 }
 #manage {
 	padding: 20px;
-}
-
-#manage a {
-	color: #21B7C6;
-}
-#manage a:hover {
-	color: #EB6841;
-}
-#article_form {
-	margin-top: 15px;
 }
 .admin_links {
 	margin: 20px 5px;
@@ -137,7 +81,7 @@ h2 {
 	/*margin: 0.5em;*/
 	font: bold 1em/2em Arial, Helvetica;
 	text-decoration: none;
-	color: #333 !important;
+	color: #333;
 	text-shadow: 0 1px 0 rgba(255,255,255,.8);
 	border-radius: .2em;
 	box-shadow: 0 0 1px 1px rgba(255,255,255,.8) inset, 0 1px 0 rgba(0,0,0,.3);
@@ -152,28 +96,21 @@ h2 {
 
 /*--- ID article_form ---*/
 
-.wrong {
+.wrong, .right {
 	text-align: center;
-	color: #C31B00;
-	border-top: 2px solid #C31B00;
-	border-bottom: 2px solid #C31B00;
-	background-color: #FCC;
-	height: 100px;
+	background-color: #F5A9A9;
+	border-top: 2px solid #962222;
+	border-bottom: 2px solid #962222;
+	height: 60px;
 	width: 100%;
-	padding-top: 30px;
+	padding-top: 15px;
 	margin: 10px 0px;
 }
 
 .right {
-	text-align: center;
-	color: #609b39;
 	border-top: 2px solid #609b39;
 	border-bottom: 2px solid #609b39;
 	background-color: #D0F5A9;
-	height: 100px;
-	width: 100%;
-	padding-top: 30px;
-	margin: 10px 0px;
 }
 
 .color_validate {
@@ -354,7 +291,7 @@ h2 {
 }
 .h_menu ul li a{
 	display:block;
-	padding: 33px 5.6px;
+	padding: 33px 10px;
 	text-transform: uppercase;
 	font-size: 0.925em;
 	color:#fff;
@@ -391,7 +328,7 @@ h2 {
 	line-height: 1.5em;
 	position: relative;
 	font-size: 0.8725em;
-	text-transform: capitalize;
+	/*text-transform: capitalize;*/
 	border-radius: 30px;
 	-webkit-border-radius: 30px;
 	-moz-border-radius: 30px;
@@ -418,13 +355,13 @@ h2 {
 	box-sizing: border-box;
 }
 
-.tab_icons {
-	padding-top: 10px;
-	width: 22px;
+h1 {
+	text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	text-align: center;
 }
 
-.message_icons {
-	width: 22px;
+.tab_icons {
+	width: 40px;
 }
 
 table {
@@ -798,7 +735,6 @@ td input:focus {
 }
 
 /********end-blog**************/
-
 /*******star_blog_innerpage***/
 .para p,.text a,.heading_1{
 	font-size: 0.85em;
@@ -946,7 +882,7 @@ td input:focus {
 
 
 /*****  Media Quries for 1024px laptops *****/
-@media (max-width: 1140px) {
+@media (max-width: 1024px) {
 	.wrap{
 		width: 85%;
 	}
@@ -981,7 +917,7 @@ td input:focus {
 		width: 40%;
 	}
 	.h_menu ul li {
-		margin-right: 5.6px;
+		margin-right: 9px;
 	}
 	.pages ul li {
 		margin: 1em 0.1em 0em 0em;
@@ -1513,6 +1449,9 @@ FORMULAIRE INSCRIPTION, INFORMATIONS
 	margin: auto;
 	margin-bottom: 20px;
 	width: 70%;
+        border: 1px solid #CFD1D6;
+        padding: 25px;
+        border-radius: 3px;
 }
 
 .form_account {
@@ -1527,12 +1466,6 @@ FORMULAIRE INSCRIPTION, INFORMATIONS
 	cursor: pointer;
 }
 
-/*.input_form {
-width: 95%;
-height: 30px;
-cursor: pointer;
-}*/
-
 .form_account input:focus {
 	border: 1px solid black;
 }
@@ -1543,9 +1476,9 @@ cursor: pointer;
 
 #erreurFormulaire {
 	color: #CC0000;
-	margin: auto;
-	width: 50%;
-	padding-top: 20px;
+	margin: 0;
+	padding-top: 1px;
+        display: none;
 }
 
 /***********************************************
@@ -1555,30 +1488,17 @@ CONNECTION
 #connection_bloc {
 	width: 50%;
 	margin: auto auto 100px;
+        border: 1px solid #CFD1D6;
+        padding: 20px;
+        border-radius: 3px;
 }
 
-.row_form {
-	margin: auto;
-	margin-bottom: 10px;
-}
-.row_form label {
-	width: 40%;
-	float: left;
-	text-align: right;
-	cursor: pointer;
-}
-
-.row_form input[type="submit"] {
-	margin: 20px 0 0 45%;
+#connection_btn_bloc {
+    text-align: center;
 }
 
 .input_connection {
 	margin-left: 45%;
-}
-
-.input_connection input {
-	width: 100%;
-	height: 20px;
 }
 
 /***********************************************
@@ -1595,7 +1515,6 @@ ACCOUNT
 	padding: 0 0 10px 10px;
 	display: block;
 	width: 100%;
-	background-color: #E1E1E1;
 	position: relative;
 }
 
@@ -1604,7 +1523,6 @@ ACCOUNT
 	margin: auto;
 	display: block;
 	float: left;
-	background-color: #E1E1E1;
 	margin-bottom: 20px;
 }
 
@@ -1626,6 +1544,34 @@ ACCOUNT
 	position: absolute;
 	right: 0;
 	cursor: pointer;
+}
+
+.serie_user:hover {
+  opacity: 0.7;
+}
+
+.serie_user p {
+  height: 300px;
+  line-height: 300px;
+  text-align: center;
+  position: absolute;
+}
+
+.serie_txt_img {
+  display: none;
+}
+
+.serie_user:hover .serie_txt_img {
+  display: inline-block;
+  line-height: normal;
+  position: absolute;
+  vertical-align: middle;
+  color: #FFF;
+  height: 300px;
+  width: 200px;
+  background-color: #000;
+  opacity: 0.8;
+  padding-top: 30px;
 }
 
 .image_serie {
@@ -1714,13 +1660,9 @@ ACCOUNT
 	margin-bottom: 20px;
 }
 
-.thumb {
-	width: 35%;
-}
-
 #avatar_modify {
 	margin: auto;
-	width: 156px;
+        text-align: center;
 }
 
 #profile_informations {
@@ -1735,17 +1677,18 @@ ACCOUNT
   clear: both;
   background-color: #FFF;
   border: 1px solid black;
-  width: 50%;
+  width: 75%;
   text-align: center;
   margin: auto;
   margin-top: 20px;
+  margin-bottom: 20px;
   padding-bottom: 10px;
 }
 
 #font_bloc {
   border: 1px solid black;
   margin: auto;
-  width: 75%;
+  width: 90%;
   padding: 10px;
 }
 
@@ -1757,4 +1700,66 @@ ACCOUNT
 #create_logo textarea {
   width: 200px;
   height: 50px;
+}
+
+/***********************************************
+GLOBAL SEARCH
+************************************************/
+
+#gs_series {
+  
+}
+
+.gs_row {
+  width: 50%;
+  /*clear: both;*/
+  float: left;
+  margin-bottom: 20px;
+}
+
+.gs_image {
+  float: left;
+  margin-right: 2%;
+}
+
+.gs_image:hover {
+  opacity: 0.7;
+}
+
+.gs_image p {
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  position: absolute;
+}
+
+.gs_text_img {
+  display: none;
+}
+
+.gs_image:hover span {
+  display: inline-block;
+  line-height: normal;
+  position: absolute;
+  vertical-align: middle;
+  color: #FFF;
+  height: 200px;
+  width: 150px;
+  background-color: #000;
+  opacity: 0.8;
+  padding-top: 30px;
+}
+
+.gs_description {
+  float: left;
+  width: 70%;
+}
+
+.gs_description p {
+  font-style: italic;
+}
+
+#gs_user {
+  clear: both;
+  margin-bottom: 30px;
 }
