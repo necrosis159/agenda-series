@@ -91,6 +91,7 @@ class baseModels {
         $req->execute();
 
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
+        $this->where="";
         return $data;
     }
     
@@ -160,9 +161,4 @@ class baseModels {
     public function getQuery() {
         return $this->query;
     }
-    //Réinitialisation du where
-    public function setWhere($where){
-        $this->where=$where;
-    }
-
 }
