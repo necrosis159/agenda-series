@@ -7,7 +7,7 @@ class Status_article extends baseModels{
 
 	public function __construct(){
 		parent::__construct();
-
+		$prefixe="status_article";
 	}
 
 	//Id

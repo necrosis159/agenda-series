@@ -20,6 +20,7 @@ class Serie extends baseModels{
 
 	public function __construct(){
 		parent::__construct();
+		$prefixe="serie";
 
 	}
 

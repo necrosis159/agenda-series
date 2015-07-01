@@ -7,7 +7,8 @@ class Notation_episode extends baseModels{
 	private $notation;
 	
 	public function __construct(){
-		parent::__construct();
+		parent::__construct();$
+		$prefixe="ne";
 
 	}
 

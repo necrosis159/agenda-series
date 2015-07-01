@@ -1,132 +1,175 @@
 <?php
-class baseModels{
 
-	protected $pdo;
-	protected $table;
-	protected $columns = [];
-	private $query='';
+class baseModels {
 
-	//initialisation
-	public function __construct(){
-		try{
-			$this->pdo = new PDO("mysql:host=localhost;dbname=agendaseltserie", "root", "");
-			$this->table = get_called_class();
+    protected $pdo;
+    protected $table;
+    protected $columns = [];
+    protected $prefixe;
+    private $query = '';
+    private $select = "";
+    private $columns_select = array();
+    private $from = "";
+    private $where = "";
 
-		}catch(Exception $e)
-		{
-			die("Erreur BDD ". $e->getMessage());
-		}
-	}
+    //initialisation
+    public function __construct() {
+        try {
+            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaseltserie", "root", "");
+            $this->table = get_called_class();
+        } catch (Exception $e) {
+            die("Erreur BDD " . $e->getMessage());
+        }
+    }
 
-	public function insert(){
+    public function insert() {
 
-		//Récupérer les variables de la class enfant
-		$data = get_object_vars($this);
-		//retirer les variables inutile
-		unset($data['pdo']);
-		unset($data['table']);
-		unset($data['query']);
-		unset($data['columns']);
+        //Récupérer les variables de la class enfant
+        $data = get_object_vars($this);
+        //retirer les variables inutile
+        unset($data['pdo']);
+        unset($data['table']);
+        unset($data['query']);
+        unset($data['columns']);
 
-		foreach ($data as $key => $value) {
-			$sql_columns[]= ":".$key;
-		}
+        foreach ($data as $key => $value) {
+            $sql_data[]=$prefixe."_".$key;
+            $sql_columns[] = ":" .$prefixe."_". $key;
+        }
 
-		//requete
-		$request = $this->pdo->prepare('INSERT INTO '.strtolower($this->table).'('.implode(",", array_keys($data)).') VALUES ('. implode(",", $sql_columns).')');
-		$success = $request->execute($data);
+        //requete
+        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($sql_data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
+        $success = $request->execute($data);
+    }
 
-	}
+    public function selectAll() {
 
-	public function selectAll(){
+        $this->query = 'SELECT * FROM ' . strtolower($this->table);
+        return $this;
+    }
 
-		//Récupérer les variables le la class enfant
-		$data = get_object_vars($this);
-		unset($data['pdo']);
-		unset($data['table']);
-		unset($data['query']);
-		unset($data['columns']);
+    public function select_objet() {
+        $args = func_get_args();
+        //on verifie si les paramètres entré existe
+        foreach ($args as $value) {
+            if (property_exists($this, $value))
+                $data[] = $value;
+        }
+        if (isset($data))
+            if (sizeof($data) > 1)
+                $this->query = 'SELECT ' . implode(", ", $data) . ' FROM ' . strtolower($this->table);
+            else
+                $this->query = 'SELECT ' . $data[0] . ' FROM ' . strtolower($this->table);
 
-		foreach ($data as $key => $value) {
-			$sql_columns[]= ":".$key;
-		}
+        return $this;
+    }
 
-		$this->query = 'SELECT * FROM '.strtolower($this->table);
-		return $this;
-	}
+    public function select() {
+        $this->select = "SELECT ";
 
-	public function select(){
-		$args=func_get_args();
-		//on verifie si les paramètres entré existe
-		foreach ($args as $value) {
-			if(property_exists($this,$value))
-				$data[]=$value;
-		}
-		if(isset($data))
-			if(sizeof($data)>1)
-				$this->query = 'SELECT '.implode(", ", $data).' FROM '.strtolower($this->table);
-			else
-				$this->query = 'SELECT '.$data[0].' FROM '.strtolower($this->table);
+        return $this;
+    }
+    
+    public function from($table = array(), $columns = array()) {
+        $keys = array_keys($table);
+        $alias = $keys[0];
+        $this->from = " FROM " . $table[$alias] . " " . $alias ;
+        foreach($columns as $column) {
+            $this->columns_select[] = $alias . "." . $column;
+        }
+        return $this;
+    }
+    
+    public function join($table = array(), $columns = array(), $jointure) {
+        $keys = array_keys($table);
+        $alias = $keys[0];
+        $this->from .= ', ' . $table[$alias] . " " . $alias;
+        if(count($columns) > 0) {
+            foreach($columns as $column) {
+                $this->columns_select[] = $alias . "." . $column;
+            }
+            $this->where .= " AND ".$jointure;
+        }
+        
+        return $this;
+    }
+    
+    //execute la requète
+    public function execute_objet() {
+        $req = $this->pdo->prepare($this->query.$this->where);
+//        var_dump($this->query);die();
+        $req->execute();
 
-		return $this;
-	}
+        $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
+        return $data;
+    }
+    
+    public function execute() {
+        $columns = implode(",", $this->columns_select);
+        $this->query = $this->select . $columns . $this->from . $this->where;
+//        var_dump($this->query);die();
+        $req = $this->pdo->prepare($this->query);
+        $req->execute();
 
-	//execute la requète
-	public function execute() {
-		$req = $this->pdo->prepare($this->query);
-		$req->execute();
+        $result = $req->fetchAll();
+        
+        $data = array();
+        foreach($result as $line) {
+            $data[] = array_unique($line);
+        }
+//        $data = array_unique($result[0]);
+        return $data;
+    }
 
-		$data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
-		return $data;
-	}
+    public function where($col, $operator, $val = null, $escape = true) {
+        return $this->addWhere('WHERE', $col, $operator, $val, $escape);
+    }
+
+    public function andWhere($col, $operator, $val = null, $escape = true) {
+        return $this->addWhere('AND', $col, $operator, $val, $escape);
+    }
+
+    public function orWhere($col, $operator, $val = null, $escape = true) {
+        return $this->addWhere('OR', $col, $operator, $val, $escape);
+    }
+
+    public function addWhere($key, $col, $operator, $val = null, $escape = true) {
+        if ($val === null) {
+            $val = $operator;
+            $operator = '=';
+        }
+
+        if (!in_array($operator, ['=', '<', '<=', '>', '>=', 'LIKE'])) {
+            $operator = '=';
+        }
+
+        //on adapte la syntaxe correctement
+        if ($operator === 'LIKE') {
+            $val = "%$val%";
+        }
+
+        //echappement des variables.
+        if ($escape) {
+            $val = $this->pdo->quote($val);
+        }
 
 
-	public function where($col, $operator, $val = null, $escape = true) {
-		return $this->addWhere('WHERE', $col, $operator, $val, $escape);
-	}
+        $this->where .= $this->prefixe."_".$key." $col $operator $val";
+        return $this;
+    }
+    
+    public function update($args) {
+        $set = [];
+        foreach ($args as $key => $value) {
+          $set[] = $this->prefixe."_".$key." = '$value' ";
+        }
 
-	public function andWhere($col, $operator, $val = null, $escape = true) {
-		return $this->addWhere('AND', $col, $operator, $val, $escape);
-	}
+          $this->query = 'UPDATE '.strtolower($this->table).' SET '.implode(" , ", $set);
+          return $this;
+    }
 
-	public function orWhere($col, $operator, $val = null, $escape = true) {
-		return $this->addWhere('OR', $col, $operator, $val, $escape);
-	}
+    public function getQuery() {
+        return $this->query;
+    }
 
-
-	public function addWhere($key, $col, $operator, $val = null, $escape = true) {
-		if ($val === null) {
-			$val = $operator;
-			$operator = '=';
-		}
-
-		if (!in_array($operator, ['=', '<', '<=', '>', '>=', 'LIKE'])) {
-			$operator = '=';
-		}
-
-		//on adapte la syntaxe correctement
-		if ($operator === 'LIKE') {
-			$val = "%$val%";
-		}
-
-		//echappement des variables.
-		if ($escape) {
-			$val = $this->pdo->quote($val);
-		}
-
-
-		$this->query .= " $key `$col` $operator $val";
-		return $this;
-	}
-
-	public function update(){
-		$set=[];
-		$args=func_get_args();
-		/*foreach ($tabdata as $key => $value) {
-			$set[] = "$key = '$value'";
-		}
-
-		$this->query = 'UPDATE '.strtolower($this->table).' SET '.implode(" , ", $set);
-		return $this;*/
-	}
 }

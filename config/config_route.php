@@ -9,6 +9,7 @@
     $router->get('/index', 'Index@index');
     //Ajout d'utilisateur
     $router->get('/user/ajout', 'User@index');
+    $router->get('/user/test', 'User@test');
     //Ajouter un commentaire
     $router->post('/serie/comment', 'Serie@comment');
     //Ajout user
@@ -16,9 +17,16 @@
     //404
     $router->get('/404', 'Default@index404'); 
 
+    //Account
+    $router->get('/account/', 'Account@login');
+    $router->get('/account/index', 'Account@login');
+    $router->get('/account/login', 'Account@login');
+    $router->post('/account/check-login', 'Account@checkLogin');
+    
+    
 //Route Avec Paramètre
     //Affiche user
-    $router->get('/user/:name-:username', 'User@show')
+    $router->get('/user/show/:name-:username', 'User@show')
         ->with('name', '[a-zA-Z0-9\-]+')
         ->with('username', '[a-zA-Z0-9\-]+');
     $router->post('/user/:name-:username', 'User@show')

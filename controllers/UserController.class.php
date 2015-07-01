@@ -7,16 +7,28 @@ class UserController extends baseView {
 		$this->render("userInsert");
 	}
 
-	public function show($name, $username) {
+	public function show($name, $surname) {
 
 		$user = new User();
 		$resultat=$user->select()
-			 ->where('name', $name)
-			 ->andWhere('surname', $username)
+                        ->from(array("u" =>"user"), array("user_id", "user_surname", "user_name"))
+//			 ->where('user_name', "=", $name)
+//			 ->andWhere('user_surname', "=", $surname)
 			 ->execute();
 		$this->assign('user',$resultat)
 			 ->render("userShow");
 	}
+        
+        public function test() {
+            $model_user = new User();
+            $result = $model_user->test();
+            $this->assign("test", $result);
+            $this->render("user/userTest");
+        }
+        
+        public function edit() {
+            
+        }
 
 	public function insert(){
 
@@ -40,7 +52,12 @@ class UserController extends baseView {
 	public function update()
 	{
 		$user = new User();
-		$user->set('name','modif');
-		$user->update()->where('name',$name);
+		$tab['name']='modif';
+		//Créer un tableau  $tab[$key]=$val 
+		//$key(nom du champ)
+		//$val(valeur du champ)
+		$user->update($tab)
+				->where('name',$name)
+				->execute();
 	}
 }

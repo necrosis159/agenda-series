@@ -8,6 +8,7 @@ class Notation_serie extends baseModels{
 	
 	public function __construct(){
 		parent::__construct();
+		$prefixe="ns";
 
 	}
 

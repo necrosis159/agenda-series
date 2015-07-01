@@ -19,7 +19,7 @@ class baseView
             $view = APPLICATION_PATH . '/views/' . $view . '.php';
 
             if (!file_exists($view)) {
-                include($view);
+//                include($view);
                 throw new Exception('View : ' . $view . ' not found!');
             }
             //Layout
@@ -34,5 +34,19 @@ class baseView
         catch (Exception $e) {
             echo $e->errorMessage();
         }
+    }
+    
+    public function error_message($message) {
+        $result = '<p class="wrong"><img class="message_icons" src="/images/error.png" title="Echec" alt="Echec" align="middle"> &nbsp; ' . $message . '</p>';
+        return $result;
+    }
+    
+    public function redirect($controller, $action, $params = array()) {
+        $url = "/".$controller."/".$action;
+        if(!empty($params)) {
+            $url .= "/";
+            $url .= implode("-", $params);
+        }
+        header("Location: ". $url);
     }
 }
