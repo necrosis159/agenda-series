@@ -160,5 +160,9 @@ class baseModels {
     public function getQuery() {
         return $this->query;
     }
+    //Réinitialisation du where
+    public function setWhere($where){
+        $this->where=$where;
+    }
 
 }
