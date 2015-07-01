@@ -10,7 +10,7 @@ class Episode extends baseModels{
 	private $episode_overview;
 	private $episode_notation;
 	private $episode_air_date;
-	private $episode_date_update
+	private $episode_date_update;
 
 	public function __construct(){
 		parent::__construct();
