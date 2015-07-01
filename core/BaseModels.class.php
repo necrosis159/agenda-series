@@ -5,6 +5,7 @@ class baseModels {
     protected $pdo;
     protected $table;
     protected $columns = [];
+    protected $prefixe;
     private $query = '';
     private $select = "";
     private $columns_select = array();
@@ -32,7 +33,7 @@ class baseModels {
         unset($data['columns']);
 
         foreach ($data as $key => $value) {
-            $sql_data[]=$prefixe."_".$key
+            $sql_data[]=$prefixe."_".$key;
             $sql_columns[] = ":" .$prefixe."_". $key;
         }
 
@@ -153,19 +154,18 @@ class baseModels {
         }
 
 
-        $this->where .= " $prefixe_$key $col $operator $val";
+        $this->where .= $this->prefixe."_".$key." $col $operator $val";
         return $this;
     }
     
-    public function update() {
+    public function update($args) {
         $set = [];
-        $args = func_get_args();
-        /* foreach ($tabdata as $key => $value) {
-          $set[] = "$key = '$value'";
-          }
+        foreach ($args as $key => $value) {
+          $set[] = $this->prefixe."_".$key." = '$value' ";
+        }
 
           $this->query = 'UPDATE '.strtolower($this->table).' SET '.implode(" , ", $set);
-          return $this; */
+          return $this;
     }
 
     public function getQuery() {

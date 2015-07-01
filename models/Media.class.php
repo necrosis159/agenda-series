@@ -6,11 +6,10 @@ class Media extends baseModels{
 	private $name;
 	private $path;
 	private $type;
-	private $prefixe="media";
 
 	public function __construct(){
 		parent::__construct();
-
+		$prefixe="media";
 	}
 	
 	//Id
