@@ -2,49 +2,48 @@
 
 class Media extends baseModels{
 
-	private $id='';
-	private $name;
-	private $path;
-	private $type;
+	private $media_id='';
+	private $media_name;
+	private $media_path;
+	private $media_type;
 
 	public function __construct(){
 		parent::__construct();
-		$prefixe="media";
 	}
 	
 	//Id
-	public function setId($id){
-		$this->id=$id;
+	public function setId($media_id){
+		$this->media_id=$media_id;
 	}
 
 	public function getId(){
-		return $this->id;	
+		return $this->media_id;	
 	}
 
 	//Name
-	public function setName($name){
-		$this->name=$name;
+	public function setName($media_name){
+		$this->media_name=$media_name;
 	}
 
 	public function getName(){
-		return $this->Name;	
+		return $this->media_Name;	
 	}
 
 	//Path
-	public function setPath($path){
-		$this->path=$path;
+	public function setPath($media_path){
+		$this->media_path=$media_path;
 	}
 
 	public function getPath(){
-		return $this->path;	
+		return $this->media_path;	
 	}
 
 	//Type
-	public function setType($type){
-		$this->type=$type;
+	public function setType($media_type){
+		$this->media_type=$media_type;
 	}
 
 	public function getType(){
-		return $this->type;	
+		return $this->media_type;	
 	}
 }

@@ -2,15 +2,15 @@
 
 class Comment extends baseModels{
 
-	private $id='';
-	private $id_episode;
-	private $id_user;
-	private $date_publication;
-	private $title;
-	private $content;
-	private $notation;
-	private $status;
-	private $highlighting;
+	private $comment_id='';
+	private $comment_id_episode;
+	private $comment_id_user;
+	private $comment_date_publication;
+	private $comment_title;
+	private $comment_content;
+	private $comment_notation;
+	private $comment_status;
+	private $comment_highlighting;
 
 	public function __construct(){
 		parent::__construct();
@@ -19,84 +19,84 @@ class Comment extends baseModels{
 	}
 	
 	//Id
-	public function setId($id){
-		$this->id=$id;
+	public function setId($comment_id){
+		$this->comment_id=$comment_id;
 	}
 
 	public function getId(){
-		return $this->id;	
+		return $this->comment_id;	
 	}
 
 	//Id_episode
-	public function setID_episode($id_episode){
-		$this->id_episode=$id_episode;
+	public function setId_episode($comment_id_episode){
+		$this->comment_id_episode=$comment_id_episode;
 	}
 
 	public function getId_episode(){
-		return $this->id_episode;	
+		return $this->comment_id_episode;	
 	}
 	
 	//Id_user
-	public function setId_user($id_user){
-		$this->id_user=$id_user;
+	public function setId_user($comment_id_user){
+		$this->comment_id_user=$comment_id_user;
 	}
 
 	public function getId_user(){
-		return $this->id_user;	
+		return $this->comment_id_user;	
 	}
 	
 	//Date_publication
-	public function setDate_publication($date_publication){
-		$this->date_publication=$date_publication;
+	public function setDate_publication($comment_date_publication){
+		$this->comment_date_publication=$comment_date_publication;
 	}
 
 	public function getDate_publication(){
-		return $this->date_publication;	
+		return $this->comment_date_publication;	
 	}
 	
 	//Title
-	public function setTitle($title){
-		$this->title=$title;
+	public function setTitle($comment_title){
+		$this->comment_title=$comment_title;
 	}
 
 	public function getTitle(){
-		return $this->title;	
+		return $this->comment_title;	
 	}
 	
 	//Content
-	public function setContent($content){
-		$this->content=$content;
+	public function setContent($comment_content){
+		$this->comment_content=$comment_content;
 	}
 
 	public function getContent(){
-		return $this->content;	
+		return $this->comment_content;	
 	}
 	
 	//Notation
-	public function setNotation($notation){
-		$this->notation=$notation;
+	public function setNotation($comment_notation){
+		$this->comment_notation=$comment_notation;
 	}
 
 	public function getNotation(){
-		return $this->notation;	
+		return $this->comment_notation;	
 	}
 	
 	//Status
-	public function setStatus($status){
-		$this->status=$status;
+	public function setStatus($comment_status){
+		$this->comment_status=$comment_status;
 	}
 
 	public function getStatus(){
-		return $this->status;	
+		return $this->comment_status;	
 	}
 	
 	//Highlighting
-	public function setHighlighting($highlighting){
-		$this->highlighting=$highlighting;
+	public function setHighlighting($comment_highlighting){
+		$this->comment_highlighting=$comment_highlighting;
 	}
 
 	public function getHighlighting(){
-		return $this->highlighting;	
+		return $this->comment_highlighting;	
 	}
 
 }

@@ -2,24 +2,22 @@
 
 class User extends baseModels{
 
-	private $id='';
-	private $name;
-	private $surname;
-	private $avatar;
-	private $gender;
-	private $presentation;
-	private $username;
-	private $password;
-	private $email;
-	private $birthdate;
-	private $creation_date;
-	private $last_login;
-	private $status;
+	private $user_id='';
+	private $user_name;
+	private $user_surname;
+	private $user_avatar;
+	private $user_gender;
+	private $user_presentation;
+	private $user_username;
+	private $user_password;
+	private $user_email;
+	private $user_birthdate;
+	private $user_creation_date;
+	private $user_last_login;
+	private $user_status;
 
 	public function __construct(){
 		parent::__construct();
-		$prefixe="user";
-
 	}
         
 //        public function getUser($name, $username) {
@@ -55,119 +53,119 @@ class User extends baseModels{
         }
         
 	//Id
-	public function setId($id){
-		$this->id=$id;
+	public function setId($user_id){
+		$this->user_id=$user_id;
 	}
 
 	public function getId(){
-		return $this->id;
+		return $this->user_id;
 	}
 
 	//Name
-	public function setName($name){
-		$this->name=$name;
+	public function setName($user_name){
+		$this->user_name=$user_name;
 	}
 
 	public function getName(){
-		return $this->name;	
+		return $this->user_name;	
 	}
 
 	//Surname
-	public function setSurname($surname){
-		$this->surname=$surname;
+	public function setSurname($user_surname){
+		$this->user_surname=$user_surname;
 	}
 
 	public function getSurname(){
-		return $this->surname;	
+		return $this->user_surname;	
 	}
 
 	//Avatar
-	public function setAvatar($avatar){
-		$this->avatar=$avatar;
+	public function setAvatar($user_avatar){
+		$this->user_avatar=$user_avatar;
 	}
 
 	public function getAvatar(){
-		return $this->avatar;	
+		return $this->user_avatar;	
 	}
 
 	//Gender
-	public function setGender($gender){
-		$this->gender=$gender;
+	public function setGender($user_gender){
+		$this->user_gender=$user_gender;
 	}
 
 	public function getGender(){
-		return $this->gender;	
+		return $this->user_gender;	
 	}
 
 	//Presentation
-	public function setPresentation($presentation){
-		$this->presentation=$presentation;
+	public function setPresentation($user_presentation){
+		$this->user_presentation=$user_presentation;
 	}
 
 	public function getPresentation(){
-		return $this->presentation;	
+		return $this->user_presentation;	
 	}
 
 	//Username
-	public function setUsername($username){
-		$this->username=$username;
+	public function setUsername($user_username){
+		$this->user_username=$user_username;
 	}
 
 	public function getUsername(){
-		return $this->username;	
+		return $this->user_username;	
 	}
 
 	//Password
-	public function setPassword($password){
-		$this->password=$password;
+	public function setPassword($user_password){
+		$this->user_password=$user_password;
 	}
 
 	public function getPassword(){
-		return $this->password;	
+		return $this->user_password;	
 	}
 
 	//Email
-	public function setEmail($email){
-		$this->email=$email;
+	public function setEmail($user_email){
+		$this->user_email=$user_email;
 	}
 
 	public function getEmail(){
-		return $this->email;	
+		return $this->user_email;	
 	}
 
 	//Birthdate
-	public function setBirthdate($birthdate){
-		$this->birthdate=$birthdate;
+	public function setBirthdate($user_birthdate){
+		$this->user_birthdate=$user_birthdate;
 	}
 
 	public function getBirthdate(){
-		return $this->birthdate;	
+		return $this->user_birthdate;	
 	}
 
 	//Creation_date
-	public function setCreation_date($creation_date){
-		$this->creation_date=$creation_date;
+	public function setCreation_date($user_creation_date){
+		$this->user_creation_date=$user_creation_date;
 	}
 
 	public function getCreation_date(){
-		return $this->creation_date;
+		return $this->user_creation_date;
 	}
 
 	//Last_login
-	public function setLast_login($last_login){
-		$this->last_login=$last_login;
+	public function setLast_login($user_last_login){
+		$this->user_last_login=$user_last_login;
 	}
 
 	public function getLast_login(){
-		return $this->last_login;	
+		return $this->user_last_login;	
 	}
 
 	//Status
-	public function setStatus($status){
-		$this->status=$status;
+	public function setStatus($user_status){
+		$this->user_status=$user_status;
 	}
 
 	public function getStatus(){
-		return $this->status;	
+		return $this->user_status;	
 	}
 }

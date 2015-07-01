@@ -5,7 +5,6 @@ class baseModels {
     protected $pdo;
     protected $table;
     protected $columns = [];
-    protected $prefixe;
     private $query = '';
     private $select = "";
     private $columns_select = array();
@@ -29,16 +28,20 @@ class baseModels {
         //retirer les variables inutile
         unset($data['pdo']);
         unset($data['table']);
-        unset($data['query']);
         unset($data['columns']);
+        unset($data['prefixe']);
+        unset($data['query']);
+        unset($data['select']);
+        unset($data['columns_select']);
+        unset($data['from']);
+        unset($data['where']);
 
         foreach ($data as $key => $value) {
-            $sql_data[]=$prefixe."_".$key;
-            $sql_columns[] = ":" .$prefixe."_". $key;
+            $sql_columns[] = ":".$key;
         }
 
         //requete
-        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($sql_data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
+        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
         $success = $request->execute($data);
     }
 
@@ -61,6 +64,7 @@ class baseModels {
             else
                 $this->query = 'SELECT ' . $data[0] . ' FROM ' . strtolower($this->table);
 
+        
         return $this;
     }
 
@@ -97,7 +101,6 @@ class baseModels {
     //execute la requète
     public function execute_objet() {
         $req = $this->pdo->prepare($this->query.$this->where);
-//        var_dump($this->query);die();
         $req->execute();
 
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
@@ -154,14 +157,14 @@ class baseModels {
         }
 
 
-        $this->where .= $this->prefixe."_".$key." $col $operator $val";
+        $this->where .= " $key $col $operator $val";
         return $this;
     }
     
     public function update($args) {
         $set = [];
         foreach ($args as $key => $value) {
-          $set[] = $this->prefixe."_".$key." = '$value' ";
+          $set[] = "$key = '$value' ";
         }
 
           $this->query = 'UPDATE '.strtolower($this->table).' SET '.implode(" , ", $set);
