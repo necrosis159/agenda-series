@@ -29,7 +29,6 @@ class baseModels {
 
         //requete
         $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($args)) . ') VALUES (' . implode(",", $sql_columns) . ')');
-        var_dump($request);
         $success = $request->execute($args);
     }
 
@@ -90,8 +89,6 @@ class baseModels {
     public function execute_objet() {
         $req = $this->pdo->prepare($this->query.$this->where);
         $req->execute();
-
-          var_dump($this->query.$this->where);
 
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
         return $data;
