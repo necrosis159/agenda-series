@@ -14,34 +14,37 @@ class baseModels {
     //initialisation
     public function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaseltserie", "root", "");
+            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaserie", "root", "");
             $this->table = get_called_class();
         } catch (Exception $e) {
             die("Erreur BDD " . $e->getMessage());
         }
     }
 
-    public function insert() {
+    public function insert($args) {
 
-        //Récupérer les variables de la class enfant
+        foreach ($args as $key => $value) {
+            $sql_columns[] = ":".$key;
+        }
+
+        //requete
+        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($args)) . ') VALUES (' . implode(",", $sql_columns) . ')');
+        var_dump($request);
+        $success = $request->execute($args);
+    }
+
+    public function selectAll() {
+
+        //Récupérer les variables le la class enfant
         $data = get_object_vars($this);
-        //retirer les variables inutile
         unset($data['pdo']);
         unset($data['table']);
         unset($data['query']);
         unset($data['columns']);
 
         foreach ($data as $key => $value) {
-            $sql_data[]=$prefixe."_".$key
-            $sql_columns[] = ":" .$prefixe."_". $key;
+            $sql_columns[] = ":" . $key;
         }
-
-        //requete
-        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($sql_data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
-        $success = $request->execute($data);
-    }
-
-    public function selectAll() {
 
         $this->query = 'SELECT * FROM ' . strtolower($this->table);
         return $this;
@@ -96,11 +99,12 @@ class baseModels {
     //execute la requète
     public function execute_objet() {
         $req = $this->pdo->prepare($this->query.$this->where);
-//        var_dump($this->query);die();
+//        var_dump($this->query.$this->where);die();
         $req->execute();
 
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
         return $data;
+        
     }
     
     public function execute() {
@@ -109,7 +113,12 @@ class baseModels {
 //        var_dump($this->query);die();
         $req = $this->pdo->prepare($this->query);
         $req->execute();
-
+        
+        $this->query = "";
+        $this->select = "";
+        $this->from = "";
+        $this->where = "";
+        $this->columns_select = array();
         $result = $req->fetchAll();
         
         $data = array();
@@ -153,19 +162,18 @@ class baseModels {
         }
 
 
-        $this->where .= " $prefixe_$key $col $operator $val";
+        $this->where .= " $key $col $operator $val";
         return $this;
     }
     
-    public function update() {
+    public function update($args) {
         $set = [];
-        $args = func_get_args();
-        /* foreach ($tabdata as $key => $value) {
-          $set[] = "$key = '$value'";
-          }
+        foreach ($args as $key => $value) {
+          $set[] = "$key = '$value' ";
+        }
 
           $this->query = 'UPDATE '.strtolower($this->table).' SET '.implode(" , ", $set);
-          return $this; */
+          return $this;
     }
 
     public function getQuery() {

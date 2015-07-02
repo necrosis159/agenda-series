@@ -52,7 +52,12 @@ class UserController extends baseView {
 	public function update()
 	{
 		$user = new User();
-		$user->set('name','modif');
-		$user->update()->where('name',$name);
+		$tab['name']='modif';
+		//Créer un tableau  $tab[$key]=$val 
+		//$key(nom du champ)
+		//$val(valeur du champ)
+		$user->update($tab)
+				->where('name',$name)
+				->execute();
 	}
 }

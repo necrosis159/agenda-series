@@ -4,10 +4,10 @@ class Serie_user extends baseModels{
 
 	private $id_serie;
 	private $id_user;
-	private $prefixe="su";
 
 	public function __construct(){
 		parent::__construct();
+		$prefixe="su";
 
 	}
 
