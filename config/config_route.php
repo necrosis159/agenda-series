@@ -21,7 +21,10 @@
     $router->get('/account/', 'Account@login');
     $router->get('/account/index', 'Account@login');
     $router->get('/account/login', 'Account@login');
+    $router->get('/account/register', 'Account@register');
+    $router->get('/account/logout', 'Account@logout');
     $router->post('/account/check-login', 'Account@checkLogin');
+    $router->post('/account/register', 'Account@register');
     
     
 //Route Avec Paramètre
@@ -33,26 +36,26 @@
         ->with('name', '[a-zA-Z0-9\-]+')
         ->with('username', '[a-zA-Z0-9\-]+');
     //Affiche serie
-    $router->get('/serie/:name', 'Serie@serie')
-        ->with('name', '[a-zA-Z0-9\-\ ]+');
-    $router->post('/serie/:name', 'Serie@serie')
-        ->with('name', '[a-zA-Z0-9\-\ ]+');
+    $router->get('/serie/:id', 'Serie@serie')
+        ->with('id', '[0-9]+');
+    $router->post('/serie/:id', 'Serie@serie')
+        ->with('id', '[a-zA-Z0-9\-\ ]+');
 
      //Affiche saison
-    $router->get('/serie/:name/Saison:nb1', 'Serie@saison')
-        ->with('name', '[a-zA-Z0-9\-\ ]+')
+    $router->get('/serie/:id/Saison:nb1', 'Serie@saison')
+        ->with('id', '[0-9]+')
         ->with('nb1', '[0-9]+');
-    $router->post('/serie/:name/Saison:nb1', 'Serie@saison')
-        ->with('name', '[a-zA-Z0-9\-\ ]+')
+    $router->post('/serie/:id/Saison:nb1', 'Serie@saison')
+        ->with('id', '[a-zA-Z0-9\-\ ]+')
         ->with('nb1', '[0-9]+');
 
      //Affiche episode
-    $router->get('/serie/:name/Saison:nb1/Episode:nb2', 'Serie@episode')
-        ->with('name', '[a-zA-Z0-9\-\ ]+')
+    $router->get('/serie/:id/Saison:nb1/Episode:nb2', 'Serie@episode')
+        ->with('id', '[0-9]+')
         ->with('nb1', '[0-9]+')
         ->with('nb2', '[0-9]+');
-    $router->post('/serie/:name/Saison:nb1/Episode:nb2', 'Serie@episode')
-        ->with('name', '[a-zA-Z0-9\-\ ]+')
+    $router->post('/serie/:id/Saison:nb1/Episode:nb2', 'Serie@episode')
+        ->with('id', '[0-9]+')
         ->with('nb1', '[0-9]+')
         ->with('nb2', '[0-9]+');
 

@@ -2,160 +2,110 @@
 
 class Serie extends baseModels{
 
-	private $id='';
-	private $name;
-	private $short_description;
-	private $description;
-	private $nationality;
-	private $year_start;
-	private $year_end;
-	private $image;
-	private $video;
-	private $notation;
-	private $id_category;
-	private $status;
-	private $meta_keywords;
-	private $air_date;
-	private $highlighting;
+	private $serie_id='';
+	private $serie_name;
+	private $serie_overview;
+	private $serie_nationality;
+	private $serie_first_air_date;
+	private $serie_image;
+	private $serie_notation;
+	private $serie_status;
+	private $serie_air_date;
+	private $serie_highlighting;
+	private $serie_date_update;
 
 	public function __construct(){
 		parent::__construct();
-		$prefixe="serie";
 
 	}
 
 	//ID
-		public function setId($id){
-		$this->id=$id;
+		public function setId($serie_id){
+		$this->serie_id=$serie_id;
 	}
 
 	public function getId(){
-		return $this->id;
+		return $this->serie_id;
 	}
 
 	//Name
-	public function setName($name){
-		$this->name=$name;
+	public function setName($serie_name){
+		$this->serie_name=$serie_name;
 	}
 
 	public function getName(){
-		return $this->name;	
+		return $this->serie_name;	
 	}
 
-	//Short_description
-		public function setShort_description($short_description){
-		$this->short_description=$short_description;
+	//Overview
+		public function setOverview($serie_overview){
+		$this->serie_overview=$serie_overview;
 	}
 
-	public function getShort_description(){
-		return $this->short_description;	
-	}
-
-	//Description
-		public function setDescription($description){
-		$this->description=$description;
-	}
-
-	public function getDescription(){
-		return $this->description;	
+	public function getOverview(){
+		return $this->serie_overview;	
 	}
 
 	//Nationality
-		public function setNationality($nationality){
-		$this->nationality=$nationality;
+		public function setNationality($serie_nationality){
+		$this->serie_nationality=$serie_nationality;
 	}
 
 	public function getNationality(){
-		return $this->nationality;	
+		return $this->serie_nationality;	
 	}
 
-	//Year_start
-	public function setYear_start($year_start){
-		$this->year_start=$year_start;
+	//First_air_date
+	public function setFirst_air_date($serie_first_air_date){
+		$this->serie_first_air_date=$serie_first_air_date;
 	}
 
-	public function getYear_start(){
-		return $this->year_start;	
-	}
-
-	//Year_end
-	public function setYear_end($year_end){
-		$this->year_end=$year_end;
-	}
-
-	public function getYear_end(){
-		return $this->year_end;
+	public function getFirst_air_date(){
+		return $this->serie_first_air_date;	
 	}
 
 	//Image
-		public function setImage($image){
-		$this->image=$image;
+		public function setImage($serie_image){
+		$this->serie_image=$serie_image;
 	}
 
 	public function getImage(){
-		return $this->image;	
-	}
-
-	//Video
-		public function setVideo($video){
-		$this->video=$video;
-	}
-
-	public function getVideo(){
-		return $this->video;	
+		return $this->serie_image;	
 	}
 
 	//Notation
-	public function setNotation($notation){
-		$this->notation=$notation;
+	public function setNotation($serie_notation){
+		$this->serie_notation=$serie_notation;
 	}
 
 	public function getNotation(){
-		return $this->notation;	
-	}
-
-	//Id_category
-		public function setId_category($id_category){
-		$this->id_category=$id_category;
-	}
-
-	public function getId_category(){
-		return $this->id_category;	
+		return $this->serie_notation;	
 	}
 
 	//Status
-		public function setStatus($status){
-		$this->status=$status;
+		public function setStatus($serie_status){
+		$this->serie_status=$serie_status;
 	}
 
 	public function getStatus(){
-		return $this->status;	
-	}
-
-	//Meta_keywords
-		public function setMeta_keywords($meta_keywords){
-		$this->meta_keywords=$meta_keywords;
-	}
-
-	public function getMeta_keywords(){
-		return $this->meta_keywords;	
-	}
-
-	//Air_date
-	public function setAir_date($air_date){
-		$this->air_date=$air_date;
-	}
-
-	public function getAir_date(){
-		return $this->air_date;
+		return $this->serie_status;	
 	}
 
 	//Highlighting
-	public function setHighlighting($highlighting){
-		$this->highlighting=$highlighting;
+	public function setHighlighting($serie_highlighting){
+		$this->serie_highlighting=$serie_highlighting;
 	}
 
 	public function getHighlighting(){
-		return $this->highlighting;
+		return $this->serie_highlighting;
+	}
+
+	//Date_Update
+	public function setDateUpdate($serie_date_update){
+		$this->serie_date_update=$serie_date_update;
+	}
+
+	public function getDate_update(){
+		return $this->serie_date_update;
 	}
 }

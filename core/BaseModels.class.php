@@ -29,7 +29,7 @@ class baseModels {
 
         //requete
         $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($args)) . ') VALUES (' . implode(",", $sql_columns) . ')');
-        var_dump($request);
+//        var_dump($request);die();
         $success = $request->execute($args);
     }
 

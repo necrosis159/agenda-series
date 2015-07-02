@@ -1477,8 +1477,8 @@ FORMULAIRE INSCRIPTION, INFORMATIONS
 #erreurFormulaire {
 	color: #CC0000;
 	margin: 0;
-	padding-top: 1px;
-        display: none;
+	padding-top: 10px;
+        text-align: center;
 }
 
 /***********************************************

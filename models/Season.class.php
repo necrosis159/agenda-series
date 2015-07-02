@@ -2,110 +2,99 @@
 
 class Season extends baseModels{
 
-	private $id='';
-	private $id_serie;
-	private $number;
-	private $nb_episode;
-	private $name;
-	private $overview;
-	private $status;
-	private $notation;
-	private $year_start;
-	private $year_end;
+	private $season_id='';
+	private $season_id_serie;
+	private $season_number;
+	private $season_nb_episode;
+	private $season_name;
+	private $season_overview;
+	private $season_image;
+	private $season_year_start;
+	private $season_date_update;
 
 	public function __construct(){
 		parent::__construct();
-		$prefixe="season";
 
 	}
 	
 	//Id
-	public function setId($id){
-		$this->id=$id;
+	public function setId($season_id){
+		$this->season_id=$season_id;
 	}
 
 	public function getId(){
-		return $this->id;
+		return $this->season_id;
 	}
 
 	//Id_serie
-	public function setId_serie($id_serie){
-		$this->id_serie=$id_serie;
+	public function setId_serie($season_id_serie){
+		$this->season_id_serie=$season_id_serie;
 	}
 
 	public function getId_serie(){
-		return $this->id_serie;
+		return $this->season_id_serie;
 	}
 
 	//Number
-	public function setNumber($number){
-		$this->number=$number;
+	public function setNumber($season_number){
+		$this->season_number=$season_number;
 	}
 
 	public function getNumber(){
-		return $this->number;	
+		return $this->season_number;	
 	}
 
 	//Nb_episode
-	public function setNb_episode($nb_episode){
-		$this->nb_episode=$nb_episode;
+	public function setNb_episode($season_nb_episode){
+		$this->season_nb_episode=$season_nb_episode;
 	}
 
 	public function getNb_episode(){
-		return $this->nb_episode;	
+		return $this->season_nb_episode;	
 	}
 
 	//Name
-	public function setName($name){
-		$this->name=$name;
+	public function setName($season_name){
+		$this->season_name=$season_name;
 	}
 
 	public function getName(){
-		return $this->name;	
+		return $this->season_name;	
 	}
 
 	//Overview
-	public function setOverview($overview){
-		$this->overview=$overview;
+	public function setOverview($season_overview){
+		$this->season_overview=$season_overview;
 	}
 
 	public function getOverview(){
-		return $this->overview;	
+		return $this->season_overview;	
 	}
 
-	//Status
-	public function setStatus($status){
-		$this->status=$status;
+	//Image
+	public function setImage($season_image){
+		$this->image=$season_image;
 	}
 
-	public function getStatus(){
-		return $this->status;	
-	}
-
-	//Notation
-	public function setNotation($notation){
-		$this->notation=$notation;
-	}
-
-	public function getNotation(){
-		return $this->notation;	
+	public function getImage(){
+		return $this->season_image;	
 	}
 
 	//Year_start
-	public function setYear_start($year_start){
-		$this->year_start=$year_start;
+	public function setYear_start($season_year_start){
+		$this->season_year_start=$season_year_start;
 	}
 
 	public function getYear_start(){
-		return $this->year_start;	
+		return $this->season_year_start;	
 	}
 
-	//Year_end
-	public function setYear_end($year_end){
-		$this->year_end=$year_end;
+	//Date_update
+	public function setDate_update($season_date_update){
+		$this->season_date_update=$season_date_update;
 	}
 
-	public function getYear_end(){
-		return $this->year_end;
+	public function getDate_update(){
+		return $this->season_date_update;
 	}
 }
