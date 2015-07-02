@@ -2,7 +2,7 @@
 <?php
 if(!empty($season_result))
 {	
-	echo "<img src=/".$season_result[0]->getImage()." alt=".$name_serie.' style="width : 50%"/><br>';
+	echo "<img src=/".$season_result[0]->getImage()." alt=".$name_serie.'"/><br>';
 	echo "Saison ".$number_season."<br>";
 	echo "Name : ".$season_result[0]->getName()."<br>";
 	echo "Overview : ".$season_result[0]->getOverview().'<br>';

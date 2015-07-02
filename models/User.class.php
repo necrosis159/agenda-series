@@ -112,7 +112,7 @@ class User extends baseModels{
 	}
 
 	public function getUsername(){
-		return $this->user_username;	
+		return $this->user_username;
 	}
 
 	//Password

@@ -1,7 +1,7 @@
 <?php
 if(!empty($serie_result))
 {	
-	echo "<img src=/image/".$serie_result[0]->getImage()." alt=".$serie_result[0]->getName().' style="width : 50%"/><br>';
+	echo "<img src=/image/".$serie_result[0]->getImage()." alt=".$serie_result[0]->getName().'"/><br>';
 	echo $serie_result[0]->getName().'<br>';
 	echo $serie_result[0]->getOverview().'<br>';
 	echo $serie_result[0]->getNationality().'<br>';

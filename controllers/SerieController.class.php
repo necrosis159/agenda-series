@@ -162,4 +162,21 @@ class SerieController extends baseView {
 		//on insère
 		$comment->insert($tab);
 	}
+
+	public function searchindex()
+	{
+		$this->render("serieIndex");
+	}
+
+	public function search()
+	{
+		$search=trim(strip_tags($_POST['search']));
+		$serie = new Serie();
+		$serie->select_objet('serie_id','serie_name','serie_image')
+			->where('serie_name','LIKE',$search);
+		$result=$serie->execute_objet();
+
+		$this->assign('search_result',$result);
+		$this->render("serieResult","empty");
+	}
 }

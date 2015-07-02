@@ -10,6 +10,11 @@
     //Ajout d'utilisateur
     $router->get('/user/ajout', 'User@index');
     $router->get('/user/test', 'User@test');
+
+    //Index serie, recherche
+    $router->get('/serie/index', 'Serie@searchindex');
+    $router->post('/serie/search', 'Serie@search');
+
     //Ajouter un commentaire
     $router->post('/serie/comment', 'Serie@comment');
     //Ajout user
@@ -34,6 +39,7 @@
     $router->post('/user/:name-:username', 'User@show')
         ->with('name', '[a-zA-Z0-9\-]+')
         ->with('username', '[a-zA-Z0-9\-]+');
+
     //Affiche serie
     $router->get('/serie/:id', 'Serie@serie')
         ->with('id', '[0-9]+');

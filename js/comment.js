@@ -8,7 +8,6 @@ $(function(){
 		var title_comment=$('#title_comment').val();
 		var content_comment=$('#content_comment').val();
 
-		//Condition de sécurité
 		$.ajax({
 			url:'/serie/comment',
 			type:'POST',
