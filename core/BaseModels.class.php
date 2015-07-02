@@ -140,17 +140,20 @@ class baseModels {
         $this->columns_select = array();
         $result = $req->fetchAll();
 //        var_dump($result);die();
-        
+
         $data = array();
         foreach ($result as $line) {
             $data[] = array_unique($line);
         }
-
-        if (count($data) > 1) {
-            return $data;
-        } else {
-            return $data[0];
+        if (!empty($data)) {
+            if (count($data) > 1) {
+                return $data;
+            } else {
+                return $data[0];
+            }
         }
+        
+        return $data;
     }
 
     public function where($col, $operator, $val = null, $escape = true) {

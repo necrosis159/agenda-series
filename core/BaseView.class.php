@@ -33,7 +33,7 @@ class baseView {
             echo $e->errorMessage();
         }
     }
-    
+
     // Fonction retourne un message d'erreur
     public function error_message($message) {
         $result = '<p class="wrong"><img class="message_icons" src="/images/error.png" title="Echec" alt="Echec" align="middle"> &nbsp; ' . $message . '</p>';
@@ -45,7 +45,8 @@ class baseView {
         $result = '<p class="right"><img class="message_icons" src="/images/valid.png" title="Réussi" alt="Réussi" align="middle"> &nbsp; ' . $message . '</p>';
         return $result;
     }
-
+    
+    //Fonction pour rediriger vers une autre action d'un controller
     public function redirect($controller, $action, $params = array()) {
         $url = "/" . $controller . "/" . $action;
         if (!empty($params)) {
@@ -53,6 +54,18 @@ class baseView {
             $url .= implode("-", $params);
         }
         header("Location: " . $url);
+    }
+
+    // Fonction pour convertir le format d'une date en français
+    function date_convert($date_en) {
+
+        $split = explode("-", $date_en);
+        $year = $split[0];
+        $month = $split[1];
+        $day = $split[2];
+        $date_fr = "$day" . "/" . "$month" . "/" . "$year";
+
+        return $date_fr;
     }
 
 }
