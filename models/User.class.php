@@ -137,8 +137,14 @@ class User extends baseModels {
                 ->where("$column", "=", $user_id)
                 ->execute();
         
-        return $query;
+        return $query["COUNT(*)"];
                 
+    }
+    
+    public function updateAvatar($id_user, $data) {
+        $this->update($data)
+                ->where("user_id", "=", $id_user)
+                ->execute_objet();
     }
     
     // GETTER AND SETTER
