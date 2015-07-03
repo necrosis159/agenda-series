@@ -121,7 +121,13 @@ class baseModels {
         $req = $this->pdo->prepare($this->query . $this->where);
 //        var_dump($this->query.$this->where);die();
         $req->execute();
-
+        
+        $this->query = "";
+        $this->select = "";
+        $this->from = "";
+        $this->where = "";
+        $this->columns_select = array();
+        
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
         return $data;
     }
@@ -174,7 +180,7 @@ class baseModels {
             $operator = '=';
         }
 
-        if (!in_array($operator, ['=', '<', '<=', '>', '>=', 'LIKE'])) {
+        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE'])) {
             $operator = '=';
         }
 
