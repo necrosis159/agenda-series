@@ -13,7 +13,7 @@ class AccountController extends baseView {
         }
         $this->render("account/login");
     }
-    
+
     public function logout() {
         session_destroy();
         $this->redirect("index", "");
@@ -37,12 +37,12 @@ class AccountController extends baseView {
 
                 $model_user = new User();
                 $data = $model_user->getUserByUsername($username);
-                if ($data != 0) {
-                    if ($data[0]['user_password'] == md5($_POST['password'])) {
-                        $_SESSION['user_status'] = $data[0]['user_status'];
-                        $_SESSION['user_id'] = $data[0]['user_id'];
+                if (!empty($data)) {
+                    if ($data['user_password'] == md5($_POST['password'])) {
+                        $_SESSION['user_status'] = $data['user_status'];
+                        $_SESSION['user_id'] = $data['user_id'];
                         $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
-                        $model_user->updateLastLogin($data_update, $data[0]['user_id']);
+                        $model_user->update_user($data['user_id'], $data_update);
                         $page = htmlspecialchars($_POST['page']);
                         $this->redirect("index", "");
                     } else {
@@ -62,7 +62,7 @@ class AccountController extends baseView {
         if (isset($_SESSION['user_id'])) {
             $this->redirect("index", "");
         }
-        
+
         // Test des champs du formulaire à l'envoi
         if (isset($_POST["submit"])) {
             $model_user = new User();
@@ -96,8 +96,8 @@ class AccountController extends baseView {
                 }
 
                 // On vérifie que le name et le Prénom ne sont pas égaux
-                if (!empty($name) && !empty($surname) && mb_strtolower($name) == mb_strtolower($surname)) {
-                    $arrayErrors[] = "Le prénom et le nom sont identiques";
+                if (!empty($name) && !empty($surname) && !empty($username) && (mb_strtolower($name) == mb_strtolower($surname) || mb_strtolower($name) == mb_strtolower($username) || mb_strtolower($username) == mb_strtolower($surname) )) {
+                    $arrayErrors[] = "Le nom, prénom et pseudo doivent être différents";
                     $error ++;
                 }
 
@@ -129,7 +129,7 @@ class AccountController extends baseView {
 
                 // Champ password
                 if (empty($password) || ctype_digit($password) || ctype_alpha($password) || strlen($password) < 5) {
-                    $arrayErrors[] = "Le mot de passe n'est pas valide";
+                    $arrayErrors[] = "Le mot de passe doit contenir 1 chiffre minimum";
                     $error ++;
                 } else { // Champ password_confirm
                     if (empty($password) || $password != $password_confirm) {
@@ -182,12 +182,12 @@ class AccountController extends baseView {
                 // Si il y a une erreur on retourne le message d'erreur sinon on insert dans la bdd
                 if ($error == 0) {
                     $data_insert = array(
-                        "user_gender" => $gender, 
-                        "user_name" => $name, 
-                        "user_surname" => $surname, 
-                        "user_email" => $email, 
-                        "user_username" => $username, 
-                        "user_password" => md5($password), 
+                        "user_gender" => $gender,
+                        "user_name" => $name,
+                        "user_surname" => $surname,
+                        "user_email" => $email,
+                        "user_username" => $username,
+                        "user_password" => md5($password),
                         "user_birthdate" => $birthdateFormat
                     );
                     $model_user->addUser($data_insert);
@@ -206,9 +206,315 @@ class AccountController extends baseView {
             $this->assign("arrayErrors", $arrayErrors);
             $this->assign("message", $message);
         }
-        
-        
+
+
         $this->render("account/register");
+    }
+
+    public function profile() {
+        $model_user = new User();
+        $result = $model_user->getUserById($_SESSION['user_id']);
+        $message = "";
+
+        $explode_birthdate = explode('-', $result['user_birthdate']);
+        $birthdate = $explode_birthdate[1] . '/' . $explode_birthdate[0] . '/' . $explode_birthdate[2];
+        $avatar = $result['user_avatar'];
+
+        $maxsize = ini_get("upload_max_filesize");
+        $maxsize_octet = 1024 * 1024 * str_replace("M", "", $maxsize);
+
+        $this->assign("maxsize", $maxsize);
+        $this->assign("maxsize_octet", $maxsize_octet);
+
+//Création d'un tableau php avec les extensions valides
+        $extensions_valides = array('jpg', 'jpeg', 'png');
+//chemin en relatif d'upload
+//      $upload_directory = "./uploads";
+        $upload_directory = '/images/avatar';
+        $fonts_directory = '/fonts';
+
+// Quand l'utilisateur envoie le formulaire
+        if (isset($_POST["submit"])) {
+            //Est-ce que le fichier image existe
+            if (isset($_FILES['image'])) {
+
+                if ($_FILES['image']['error'] == UPLOAD_ERR_OK) {
+                    if ($_FILES['image']['size'] > $maxsize_octet) {
+                        echo "Le fichier est trop gros";
+                        $message = $this->error_message("Le fichier est trop gros");
+                    } else {
+//        if (isset($_POST['description']) && trim($_POST['description']) != "") {
+                        $error = 0;
+                        // Vérification de l'extension du fichier
+                        $parse_name = explode(".", $_FILES['image']['name']);
+                        $extension_upload = strtolower(end($parse_name));
+                        if (in_array($extension_upload, $extensions_valides)) {
+                            // Si le dossier d'upload n'existe pas on le crée
+                            if (!file_exists($upload_directory)) {
+                                mkdir($upload_directory);
+                            }
+                            // Création d'un nom unique pour le fichier
+                            $nom = md5(uniqid(rand(), true)) . "." . end($parse_name);
+                            // ici on fait tout
+                            // On transfert le fichier dans le répertoire d'upload
+                            if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_directory . "/" . $nom)) {
+                                // Création de l'image en fonction de l'extension
+                                if ($extension_upload == "png") {
+                                    $image = imagecreatefrompng($upload_directory . "/" . $nom);
+                                    // $image = imagecreatefrompng($_FILES['image']['tmp_name']);
+                                } else {
+                                    $image = imagecreatefromjpeg($upload_directory . "/" . $nom);
+                                    // $image = imagecreatefrompng($_FILES['image']['tmp_name']);
+                                }
+
+
+                                // Récup données formulaires
+                                // Texte à écrire sur l'image
+//                                $texte = $_POST["description"];
+//                                echo $texte;
+//                                // Taile de la police
+//                                if (is_numeric($_POST["font_size"])) {
+//                                    $font_size = $_POST["font_size"];
+//                                } else {
+//                                    $error ++;
+//                                }
+//
+//                                // Récupération de la police avec le style choisis
+//                                $bold = "";
+//                                $italic = "";
+//                                if (isset($_POST["font_bold"]) && $_POST["font_bold"] == "on") {
+//                                    $bold .= "b";
+//                                }
+//                                if (isset($_POST["font_italic"]) && $_POST["font_italic"] == "on") {
+//                                    $italic .= "i";
+//                                }
+//
+//                                $font = $fonts_directory . "/" . $_POST["font"] . $bold . $italic . ".ttf";
+//
+//                                // Couleur du texte
+//                                $font_color = hexdec($_POST["font_color"]);
+//
+//                                // Cadre autour du texte
+//                                $bbox = imageftbbox($font_size, 0, $font, $texte);
+//
+//                                // Abscisse du cadre
+//                                switch ($_POST["font_position_x"]) {
+//                                    case 'gauche':
+//                                        $x = $bbox[0] + (imagesx($image) * 0.05);
+//                                        break;
+//                                    case 'milieu':
+//                                        $x = $bbox[0] + (imagesx($image) / 2) - ($bbox[4] / 2) - 5;
+//                                        break;
+//                                    case 'droite':
+//                                        $x = imagesx($image) - ((imagesx($image) * 0.05) + $bbox[4]);
+//                                        break;
+//                                    default:
+//                                        $error ++;
+//                                        break;
+//                                }
+//
+//                                // Ordonnée du cadre
+//                                switch ($_POST["font_position_y"]) {
+//                                    case 'haut':
+//                                        $y = $bbox[0] + (imagesy($image) * 0.10);
+//                                        break;
+//                                    case 'milieu':
+//                                        $y = $bbox[1] + (imagesy($image) / 2) - ($bbox[5] / 2) - 5;
+//                                        break;
+//                                    case 'bas':
+//                                        $y = imagesy($image) - ((imagesy($image) * 0.10) + $bbox[3]);
+//                                        ;
+//                                        break;
+//                                    default:
+//                                        $error ++;
+//                                        break;
+//                                }
+//
+//                                // Rotation du texte en degrés
+//                                if (isset($_POST["rotation"]) && is_numeric($_POST["rotation"])) {
+//                                    $rotation = intval($_POST["rotation"]);
+//                                } else {
+//                                    $rotation = 0;
+//                                }
+                                // Tous les pramamètres sont bons, il n'y a pas d'erreur
+                                if ($error < 1) {
+
+                                    putenv('GDFONTPATH=' . realpath('.'));
+//                                    imagettftext($image, $font_size, $rotation, $x, $y, $font_color, $font, $texte);
+                                    imagepng($image, $upload_directory . "/" . $nom);
+//                echo "<br/>Prévisualisation - ";
+//                echo "<a href=\"download.php?file=" . $nom . "&root=" . $upload_directory . "/\">Télécharger</a>";
+//                echo "<br/><br/>";
+//                echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
+                                    $data = array("user_avatar" => 'avatar/' . $nom);
+                                    $model_user->update_user($_SESSION['user_id'], $data);
+                                    $newAvatarUrl = 'avatar/' . $nom;
+                                    $error = -1;
+                                } else {
+                                    $message = $this->error_message("Erreur de paramètres du texte");
+                                }
+                            } else {
+                                $message = $this->error_message("Transfert echec");
+                            }
+                        } else {
+                            $message = $this->error_message("Extension incorrecte");
+                        }
+                        //} 
+//        else {
+//          echo $upload_directory . "/" . $nom; 
+//          updateAvatar();
+//          valid_message('Avatar modifié');
+//        }
+                    }
+                } else {
+                    switch ($_FILES['image']['error']) {
+                        case UPLOAD_ERR_NO_FILE:
+                            $message = $this->error_message("Fichier manquant");
+                            break;
+                        case UPLOAD_ERR_INI_SIZE:
+                            $message = $this->error_message("Fichier dépassant la taille maximale autorisée par PHP");
+                            break;
+                        case UPLOAD_ERR_FORM_SIZE:
+                            $message = $this->error_message("Fichier dépassant la taille maximale autorisée par le formulaire");
+                            break;
+                        case UPLOAD_ERR_PARTIAL:
+                            $message = $this->error_message("Fichier transféré partiellement");
+                            break;
+                        default:
+                            $message = $this->error_message("Erreur inconnue ...");
+                            break;
+                    }
+                }
+            }
+        }
+
+        if (isset($error) && $error == -1) {
+            $message = $this->valid_message('Avatar modifié');
+        }
+        if (isset($newAvatarUrl)) {
+            $avatar = $newAvatarUrl;
+        }
+
+        $nb_series_follow = $model_user->rowCountByIdUser($_SESSION["user_id"], "serie_user", "su_id_user");
+        $nb_comments_posted = $model_user->rowCountByIdUser($_SESSION["user_id"], "comment", "comment_id_user");
+
+        $this->assign("nb_series_follow", $nb_series_follow);
+        $this->assign("nb_comments_posted", $nb_comments_posted);
+
+        $age = $model_user->age($result["user_birthdate"]);
+        $result["user_creation_date"] = $this->date_convert($result["user_creation_date"]);
+        $this->assign("result", $result);
+        $this->assign("age", $age);
+        $this->assign("message", $message);
+        $this->render("account/profile");
+    }
+
+    public function edit() {
+
+        $model_user = new User();
+
+
+        // Test des champs du formulaire à l'envoi
+        if (isset($_POST["submit"])) {
+            $arrayErrors = array();
+            $data = array();
+            // On vérifie qu'aucun champ du formulaire n'a été ajouté par l'utilisateur
+            $liste_champs = array("gender", "name", "surname", "email", "password", "password_confirm", "submit");
+            if (count(array_diff($liste_champs, array_keys($_POST))) === 0) {
+                $error = 0;
+
+                // On affecte chaque champ du formulaire à une variable
+                $gender = trim($_POST['gender']);
+                $name = trim($_POST['name']);
+                $surname = trim($_POST['surname']);
+                $email = trim($_POST['email']);
+//                if (!empty($_POST["password"])) {
+//                    $password = trim($_POST['password']);
+//                    $password_confirm = trim($_POST['password_confirm']);
+//                }
+                // Champ name
+                if (strlen($name) > 50) {
+                    $arrayErrors[] = "Le nom n'est pas valide";
+                    $error ++;
+                }
+
+                // Champ Prénom
+                if (strlen($surname) > 50) {
+                    $arrayErrors[] = "Le prénom n'est pas valide";
+                    $error ++;
+                }
+
+                // On vérifie que le name et le Prénom ne sont pas égaux
+                if (!empty($name) && !empty($surname) && mb_strtolower($name) == mb_strtolower($surname)) {
+                    $arrayErrors[] = "Le prénom et le nom sont identiques";
+                    $error ++;
+                }
+
+                // Champ email
+                if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    // On vérifie si le mail existe dans la bdd et que ce n'est pas le mail de l'utilisateur
+                    $result = $model_user->isEmailExistsWhenUpdate($_SESSION['user_id'], $email);
+                    if ($result != 0) {
+                        $arrayErrors[] = "Le mail existe déjà";
+                        $error ++;
+                    }
+                }
+
+                // Champ password
+                $password = trim($_POST["password"]);
+//                if (!empty($password_form) && preg_match("/^(?=.*\d)(?=.*[A-Z]).{4,8}$/", $_POST["password"]) === 1 && $_POST["password"] == $_POST["password_confirm"]) {
+//                    $password = $_POST["password"];
+//                    $data["user_password"] = $password;
+//                }
+                if (!empty($password)) {
+                    $password = trim($_POST['password']);
+                    $password_confirm = trim($_POST['password_confirm']);
+                    if (empty($password) || ctype_digit($password) || ctype_alpha($password) || strlen($password) < 5) {
+                        $arrayErrors[] = "Le mot de passe doit contenir 1 chiffre minimum";
+                        $error ++;
+                    } else {
+                        if($password != $password_confirm) {
+                            $arrayErrors[] = "Les 2 mots de passe ne correspondent pas";
+                            $error++;
+                        } else {
+                            $password = $_POST["password"];
+                            $data["user_password"] = md5($password);
+                        }
+                    }
+                }
+
+                // Si il y a une erreur on retourne le message d'erreur sinon on insert dans la bdd
+                if ($error > 0) {
+                    array_unshift($arrayErrors, "Formulaire invalide");
+                } else {
+                    $data["user_gender"] = $gender;
+                    $data["user_name"] = $name;
+                    $data["user_surname"] = $surname;
+                    $data["user_email"] = $email;
+                    $model_user->update_user($_SESSION['user_id'], $data);
+                    $message = $this->valid_message("Modifications effectuées");
+                    $this->assign("message", $message);
+                }
+            } else {
+                $arrayErrors[] = "Erreur lors de l'envoie des données";
+            }
+            $this->assign("arrayErrors", $arrayErrors);
+        }
+        $result = $model_user->getUserById($_SESSION['user_id']);
+
+        $id = $result["user_id"];
+        $gender = $result["user_gender"];
+        $name = $result["user_name"];
+        $surname = $result["user_surname"];
+        $email = $result["user_email"];
+
+        $this->assign("id", $id);
+        $this->assign("gender", $gender);
+        $this->assign("name", $name);
+        $this->assign("surname", $surname);
+        $this->assign("email", $email);
+        $this->render("account/edit");
+//        $this->redirect("account", "edit");
     }
 
 }

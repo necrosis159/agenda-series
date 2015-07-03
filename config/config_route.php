@@ -23,8 +23,12 @@
     $router->get('/account/login', 'Account@login');
     $router->get('/account/register', 'Account@register');
     $router->get('/account/logout', 'Account@logout');
+    $router->get('/account/profile', 'Account@profile');
+    $router->get('/account/edit', 'Account@edit');
     $router->post('/account/check-login', 'Account@checkLogin');
     $router->post('/account/register', 'Account@register');
+    $router->post('/account/profile', 'Account@profile');
+    $router->post('/account/edit', 'Account@edit');
     
     
 //Route Avec Paramètre
