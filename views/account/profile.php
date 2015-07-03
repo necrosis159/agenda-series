@@ -1,3 +1,4 @@
+<?php if(!empty($message)) echo $message; ?>
 <script type="text/javascript" src="/js/account/account.js"></script>
 <div id="profile_bloc">
     <div class="wrap">
@@ -15,10 +16,10 @@
                     <li>Inscription le <?php echo $result['user_creation_date']; ?></li>
                     <li>Age : <?php echo $age; ?> ans</li>
                     <li>Dernière connexion : <?php echo $result['user_last_login']; ?></li>
-                    <li>Nombre de séries suivies : <?php echo $nb_series_follow;  ?></li>
-                    <!--<li>Nombre de commentaires postés : <?php //echo $nbCommentsPosted[0];  ?></li>-->
+                    <li>Nombre de séries suivies : <?php echo $nb_series_follow; ?></li>
+                    <li>Nombre de commentaires postés : <?php echo $nb_comments_posted;   ?></li>
                 </ul>
-                <a href='/account/edit-user' class="button">Modifier les informations</a>
+                <a href='/account/edit' class="button">Modifier les informations</a>
             </div>
         </div>
         <div id="create_logo" style="display: none;">
@@ -31,7 +32,7 @@
             </p>
             Format d'image accepté : jpeg et png.<br/>
 
-            <form method="post" enctype="multipart/form-data" action="">
+            <form method="post" enctype="multipart/form-data" action="/account/profile">
                 <input class="button" type="file" name="image">
                 <br/>
                 Taille maximale de l'image : <?php echo $maxsize; ?>o<br/>

@@ -20,35 +20,12 @@ class User extends baseModels {
         parent::__construct();
     }
 
-//        public function getUser($name, $username) {
-//            $resultat = $this->select('id', 'name', 'surname')
-//			 ->where('name', $name)
-//			 ->andWhere('surname', $username)
-//			 ->execute();
-//            return $resultat;
-//        }
-//        
-//        public function getAllUsers() {
-//            $resultat = $this->select('id', 'name', 'surname')
-//			 ->execute();
-//            return $resultat;
-//        }
-
     public function test() {
         $query = $this->rowCountByIdUser($_SESSION["user_id"], "serie_user", "su_id_user");
-//        $query = $this->select()
-//                ->from(array("u" => "user"), array("user_id", "user_name"))
-//                ->where("u.user_id", "=", 11)
-//                ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
-//                ->join(array("s" => "serie"), array("serie_name"), "su.su_id_serie = s.serie_id")
-//                ->execute();
-//        $query = $this->count()
-//                ->from(array("su" => "serie_user"))
-//                ->where("su_id_user", "=", $_SESSION["user_id"])
-//                ->execute();
         return $query;
     }
-
+    
+    // Récupère toutes les informations concernant un utilisateur par son pseudo
     public function getUserByUsername($username) {
         $query = $this->select()
                 ->from(array("u" => "user"), array("user_id", "user_password", "user_status"))
@@ -56,7 +33,8 @@ class User extends baseModels {
                 ->execute();
         return $query;
     }
-
+    
+    // Récupère toutes les informations concernant un utilisateur par son id
     public function getUserById($user_id) {
         $query = $this->select()
                 ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login"))
@@ -66,18 +44,11 @@ class User extends baseModels {
         return $query;
     }
 
-    // Modifie la date de dernière connexion de l'utilisateur par la date actuelle lorsqu'il se connecte
-    function updateLastLogin($data_update, $id) {
-        $this->update($data_update)
-                ->where("user_id", "=", $id)
-                ->execute_objet();
-    }
-
     // Vérifie l'existence de l'adresse email dans la bdd pour un utilisateur
     // Retourne 0 si le mail n'existe pas et 1 si il existe
     function isEmailExists($email) {
         $query = $this->select()
-                ->from(array("u" => "user"), array("user_id", "user_email"))
+                ->from(array("user"), array("user_id", "user_email"))
                 ->where("user_email", "=", $email)
                 ->execute();
 
@@ -87,7 +58,25 @@ class User extends baseModels {
             return 1;
         }
     }
+    
+    // Vérifie l'existence de l'adresse email dans la bdd pour un utilisateur autre que l'utilisateur en cours
+    // Retourne 1 si le mail existe déjà sinon 0
+    function isEmailExistsWhenUpdate($id_user, $email) {
+        $query = $this->select()
+                ->from(array("user"), array("user_id", "user_email"))
+                ->where("user_email", "=", $email)
+                ->addWhere("AND","user_id", "!=", $id_user)
+                ->execute();
 
+        if (empty($query)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    
+    // Vérifie l'existence du pseudo
+    // Retourne 1 si le pseudo existe déjà sinon 0
     function isUsernameExists($username) {
         $query = $this->select()
                 ->from(array("u" => "user"), array("user_id", "user_username"))
@@ -100,7 +89,8 @@ class User extends baseModels {
             return 1;
         }
     }
-
+    
+    // Insère un utilisateur
     function addUser($data) {
         $user = new User();
         // Ajout d'un avatar par défaut en fonction du genre de l'utilisateur
@@ -126,7 +116,7 @@ class User extends baseModels {
 
         return $age;
     }
-    
+
     // Retourne le nombre de lignes dans une table pour un id utilisateur
     // $user_id : chaine contenant l'id de l'utilisateur
     // $table : chaine contenant la table SQL
@@ -136,11 +126,19 @@ class User extends baseModels {
                 ->from(array($table))
                 ->where("$column", "=", $user_id)
                 ->execute();
-        
-        return $query;
-                
+
+        return $query["COUNT(*)"];
     }
-    
+
+    // Fonction pour éditer n'importe quelle information concernant un utilisateur
+    // $user_id : chaine contenant l'id de l'utilisateur
+    // $data : tableau contenant en clé le champ à modifier et en valeur la valeur de remplacement
+    public function update_user($id_user, $data) {
+        $this->update($data)
+                ->where("user_id", "=", $id_user)
+                ->execute_objet();
+    }
+
     // GETTER AND SETTER
     //Id
     public function setId($user_id) {

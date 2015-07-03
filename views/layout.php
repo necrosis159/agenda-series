@@ -7,6 +7,7 @@
         <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/styles.css" />
         <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/menu.css" />
         <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/series.css" />
+        <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/calendar.css" />
     </head>
     <body>
         <!-- start header -->
@@ -67,10 +68,9 @@
                             </li>
                             <li><a href="#">Compte</a>
                                 <ul id="account_menu">
-                                    <li><a href="#">Mon profil</a></li>
+                                    <li><a href="/account/profile">Mon profil</a></li>
                                     <li><a href="#">Mes séries</a></li>
                                     <li><a href="#">Mon calendrier</a></li>
-                                    <li><a href="#">Mes informations</a></li>
                                 </ul>
                             </li>
 
