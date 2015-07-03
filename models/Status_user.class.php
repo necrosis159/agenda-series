@@ -2,30 +2,29 @@
 
 class Status_user extends baseModels{
 
-	private $id='';
-	private $name;
+	private $status_user_id='';
+	private $status_user_name;
 
 	public function __construct(){
 		parent::__construct();
-		$prefixe="status_user";
 
 	}
 
 	//Id
-	public function setId($id){
-		$this->id=$id;
+	public function setId($status_user_id){
+		$this->status_user_id=$status_user_id;
 	}
 
 	public function getId(){
-		return $this->id;
+		return $this->status_user_id;
 	}
 
 	//Name
-	public function setName($name){
-		$this->name=$name;
+	public function setName($status_user_name){
+		$this->status_user_name=$status_user_name;
 	}
 
 	public function getName(){
-		return $this->name;
+		return $this->status_user_name;
 	}
 }

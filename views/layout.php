@@ -75,6 +75,8 @@
                             </li>
 
                             <li><a href="/account/login">Connexion</a></li>
+                            <li><a href="/account/register">Inscription</a></li>
+                            <li><a href="/account/logout">Déconnexion</a></li>
                         </ul>
                     </div>
 
