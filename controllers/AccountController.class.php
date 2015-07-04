@@ -24,14 +24,14 @@ class AccountController extends baseView {
         $message = "";
 
         if (isset($_GET['error'])) {
-            $message = $this->error_message("Vous devez vous connecter !");
+            $message = $this->errorMessage("Vous devez vous connecter !");
         }
 
         // Fonction pour les requêtes avec en parametre les $_POST
         if (isset($_POST['username'])) {
 
             if (empty($_POST['username']) || empty($_POST['password'])) {
-                $message = $this->error_message('Vous devez renseigner tous les champs');
+                $message = $this->errorMessage('Vous devez renseigner tous les champs');
             } else {
                 $username = $_POST["username"];
 
@@ -42,14 +42,14 @@ class AccountController extends baseView {
                         $_SESSION['user_status'] = $data['user_status'];
                         $_SESSION['user_id'] = $data['user_id'];
                         $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
-                        $model_user->update_user($data['user_id'], $data_update);
+                        $model_user->updateUser($data['user_id'], $data_update);
                         $page = htmlspecialchars($_POST['page']);
                         $this->redirect("index", "");
                     } else {
-                        $message = $this->error_message('Le mot de passe n\'est pas correct');
+                        $message = $this->errorMessage('Le mot de passe n\'est pas correct');
                     }
                 } else {
-                    $message = $this->error_message('Le pseudo n\'existe pas');
+                    $message = $this->errorMessage('Le pseudo n\'existe pas');
                 }
             }
         }
@@ -191,10 +191,10 @@ class AccountController extends baseView {
                         "user_birthdate" => $birthdateFormat
                     );
                     $model_user->addUser($data_insert);
-                    $message = $this->valid_message("Inscription réussie");
+                    $message = $this->validMessage("Inscription réussie");
                 }
             } else {
-                $message = $this->error_message("Une erreur s'est produite !");
+                $message = $this->errorMessage("Une erreur s'est produite !");
             }
             // On passe les infos entrées par l'utilisateur à la vue pour ne pas les perdre s'il se trompe dans le formulaire
             $this->assign("gender", $gender);
@@ -241,7 +241,7 @@ class AccountController extends baseView {
                 if ($_FILES['image']['error'] == UPLOAD_ERR_OK) {
                     if ($_FILES['image']['size'] > $maxsize_octet) {
                         echo "Le fichier est trop gros";
-                        $message = $this->error_message("Le fichier est trop gros");
+                        $message = $this->errorMessage("Le fichier est trop gros");
                     } else {
 //        if (isset($_POST['description']) && trim($_POST['description']) != "") {
                         $error = 0;
@@ -347,41 +347,41 @@ class AccountController extends baseView {
 //                echo "<br/><br/>";
 //                echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
                                     $data = array("user_avatar" => 'avatar/' . $nom);
-                                    $model_user->update_user($_SESSION['user_id'], $data);
+                                    $model_user->updateUser($_SESSION['user_id'], $data);
                                     $newAvatarUrl = 'avatar/' . $nom;
                                     $error = -1;
                                 } else {
-                                    $message = $this->error_message("Erreur de paramètres du texte");
+                                    $message = $this->errorMessage("Erreur de paramètres du texte");
                                 }
                             } else {
-                                $message = $this->error_message("Transfert echec");
+                                $message = $this->errorMessage("Transfert echec");
                             }
                         } else {
-                            $message = $this->error_message("Extension incorrecte");
+                            $message = $this->errorMessage("Extension incorrecte");
                         }
                         //} 
 //        else {
 //          echo $upload_directory . "/" . $nom; 
 //          updateAvatar();
-//          valid_message('Avatar modifié');
+//          validMessage('Avatar modifié');
 //        }
                     }
                 } else {
                     switch ($_FILES['image']['error']) {
                         case UPLOAD_ERR_NO_FILE:
-                            $message = $this->error_message("Fichier manquant");
+                            $message = $this->errorMessage("Fichier manquant");
                             break;
                         case UPLOAD_ERR_INI_SIZE:
-                            $message = $this->error_message("Fichier dépassant la taille maximale autorisée par PHP");
+                            $message = $this->errorMessage("Fichier dépassant la taille maximale autorisée par PHP");
                             break;
                         case UPLOAD_ERR_FORM_SIZE:
-                            $message = $this->error_message("Fichier dépassant la taille maximale autorisée par le formulaire");
+                            $message = $this->errorMessage("Fichier dépassant la taille maximale autorisée par le formulaire");
                             break;
                         case UPLOAD_ERR_PARTIAL:
-                            $message = $this->error_message("Fichier transféré partiellement");
+                            $message = $this->errorMessage("Fichier transféré partiellement");
                             break;
                         default:
-                            $message = $this->error_message("Erreur inconnue ...");
+                            $message = $this->errorMessage("Erreur inconnue ...");
                             break;
                     }
                 }
@@ -389,7 +389,7 @@ class AccountController extends baseView {
         }
 
         if (isset($error) && $error == -1) {
-            $message = $this->valid_message('Avatar modifié');
+            $message = $this->validMessage('Avatar modifié');
         }
         if (isset($newAvatarUrl)) {
             $avatar = $newAvatarUrl;
@@ -402,7 +402,7 @@ class AccountController extends baseView {
         $this->assign("nb_comments_posted", $nb_comments_posted);
 
         $age = $model_user->age($result["user_birthdate"]);
-        $result["user_creation_date"] = $this->date_convert($result["user_creation_date"]);
+        $result["user_creation_date"] = $this->dateConvert($result["user_creation_date"]);
         $this->assign("result", $result);
         $this->assign("age", $age);
         $this->assign("message", $message);
@@ -491,8 +491,8 @@ class AccountController extends baseView {
                     $data["user_name"] = $name;
                     $data["user_surname"] = $surname;
                     $data["user_email"] = $email;
-                    $model_user->update_user($_SESSION['user_id'], $data);
-                    $message = $this->valid_message("Modifications effectuées");
+                    $model_user->updateUser($_SESSION['user_id'], $data);
+                    $message = $this->validMessage("Modifications effectuées");
                     $this->assign("message", $message);
                 }
             } else {

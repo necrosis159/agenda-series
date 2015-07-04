@@ -35,22 +35,11 @@ class baseModels {
 
     public function selectAll() {
 
-        //Récupérer les variables le la class enfant
-        $data = get_object_vars($this);
-        unset($data['pdo']);
-        unset($data['table']);
-        unset($data['query']);
-        unset($data['columns']);
-
-        foreach ($data as $key => $value) {
-            $sql_columns[] = ":" . $key;
-        }
-
         $this->query = 'SELECT * FROM ' . strtolower($this->table);
         return $this;
     }
 
-    public function select_objet() {
+    public function selectObject() {
         $args = func_get_args();
         //on verifie si les paramètres entré existe
         foreach ($args as $value) {
@@ -77,7 +66,13 @@ class baseModels {
 
         return $this;
     }
+	
+	public function selectDistinct() {
+        $this->select = "SELECT DISTINCT ";
 
+        return $this;
+    }
+	
     // $table : tableau contenant en clé le préfixe et en valeur le nom de la table 
     // ou juste en valeur le nom de la table (si requête sur une seule table)
     // $columns : tableau contenant les champs de la table SQL que l'on veut récupérer
@@ -110,14 +105,14 @@ class baseModels {
             foreach ($columns as $column) {
                 $this->columns_select[] = $alias . "." . $column;
             }
-            $this->where .= " AND " . $jointure;
         }
+        $this->where .= " AND " . $jointure;
 
         return $this;
     }
 
     //execute la requète
-    public function execute_objet() {
+    public function executeObject() {
         $req = $this->pdo->prepare($this->query . $this->where);
 //        var_dump($this->query.$this->where);die();
         $req->execute();
@@ -207,10 +202,6 @@ class baseModels {
 
         $this->query = 'UPDATE ' . strtolower($this->table) . ' SET ' . implode(" , ", $set);
         return $this;
-    }
-
-    public function getQuery() {
-        return $this->query;
     }
 
 }

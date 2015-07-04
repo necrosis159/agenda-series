@@ -16,7 +16,10 @@
     $router->post('/user/insert', 'User@insert');
     //404
     $router->get('/404', 'Default@index404'); 
-
+    
+    // Page du calendrier général
+    $router->get('/calendar/show', 'Calendar@show'); 
+    
     //Account
     $router->get('/account/', 'Account@login');
     $router->get('/account/index', 'Account@login');

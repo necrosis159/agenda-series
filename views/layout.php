@@ -2,11 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Mon titre</title>
+        <title>Agenda-Serie</title>
         <meta name="description" content="Ma description">
-        <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/styles.css" />
-        <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/menu.css" />
-        <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/series.css" />
+        <link type="text/css" rel="stylesheet" href="/css/styles.css" />
+        <link type="text/css" rel="stylesheet" href="/css/menu.css" />
+        <link type="text/css" rel="stylesheet" href="/css/series.css" />
+        <link type="text/css" rel="stylesheet" href="/css/calendar.css" />
     </head>
     <body>
         <!-- start header -->
@@ -15,7 +16,7 @@
                 <div class="header">
                     <div class="logo">
                         <a href="/">
-                            <img src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/home.jpg" alt=""/>
+                            <img src="/images/home.jpg" alt=""/>
                             <h1> A S </h1>
                             <div class="clear"> </div>
                         </a>
@@ -55,7 +56,7 @@
                         <ul>
                             <li <?php if ($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="/">Accueil</a></li>
                             <li><a href="#">Les séries</a></li>
-                            <li><a href="#">Calendrier</a></li>
+                            <li><a href="/calendar/show">Calendrier</a></li>
                             <li><a href="#">Contact</a></li>
                             <li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
@@ -80,7 +81,7 @@
                     </div>
 
                     <div class="h_search">
-                        <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+                        <form method="POST" action="/global_search.php">
                             <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                             <input type="submit" value="">
                         </form>
