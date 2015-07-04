@@ -20,11 +20,8 @@ class UserController extends baseView {
 
     public function test() {
         $model_user = new User();
-//        $result = $model_user->test();
-//        $this->assign("test", $result);
-        $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
-                        $model_user->updateLastLogin($data_update, "10");
-        $this->render("user/userTest");
+        $result = $model_user->test();
+        var_dump($result);die();
     }
 
     public function edit() {
@@ -48,20 +45,6 @@ class UserController extends baseView {
         $tab['user_status'] = 2;
 
         $user->insert($tab);
-    }
-
-    public function update() {
-        $user = new User();
-//        $tab['user_name'] = 'modif';
-//        //Créer un tableau  $tab[$key]=$val 
-//        //$key(nom du champ)
-//        //$val(valeur du champ)
-//        $name = 'Zbra';
-//        $user->update($tab)
-//                ->where('user_name', $name)->execute_objet();
-        $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
-                        $user->updateLastLogin($data_update, $data[0]['user_id']);
-        $this->render("indexIndex");
     }
 
 }

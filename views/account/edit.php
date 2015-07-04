@@ -44,11 +44,11 @@
       </label>
 
       <label for="password">Mot de passe
-      <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="8" value=''>
+      <input type='password' id='password' name='password' class="input_form" placeholder='Mot de passe' size="30" maxlength="20" value=''>
       </label>
 
       <label for="password_confirm">Confirmation mot de passe
-      <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="8" size="30">
+      <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
       </label>
 
       <input class="button" type='submit' id='submit' name='submit' value='Modifier'>

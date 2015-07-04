@@ -35,13 +35,13 @@ class baseView {
     }
 
     // Fonction retourne un message d'erreur
-    public function error_message($message) {
+    public function errorMessage($message) {
         $result = '<p class="wrong"><img class="message_icons" src="/images/error.png" title="Echec" alt="Echec" align="middle"> &nbsp; ' . $message . '</p>';
         return $result;
     }
 
     // Fonction retourne un message de validation
-    function valid_message($message = '') {
+    function validMessage($message = '') {
         $result = '<p class="right"><img class="message_icons" src="/images/valid.png" title="Réussi" alt="Réussi" align="middle"> &nbsp; ' . $message . '</p>';
         return $result;
     }
@@ -57,7 +57,7 @@ class baseView {
     }
 
     // Fonction pour convertir le format d'une date en français
-    function date_convert($date_en) {
+    function dateConvert($date_en) {
 
         $split = explode("-", $date_en);
         $year = $split[0];

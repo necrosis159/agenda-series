@@ -22,7 +22,7 @@
    // Fonction de connection PDO
    function call_pdo() {
      try {
-       $db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+       $db = new PDO('mysql:host=localhost;dbname=agendaserie;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
      } catch (Exception $e) {
        die('Erreur : ' . $e->getMessage());
      }

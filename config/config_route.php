@@ -1,5 +1,5 @@
 <?php
-
+    
     //Chargement de la class Routing
     $router = new Routing();
 
@@ -15,10 +15,11 @@
     //Ajout user
     $router->post('/user/insert', 'User@insert');
     //404
-    $router->get('/404', 'Default@index404');
+    $router->get('/404', 'Default@index404'); 
+    
     // Page du calendrier général
     $router->get('/calendar/show', 'Calendar@show'); 
-
+    
     //Account
     $router->get('/account/', 'Account@login');
     $router->get('/account/index', 'Account@login');
@@ -31,8 +32,8 @@
     $router->post('/account/register', 'Account@register');
     $router->post('/account/profile', 'Account@profile');
     $router->post('/account/edit', 'Account@edit');
-
-
+    
+    
 //Route Avec Paramètre
     //Affiche user
     $router->get('/user/show/:name-:username', 'User@show')
@@ -67,6 +68,6 @@
 
     //Si l'url existe on prend l'url, sinon on mets "/"
     $url = (isset($_GET['url'])) ? $_GET['url'] : '/';
-
+    
     //Traitement de l'url
     $router->parse($url);

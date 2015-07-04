@@ -70,41 +70,32 @@
       /********************* Fonctions **********************/
 
       // Création de l'élément <li> du <ul>
-      public function _showDay($cellNumber) {
+      public function _showDay($cellNumber, $result) {
 
          if($this->currentDay == 0) {
 
             $firstDayOfTheWeek = date('N', strtotime($this->currentYear . '-' . $this->currentMonth . '-01'));
 
             if(intval($cellNumber) == intval($firstDayOfTheWeek)) {
-
                $this->currentDay = 1;
-
             }
          }
+
          if( ($this->currentDay != 0) && ($this->currentDay <= $this->daysInMonth) ) {
 
             $this->currentDate = date('Y-m-d', strtotime($this->currentYear . '-' . $this->currentMonth . '-' . ($this->currentDay)));
+            $totalItems = $this->inArrayMulti($this->currentDate, $result);
 
-            $allEpisode = new Episode();
-            $allEpisode->selectDistinct()
-                           ->from(array("e" => "episode"), array("episode_number"))
-                              ->where('e.episode_air_date', $this->currentDate)
-                                 ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                    ->join(array("s" => "serie"), array("serie_name"), "se.season_id_serie = s.serie_id");
+            if($totalItems == true) {
 
-            $result = $allEpisode->execute();
-            // echo "<pre>";
-            //    var_dump($result);
-            // echo "</pre>";
-
-            // A corriger : Bug lorsque le numéro de l'épisode et de la saison sont les mêmes
-            if(array_key_exists(0, $result)) {
                $cellIDTVShow = "";
+               $cellContent = $this->currentDay;
 
                for($i = 0; $i < count($result); $i++) {
-                     $cellContent = $this->currentDay;
-                     $cellIDTVShow .= '<a href="#" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '"><font color="green">&#9632;</font></a> &nbsp; ';
+
+                  if($result[$i]['episode_air_date'] == $this->currentDate) {
+                     $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '"><font color="green">&#9632;</font></a> &nbsp; ';
+                  }
                }
             }
             else {
@@ -156,12 +147,18 @@
          $preYear = $this->currentMonth == 1 ? intval($this->currentYear) - 1 : $this->currentYear;
          $dateMonth = date('M', strtotime($this->currentYear . '-' . $this->currentMonth . '-1'));
 
-         return
-            '<div class="header">'.
-                '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d', $preMonth) . '&year=' . $preYear . '">Précédent</a>'.
-                    '<span class="title">' . $this->currentYear . ' - ' . $this->myStrtotime($dateMonth) . '</span>'.
-                '<a class="next" href="' . $this->naviHref . '?month=' . sprintf("%02d", $nextMonth) . '&year=' . $nextYear . '">Suivant</a>'.
-            '</div>';
+         $content = '<div class="header">';
+
+         // Si l'on est dans le mois actuel on masque le bouton précédent
+         if($this->currentMonth != date('m')) {
+            $content .= '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d', $preMonth) . '&year=' . $preYear . '">< Précédent</a>';
+         }
+
+         $content .= '<span class="title">' . $this->currentYear . ' - ' . $this->myStrtotime($dateMonth) . '</span>';
+         $content .= '<a class="next" href="' . $this->naviHref . '?month=' . sprintf("%02d", $nextMonth) . '&year=' . $nextYear . '">Suivant ></a>';
+         $content .= '</div>';
+
+         return $content;
       }
 
       // Création des labels

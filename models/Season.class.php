@@ -16,22 +16,22 @@ class Season extends baseModels{
 		parent::__construct();
 
 	}
-
+	
 	//Id
-	public function setID($season_id){
+	public function setId($season_id){
 		$this->season_id=$season_id;
 	}
 
-	public function getID(){
+	public function getId(){
 		return $this->season_id;
 	}
 
 	//Id_serie
-	public function setIDSerie($season_id_serie){
+	public function setId_serie($season_id_serie){
 		$this->season_id_serie=$season_id_serie;
 	}
 
-	public function getIDSerie(){
+	public function getId_serie(){
 		return $this->season_id_serie;
 	}
 
@@ -41,16 +41,16 @@ class Season extends baseModels{
 	}
 
 	public function getNumber(){
-		return $this->season_number;
+		return $this->season_number;	
 	}
 
 	//Nb_episode
-	public function setNbEpisode($season_nb_episode){
+	public function setNb_episode($season_nb_episode){
 		$this->season_nb_episode=$season_nb_episode;
 	}
 
-	public function getNbEpisode(){
-		return $this->season_nb_episode;
+	public function getNb_episode(){
+		return $this->season_nb_episode;	
 	}
 
 	//Name
@@ -59,7 +59,7 @@ class Season extends baseModels{
 	}
 
 	public function getName(){
-		return $this->season_name;
+		return $this->season_name;	
 	}
 
 	//Overview
@@ -68,7 +68,7 @@ class Season extends baseModels{
 	}
 
 	public function getOverview(){
-		return $this->season_overview;
+		return $this->season_overview;	
 	}
 
 	//Image
@@ -77,24 +77,24 @@ class Season extends baseModels{
 	}
 
 	public function getImage(){
-		return $this->season_image;
+		return $this->season_image;	
 	}
 
 	//Year_start
-	public function setYearStart($season_year_start){
+	public function setYear_start($season_year_start){
 		$this->season_year_start=$season_year_start;
 	}
 
-	public function getYearStart(){
-		return $this->season_year_start;
+	public function getYear_start(){
+		return $this->season_year_start;	
 	}
 
 	//Date_update
-	public function setDateUpdate($season_date_update){
+	public function setDate_update($season_date_update){
 		$this->season_date_update=$season_date_update;
 	}
 
-	public function getDateUpdate(){
+	public function getDate_update(){
 		return $this->season_date_update;
 	}
 }

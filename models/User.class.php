@@ -19,10 +19,17 @@ class User extends baseModels {
     public function __construct() {
         parent::__construct();
     }
-
+    
     public function test() {
-        $query = $this->rowCountByIdUser($_SESSION["user_id"], "serie_user", "su_id_user");
-        return $query;
+//        $query = $this->selectAll();
+//        return $query;
+                $query = $this->select()
+                ->from(array("u" => "user"), array("user_id", "user_name"))
+                ->where("u.user_id", "=", 11)
+                ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
+                ->join(array("s" => "serie"), array("serie_name"), "su.su_id_serie = s.serie_id")
+                ->execute();
+                return $query;
     }
     
     // Récupère toutes les informations concernant un utilisateur par son pseudo
@@ -133,10 +140,10 @@ class User extends baseModels {
     // Fonction pour éditer n'importe quelle information concernant un utilisateur
     // $user_id : chaine contenant l'id de l'utilisateur
     // $data : tableau contenant en clé le champ à modifier et en valeur la valeur de remplacement
-    public function update_user($id_user, $data) {
+    public function updateUser($id_user, $data) {
         $this->update($data)
                 ->where("user_id", "=", $id_user)
-                ->execute_objet();
+                ->executeObject();
     }
 
     // GETTER AND SETTER
@@ -231,20 +238,20 @@ class User extends baseModels {
     }
 
     //Creation_date
-    public function setCreation_date($user_creation_date) {
+    public function setCreationDate($user_creation_date) {
         $this->user_creation_date = $user_creation_date;
     }
 
-    public function getCreation_date() {
+    public function getCreationDate() {
         return $this->user_creation_date;
     }
 
     //Last_login
-    public function setLast_login($user_last_login) {
+    public function setLastLogin($user_last_login) {
         $this->user_last_login = $user_last_login;
     }
 
-    public function getLast_login() {
+    public function getLastLogin() {
         return $this->user_last_login;
     }
 
