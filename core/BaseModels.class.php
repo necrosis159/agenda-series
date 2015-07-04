@@ -139,22 +139,17 @@ class baseModels {
         $this->from = "";
         $this->where = "";
         $this->columns_select = array();
-        $result = $req->fetchAll();
-//        var_dump($result);die();
+        $result = $req->fetchAll(PDO::FETCH_ASSOC);
 
-        $data = array();
-        foreach ($result as $line) {
-            $data[] = array_unique($line);
-        }
-        if (!empty($data)) {
-            if (count($data) > 1) {
-                return $data;
+        if (!empty($result)) {
+            if (count($result) > 1) {
+                return $result;
             } else {
-                return $data[0];
+                return $result[0];
             }
         }
         
-        return $data;
+        return $result;
     }
 
     public function where($col, $operator, $val = null, $escape = true) {
