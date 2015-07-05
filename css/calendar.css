@@ -90,7 +90,7 @@ div#calendar ul.dates{
    margin: 0px;
    padding: 0px;
    margin-left: 5px;
-   margin-bottom: 5px;
+   margin-bottom: 12px;
 }
 
 div#calendar ul.dates li{
@@ -98,7 +98,7 @@ div#calendar ul.dates li{
    padding: 0px;
    margin-right: 5px;
    margin-top: 5px;
-   line-height: 40px;
+   line-height: 18px;
    /*vertical-align: middle;*/
    float: left;
    list-style-type: none;
@@ -112,6 +112,8 @@ div#calendar ul.dates li{
 
 div#calendar ul.dates li a{
    font-size: 11px;
+   float: left !important;
+   margin-left: 3px;
    color: #2F7485;
 }
 

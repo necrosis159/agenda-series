@@ -95,7 +95,7 @@
 
                   if($result[$i]['episode_air_date'] == $this->currentDate) {
                      // $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '"><font color="green">&#9632;</font></a> &nbsp; ';
-                     $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '">' . $result[$i]['serie_name'] . ' : S' . $result[$i]['season_number'] . 'E' . $result[$i]['episode_number'] . '</a> &nbsp; ';
+                     $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '">' . $result[$i]['serie_name'] . ' : S' . $result[$i]['season_number'] . 'E' . $result[$i]['episode_number'] . '</a> &nbsp;';
                   }
                }
             }
