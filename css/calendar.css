@@ -3,7 +3,7 @@
 div#calendar{
   margin: 50px auto;
   padding: 0px;
-  width: 602px;
+  width: 902px;
   font-family: Helvetica, "Times New Roman", Times, serif;
 }
 
@@ -22,7 +22,7 @@ div#calendar div.header{
    position: absolute;
    left: 11px;
    top: 0px;
-   width: 582px;
+   width: 882px;
    height: 40px;
    text-align: center;
 }
@@ -66,7 +66,7 @@ div#calendar ul.label{
    margin: 0px;
    padding: 0px;
    margin-top:5px;
-   margin-left: 5px;
+   margin-left: 12px;
 }
 
 div#calendar ul.label li{
@@ -75,7 +75,7 @@ div#calendar ul.label li{
    margin-right: 5px;
    float: left;
    list-style-type: none;
-   width: 80px;
+   width: 120px;
    height: 40px;
    line-height: 40px;
    vertical-align: middle;
@@ -90,7 +90,7 @@ div#calendar ul.dates{
    margin: 0px;
    padding: 0px;
    margin-left: 5px;
-   margin-bottom: 5px;
+   margin-bottom: 12px;
 }
 
 div#calendar ul.dates li{
@@ -98,16 +98,32 @@ div#calendar ul.dates li{
    padding: 0px;
    margin-right: 5px;
    margin-top: 5px;
-   line-height: 40px;
+   line-height: 18px;
    /*vertical-align: middle;*/
    float: left;
    list-style-type: none;
-   width: 80px;
-   height: 80px;
-   font-size: 14px;
+   width: 120px;
+   height: 120px;
+   font-size: 12px;
    background-color: #DDD;
    color: #000;
    text-align: center;
+}
+
+div#calendar ul.dates li a{
+   font-size: 11px;
+   float: left !important;
+   margin-left: 3px;
+   color: #2F7485;
+}
+
+div#calendar ul.dates li a:hover{
+   text-decoration: underline;
+   color: #56AFC5;
+}
+
+div#calendar ul.dates li.start{
+   margin-left: 10px;
 }
 
 :focus{

@@ -10,6 +10,10 @@ class baseModels {
     private $columns_select = array();
     private $from = "";
     private $where = "";
+    private $select2 = "";
+    private $columns_select2 = array();
+    private $from2 = "";
+    private $where2 = "";
 
     //initialisation
     public function __construct() {
@@ -66,13 +70,18 @@ class baseModels {
 
         return $this;
     }
-	
-	public function selectDistinct() {
+
+    public function selectDistinct() {
         $this->select = "SELECT DISTINCT ";
 
         return $this;
     }
-	
+
+    public function select2() {
+        $this->select2 = "(SELECT ";
+        return $this;
+    }
+
     // $table : tableau contenant en clé le préfixe et en valeur le nom de la table 
     // ou juste en valeur le nom de la table (si requête sur une seule table)
     // $columns : tableau contenant les champs de la table SQL que l'on veut récupérer
@@ -89,6 +98,24 @@ class baseModels {
             $this->from = " FROM " . $table[$alias] . " " . $alias;
             foreach ($columns as $column) {
                 $this->columns_select[] = $alias . "." . $column;
+            }
+        }
+        return $this;
+    }
+    
+    public function from2($table = array(), $columns = array()) {
+        $keys = array_keys($table);
+        $alias = $keys[0];
+
+        if ($alias == "0") {
+            $this->from2 = " FROM " . $table[0];
+            foreach ($columns as $column) {
+                $this->columns_select2[] = $column;
+            }
+        } else {
+            $this->from2 = " FROM " . $table[$alias] . " " . $alias;
+            foreach ($columns as $column) {
+                $this->columns_select2[] = $alias . "." . $column;
             }
         }
         return $this;
@@ -116,21 +143,22 @@ class baseModels {
         $req = $this->pdo->prepare($this->query . $this->where);
 //        var_dump($this->query.$this->where);die();
         $req->execute();
-        
+
         $this->query = "";
         $this->select = "";
         $this->from = "";
         $this->where = "";
         $this->columns_select = array();
-        
+
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
         return $data;
     }
 
     public function execute() {
         $columns = implode(",", $this->columns_select);
-        $this->query = $this->select . $columns . $this->from . $this->where;
-//        var_dump($this->query);die();
+        $columns2 = implode(",", $this->columns_select2);
+        $this->query = $this->select . $columns . $this->from . $this->where . $this->select2 . $columns2 . $this->from2 . $this->where2;
+//        var_dump($this->query); die();
         $req = $this->pdo->prepare($this->query);
         $req->execute();
 
@@ -148,12 +176,37 @@ class baseModels {
                 return $result[0];
             }
         }
-        
+
         return $result;
     }
 
     public function where($col, $operator, $val = null, $escape = true) {
         return $this->addWhere('WHERE', $col, $operator, $val, $escape);
+    }
+    
+    public function where2($key, $col, $operator, $val = null, $escape = true) {
+        if ($val === null) {
+            $val = $operator;
+            $operator = '=';
+        }
+
+        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE'])) {
+            $operator = '=';
+        }
+
+        //on adapte la syntaxe correctement
+        if ($operator === 'LIKE') {
+            $val = "%$val%";
+        }
+
+        //echappement des variables.
+        if ($escape) {
+            $val = $this->pdo->quote($val);
+        }
+
+
+        $this->where2 .= " $key $col $operator $val )";
+        return $this;
     }
 
     public function andWhere($col, $operator, $val = null, $escape = true) {
@@ -165,12 +218,12 @@ class baseModels {
     }
 
     public function addWhere($key, $col, $operator, $val = null, $escape = true) {
-        if ($val === null) {
-            $val = $operator;
-            $operator = '=';
-        }
-
-        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE'])) {
+//        var_dump($operator);die();
+//        if ($val === null) {
+//            $val = $operator;
+//            $operator = '=';
+//        }
+        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN'])) {
             $operator = '=';
         }
 
@@ -197,6 +250,17 @@ class baseModels {
 
         $this->query = 'UPDATE ' . strtolower($this->table) . ' SET ' . implode(" , ", $set);
         return $this;
+    }
+
+    // Fonction in_array pour tableaux mutlidimentionnels
+    function inArrayMulti($needle, $haystack, $strict = false) {
+        foreach ($haystack as $item) {
+            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->inArrayMulti($needle, $item, $strict))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
