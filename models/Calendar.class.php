@@ -94,7 +94,8 @@
                for($i = 0; $i < count($result); $i++) {
 
                   if($result[$i]['episode_air_date'] == $this->currentDate) {
-                     $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '"><font color="green">&#9632;</font></a> &nbsp; ';
+                     // $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '"><font color="green">&#9632;</font></a> &nbsp; ';
+                     $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '">' . $result[$i]['serie_name'] . ' : S' . $result[$i]['season_number'] . 'E' . $result[$i]['episode_number'] . '</a> &nbsp; ';
                   }
                }
             }
@@ -127,7 +128,7 @@
                      'apr'=>'Avril',
                      'may'=>'Mai',
                      'jun'=>'Juin',
-                     'jul'=>'Julliet',
+                     'jul'=>'Juillet',
                      'aug'=>'Août',
                      'sep'=>'Septembre',
                      'oct'=>'Octobre',
@@ -150,7 +151,7 @@
          $content = '<div class="header">';
 
          // Si l'on est dans le mois actuel on masque le bouton précédent
-         if($this->currentMonth != date('m')) {
+         if($this->currentMonth != date('m') || $this->currentYear > date('Y')) {
             $content .= '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d', $preMonth) . '&year=' . $preYear . '">< Précédent</a>';
          }
 
