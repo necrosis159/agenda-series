@@ -93,7 +93,7 @@
             </div>
         </div>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
         <?php include($view); ?>
 
     </body>

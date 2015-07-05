@@ -525,10 +525,19 @@ class AccountController extends baseView {
 
     public function ajaxSearchSeriesByName() {
         $model_user = new User();
-        $test = $model_user->searchSeriesFromUser($_SESSION['user_id'], $_GET['term']);
+        $result = $model_user->searchSeriesFromUser($_SESSION['user_id'], $_GET['term']);
         $data = array();
-        foreach ($test as $serie) {
-            $data[] = $serie['serie_name'];
+        
+        if (!isset($result[0])) {
+            $results = array();
+            $results[] = $result;
+            foreach ($results as $serie) {
+                $data[] = $serie['serie_name'];
+            }
+        } else {
+            foreach ($result as $serie) {
+                $data[] = $serie['serie_name'];
+            }
         }
 
         echo json_encode($data);
