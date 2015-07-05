@@ -17,14 +17,14 @@
          $year = null;
          $month = null;
 
-         if($year == null && isset($_GET['year']) && $_GET['year'] >= date('Y')) {
+         if($year == null && isset($_GET['year'])) {
             $year = $_GET['year'];
          }
          else if($year == null) {
             $year = date("Y", time());
          }
 
-         if($month == null && isset($_GET['month']) && $_GET['month'] >= date('m')) {
+         if($month == null && isset($_GET['month'])) {
             $month = $_GET['month'];
          }
          else if($month == null) {
