@@ -544,6 +544,11 @@ class AccountController extends baseView {
     }
 
     public function ajaxAddSerieToUser() {
+        $serie_name = $_GET["serie_name"];
+        $model_serie = new Serie();
+        $model_user = new User();
+        $serie_id = $model_serie->getIdSerieByName($serie_name);
+        $model_user->addSerieToUser($serie_id["serie_id"], $_SESSION["user_id"]);
         
     }
 

@@ -38,7 +38,7 @@ class User extends baseModels {
                 ->from(array("u" => "user"), array("user_id", "user_password", "user_status"))
                 ->where("u.user_username", "=", $username)
                 ->execute();
-        return $query;
+        return $query[0];
     }
 
     // Récupère toutes les informations concernant un utilisateur par son id
@@ -48,7 +48,7 @@ class User extends baseModels {
                 ->where("user_id", "=", $user_id)
                 ->execute();
 
-        return $query;
+        return $query[0];
     }
 
     // Vérifie l'existence de l'adresse email dans la bdd pour un utilisateur
@@ -134,7 +134,7 @@ class User extends baseModels {
                 ->where("$column", "=", $user_id)
                 ->execute();
 
-        return $query["COUNT(*)"];
+        return $query[0]["COUNT(*)"];
     }
 
     // Fonction pour éditer n'importe quelle information concernant un utilisateur
@@ -145,7 +145,8 @@ class User extends baseModels {
                 ->where("user_id", "=", $id_user)
                 ->executeObject();
     }
-
+    
+    // Retourne toutes les séries suivies par un utilisateur
     public function getSeriesByUser($id_user) {
         $query = $this->select()
                 ->from(array("u" => "user"), array("user_id", "user_name"))
@@ -155,17 +156,28 @@ class User extends baseModels {
                 ->execute();
         return $query;
     }
-
+    
+    // Retourne le résultat de la recherche de séries de l'utilisateur en fonction de ce qu'il a entré comme chaine
+    // Ne retourne pas les séries déjà suivies par l'utilisateur
     public function searchSeriesFromUser($id_user, $serie_name) {
         $query = $this->select()
                 ->from(array("serie"), array("serie_name"))
                 ->where("serie_name", "LIKE", $serie_name)
                 ->addWhere("AND", "serie_id", "NOT IN", null, false)
-                ->select2()
-                ->from2(array("serie_user"), array("su_id_serie"))
-                ->where2("WHERE", "su_id_user", "=", $id_user)
+                ->select_subquery()
+                ->from_subquery(array("serie_user"), array("su_id_serie"))
+                ->where_subquery("WHERE", "su_id_user", "=", $id_user)
                 ->execute();
         return $query;
+    }
+    
+    // Ajoute une série suivie à l'utilisateur
+    public function addSerieToUser($serie_id, $user_id) {
+        $data = array(
+            "su_id_serie" => $serie_id,
+            "su_id_user" => $user_id
+        );
+        $this->insert($data, "serie_user");
     }
     
     // GETTER AND SETTER

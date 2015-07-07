@@ -10,10 +10,10 @@ class baseModels {
     private $columns_select = array();
     private $from = "";
     private $where = "";
-    private $select2 = "";
-    private $columns_select2 = array();
-    private $from2 = "";
-    private $where2 = "";
+    private $select_subquery = "";
+    private $columns_subquery = array();
+    private $from_subquery = "";
+    private $where_subquery = "";
 
     //initialisation
     public function __construct() {
@@ -25,16 +25,31 @@ class baseModels {
         }
     }
 
-    public function insert($args) {
-
-        foreach ($args as $key => $value) {
-            $sql_columns[] = ":" . $key;
+    public function insert($data = array(), $table = NULL) {
+        if ($table == NULL) {
+            $table = $this->table;
         }
 
-        //requete
-        $request = $this->pdo->prepare('INSERT INTO ' . strtolower($this->table) . '(' . implode(",", array_keys($args)) . ') VALUES (' . implode(",", $sql_columns) . ')');
-//        var_dump($request);die();
-        $success = $request->execute($args);
+        foreach ($data as $key => $value) {
+            $sql_columns[] = "'" . $value . "'";
+        }
+
+        $query = $this->pdo->prepare('INSERT INTO ' . strtolower($table) . '(' . implode(",", array_keys($data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
+
+        $query->execute();
+    }
+
+    public function update($data = array(), $table = NULL) {
+        if ($table == NULL) {
+            $table = $this->table;
+        }
+
+        foreach ($data as $key => $value) {
+            $set[] = "$key = '$value' ";
+        }
+
+        $this->query = 'UPDATE ' . strtolower($this->table) . ' SET ' . implode(" , ", $set);
+        return $this;
     }
 
     public function selectAll() {
@@ -77,8 +92,9 @@ class baseModels {
         return $this;
     }
 
-    public function select2() {
-        $this->select2 = "(SELECT ";
+    // Fonction select pour les requêtes imbriquées
+    public function select_subquery() {
+        $this->select_subquery = "(SELECT ";
         return $this;
     }
 
@@ -103,19 +119,20 @@ class baseModels {
         return $this;
     }
 
-    public function from2($table = array(), $columns = array()) {
+    // Fonction from pour les requêtes imbriquées
+    public function from_subquery($table = array(), $columns = array()) {
         $keys = array_keys($table);
         $alias = $keys[0];
 
         if ($alias == "0") {
-            $this->from2 = " FROM " . $table[0];
+            $this->from_subquery = " FROM " . $table[0];
             foreach ($columns as $column) {
-                $this->columns_select2[] = $column;
+                $this->columns_subquery[] = $column;
             }
         } else {
-            $this->from2 = " FROM " . $table[$alias] . " " . $alias;
+            $this->from_subquery = " FROM " . $table[$alias] . " " . $alias;
             foreach ($columns as $column) {
-                $this->columns_select2[] = $alias . "." . $column;
+                $this->columns_subquery[] = $alias . "." . $column;
             }
         }
         return $this;
@@ -156,9 +173,9 @@ class baseModels {
 
     public function execute() {
         $columns = implode(",", $this->columns_select);
-        $columns2 = implode(",", $this->columns_select2);
-        $this->query = $this->select . $columns . $this->from . $this->where . $this->select2 . $columns2 . $this->from2 . $this->where2;
-//        var_dump($this->query); die();
+        $columns_subquery = implode(",", $this->columns_subquery);
+        $this->query = $this->select . $columns . $this->from . $this->where . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
+//        var_dump($this->query);die();
         $req = $this->pdo->prepare($this->query);
         $req->execute();
 
@@ -169,14 +186,6 @@ class baseModels {
         $this->columns_select = array();
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
 
-      //   if (!empty($result)) {
-      //       if (count($result) > 1) {
-      //           return $result;
-      //       } else {
-      //           return $result[0];
-      //       }
-      //   }
-
         return $result;
     }
 
@@ -184,7 +193,8 @@ class baseModels {
         return $this->addWhere('WHERE', $col, $operator, $val, $escape);
     }
 
-    public function where2($key, $col, $operator, $val = null, $escape = true) {
+    // Fonction where pour les requêtes imbriquées
+    public function where_subquery($key, $col, $operator, $val = null, $escape = true) {
         if ($val === null) {
             $val = $operator;
             $operator = '=';
@@ -205,7 +215,7 @@ class baseModels {
         }
 
 
-        $this->where2 .= " $key $col $operator $val )";
+        $this->where_subquery .= " $key $col $operator $val )";
         return $this;
     }
 
@@ -218,7 +228,6 @@ class baseModels {
     }
 
     public function addWhere($key, $col, $operator, $val = null, $escape = true) {
-//        var_dump($operator);die();
 //        if ($val === null) {
 //            $val = $operator;
 //            $operator = '=';
@@ -239,16 +248,6 @@ class baseModels {
 
 
         $this->where .= " $key $col $operator $val";
-        return $this;
-    }
-
-    public function update($args) {
-        $set = [];
-        foreach ($args as $key => $value) {
-            $set[] = "$key = '$value' ";
-        }
-
-        $this->query = 'UPDATE ' . strtolower($this->table) . ' SET ' . implode(" , ", $set);
         return $this;
     }
 

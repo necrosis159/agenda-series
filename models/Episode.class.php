@@ -26,20 +26,20 @@ class Episode extends baseModels{
 	}
 
 	//Id_serie
-		public function setId_serie($episode_id_serie){
+		public function setIDSerie($episode_id_serie){
 		$this->episode_id_serie=$episode_id_serie;
 	}
 
-	public function getId_serie(){
+	public function getIDSerie(){
 		return $this->episode_id_serie;
 	}
 
 	//Id_saison
-		public function setId_saison($episode_id_saison){
+		public function setIDSeason($episode_id_saison){
 		$this->episode_id_saison=$episode_id_saison;
 	}
 
-	public function getId_saison(){
+	public function getIDSeason(){
 		return $this->episode_id_saison;
 	}
 
@@ -79,21 +79,12 @@ class Episode extends baseModels{
 		return $this->episode_notation;
 	}
 
-	//Duration
-		public function setDuration($episode_duration){
-		$this->episode_duration=$episode_duration;
-	}
-
-	public function getDuration(){
-		return $this->episode_duration;
-	}
-
 	//Air_date
-	public function setAir_date($episode_air_date){
+	public function setAirDate($episode_air_date){
 		$this->episode_air_date=$episode_air_date;
 	}
 
-	public function getAir_date(){
+	public function getAirDate(){
 		return $this->episode_air_date;
 	}
 
@@ -102,7 +93,7 @@ class Episode extends baseModels{
 		$this->episode_date_update=$episode_date_update;
 	}
 
-	public function getDate_update(){
+	public function getDateUpdate(){
 		return $this->episode_date_update;
 	}
 }
