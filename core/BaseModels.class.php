@@ -18,7 +18,7 @@ class baseModels {
     //initialisation
     public function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaserie", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaserie", "root", "");
             $this->table = get_called_class();
         } catch (Exception $e) {
             die("Erreur BDD " . $e->getMessage());
@@ -173,9 +173,9 @@ class baseModels {
 
     public function execute() {
         $columns = implode(",", $this->columns_select);
-        $columns_subquery = implode(",", $this->columns);
+        $columns_subquery = implode(",", $this->columns_subquery);
         $this->query = $this->select . $columns . $this->from . $this->where . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
-//        var_dump($this->query); die();
+//        var_dump($this->query);die();
         $req = $this->pdo->prepare($this->query);
         $req->execute();
 
@@ -228,10 +228,10 @@ class baseModels {
     }
 
     public function addWhere($key, $col, $operator, $val = null, $escape = true) {
-        if ($val === null) {
-            $val = $operator;
-            $operator = '=';
-        }
+//        if ($val === null) {
+//            $val = $operator;
+//            $operator = '=';
+//        }
         if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN'])) {
             $operator = '=';
         }
