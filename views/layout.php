@@ -8,6 +8,8 @@
         <link type="text/css" rel="stylesheet" href="/css/menu.css" />
         <link type="text/css" rel="stylesheet" href="/css/series.css" />
         <link type="text/css" rel="stylesheet" href="/css/calendar.css" />
+        <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css" />
+        <!--<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"/>-->
     </head>
     <body>
         <!-- start header -->
@@ -69,7 +71,7 @@
                             <li><a href="#">Compte</a>
                                 <ul id="account_menu">
                                     <li><a href="/account/profile">Mon profil</a></li>
-                                    <li><a href="#">Mes séries</a></li>
+                                    <li><a href="/account/series">Mes séries</a></li>
                                     <li><a href="#">Mon calendrier</a></li>
                                 </ul>
                             </li>
@@ -91,6 +93,7 @@
             </div>
         </div>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
         <?php include($view); ?>
 
     </body>

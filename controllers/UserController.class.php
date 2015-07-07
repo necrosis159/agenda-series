@@ -20,7 +20,8 @@ class UserController extends baseView {
 
     public function test() {
         $model_user = new User();
-        $result = $model_user->test();
+//        $result = $model_user->test();
+        $result = $model_user->searchSeriesFromUser("10", "bre");
         var_dump($result);die();
     }
 

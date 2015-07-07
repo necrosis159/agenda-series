@@ -1,32 +1,10 @@
 $(document).ready(function() {
-
-
-// détection de la saisie dans le champ de recherche
-    $('#q').keyup(function() {
-        $field = $(this);
-        $('#results').html(''); // on vide les resultats
-        $('#ajax-loader').remove(); // on retire le loader
-        var racine = location.href;
-        // on commence à traiter à partir du 2ème caractère saisie
-        if ($field.val().length > 0) {
-            // on envoie la valeur recherché en GET au fichier de traitement
-            $.ajax({
-                type: 'GET', // envoi des données en GET ou POST
-                url: '../ajax/ajax_search.php', // url du fichier de traitement
-                data: 'q=' + $(this).val(), // données à envoyer en  GET ou POST
-                beforeSend: function() { // traitements JS à faire AVANT l'envoi
-//                    $field.after('<img src="../images/loader.gif" alt="loader" id="ajax-loader" />'); // ajout d'un loader pour signifier l'action
-                },
-                success: function(data) { // traitements JS à faire APRES le retour d'ajax-search.php
-                    $('#ajax-loader').remove(); // on enleve le loader
-                    $('#results').show();
-                    $('#results').html(data); // affichage des résultats dans le bloc
-                }
-            });
-        } else {
-            $('#results').hide();
-        }
+    
+    // Saisie automatique dans la recherche de séries de account/series
+    $("#q").autocomplete({
+        source: "ajaxSearchSeriesByName"
     });
+
 
     $("#results").on('click', '.serie_add', function() {
         $("#q").val($(this).html()); // Ajout le nom de la série dans le champ de recherche
@@ -42,12 +20,12 @@ $(document).ready(function() {
 
 // Ajoute le suivi d'une série pour un utilisateur
     function addSerieToUser() {
-        var serie = $("#q").val();
+        var serie_name = $("#q").val();
         // on envoie la valeur recherché en GET au fichier de traitement
         $.ajax({
             type: 'GET', // envoi des données en GET ou POST
-            url: '../ajax/ajax_add_serie.php', // url du fichier de traitement
-            data: 'serie=' + serie, // données à envoyer en  GET ou POST
+            url: 'ajaxAddSerieToUser', // url du fichier de traitement
+            data: 'serie_name=' + serie_name, // données à envoyer en  GET ou POST
             beforeSend: function() { // traitements JS à faire AVANT l'envoi
             },
             success: function(data) { // traitements JS à faire APRES le retour d'ajax_add_serie.php

@@ -28,6 +28,9 @@
     $router->get('/account/logout', 'Account@logout');
     $router->get('/account/profile', 'Account@profile');
     $router->get('/account/edit', 'Account@edit');
+    $router->get('/account/series', 'Account@series');
+    $router->get('/account/ajaxSearchSeriesByName', 'Account@ajaxSearchSeriesByName');
+    $router->get('/account/ajaxAddSerieToUser', 'Account@ajaxAddSerieToUser');
     $router->post('/account/check-login', 'Account@checkLogin');
     $router->post('/account/register', 'Account@register');
     $router->post('/account/profile', 'Account@profile');
