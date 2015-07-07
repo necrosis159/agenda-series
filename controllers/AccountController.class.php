@@ -428,10 +428,7 @@ class AccountController extends baseView {
                 $name = trim($_POST['name']);
                 $surname = trim($_POST['surname']);
                 $email = trim($_POST['email']);
-//                if (!empty($_POST["password"])) {
-//                    $password = trim($_POST['password']);
-//                    $password_confirm = trim($_POST['password_confirm']);
-//                }
+
                 // Champ name
                 if (strlen($name) > 50) {
                     $arrayErrors[] = "Le nom n'est pas valide";
@@ -462,10 +459,6 @@ class AccountController extends baseView {
 
                 // Champ password
                 $password = trim($_POST["password"]);
-//                if (!empty($password_form) && preg_match("/^(?=.*\d)(?=.*[A-Z]).{4,8}$/", $_POST["password"]) === 1 && $_POST["password"] == $_POST["password_confirm"]) {
-//                    $password = $_POST["password"];
-//                    $data["user_password"] = $password;
-//                }
                 if (!empty($password)) {
                     $password = trim($_POST['password']);
                     $password_confirm = trim($_POST['password_confirm']);
@@ -473,7 +466,7 @@ class AccountController extends baseView {
                         $arrayErrors[] = "Le mot de passe doit contenir 1 chiffre minimum";
                         $error ++;
                     } else {
-                        if($password != $password_confirm) {
+                        if ($password != $password_confirm) {
                             $arrayErrors[] = "Les 2 mots de passe ne correspondent pas";
                             $error++;
                         } else {
@@ -514,7 +507,44 @@ class AccountController extends baseView {
         $this->assign("surname", $surname);
         $this->assign("email", $email);
         $this->render("account/edit");
-//        $this->redirect("account", "edit");
+    }
+
+    public function series() {
+        $model_user = new User();
+        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
+        if (!isset($series_user[0])) {
+            $data = array();
+            $data[] = $series_user;
+            $this->assign("data", $data);
+        } else {
+            $this->assign("data", $series_user);
+        }
+
+        $this->render("account/series");
+    }
+
+    public function ajaxSearchSeriesByName() {
+        $model_user = new User();
+        $result = $model_user->searchSeriesFromUser($_SESSION['user_id'], $_GET['term']);
+        $data = array();
+        
+        if (!isset($result[0])) {
+            $results = array();
+            $results[] = $result;
+            foreach ($results as $serie) {
+                $data[] = $serie['serie_name'];
+            }
+        } else {
+            foreach ($result as $serie) {
+                $data[] = $serie['serie_name'];
+            }
+        }
+
+        echo json_encode($data);
+    }
+
+    public function ajaxAddSerieToUser() {
+        
     }
 
 }

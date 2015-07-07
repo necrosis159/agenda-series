@@ -68,6 +68,20 @@
       }
 
       /********************* Fonctions **********************/
+      public function _requestData($month, $year) {
+
+         $allEpisode = new Episode();
+         $allEpisode->selectDistinct()
+                        ->from(array("e" => "episode"), array("episode_number", "episode_air_date"))
+                           ->where('e.episode_air_date', ">=", $year . "-" . $month . "-01")
+                              ->addWhere("AND", "e.episode_air_date", "<=", $year . "-" . $month . "-31")
+                                 ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
+                                    ->join(array("s" => "serie"), array("serie_name, serie_id"), "se.season_id_serie = s.serie_id");
+
+         $result = $allEpisode->execute();
+
+         return $result;
+      }
 
       // Création de l'élément <li> du <ul>
       public function _showDay($cellNumber, $result) {
@@ -84,9 +98,11 @@
          if( ($this->currentDay != 0) && ($this->currentDay <= $this->daysInMonth) ) {
 
             $this->currentDate = date('Y-m-d', strtotime($this->currentYear . '-' . $this->currentMonth . '-' . ($this->currentDay)));
-            $totalItems = $this->inArrayMulti($this->currentDate, $result);
+            //   echo "<pre>";
+            //       die(var_dump($result));
+            //   echo "</pre>";
 
-            if($totalItems == true) {
+            if(count($result) > 0) {
 
                $cellIDTVShow = "";
                $cellContent = $this->currentDay;
@@ -151,12 +167,10 @@
          $content = '<div class="header">';
 
          // Si l'on est dans le mois actuel on masque le bouton précédent
-         if($this->currentMonth != date('m') || $this->currentYear > date('Y')) {
-            $content .= '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d', $preMonth) . '&year=' . $preYear . '">< Précédent</a>';
-         }
-
+         $content .= '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d', $preMonth) . '&year=' . $preYear . '">< Précédent</a>';
          $content .= '<span class="title">' . $this->currentYear . ' - ' . $this->myStrtotime($dateMonth) . '</span>';
          $content .= '<a class="next" href="' . $this->naviHref . '?month=' . sprintf("%02d", $nextMonth) . '&year=' . $nextYear . '">Suivant ></a>';
+
          $content .= '</div>';
 
          return $content;

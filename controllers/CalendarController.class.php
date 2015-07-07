@@ -6,14 +6,6 @@
 
          $calendar = new Calendar();
 
-         $allEpisode = new Episode();
-         $allEpisode->selectDistinct()
-                        ->from(array("e" => "episode"), array("episode_number", "episode_air_date"))
-                           ->where('e.episode_air_date', ">=", date("Y-m-d"))
-                              ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                 ->join(array("s" => "serie"), array("serie_name, serie_id"), "se.season_id_serie = s.serie_id");
-         $result = $allEpisode->execute();
-
          $year = null;
          $month = null;
 
@@ -45,13 +37,17 @@
                                 $content .= '<ul class="dates">';
 
                                 $weeksInMonth = $calendar->_weeksInMonth($month, $year);
+                                $dataEpisode = $calendar->_requestData($month, $year);
+                              //   echo "<pre>";
+                              //       die(var_dump($dataEpisode));
+                              //   echo "</pre>";
 
-                                // Création des mois
-                                for($i = 0; $i<$weeksInMonth; $i++) {
+                                // Création des semaines
+                                for($i = 0; $i < $weeksInMonth; $i++) {
 
                                     //Création des jours
                                     for($j = 1; $j <= 7; $j++){
-                                        $content .= $calendar->_showDay($i * 7 + $j, $result);
+                                        $content .= $calendar->_showDay($i * 7 + $j, $dataEpisode);
                                     }
                                 }
 
