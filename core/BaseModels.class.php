@@ -18,7 +18,7 @@ class baseModels {
     //initialisation
     public function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaserie", "root", "");
+            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaserie", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             $this->table = get_called_class();
         } catch (Exception $e) {
             die("Erreur BDD " . $e->getMessage());
@@ -50,6 +50,15 @@ class baseModels {
 
         $this->query = 'UPDATE ' . strtolower($this->table) . ' SET ' . implode(" , ", $set);
         return $this;
+    }
+
+    public function delete($table, $params = array()) {
+        foreach ($params as $key => $value) {
+            $set[] = "$key = '$value' ";
+        }
+
+        $query = $this->pdo->prepare("DELETE FROM $table WHERE " . implode("AND ", $set));
+        $query->execute();
     }
 
     public function selectAll() {
@@ -91,7 +100,7 @@ class baseModels {
 
         return $this;
     }
-    
+
     // Fonction select pour les requêtes imbriquées
     public function select_subquery() {
         $this->select_subquery = "(SELECT ";
@@ -118,7 +127,7 @@ class baseModels {
         }
         return $this;
     }
-    
+
     // Fonction from pour les requêtes imbriquées
     public function from_subquery($table = array(), $columns = array()) {
         $keys = array_keys($table);
@@ -192,7 +201,7 @@ class baseModels {
     public function where($col, $operator, $val = null, $escape = true) {
         return $this->addWhere('WHERE', $col, $operator, $val, $escape);
     }
-    
+
     // Fonction where pour les requêtes imbriquées
     public function where_subquery($key, $col, $operator, $val = null, $escape = true) {
         if ($val === null) {
