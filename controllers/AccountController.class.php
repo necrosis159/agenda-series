@@ -512,22 +512,17 @@ class AccountController extends baseView {
     public function series() {
         $model_user = new User();
         $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
-        if (!isset($series_user[0])) {
-            $data = array();
-            $data[] = $series_user;
-            $this->assign("data", $data);
-        } else {
-            $this->assign("data", $series_user);
-        }
-
+        
+        $this->assign("data", $series_user);
         $this->render("account/series");
     }
 
+    // Retourne le résultat de la recherche de séries d'un utilisateur
     public function ajaxSearchSeriesByName() {
         $model_user = new User();
         $result = $model_user->searchSeriesFromUser($_SESSION['user_id'], $_GET['term']);
         $data = array();
-        
+
         if (!isset($result[0])) {
             $results = array();
             $results[] = $result;
@@ -543,12 +538,38 @@ class AccountController extends baseView {
         echo json_encode($data);
     }
 
+    // Ajoute une série suivie pour l'utilisateur
     public function ajaxAddSerieToUser() {
         $serie_name = $_GET["serie_name"];
         $model_serie = new Serie();
         $model_user = new User();
         $serie_id = $model_serie->getIdSerieByName($serie_name);
         $model_user->addSerieToUser($serie_id["serie_id"], $_SESSION["user_id"]);
+        
+        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
+        foreach($series_user as $serie) {
+            echo "<li class='serie_user'>
+                    <span class='serie_delete' serie_id='". $serie['serie_id'] ."'><img src='/images/serie_delete.png'></span>
+                    <a href='#'><p><span class='serie_txt_img'>". $serie['serie_name']."<br> Note : ".$serie['serie_notation'] ."</span></p><img src='". $serie['serie_image'] ."' class='image_serie'></a>
+                    <span class='serie_title'>". $serie['serie_name'] ."</span>
+                </li>";
+        }
+    }
+
+    // Supprime une série suivie par l'utilisateur
+    public function ajaxDeleteSerieUser() {
+        $serie_id = $_GET["serie_id"];
+        $model_user = new User();
+        $model_user->delete("serie_user", array("su_id_serie" => $serie_id));
+        
+        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
+        foreach($series_user as $serie) {
+            echo "<li class='serie_user'>
+                    <span class='serie_delete' serie_id='". $serie['serie_id'] ."'><img src='/images/serie_delete.png'></span>
+                    <a href='#'><p><span class='serie_txt_img'>". $serie['serie_name']."<br> Note : ".$serie['serie_notation'] ."</span></p><img src='". $serie['serie_image'] ."' class='image_serie'></a>
+                    <span class='serie_title'>". $serie['serie_name'] ."</span>
+                </li>";
+        }
         
     }
 
