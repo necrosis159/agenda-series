@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+
     // Saisie automatique dans la recherche de séries de account/series
     $("#q").autocomplete({
         source: "ajaxSearchSeriesByName"
@@ -14,6 +14,12 @@ $(document).ready(function() {
 // Appel la fonction ajax qui ajoute la série dans la bdd
     $('#add_serie_button').click(function() {
         if ($('#q').val().trim() != '') {
+            addSerieToUser();
+        }
+    });
+
+    $('#q').keyup(function(e) {
+        if (e.keyCode == 13) { // KeyCode de la touche entrée
             addSerieToUser();
         }
     });
@@ -46,7 +52,7 @@ $(document).ready(function() {
         // on envoie la valeur recherché en GET au fichier de traitement
         $.ajax({
             type: 'GET', // envoi des données en GET ou POST
-            url: '../ajax/ajax_delete_serie.php', // url du fichier de traitement
+            url: 'ajaxDeleteSerieUser', // url du fichier de traitement
             data: 'serie_id=' + serie_id, // données à envoyer en  GET ou POST
             beforeSend: function() { // traitements JS à faire AVANT l'envoi
             },
@@ -61,7 +67,7 @@ $(document).ready(function() {
         $(ancre).slideToggle(400, function() {
             if ($(ancre).css('display') === 'block') {
                 $('html, body').animate({
-                    scrollTop: $('#profile_bloc').offset().top
+                    scrollTop: $('#create_logo').offset().top
                 }, 'slow');
             } else {
                 $('html, body').animate({
