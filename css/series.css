@@ -1,37 +1,35 @@
 /*SERIE*/
 
 #series{
-	margin: auto;
-	width: 80%;
+	margin: 20px auto;
+	width: 1200px;
+	overflow: auto;
 }
 
 #search{
 	padding: 20px;
-	width: 90%;
+	width: 1000px;
 	height: 150px;
 	margin: auto;
 }
 #search h2{
-	margin-left:32%;
+	margin:auto;
 	width:330px;
 }
 
 #listOfSeries{
+	overflow: auto;
 	padding: 20px;
 }
-
-#listOfSeries div{
-	clear: both;
-}
-
 #highlighting{
-	height: 340px;
+	overflow: auto;
+	height: 335px;
 }
 
 .sticker{
 	width: 180px;
 	height: 250px;
-	margin: 0 0 10px 50px;
+	margin-left: 50px;
 	float: left;
 }
 
@@ -50,10 +48,9 @@
 	-webkit-border-radius:15px;*/
 }
 
-.serie_search{
-	min-width:150px;
+.serie_search input{
 	width: 25%;
-    margin-left: 37%;
+    margin-left: 30%;
     font-family: 'Lato', sans-serif;
     padding:8px 14px;
     outline: none;
@@ -100,18 +97,23 @@
 }
 
 #divLeft{
-	width: 65%;
+	width: 40%;
 	float: left;
+	height: 600px;
 }
 
-#divLeft #subtitle{
+#divLeft img{
+	width: 80%;
+}
+
+#divRight #subtitle{
 	color: #353c49;
 	font-size: 1.2em;
 }
 
 #divRight{
 	float: right;
-	width: 30%;
+	width: 60%;
 }
 
 #divRight #user_options{
@@ -232,11 +234,6 @@
     line-height: 40px;
 }
 
-#serie_detail .list_comment #username_comment span{
-	float: right;
-	margin-right: 15px;
-}
-
 #serie_detail .list_comment #avatar_comment{
 		width: 60px;
         height: 60px;
@@ -256,9 +253,4 @@
 
 #serie_detail .list_comment p textarea{
 	width: 620px;
-}
-
-.containerComment{
-	clear: both;
-    padding-top: 1px;
 }
