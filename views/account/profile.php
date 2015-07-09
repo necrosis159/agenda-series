@@ -5,7 +5,7 @@
         <h1 class="heading">Mon Profil</h1>
         <div id="profile_user">
             <div id="profile_avatar">
-                <img src="/images/<?php echo $result["user_avatar"]; ?>" class="avatar_image">
+                <img src="/images/avatar/<?php echo $result["user_avatar"]; ?>" class="avatar_image">
                 <div id='avatar_modify'>
                     <a href='#' class="button">Modifier l'Avatar</a>
                 </div>
@@ -45,8 +45,9 @@
                 <!--Ajout et personnalisation du texte-->
                 <div id="font_bloc" style="display: none;">
                     <p>2) Ajoutez du texte et personnalisez le.</p>
+                    <br>
                     <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $maxsize_octet; ?>">
-                    Police <br/><br/>
+                    Police :
                     <select name="font">
                         <option value="arial">Arial</option>
                         <option value="calibri">Calibri</option>

@@ -1535,6 +1535,7 @@ ACCOUNT
 	margin-bottom: 10px;
 	float: left;
 	position: relative;
+        list-style-type: none;
 	/*    width: 20%;*/
 	/*height: 300px;*/
 }
@@ -1651,7 +1652,7 @@ ACCOUNT
 #profile_user {
     margin: auto;
     width: 700px;
-    height: 300px;
+    height: 400px;
     border: 1px solid #BDBDBD;
     padding: 20px;
 }

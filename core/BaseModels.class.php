@@ -18,7 +18,7 @@ class baseModels {
     //initialisation
     public function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=agenda", "root", "");
+            $this->pdo = new PDO("mysql:host=localhost;dbname=agenda", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             $this->table = get_called_class();
         } catch (Exception $e) {
             die("Erreur BDD " . $e->getMessage());
@@ -50,6 +50,15 @@ class baseModels {
 
         $this->query = 'UPDATE ' . strtolower($this->table) . ' SET ' . implode(" , ", $set);
         return $this;
+    }
+
+    public function delete($table, $params = array()) {
+        foreach ($params as $key => $value) {
+            $set[] = "$key = '$value' ";
+        }
+
+        $query = $this->pdo->prepare("DELETE FROM $table WHERE " . implode("AND ", $set));
+        $query->execute();
     }
 
     public function selectAll() {
@@ -175,8 +184,8 @@ class baseModels {
         $columns = implode(",", $this->columns_select);
         $columns_subquery = implode(",", $this->columns_subquery);
         $this->query = $this->select . $columns . $this->from . $this->where . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
-//        var_dump($this->query);die();
         $req = $this->pdo->prepare($this->query);
+      //   die(var_dump($req));
         $req->execute();
 
         $this->query = "";
@@ -232,7 +241,7 @@ class baseModels {
 //            $val = $operator;
 //            $operator = '=';
 //        }
-        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN'])) {
+        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN', 'IN'])) {
             $operator = '=';
         }
 
