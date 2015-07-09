@@ -31,6 +31,7 @@
     $router->get('/account/series', 'Account@series');
     $router->get('/account/ajaxSearchSeriesByName', 'Account@ajaxSearchSeriesByName');
     $router->get('/account/ajaxAddSerieToUser', 'Account@ajaxAddSerieToUser');
+    $router->get('/account/ajaxDeleteSerieUser', 'Account@ajaxDeleteSerieUser');
     $router->post('/account/check-login', 'Account@checkLogin');
     $router->post('/account/register', 'Account@register');
     $router->post('/account/profile', 'Account@profile');
