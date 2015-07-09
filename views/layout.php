@@ -72,7 +72,7 @@
                                 <ul id="account_menu">
                                     <li><a href="/account/profile">Mon profil</a></li>
                                     <li><a href="/account/series">Mes séries</a></li>
-                                    <li><a href="#">Mon calendrier</a></li>
+                                    <li><a href="/account/calendar/show">Mon calendrier</a></li>
                                 </ul>
                             </li>
 

@@ -18,7 +18,7 @@ class baseModels {
     //initialisation
     public function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaserie", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            $this->pdo = new PDO("mysql:host=localhost;dbname=agenda", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             $this->table = get_called_class();
         } catch (Exception $e) {
             die("Erreur BDD " . $e->getMessage());
@@ -50,6 +50,15 @@ class baseModels {
 
         $this->query = 'UPDATE ' . strtolower($this->table) . ' SET ' . implode(" , ", $set);
         return $this;
+    }
+
+    public function delete($table, $params = array()) {
+        foreach ($params as $key => $value) {
+            $set[] = "$key = '$value' ";
+        }
+
+        $query = $this->pdo->prepare("DELETE FROM $table WHERE " . implode("AND ", $set));
+        $query->execute();
     }
 
     public function selectAll() {
@@ -91,14 +100,14 @@ class baseModels {
 
         return $this;
     }
-    
+
     // Fonction select pour les requêtes imbriquées
     public function select_subquery() {
         $this->select_subquery = "(SELECT ";
         return $this;
     }
 
-    // $table : tableau contenant en clé le préfixe et en valeur le nom de la table 
+    // $table : tableau contenant en clé le préfixe et en valeur le nom de la table
     // ou juste en valeur le nom de la table (si requête sur une seule table)
     // $columns : tableau contenant les champs de la table SQL que l'on veut récupérer
     public function from($table = array(), $columns = array()) {
@@ -118,7 +127,7 @@ class baseModels {
         }
         return $this;
     }
-    
+
     // Fonction from pour les requêtes imbriquées
     public function from_subquery($table = array(), $columns = array()) {
         $keys = array_keys($table);
@@ -175,8 +184,8 @@ class baseModels {
         $columns = implode(",", $this->columns_select);
         $columns_subquery = implode(",", $this->columns_subquery);
         $this->query = $this->select . $columns . $this->from . $this->where . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
-//        var_dump($this->query);die();
         $req = $this->pdo->prepare($this->query);
+      //   die(var_dump($req));
         $req->execute();
 
         $this->query = "";
@@ -192,7 +201,7 @@ class baseModels {
     public function where($col, $operator, $val = null, $escape = true) {
         return $this->addWhere('WHERE', $col, $operator, $val, $escape);
     }
-    
+
     // Fonction where pour les requêtes imbriquées
     public function where_subquery($key, $col, $operator, $val = null, $escape = true) {
         if ($val === null) {
@@ -232,7 +241,7 @@ class baseModels {
 //            $val = $operator;
 //            $operator = '=';
 //        }
-        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN'])) {
+        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN', 'IN'])) {
             $operator = '=';
         }
 
