@@ -96,8 +96,8 @@ class AccountController extends baseView {
                 }
 
                 // On vérifie que le name et le Prénom ne sont pas égaux
-                if (!empty($name) && !empty($surname) && (mb_strtolower($name) == mb_strtolower($surname))) {
-                    $arrayErrors[] = "Le nom et le prénom doivent être différents";
+                if (!empty($name) && !empty($surname) && !empty($username) && (mb_strtolower($name) == mb_strtolower($surname) || mb_strtolower($name) == mb_strtolower($username) || mb_strtolower($username) == mb_strtolower($surname) )) {
+                    $arrayErrors[] = "Le nom, prénom et pseudo doivent être différents";
                     $error ++;
                 }
 
@@ -226,21 +226,24 @@ class AccountController extends baseView {
         $this->assign("maxsize", $maxsize);
         $this->assign("maxsize_octet", $maxsize_octet);
 
-        // Création d'un tableau php avec les extensions valides
+//Création d'un tableau php avec les extensions valides
         $extensions_valides = array('jpg', 'jpeg', 'png');
-        // Chemin des dossiers
-        $upload_directory = $_SERVER['DOCUMENT_ROOT'] . '/images/avatar';
-        $fonts_directory = $_SERVER['DOCUMENT_ROOT'] . '/fonts';
+//chemin en relatif d'upload
+//      $upload_directory = "./uploads";
+        $upload_directory = '/images/avatar';
+        $fonts_directory = '/fonts';
 
-        // Quand l'utilisateur envoie le formulaire
+// Quand l'utilisateur envoie le formulaire
         if (isset($_POST["submit"])) {
             //Est-ce que le fichier image existe
             if (isset($_FILES['image'])) {
+
                 if ($_FILES['image']['error'] == UPLOAD_ERR_OK) {
                     if ($_FILES['image']['size'] > $maxsize_octet) {
                         echo "Le fichier est trop gros";
                         $message = $this->errorMessage("Le fichier est trop gros");
                     } else {
+//        if (isset($_POST['description']) && trim($_POST['description']) != "") {
                         $error = 0;
                         // Vérification de l'extension du fichier
                         $parse_name = explode(".", $_FILES['image']['name']);
@@ -252,99 +255,100 @@ class AccountController extends baseView {
                             }
                             // Création d'un nom unique pour le fichier
                             $nom = md5(uniqid(rand(), true)) . "." . end($parse_name);
-
+                            // ici on fait tout
                             // On transfert le fichier dans le répertoire d'upload
                             if (move_uploaded_file($_FILES['image']['tmp_name'], $upload_directory . "/" . $nom)) {
                                 // Création de l'image en fonction de l'extension
                                 if ($extension_upload == "png") {
                                     $image = imagecreatefrompng($upload_directory . "/" . $nom);
+                                    // $image = imagecreatefrompng($_FILES['image']['tmp_name']);
                                 } else {
                                     $image = imagecreatefromjpeg($upload_directory . "/" . $nom);
+                                    // $image = imagecreatefrompng($_FILES['image']['tmp_name']);
                                 }
 
 
                                 // Récup données formulaires
                                 // Texte à écrire sur l'image
-                                $texte = $_POST["description"];
-                                echo $texte;
-                                // Taile de la police
-                                if (is_numeric($_POST["font_size"])) {
-                                    $font_size = $_POST["font_size"];
-                                } else {
-                                    $error ++;
-                                }
-
-                                // Récupération de la police avec le style choisis
-                                $bold = "";
-                                $italic = "";
-                                if (isset($_POST["font_bold"]) && $_POST["font_bold"] == "on") {
-                                    $bold .= "b";
-                                }
-                                if (isset($_POST["font_italic"]) && $_POST["font_italic"] == "on") {
-                                    $italic .= "i";
-                                }
-
-                                $font = $fonts_directory . "/" . $_POST["font"] . $bold . $italic . ".ttf";
-
-                                // Couleur du texte
-                                $font_color = hexdec($_POST["font_color"]);
-
-                                // Cadre autour du texte
-                                $bbox = imageftbbox($font_size, 0, $font, $texte);
-
-                                // Abscisse du cadre
-                                switch ($_POST["font_position_x"]) {
-                                    case 'gauche':
-                                        $x = $bbox[0] + (imagesx($image) * 0.05);
-                                        break;
-                                    case 'milieu':
-                                        $x = $bbox[0] + (imagesx($image) / 2) - ($bbox[4] / 2) - 5;
-                                        break;
-                                    case 'droite':
-                                        $x = imagesx($image) - ((imagesx($image) * 0.05) + $bbox[4]);
-                                        break;
-                                    default:
-                                        $error ++;
-                                        break;
-                                }
-
-                                // Ordonnée du cadre
-                                switch ($_POST["font_position_y"]) {
-                                    case 'haut':
-                                        $y = $bbox[0] + (imagesy($image) * 0.10);
-                                        break;
-                                    case 'milieu':
-                                        $y = $bbox[1] + (imagesy($image) / 2) - ($bbox[5] / 2) - 5;
-                                        break;
-                                    case 'bas':
-                                        $y = imagesy($image) - ((imagesy($image) * 0.10) + $bbox[3]);
-                                        ;
-                                        break;
-                                    default:
-                                        $error ++;
-                                        break;
-                                }
-
-                                // Rotation du texte en degrés
-                                if (isset($_POST["rotation"]) && is_numeric($_POST["rotation"])) {
-                                    $rotation = intval($_POST["rotation"]);
-                                } else {
-                                    $rotation = 0;
-                                }
+//                                $texte = $_POST["description"];
+//                                echo $texte;
+//                                // Taile de la police
+//                                if (is_numeric($_POST["font_size"])) {
+//                                    $font_size = $_POST["font_size"];
+//                                } else {
+//                                    $error ++;
+//                                }
+//
+//                                // Récupération de la police avec le style choisis
+//                                $bold = "";
+//                                $italic = "";
+//                                if (isset($_POST["font_bold"]) && $_POST["font_bold"] == "on") {
+//                                    $bold .= "b";
+//                                }
+//                                if (isset($_POST["font_italic"]) && $_POST["font_italic"] == "on") {
+//                                    $italic .= "i";
+//                                }
+//
+//                                $font = $fonts_directory . "/" . $_POST["font"] . $bold . $italic . ".ttf";
+//
+//                                // Couleur du texte
+//                                $font_color = hexdec($_POST["font_color"]);
+//
+//                                // Cadre autour du texte
+//                                $bbox = imageftbbox($font_size, 0, $font, $texte);
+//
+//                                // Abscisse du cadre
+//                                switch ($_POST["font_position_x"]) {
+//                                    case 'gauche':
+//                                        $x = $bbox[0] + (imagesx($image) * 0.05);
+//                                        break;
+//                                    case 'milieu':
+//                                        $x = $bbox[0] + (imagesx($image) / 2) - ($bbox[4] / 2) - 5;
+//                                        break;
+//                                    case 'droite':
+//                                        $x = imagesx($image) - ((imagesx($image) * 0.05) + $bbox[4]);
+//                                        break;
+//                                    default:
+//                                        $error ++;
+//                                        break;
+//                                }
+//
+//                                // Ordonnée du cadre
+//                                switch ($_POST["font_position_y"]) {
+//                                    case 'haut':
+//                                        $y = $bbox[0] + (imagesy($image) * 0.10);
+//                                        break;
+//                                    case 'milieu':
+//                                        $y = $bbox[1] + (imagesy($image) / 2) - ($bbox[5] / 2) - 5;
+//                                        break;
+//                                    case 'bas':
+//                                        $y = imagesy($image) - ((imagesy($image) * 0.10) + $bbox[3]);
+//                                        ;
+//                                        break;
+//                                    default:
+//                                        $error ++;
+//                                        break;
+//                                }
+//
+//                                // Rotation du texte en degrés
+//                                if (isset($_POST["rotation"]) && is_numeric($_POST["rotation"])) {
+//                                    $rotation = intval($_POST["rotation"]);
+//                                } else {
+//                                    $rotation = 0;
+//                                }
                                 // Tous les pramamètres sont bons, il n'y a pas d'erreur
                                 if ($error < 1) {
 
                                     putenv('GDFONTPATH=' . realpath('.'));
-                                    imagettftext($image, $font_size, $rotation, $x, $y, $font_color, $font, $texte);
+//                                    imagettftext($image, $font_size, $rotation, $x, $y, $font_color, $font, $texte);
                                     imagepng($image, $upload_directory . "/" . $nom);
 //                echo "<br/>Prévisualisation - ";
 //                echo "<a href=\"download.php?file=" . $nom . "&root=" . $upload_directory . "/\">Télécharger</a>";
 //                echo "<br/><br/>";
-//                                    echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
-                                    $data = array("user_avatar" => $nom);
+//                echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
+                                    $data = array("user_avatar" => 'avatar/' . $nom);
                                     $model_user->updateUser($_SESSION['user_id'], $data);
-                                    unlink($upload_directory."/".$result["user_avatar"]);
-                                    $result = $model_user->getUserById($_SESSION['user_id']);
+                                    $newAvatarUrl = 'avatar/' . $nom;
                                     $error = -1;
                                 } else {
                                     $message = $this->errorMessage("Erreur de paramètres du texte");
@@ -355,9 +359,9 @@ class AccountController extends baseView {
                         } else {
                             $message = $this->errorMessage("Extension incorrecte");
                         }
-                        //}
+                        //} 
 //        else {
-//          echo $upload_directory . "/" . $nom;
+//          echo $upload_directory . "/" . $nom; 
 //          updateAvatar();
 //          validMessage('Avatar modifié');
 //        }
@@ -386,6 +390,9 @@ class AccountController extends baseView {
 
         if (isset($error) && $error == -1) {
             $message = $this->validMessage('Avatar modifié');
+        }
+        if (isset($newAvatarUrl)) {
+            $avatar = $newAvatarUrl;
         }
 
         $nb_series_follow = $model_user->rowCountByIdUser($_SESSION["user_id"], "serie_user", "su_id_user");
@@ -505,17 +512,22 @@ class AccountController extends baseView {
     public function series() {
         $model_user = new User();
         $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
+        if (!isset($series_user[0])) {
+            $data = array();
+            $data[] = $series_user;
+            $this->assign("data", $data);
+        } else {
+            $this->assign("data", $series_user);
+        }
 
-        $this->assign("data", $series_user);
         $this->render("account/series");
     }
 
-    // Retourne le résultat de la recherche de séries d'un utilisateur
     public function ajaxSearchSeriesByName() {
         $model_user = new User();
         $result = $model_user->searchSeriesFromUser($_SESSION['user_id'], $_GET['term']);
         $data = array();
-
+        
         if (!isset($result[0])) {
             $results = array();
             $results[] = $result;
@@ -531,100 +543,13 @@ class AccountController extends baseView {
         echo json_encode($data);
     }
 
-    // Ajoute une série suivie pour l'utilisateur
     public function ajaxAddSerieToUser() {
         $serie_name = $_GET["serie_name"];
         $model_serie = new Serie();
         $model_user = new User();
         $serie_id = $model_serie->getIdSerieByName($serie_name);
         $model_user->addSerieToUser($serie_id["serie_id"], $_SESSION["user_id"]);
-
-        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
-        foreach ($series_user as $serie) {
-            echo "<li class='serie_user'>
-                    <span class='serie_delete' serie_id='" . $serie['serie_id'] . "'><img src='/images/serie_delete.png'></span>
-                    <a href='#'><p><span class='serie_txt_img'>" . $serie['serie_name'] . "<br> Note : " . $serie['serie_notation'] . "</span></p><img src='" . $serie['serie_image'] . "' class='image_serie'></a>
-                    <span class='serie_title'>" . $serie['serie_name'] . "</span>
-                </li>";
-        }
-    }
-
-    // Supprime une série suivie par l'utilisateur
-    public function ajaxDeleteSerieUser() {
-        $serie_id = $_GET["serie_id"];
-        $model_user = new User();
-        $model_user->delete("serie_user", array("su_id_serie" => $serie_id));
-
-        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
-        foreach ($series_user as $serie) {
-            echo "<li class='serie_user'>
-                    <span class='serie_delete' serie_id='" . $serie['serie_id'] . "'><img src='/images/serie_delete.png'></span>
-                    <a href='#'><p><span class='serie_txt_img'>" . $serie['serie_name'] . "<br> Note : " . $serie['serie_notation'] . "</span></p><img src='" . $serie['serie_image'] . "' class='image_serie'></a>
-                    <span class='serie_title'>" . $serie['serie_name'] . "</span>
-                </li>";
-        }
-    }
-
-    //  Affichage le calendrier d'un utilisateur
-    public function showCalendar() {
-
-      $calendar = new Calendar();
-      $user = new User();
-
-      $userID = $_SESSION['user_id'];
-
-      $year = null;
-      $month = null;
-
-      if($year == null && isset($_GET['year'])) {
-          $year = $_GET['year'];
-      }
-      else if($year == null) {
-          $year = date("Y", time());
-      }
-
-      if($month == null && isset($_GET['month'])) {
-          $month = $_GET['month'];
-      }
-      else if($month == null) {
-          $month = date("m", time());
-      }
-
-
-      $calendar->setCurrentYear($year);
-      $calendar->setCurrentMonth($month);
-      $calendar->setDaysInMonth($calendar->_daysInMonth($month, $year));
-
-      $content = '<div id="calendar">'.
-                      '<div class="box">'.
-                      $calendar->_createNavi("account").
-                      '</div>'.
-                      '<div class="box-content">'.
-                              '<ul class="label">' . $calendar->_createLabels() . '</ul>';
-                              $content .= '<div class="clear"></div>';
-                              $content .= '<ul class="dates">';
-
-                              $weeksInMonth = $calendar->_weeksInMonth($month, $year);
-                              $dataEpisode = $calendar->_requestDataUser($month, $year, $userID);
-
-                              // Création des semaines
-                              for($i = 0; $i < $weeksInMonth; $i++) {
-
-                                  //Création des jours
-                                  for($j = 1; $j <= 7; $j++){
-                                      $content .= $calendar->_showDay($i * 7 + $j, $dataEpisode);
-                                  }
-                              }
-
-                              $content .= '</ul>';
-                              $content .= '<div class="clear"></div>';
-
-                      $content .= '</div>';
-
-      $content .= '</div>';
-
-      $this->assign("calendar", $content);
-      $this->render("calendar");
+        
     }
 
 }
