@@ -14,7 +14,7 @@
       // Constructeur du calendrier
       public function __construct() {
          parent::__construct();
-         $this->naviHref = "/calendar/show";
+         $this->naviHref = "calendar/show";
       }
 
       /********************* Propriétés ********************/
@@ -68,6 +68,40 @@
       }
 
       /********************* Fonctions **********************/
+      public function _requestData($month, $year) {
+
+         $allEpisode = new Episode();
+         $allEpisode->selectDistinct()
+                        ->from(array("e" => "episode"), array("episode_number", "episode_air_date"))
+                           ->where('e.episode_air_date', ">=", $year . "-" . $month . "-01")
+                              ->addWhere("AND", "e.episode_air_date", "<=", $year . "-" . $month . "-31")
+                                 ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
+                                    ->join(array("s" => "serie"), array("serie_name, serie_id"), "se.season_id_serie = s.serie_id");
+
+         $result = $allEpisode->execute();
+
+         return $result;
+      }
+
+      public function _requestDataUser($month, $year, $userID) {
+
+         $allEpisode = new Episode();
+
+         $allEpisode->selectDistinct()
+                        ->from(array("e" => "episode"), array("episode_number", "episode_air_date"))
+                           ->where("e.episode_air_date", ">=", $year . "-" . $month . "-01")
+                              ->andWhere("e.episode_air_date", "<=", "2015-07-31")
+                                 ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
+                                    ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                       ->addWhere("AND", "s.serie_id", "IN", null, false)
+                                          ->select_subquery()
+                                             ->from_subquery(array("serie_user"), array("su_id_serie"))
+                                                ->where_subquery("WHERE", "su_id_user", "=", $userID);
+
+         $result = $allEpisode->execute();
+
+         return $result;
+      }
 
       // Création de l'élément <li> du <ul>
       public function _showDay($cellNumber, $result) {
@@ -84,9 +118,8 @@
          if( ($this->currentDay != 0) && ($this->currentDay <= $this->daysInMonth) ) {
 
             $this->currentDate = date('Y-m-d', strtotime($this->currentYear . '-' . $this->currentMonth . '-' . ($this->currentDay)));
-            $totalItems = $this->inArrayMulti($this->currentDate, $result);
 
-            if($totalItems == true) {
+            if(count($result) > 0) {
 
                $cellIDTVShow = "";
                $cellContent = $this->currentDay;
@@ -94,7 +127,6 @@
                for($i = 0; $i < count($result); $i++) {
 
                   if($result[$i]['episode_air_date'] == $this->currentDate) {
-                     // $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '"><font color="green">&#9632;</font></a> &nbsp; ';
                      $cellIDTVShow .= '<a href="/serie/' . $result[$i]['serie_id'] . '/Saison' . $result[$i]['season_number'] . '/Episode' . $result[$i]['episode_number'] . '" title="' . $result[$i]['serie_name'] . " : Saison " . $result[$i]['season_number'] . " - Episode " . $result[$i]['episode_number'] . '">' . $result[$i]['serie_name'] . ' : S' . $result[$i]['season_number'] . 'E' . $result[$i]['episode_number'] . '</a> &nbsp;';
                   }
                }
@@ -139,7 +171,10 @@
       }
 
       // Création de la navigation du calendrier
-      public function _createNavi() {
+      public function _createNavi($prefix = null) {
+         if($prefix != null) {
+            $prefix = $prefix . "/";
+         }
 
          $nextMonth = $this->currentMonth == 12 ? 1 : intval($this->currentMonth) + 1;
          $preMonth = $this->currentMonth == 1 ? 12 : intval($this->currentMonth) - 1;
@@ -151,12 +186,20 @@
          $content = '<div class="header">';
 
          // Si l'on est dans le mois actuel on masque le bouton précédent
-         if($this->currentMonth != date('m') || $this->currentYear > date('Y')) {
-            $content .= '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d', $preMonth) . '&year=' . $preYear . '">< Précédent</a>';
+         $content .= '<a class="prev" href="/';
+         if($prefix != null) {
+            $content .= $prefix;
          }
+         $content .= $this->naviHref . '?month=' . sprintf('%02d', $preMonth) . '&year=' . $preYear . '">< Précédent</a>';
 
          $content .= '<span class="title">' . $this->currentYear . ' - ' . $this->myStrtotime($dateMonth) . '</span>';
-         $content .= '<a class="next" href="' . $this->naviHref . '?month=' . sprintf("%02d", $nextMonth) . '&year=' . $nextYear . '">Suivant ></a>';
+
+         $content .= '<a class="next" href="/';
+         if($prefix != null) {
+            $content .= $prefix;
+         }
+         $content .= $this->naviHref . '?month=' . sprintf("%02d", $nextMonth) . '&year=' . $nextYear . '">Suivant ></a>';
+
          $content .= '</div>';
 
          return $content;
