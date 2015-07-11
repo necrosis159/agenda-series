@@ -16,15 +16,45 @@ class Serie extends baseModels{
 
 	public function __construct(){
 		parent::__construct();
-
 	}
+        
+        public function getIdSerieByName($serie_name) {
+            $query = $this->select()
+                    ->from(array("serie"), array("serie_id"))
+                    ->where("serie_name", "=", $serie_name)
+                    ->execute();
+            
+            return $query[0];
+        }
 
+        public function getNameSerieById($id){
+			$query = $this->selectObject('serie_name')
+					->where('serie_id', "=", $id)
+					->executeObject();
+			return $query[0]->getName();
+        }
+
+        public function getElementSerie($id){
+
+        	$query = $this->selectObject('serie_name','serie_overview','serie_nationality','serie_first_air_date','serie_image','serie_notation')
+				->where('serie_id','=', $id)
+				->executeObject();
+        	return $query;
+        }
+
+        public function getLinkImageBySearch($search){
+			$query = $this->selectObject('serie_id','serie_name','serie_image')
+					->where('serie_name','LIKE',$search)
+					->executeObject();
+			return $query;
+        }
+        
 	//ID
-		public function setId($serie_id){
+		public function setID($serie_id){
 		$this->serie_id=$serie_id;
 	}
 
-	public function getId(){
+	public function getID(){
 		return $this->serie_id;
 	}
 
@@ -34,7 +64,7 @@ class Serie extends baseModels{
 	}
 
 	public function getName(){
-		return $this->serie_name;	
+		return $this->serie_name;
 	}
 
 	//Overview
@@ -43,7 +73,7 @@ class Serie extends baseModels{
 	}
 
 	public function getOverview(){
-		return $this->serie_overview;	
+		return $this->serie_overview;
 	}
 
 	//Nationality
@@ -52,16 +82,16 @@ class Serie extends baseModels{
 	}
 
 	public function getNationality(){
-		return $this->serie_nationality;	
+		return $this->serie_nationality;
 	}
 
 	//First_air_date
-	public function setFirst_air_date($serie_first_air_date){
+	public function setFirstAirDate($serie_first_air_date){
 		$this->serie_first_air_date=$serie_first_air_date;
 	}
 
-	public function getFirst_air_date(){
-		return $this->serie_first_air_date;	
+	public function getFirstAirDate(){
+		return $this->serie_first_air_date;
 	}
 
 	//Image
@@ -70,7 +100,7 @@ class Serie extends baseModels{
 	}
 
 	public function getImage(){
-		return $this->serie_image;	
+		return $this->serie_image;
 	}
 
 	//Notation
@@ -79,7 +109,7 @@ class Serie extends baseModels{
 	}
 
 	public function getNotation(){
-		return $this->serie_notation;	
+		return $this->serie_notation;
 	}
 
 	//Status
@@ -88,7 +118,7 @@ class Serie extends baseModels{
 	}
 
 	public function getStatus(){
-		return $this->serie_status;	
+		return $this->serie_status;
 	}
 
 	//Highlighting
@@ -105,7 +135,7 @@ class Serie extends baseModels{
 		$this->serie_date_update=$serie_date_update;
 	}
 
-	public function getDate_update(){
+	public function getDateUpdate(){
 		return $this->serie_date_update;
 	}
 }

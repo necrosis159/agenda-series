@@ -16,6 +16,13 @@ class Comment extends baseModels{
 		parent::__construct();
 
 	}
+
+	public function getElementComment($id_episode){
+		$query = $this->selectObjet('comment_id_user','comment_date_publication','comment_title','comment_content','comment_status')
+				->where('comment_id_episode', "=", $id_episode)
+				->executeObjet();
+		return $query;
+	}
 	
 	//Id
 	public function setId($comment_id){

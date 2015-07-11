@@ -3,11 +3,12 @@
 $_SESSION['Id']=1;
 if(!empty($episode_result))
 {	
+	echo "<img src=/".$serie_image." alt=".$serie_name.' style="width : 50%"/><br>';
 	echo "Saison ".$season_number.' Episode '.$episode_number.'<br>';
-	echo "Name : ".$episode_result[0]->getName().'<br>';
 	echo "Overview : ".$episode_result[0]->getOverview().'<br>';
+	echo "Summary : ".$episode_result[0]->getSummary().'<br>';
 	echo "Notation : ".$episode_result[0]->getNotation().'<br>';
-	echo "Date : ".$episode_result[0]->getAir_date().'<br>';
+	echo "Duration : ".$episode_result[0]->getDuration().'<br><br>';
 
 	//Ajouter un commentaire
 ?>

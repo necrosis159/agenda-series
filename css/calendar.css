@@ -1,0 +1,135 @@
+/******************************* Navigation du calendrier *********************************/
+
+div#calendar{
+  margin: 50px auto;
+  padding: 0px;
+  width: 902px;
+  font-family: Helvetica, "Times New Roman", Times, serif;
+}
+
+div#calendar div.box{
+   position: relative;
+   top: 0px;
+   left: 0px;
+   width: 100%;
+   height: 40px;
+   background-color: #787878 ;
+}
+
+div#calendar div.header{
+   line-height: 40px;
+   vertical-align: middle;
+   position: absolute;
+   left: 11px;
+   top: 0px;
+   width: 882px;
+   height: 40px;
+   text-align: center;
+}
+
+div#calendar div.header a.prev, div#calendar div.header a.next{
+   position: absolute;
+   top: 0px;
+   height: 17px;
+   display: block;
+   cursor: pointer;
+   text-decoration: none;
+   color: #FFF;
+}
+
+div#calendar div.header a.prev:hover, div#calendar div.header a.next:hover {
+   color: #EB6841;
+}
+
+div#calendar div.header span.title {
+   color: #FFF;
+   font-size: 18px;
+}
+
+div#calendar div.header a.prev{
+   left: 0px;
+}
+
+div#calendar div.header a.next{
+   right: 0px;
+}
+
+/******************************* Design des cellules *********************************/
+
+div#calendar div.box-content{
+   border: 1px solid #787878 ;
+   border-top: none;
+}
+
+div#calendar ul.label{
+   float: left;
+   margin: 0px;
+   padding: 0px;
+   margin-top:5px;
+   margin-left: 12px;
+}
+
+div#calendar ul.label li{
+   margin: 0px;
+   padding: 0px;
+   margin-right: 5px;
+   float: left;
+   list-style-type: none;
+   width: 120px;
+   height: 40px;
+   line-height: 40px;
+   vertical-align: middle;
+   text-align: center;
+   color: #000;
+   font-size: 14px;
+   background-color: transparent;
+}
+
+div#calendar ul.dates{
+   float: left;
+   margin: 0px;
+   padding: 0px;
+   margin-left: 5px;
+   margin-bottom: 12px;
+}
+
+div#calendar ul.dates li{
+   margin: 0px;
+   padding: 0px;
+   margin-right: 5px;
+   margin-top: 5px;
+   line-height: 18px;
+   /*vertical-align: middle;*/
+   float: left;
+   list-style-type: none;
+   width: 120px;
+   height: 120px;
+   font-size: 12px;
+   background-color: #DDD;
+   color: #000;
+   text-align: center;
+}
+
+div#calendar ul.dates li a{
+   font-size: 11px;
+   float: left !important;
+   margin-left: 3px;
+   color: #2F7485;
+}
+
+div#calendar ul.dates li a:hover{
+   text-decoration: underline;
+   color: #56AFC5;
+}
+
+div#calendar ul.dates li.start{
+   margin-left: 10px;
+}
+
+:focus{
+   outline: none;
+}
+
+div.clear{
+   clear: both;
+}

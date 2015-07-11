@@ -16,6 +16,23 @@ class Episode extends baseModels{
 		parent::__construct();
 	}
 
+	public function getListeEpisode($id,$id_season){
+		$query = $this->selectObject('episode_number')
+				->where('episode_id_serie',"=", $id)
+				->andwhere('episode_id_season',"=",$id_season)
+				->executeObject();
+		return $query;
+	}
+
+	public function getElementEpisode($id,$id_saison,$nb2){
+		$query = $this->selectObject('episode_id','episode_name','episode_overview','episode_notation','episode_air_date')
+				->where('episode_id_serie', "=", $id)
+				->andwhere('episode_id_season', "=", $id_saison)
+				->andwhere('episode_number', "=", $nb2)
+				->executeObject();
+		return $query;
+	}
+
 	//Id
 		public function setId($episode_id){
 		$this->episode_id=$episode_id;
@@ -26,20 +43,20 @@ class Episode extends baseModels{
 	}
 
 	//Id_serie
-		public function setId_serie($episode_id_serie){
+		public function setIDSerie($episode_id_serie){
 		$this->episode_id_serie=$episode_id_serie;
 	}
 
-	public function getId_serie(){
+	public function getIDSerie(){
 		return $this->episode_id_serie;
 	}
 
 	//Id_saison
-		public function setId_saison($episode_id_saison){
+		public function setIDSeason($episode_id_saison){
 		$this->episode_id_saison=$episode_id_saison;
 	}
 
-	public function getId_saison(){
+	public function getIDSeason(){
 		return $this->episode_id_saison;
 	}
 
@@ -79,21 +96,12 @@ class Episode extends baseModels{
 		return $this->episode_notation;
 	}
 
-	//Duration
-		public function setDuration($episode_duration){
-		$this->episode_duration=$episode_duration;
-	}
-
-	public function getDuration(){
-		return $this->episode_duration;
-	}
-
 	//Air_date
-	public function setAir_date($episode_air_date){
+	public function setAirDate($episode_air_date){
 		$this->episode_air_date=$episode_air_date;
 	}
 
-	public function getAir_date(){
+	public function getAirDate(){
 		return $this->episode_air_date;
 	}
 
@@ -102,7 +110,7 @@ class Episode extends baseModels{
 		$this->episode_date_update=$episode_date_update;
 	}
 
-	public function getDate_update(){
+	public function getDateUpdate(){
 		return $this->episode_date_update;
 	}
 }
