@@ -35,12 +35,19 @@
                <tr>
                   <td><span style="color: #d8871e;">#</span><?php echo $value[$oldType . '_id'] ?></td>
                   <td>
-                     <?php if($value[$oldType . '_name'] != "") {
-                        echo $value[$oldType . '_name'];
+                     <?php
+                     if($oldType != "comment") {
+                        if($value[$oldType . '_name'] != "") {
+                           echo $value[$oldType . '_name'];
+                        }
+                        else {
+                           echo "<span style='color: red;'>Aucun titre n'est disponible<span style='color: red;'>";
+                        }
                      }
                      else {
-                        echo "<span style='color: red;'>Aucun titre n'est disponible<span style='color: red;'>";
-                     } ?>
+                        echo $value['comment_title'];
+                     }
+                      ?>
                   </td>
                   <td>
                      <?php if($oldType == "serie") {
@@ -48,6 +55,9 @@
                      }
                      elseif($oldType == "episode") {
                         echo $this->dateConvert($value['episode_air_date']);
+                     }
+                     elseif($oldType == "comment") {
+                        echo $this->dateConvert($value['comment_date_publication']);
                      } ?>
                   </td>
                   <td class="table_mod">
