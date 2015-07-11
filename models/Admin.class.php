@@ -12,75 +12,11 @@
       }
 
       public function _searchContent($type, $title, $date) {
-         // var_dump($title);
 
          $prefix = strtolower(substr($type, 0, 1));
 
-         if($type == "default") {
-            if($title == "" && $date == "") {
-               $this->selectDistinct()
-                        ->from(array("s" => "serie"), array("serie_id", "serie_name", "serie_first_air_date"))
-                           ->from(array("e" => "episode"), array("episode_id", "episode_name", "episode_air_date"));
-                           // ->where('s.serie_name', "LIKE", $title);
-                           //    ->addWhere("OR", "s.first_air_date", "=", $date)
-                           //       ->addWhere("OR", "c.comment_date_publication", "=", $date)
-                                    // ->addWhere("AND", "s.serie_title", "LIKE", $title)
-                                       // ->join(array("s" => "serie"), array(), "")
-                                       //    ->join(array("c" => "comment"), array(), "");
-
-               $result = $this->execute();
-            }
-            elseif($title != "") {
-               $this->selectDistinct()
-                  ->from(array("s" => "serie"), array("serie_id", "serie_name", "serie_first_air_date"))
-                     ->where('s.serie_name', "LIKE", $title);
-                           //    ->addWhere("OR", "s.first_air_date", "=", $date)
-                           //       ->addWhere("OR", "c.comment_date_publication", "=", $date)
-                                    // ->addWhere("AND", "s.serie_title", "LIKE", $title)
-                                       // ->join(array("s" => "serie"), array(), "")
-                                       //    ->join(array("c" => "comment"), array(), "");
-
-               $result = $this->execute();
-            }
-            elseif($title != "" && $date == "") {
-               $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date"))
-                           ->where($prefix . '.' . $type . '_name', "LIKE", $title);
-                           //    ->addWhere("OR", "s.first_air_date", "=", $date)
-                           //       ->addWhere("OR", "c.comment_date_publication", "=", $date)
-                                    // ->addWhere("AND", "s.serie_title", "LIKE", $title)
-                                       // ->join(array("s" => "serie"), array(), "")
-                                       //    ->join(array("c" => "comment"), array(), "");
-
-               $result = $this->execute();
-            }
-            else {
-               $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date"))
-                           ->where($prefix . '.' . $type . '_name', "LIKE", $title)
-                              ->addWhere("AND", "s.first_air_date", "=", $date)
-                                 ->addWhere("AND", "e.air_date", "=", $date)
-                                    ->addWhere("AND", "c.date_publication", "=", $date);
-                           //       ->addWhere("OR", "c.comment_date_publication", "=", $date)
-                                    // ->addWhere("AND", "s.serie_title", "LIKE", $title)
-                                       // ->join(array("s" => "serie"), array(), "")
-                                       //    ->join(array("c" => "comment"), array(), "");
-
-               $result = $this->execute();
-            }
-            // elseif($date != "") {
-            //    $prefix = strtolower(substr($type, 0, 1));
-            //    $this->selectDistinct()
-            //             ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date"))
-            //                ->where($prefix . '.serie_name', "LIKE", $title);
-            //                //    ->addWhere("OR", "s.first_air_date", "=", $date)
-            //                //       ->addWhere("OR", "c.comment_date_publication", "=", $date)
-            //                         // ->addWhere("AND", "s.serie_title", "LIKE", $title)
-            //                            // ->join(array("s" => "serie"), array(), "")
-            //                            //    ->join(array("c" => "comment"), array(), "");
-            //
-            //    $result = $this->execute();
-            // }
+         if($type == "") {
+            $result = "";
          }
          elseif($type == "serie") {
             if($title == "" && $date == "") {

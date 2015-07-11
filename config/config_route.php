@@ -28,7 +28,6 @@
     $router->get('/account/profile', 'Account@profile');
     $router->get('/account/edit', 'Account@edit');
     $router->get('/account/series', 'Account@series');
-    $router->get('/account/search', 'Account@search');
     $router->get('/account/ajaxSearchSeriesByName', 'Account@ajaxSearchSeriesByName');
     $router->get('/account/ajaxAddSerieToUser', 'Account@ajaxAddSerieToUser');
     $router->get('/account/ajaxDeleteSerieUser', 'Account@ajaxDeleteSerieUser');
@@ -38,6 +37,12 @@
     $router->post('/account/profile', 'Account@profile');
     $router->post('/account/edit', 'Account@edit');
 
+    //Admin
+    $router->get('/admin/search', 'Account@search');
+    $router->get('/admin/editComment/:id', 'Account@editComment')
+      ->with('id', '[0-9]+');
+   $router->post('/admin/editComment/:id', 'Account@editComment')
+      ->with('id', '[0-9]+');
 
 //Route Avec Paramètre
     //Affiche user

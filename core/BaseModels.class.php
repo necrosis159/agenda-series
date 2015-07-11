@@ -167,7 +167,7 @@ class baseModels {
     //execute la requète
     public function executeObject() {
         $req = $this->pdo->prepare($this->query . $this->where);
-//        var_dump($this->query.$this->where);die();
+      //  var_dump($req);die();
         $req->execute();
 
         $this->query = "";

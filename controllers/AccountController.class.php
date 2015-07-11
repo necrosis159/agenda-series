@@ -630,14 +630,14 @@ class AccountController extends baseView {
     public function search() {
 
       $content = null;
-      $type = "default";
+      $type = "";
       $title = "";
       $date = "";
       $oldTitle = "";
       $oldDate = "";
-      $oldType = "default";
+      $oldType = "";
 
-      if(isset($_GET["type"]) && $_GET["type"] != "default") {
+      if(isset($_GET["type"]) && $_GET["type"] != "") {
          $type = $_GET["type"];
          $oldType = $_GET["type"];
       }
@@ -672,7 +672,9 @@ class AccountController extends baseView {
       // // Récupération des données de la page en fonction
       // $data = $admin->pagination_data($rows, $current_page, $pages_number, $table);
 
-      $content = $admin->_searchContent($type, $title, $date);
+      if(isset($_GET["type"]) && $_GET["type"] != "") {
+         $content = $admin->_searchContent($type, $title, $date);
+      }
 
       // if($type == "serie") {
       //    $this->dateConvert($content['']);
@@ -689,6 +691,25 @@ class AccountController extends baseView {
       $this->assign("oldType", $oldType);
       $this->assign("oldDate", $oldDate);
       $this->assign("content", $content);
-      $this->render("account/search");
+      $this->render("admin/search");
+    }
+
+    //  Affichage le calendrier d'un utilisateur
+    public function editComment($idComment) {
+
+      $comment = new Comment();
+
+      if(isset($_POST["submit"])) {
+         $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
+         $comment->_updateEditedComment($idComment, $data_update);
+      }
+
+      $content = $comment->_getEditedComment($idComment);
+
+      // die(var_dump($content));
+
+      $this->assign("idComment", $idComment);
+      $this->assign("data", $content[0]);
+      $this->render("admin/editComment");
     }
 }

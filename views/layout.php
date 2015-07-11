@@ -62,7 +62,7 @@
                             <li><a href="#">Contact</a></li>
                             <li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
-                                    <li><a href="/account/search">Recherche</a></li>
+                                    <li><a href="/admin/search">Recherche</a></li>
                                     <li><a href="#">Mes articles</a></li>
                                     <li><a href="#">Mes commentaires</a></li>
                                     <li><a href="#">Administration</a></li>
