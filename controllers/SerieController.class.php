@@ -23,7 +23,7 @@ class SerieController extends baseView {
 		//On envoie les variables et appel la view
 		$this->assign('id_serie',$id);
 		$this->assign('serie_result',$result);
-		$this->render("serieShow");
+		$this->render("serie/serieShow");
 	}
 
 	public function saison($id,$nb1)
@@ -57,7 +57,7 @@ class SerieController extends baseView {
 		$this->assign('name_serie',$name_serie);
 		$this->assign('number_season',$nb1);
 		$this->assign('season_result',$result);
-		$this->render("saisonShow");
+		$this->render("serie/saisonShow");
 	}
 
 	public function episode($id,$nb1,$nb2)
@@ -115,7 +115,7 @@ class SerieController extends baseView {
 		$this->assign('episode_number',$nb2);
 		$this->assign('serie_name',$name_serie);
 		$this->assign('episode_result',$result);
-		$this->render("episodeShow");
+		$this->render("serie/episodeShow");
 	}
 
 	public function comment(){
@@ -140,7 +140,7 @@ class SerieController extends baseView {
 
 	public function searchindex()
 	{
-		$this->render("serieIndex");
+		$this->render("serie/serieIndex");
 	}
 
 	public function search()
@@ -152,6 +152,6 @@ class SerieController extends baseView {
 
 		$this->assign('search_result',$result);
 
-		$this->render("serieResult","empty");
+		$this->render("serie/serieResult","empty");
 	}
 }
