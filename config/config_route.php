@@ -28,6 +28,7 @@
     $router->get('/account/profile', 'Account@profile');
     $router->get('/account/edit', 'Account@edit');
     $router->get('/account/series', 'Account@series');
+    $router->get('/account/search', 'Account@search');
     $router->get('/account/ajaxSearchSeriesByName', 'Account@ajaxSearchSeriesByName');
     $router->get('/account/ajaxAddSerieToUser', 'Account@ajaxAddSerieToUser');
     $router->get('/account/ajaxDeleteSerieUser', 'Account@ajaxDeleteSerieUser');

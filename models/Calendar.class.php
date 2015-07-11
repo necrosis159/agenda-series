@@ -2,7 +2,7 @@
 
    class Calendar extends baseModels {
 
-      // Déclaration des avriables privées
+      /********************* Déclarations ********************/
       private $currentYear = 0;
       private $currentMonth = 0;
       private $currentDay = 0;

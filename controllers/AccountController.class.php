@@ -590,7 +590,6 @@ class AccountController extends baseView {
           $month = date("m", time());
       }
 
-
       $calendar->setCurrentYear($year);
       $calendar->setCurrentMonth($month);
       $calendar->setDaysInMonth($calendar->_daysInMonth($month, $year));
@@ -627,4 +626,69 @@ class AccountController extends baseView {
       $this->render("calendar");
     }
 
+    //  Affichage le calendrier d'un utilisateur
+    public function search() {
+
+      $content = null;
+      $type = "default";
+      $title = "";
+      $date = "";
+      $oldTitle = "";
+      $oldDate = "";
+      $oldType = "default";
+
+      if(isset($_GET["type"]) && $_GET["type"] != "default") {
+         $type = $_GET["type"];
+         $oldType = $_GET["type"];
+      }
+
+      if(isset($_GET["title"]) && $_GET["title"] != "") {
+         $title = $_GET["title"];
+         $oldTitle = $_GET["title"];
+      }
+
+      if(isset($_GET["date"]) && $_GET["date"] != "") {
+         $date = $_GET["date"];
+         $oldDate = $_GET["date"];
+      }
+
+      $admin = new Admin();
+
+      // // Déclaration des paramètres de la pagination
+      // $rows = 5;
+      // $table = "serie";
+      // // $status_table = "status_user";
+      //
+      // if(isset($_GET['page'])) {
+      //    $current_page = intval($_GET['page']);
+      // }
+      // else {
+      //    $current_page = 1; // La page actuelle est la n°1
+      // }
+      //
+      // // Récupération du nombre de pages
+      // $pages_number = $admin->pagination($rows, $table, $current_page);
+      //
+      // // Récupération des données de la page en fonction
+      // $data = $admin->pagination_data($rows, $current_page, $pages_number, $table);
+
+      $content = $admin->_searchContent($type, $title, $date);
+
+      // if($type == "serie") {
+      //    $this->dateConvert($content['']);
+      // }
+      // elseif($type == "serie") {
+      //
+      // }
+
+      //   echo "<pre>";
+      //       die(var_dump($content));
+      //   echo "</pre>";
+
+      $this->assign("oldTitle", $oldTitle);
+      $this->assign("oldType", $oldType);
+      $this->assign("oldDate", $oldDate);
+      $this->assign("content", $content);
+      $this->render("account/search");
+    }
 }
