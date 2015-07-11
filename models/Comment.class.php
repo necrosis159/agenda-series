@@ -18,9 +18,9 @@ class Comment extends baseModels{
 	}
 
 	public function getElementComment($id_episode){
-		$query = $this->selectObjet('comment_id_user','comment_date_publication','comment_title','comment_content','comment_status')
+		$query = $this->selectObject('comment_id_user','comment_date_publication','comment_title','comment_content','comment_status')
 				->where('comment_id_episode', "=", $id_episode)
-				->executeObjet();
+				->executeObject();
 		return $query;
 	}
 	

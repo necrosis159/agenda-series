@@ -182,9 +182,9 @@ class User extends baseModels {
 
     //Remplace l'id d'un user par son nom
     public function getNameById($id){
-        $query = $this->selectObjet('user_username')
+        $query = $this->selectObject('user_username')
             ->where('user_id',"=",$id)
-            ->executeObjet();
+            ->executeObject();
         return $query[0]->getUsername();
     }
     
