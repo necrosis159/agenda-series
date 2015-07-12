@@ -101,7 +101,7 @@ class Comment extends baseModels{
 	public function _getEditedComment($idComment) {
 
 		$this->selectDistinct()
-					->from(array("c" => "comment"), array("comment_title", "comment_content", "comment_notation", "comment_status"))
+					->from(array("c" => "comment"), array("comment_title", "comment_notation", "comment_content", "comment_notation", "comment_status"))
 						->where('comment_id', "=", $idComment);
 
 		$result = $this->execute();

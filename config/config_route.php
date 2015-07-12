@@ -39,9 +39,9 @@
 
     //Admin
     $router->get('/admin/search', 'Account@search');
-    $router->get('/admin/editComment/:id', 'Account@editComment')
+    $router->get('/admin/comment/edit/:id', 'Account@editComment')
       ->with('id', '[0-9]+');
-   $router->post('/admin/editComment/:id', 'Account@editComment')
+   $router->post('/admin/comment/edit/:id', 'Account@editComment')
       ->with('id', '[0-9]+');
 
 //Route Avec Paramètre

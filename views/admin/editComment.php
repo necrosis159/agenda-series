@@ -1,3 +1,11 @@
+<?php
+
+   if($update == true) {
+      echo $this->validMessage('Commentaire modifié avec succès!');
+   }
+
+?>
+
 <div class="wrap">
    <section id="manage">
       <h1 class="heading">Modérer le commentaire : <?php echo "#" . $idComment . ' - "' . $data['comment_title']; ?>"</h1>
@@ -17,6 +25,23 @@
                   <option <?php if($data['comment_status'] == 1) { echo "selected"; } ?> value="1">Validé</option>
                </select>
             </label>
+         </div>
+
+         <div>
+            <label>Note</label><br>
+               <?php
+                  for($i= 1; $i <= $data['comment_notation']; $i++) {
+                    echo '<img style="width: 2.5%;" src="../../../images/star.png" />';
+                  }
+                  if(strpos($data['comment_notation'], '.')) {
+                    echo '<img style="width: 2.5%;" src="../../../images/half_star.png" />';
+                    $i++;
+                  }
+                  while($i <= 5) {
+                    echo '<img style="width: 2.5%;" src="../../../images/blank_star.png" />';
+                    $i++;
+                  }
+               ?>
          </div>
 
          <div>

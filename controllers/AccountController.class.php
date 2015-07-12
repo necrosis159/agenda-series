@@ -626,8 +626,12 @@ class AccountController extends baseView {
       $this->render("calendar");
     }
 
-    //  Affichage le calendrier d'un utilisateur
+    // Controller de la page de recherche de l'administrateur
     public function search() {
+
+      if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
+          $this->redirect("index", "");
+      }
 
       $content = null;
       $type = "";
@@ -694,20 +698,26 @@ class AccountController extends baseView {
       $this->render("admin/search");
     }
 
-    //  Affichage le calendrier d'un utilisateur
+    //  Controller de la page d'édition des commentaires
     public function editComment($idComment) {
+
+      $update = false;
+
+      if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
+         $this->redirect("index", "");
+      }
 
       $comment = new Comment();
 
       if(isset($_POST["submit"])) {
          $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
          $comment->_updateEditedComment($idComment, $data_update);
+         $update = true;
       }
 
       $content = $comment->_getEditedComment($idComment);
 
-      // die(var_dump($content));
-
+      $this->assign("update", $update);
       $this->assign("idComment", $idComment);
       $this->assign("data", $content[0]);
       $this->render("admin/editComment");
