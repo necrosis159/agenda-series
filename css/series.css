@@ -97,27 +97,22 @@
 }
 
 #divLeft{
-	width: 40%;
+	width: 65%;
 	float: left;
-	height: 600px;
 }
 
-#divLeft img{
-	width: 80%;
-}
-
-#divRight #subtitle{
+#divLeft #subtitle{
 	color: #353c49;
 	font-size: 1.2em;
 }
 
 #divRight{
 	float: right;
-	width: 60%;
+	width: 30%;
 }
 
 #divRight #user_options{
-	background-color: #519548;
+	background-color: #2e7385;
 	border-radius: 5px;
 	padding: 20px 10px 20px 10px;
 }
@@ -129,14 +124,14 @@
 
 #divRight #seasons_list{
 	margin-top: 20px;
-	background-color: #519548;
+	background-color: #2e7385;
 	border-radius: 5px;
 	padding: 20px 10px 20px 10px;
 }
 
 #divRight #episode_easy_access{
 	margin-top: 20px;
-	background-color: #519548;
+	background-color: #2e7385;
 	border-radius: 5px;
 	padding: 20px 10px 20px 10px;
 }

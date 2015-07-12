@@ -16,6 +16,20 @@ class Comment extends baseModels{
 		parent::__construct();
 
 	}
+	//Retourne toutes les commentaires highlight
+	public function getCommentAllHighlight(){
+		$query = $this->selectObject('comment_id', 'comment_id_episode', 'comment_id_user', 'comment_content', 'comment_title')
+					->where('comment_highlighting', "=", "1")
+					->executeObject();
+			return $query;
+	}
+
+	public function getElementComment($id_episode){
+		$query = $this->selectObject('comment_id_user','comment_date_publication','comment_title','comment_content','comment_status')
+				->where('comment_id_episode', "=", $id_episode)
+				->executeObject();
+		return $query;
+	}
 	
 	//Id
 	public function setId($comment_id){

@@ -9,17 +9,13 @@ class SerieController extends baseView {
 		$result;
 
 		//On récupère les élements de la serie
-		$serie->select_objet('serie_name','serie_overview','serie_nationality','serie_first_air_date','serie_image','serie_notation')
-				->where('serie_id', $id);
-		$result=$serie->execute_objet();
+		$result=$serie->getElementSerie($id);
 
 		//Recupération des genres
 		//A FAIRE
 
 		//On récupère la liste des saisons de la serie
-		$season->select_objet('season_number')
-				->where('season_id_serie', $id);
-		$liste_season=$season->execute_objet();
+		$liste_season=$season->getListeSeason($id);
 
 		//On envoie la liste des saisons
 		$this->assign('liste_season',$liste_season);
@@ -27,7 +23,7 @@ class SerieController extends baseView {
 		//On envoie les variables et appel la view
 		$this->assign('id_serie',$id);
 		$this->assign('serie_result',$result);
-		$this->render("serieShow");
+		$this->render("serie/serieShow");
 	}
 
 	public function saison($id,$nb1)
@@ -36,29 +32,21 @@ class SerieController extends baseView {
 		$season = new Season();
 		$episode = new Episode();
 		$result;
-		
-		$serie->select_objet('serie_name')
-				->where('serie_id', $id);
-		$result=$serie->execute_objet();
 
-		$name_serie=$result[0]->getName();
+		//On récupère le nom de la serie
+		$name_serie=$serie->getNameSerieById($id);
 		
 		//On récupère les éléments de la saison
-		$season->select_objet('season_id','season_nb_episode','season_name','season_overview','season_image','season_notation','season_year_start')
-				->where('season_id_serie', $id)
-				->andwhere('season_number',$nb1);
-		$result=$season->execute_objet();
+		$result=$season->getElementSeason($id,$nb1);
 		
 		//Si la saison existe
 		if(!empty($result))
 		{
 			//On récupère l'id de la saison
 			$id_season=$result[0]->getId();
+
 			//On récupère la liste des episode de la saison
-			$episode->select_objet('episode_number')
-					->where('episode_id_serie', $id)
-					->andwhere('episode_id_season',$id_season);
-			$liste_episode=$episode->execute_objet();
+			$liste_episode=$episode->getListeEpisode($id,$id_season);
 			
 			//On envoie la liste des episodes
 			$this->assign('liste_episode',$liste_episode);
@@ -69,7 +57,7 @@ class SerieController extends baseView {
 		$this->assign('name_serie',$name_serie);
 		$this->assign('number_season',$nb1);
 		$this->assign('season_result',$result);
-		$this->render("saisonShow");
+		$this->render("serie/saisonShow");
 	}
 
 	public function episode($id,$nb1,$nb2)
@@ -81,66 +69,62 @@ class SerieController extends baseView {
 		$user = new User();
 		$result;
 
-		$serie->select_objet('serie_name')
-				->where('serie_id', $id);
-		$result=$serie->execute_objet();
-		
-		$serie_name=$result[0]->getName();
+		//On récupère le nom de la serie
+		$name_serie=$serie->getNameSerieById($id);
+
+		$title=$name_serie." - Saison ".$nb1." - Episode ".$nb2;
 
 		//Si la serie existe :
-		if(!empty($result))
+		if(!empty($name_serie))
 		{
 			//on récupère l'id de la season
-			$season->select_objet('season_id')
-					->where('season_id_serie', $id)
-					->andwhere('season_number',$nb1);
-			$result=$season->execute_objet();
+			$result=$season->getIdSeasonByNb($id,$nb1);
 
 			//Si la saison existe
 			if(!empty($result))
 			{	
-				$id_saison=$result[0]->getId();
+				$id_season=$result[0]->getId();
 				
+				//On récupère la liste des episode de la saison
+				$liste_episode=$episode->getListeEpisode($id,$id_season);
+			
+				//On envoie la liste des episodes
+				$this->assign('liste_episode',$liste_episode);
+
 				//on récupère l'episode
-				$episode->select_objet('episode_id','episode_name','episode_overview','episode_notation','episode_air_date')
-						->where('episode_id_serie', $id)
-						->andwhere('episode_id_season', $id_saison)
-						->andwhere('episode_number', $nb2);
-				$result=$episode->execute_objet();
-				
+				$result=$episode->getElementEpisode($id,$id_season,$nb2);
+
 				//Si l'episode existe
 				if(!empty($result))
 				{
 					$id_episode=$result[0]->getId();
 
-					$comment->select_objet('comment_id_user','comment_date_publication','comment_title','comment_content','comment_status')
-						->where('comment_id_episode', $id_episode);
-					$liste_comment=$comment->execute_objet();
+					$liste_comment=$comment->getElementComment($id_episode);
 					
 					//Si un commentaire existe
 					if(!empty($result))
 					{
+						$userAvatar = [];
 						foreach ($liste_comment as $value) {
-							$user->select_objet('user_username')
-								->where('user_id',$value->getId_user());
-							$username=$user->execute_objet();
-
-							$value->setId_user($username[0]->getUsername());
+							$userAvatar[$value->getId_user()] = 
+							['name' => $user->getNameById($value->getId_user()),
+							 'avatar' => $user->getAvatarById($value->getId_user())];
 						}
 					}
 
 					//On envoie la liste des commentaires
 					$this->assign('liste_comment',$liste_comment);
+					$this->assign('user_avatar',$userAvatar);
 				}				
 			}
 		}
-
 		//On envoie les variables et appel la view
-		$this->assign('season_number',$nb1);
-		$this->assign('episode_number',$nb2);
-		$this->assign('serie_name',$serie_name);
+		$this->assign("title",$title);
+		$this->assign('number_season',$nb1);
+		$this->assign('number_episode',$nb2);
+		$this->assign('id_serie',$id);
 		$this->assign('episode_result',$result);
-		$this->render("episodeShow");
+		$this->render("serie/episodeShow");
 	}
 
 	public function comment(){
@@ -152,8 +136,8 @@ class SerieController extends baseView {
 		$tab['comment_date_publication']='0000-00-00';
 
 		//Verifications des contenus de title et comment
-		$tab['comment_title']=trim(strip_tags($_POST['title_comment']));
-		$tab['comment_content']=trim(strip_tags($_POST['content_comment']));
+		$tab['comment_title']=trim(strip_tags(htmlspecialchars($_POST['title_comment'], ENT_QUOTES)));
+		$tab['comment_content']=trim(strip_tags(htmlspecialchars($_POST['content_comment'], ENT_QUOTES)));
 
 		$tab['comment_notation']=0;
 		$tab['comment_status']=0;
@@ -161,5 +145,32 @@ class SerieController extends baseView {
 		
 		//on insère
 		$comment->insert($tab);
+	}
+
+	public function searchindex()
+	{
+		$this->render("serie/serieIndex");
+	}
+
+	//Pages des series
+	public function lesSeries()
+	{
+		$serie = new Serie();
+		$query = $serie->getSerieAll();
+
+		$this->assign("lesSeries", $query);
+		$this->render("serie/serieIndex");
+	}
+
+	public function search()
+	{
+		$search=trim(strip_tags($_POST['search']));
+		$serie = new Serie();
+
+		$result=$serie->getLinkImageBySearch($search);
+
+		$this->assign('search_result',$result);
+
+		$this->render("serie/serieResult","empty");
 	}
 }

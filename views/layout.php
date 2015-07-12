@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Mon titre</title>
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Agenda-Serie</title>
         <meta name="description" content="Ma description">
-        <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/styles.css" />
-        <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/menu.css" />
-        <link type="text/css" rel="stylesheet" href="<?php $_SERVER['DOCUMENT_ROOT'] ?>/css/series.css" />
-
+        <link type="text/css" rel="stylesheet" href="/css/styles.css" />
+        <link type="text/css" rel="stylesheet" href="/css/menu.css" />
+        <link type="text/css" rel="stylesheet" href="/css/series.css" />
+        <link type="text/css" rel="stylesheet" href="/css/calendar.css" />
+        <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css" />
+        <!--<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"/>-->
     </head>
     <body>
-        <script>
+              <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -26,7 +28,7 @@
                 <div class="header">
                     <div class="logo">
                         <a href="/">
-                            <img src="<?php $_SERVER['DOCUMENT_ROOT'] ?>/images/home.jpg" alt=""/>
+                            <img src="/images/home.jpg" alt=""/>
                             <h1> A S </h1>
                             <div class="clear"> </div>
                         </a>
@@ -65,12 +67,12 @@
                     <div class="h_menu">
                         <ul>
                             <li <?php if ($page_name == "index.php"): ?> class="active" <?php endif; ?>><a href="/">Accueil</a></li>
-                            <li><a href="#">Les séries</a></li>
-                            <li><a href="#">Calendrier</a></li>
+                            <li><a href="/serie">Les séries</a></li>
+                            <li><a href="/calendar/show">Calendrier</a></li>
                             <li><a href="#">Contact</a></li>
                             <li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
-                                    <li><a href="#">Tableau de bord</a></li>
+                                    <li><a href="/account/search">Recherche</a></li>
                                     <li><a href="#">Mes articles</a></li>
                                     <li><a href="#">Mes commentaires</a></li>
                                     <li><a href="#">Administration</a></li>
@@ -78,19 +80,20 @@
                             </li>
                             <li><a href="#">Compte</a>
                                 <ul id="account_menu">
-                                    <li><a href="#">Mon profil</a></li>
-                                    <li><a href="#">Mes séries</a></li>
-                                    <li><a href="#">Mon calendrier</a></li>
-                                    <li><a href="#">Mes informations</a></li>
+                                    <li><a href="/account/profile">Mon profil</a></li>
+                                    <li><a href="/account/series">Mes séries</a></li>
+                                    <li><a href="/account/calendar/show">Mon calendrier</a></li>
                                 </ul>
                             </li>
 
                             <li><a href="/account/login">Connexion</a></li>
+                            <li><a href="/account/register">Inscription</a></li>
+                            <li><a href="/account/logout">Déconnexion</a></li>
                         </ul>
                     </div>
 
                     <div class="h_search">
-                        <form method="POST" action="<?php $_SERVER['DOCUMENT_ROOT'] ?>/global_search.php">
+                        <form method="POST" action="/global_search.php">
                             <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
                             <input type="submit" value="">
                         </form>
@@ -100,8 +103,9 @@
             </div>
         </div>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
         <?php include($view); ?>
-            <div id="fb-root"></div>
+ <div id="fb-root"></div>
         <script>
         (function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];
@@ -178,5 +182,5 @@
       // when resize or orientation change, reload function
       window.addEventListener('resize', navi);
       </script>
-   </body>
+    </body>
 </html>
