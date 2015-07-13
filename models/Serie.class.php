@@ -39,8 +39,9 @@ class Serie extends baseModels{
                     ->from(array("serie"), array("serie_id"))
                     ->where("serie_name", "=", $serie_name)
                     ->execute();
-            
-            return $query[0];
+                    
+            if(!empty($query))
+            	return $query[0];
         }
 
         public function getNameSerieById($id){

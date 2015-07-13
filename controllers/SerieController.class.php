@@ -184,9 +184,18 @@ class SerieController extends baseView {
 			foreach ($result as $serie) {
 				$data[] = $serie['serie_name'];
 			}
-		}
+		}	
 
-		var_dump(json_encode($data));
+		echo json_encode($data);
 
+	}
+
+	public function ajaxRedirectionSerie()
+	{
+		$serie_name = $_GET["serie_name"];
+        $model_serie = new Serie();
+        $serie_id = $model_serie->getIdSerieByName($serie_name);
+
+        echo $serie_id["serie_id"];
 	}
 }

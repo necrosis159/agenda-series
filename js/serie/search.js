@@ -4,7 +4,8 @@ $(document).ready(function() {
 
     // Saisie automatique dans la recherche de séries de account/series
     $("#q").autocomplete({
-        source: "/serie/ajaxSearchAllSeriesByName"
+        source: "/serie/ajaxSearchAllSeriesByName",
+        minLength : 3
     });
 
 
@@ -44,7 +45,18 @@ $(document).ready(function() {
     
     //redirige vers la serie
     function redirSerie(){
-        
+        var serie_name = $("#q").val();
+        // on envoie la valeur recherché en GET au fichier de traitement
+        $.ajax({
+            type: 'GET', // envoi des données en GET ou POST
+            url: '/serie/ajaxRedirectionSerie', // url du fichier de traitement
+            data: 'serie_name=' + serie_name, // données à envoyer en  GET ou POST
+            beforeSend: function() { // traitements JS à faire AVANT l'envoi
+            },
+            success: function(data) { // traitements JS à faire APRES le retour d'ajax_add_serie.php
+                window.location="/serie/"+data;
+            }
+        });
     }
 
 });
