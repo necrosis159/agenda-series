@@ -68,7 +68,7 @@
                            <img class="tab_icons" src="../images/files.png" title="Consulter" alt="Consulter" />
                         </a>
                         <?php if($oldType == "comment"): ?>
-                           <a href="/account/comment/edit">
+                           <a href="/admin/comment/edit/<?php echo $value['comment_id'] ?>">
                               <img class="tab_icons" src="../images/manage_edit.png" title="Modifier" alt="Modifier" />
                            </a>
                         <?php endif; ?>

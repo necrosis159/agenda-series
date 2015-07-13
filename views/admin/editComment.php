@@ -51,7 +51,7 @@
          </div>
 
          <div>
-            <input name="submit" type="submit" value="Sauvegarder">
+            <input name="submit" type="submit" value="Sauvegarder"> <a class="button" href="javascript:history.go(-1)">Retour</a>
          </div>
       </form>
 

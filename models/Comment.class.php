@@ -98,6 +98,20 @@ class Comment extends baseModels{
 		return $this->comment_highlighting;
 	}
 
+	public function _getComments($idUser) {
+
+		$this->selectDistinct()
+					->from(array("c" => "comment"), array("comment_id", "comment_title", "comment_notation", "comment_content", "comment_notation", "comment_status", "comment_date_publication"))
+						->where('comment_id_user', "=", $idUser)
+							->join(array("e" => "episode"), array("episode_name", "episode_number"), "e.episode_id = c.comment_id_episode")
+								->join(array("s" => "season"), array("season_number"), "e.episode_id_season = s.season_id")
+									->join(array("se" => "serie"), array("serie_name"), "e.episode_id_serie = se.serie_id");
+
+		$result = $this->execute();
+
+		return $result;
+	}
+
 	public function _getEditedComment($idComment) {
 
 		$this->selectDistinct()

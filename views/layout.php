@@ -63,15 +63,14 @@
                             <li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
                                     <li><a href="/admin/search">Recherche</a></li>
-                                    <li><a href="#">Mes articles</a></li>
-                                    <li><a href="#">Mes commentaires</a></li>
-                                    <li><a href="#">Administration</a></li>
+                                    <!-- <li><a href="#">Administration</a></li> -->
                                 </ul>
                             </li>
                             <li><a href="#">Compte</a>
                                 <ul id="account_menu">
                                     <li><a href="/account/profile">Mon profil</a></li>
                                     <li><a href="/account/series">Mes séries</a></li>
+                                    <li><a href="/account/comments">Mes commentaires</a></li>
                                     <li><a href="/account/calendar/show">Mon calendrier</a></li>
                                 </ul>
                             </li>

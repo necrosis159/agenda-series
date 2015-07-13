@@ -36,6 +36,8 @@
     $router->post('/account/register', 'Account@register');
     $router->post('/account/profile', 'Account@profile');
     $router->post('/account/edit', 'Account@edit');
+    $router->post('/account/comments', 'Account@getComments');
+    $router->get('/account/comments', 'Account@getComments');
 
     //Admin
     $router->get('/admin/search', 'Account@search');
