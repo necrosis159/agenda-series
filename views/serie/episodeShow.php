@@ -1,6 +1,3 @@
-<script src="/js/jquery.js"></script>
-<script type="text/javascript" src="/js/comment.js"></script>
-
 <div class="wrap">
 	<div id="serie_detail">
 		<div id="containerSerie">
@@ -54,22 +51,12 @@
 
 		<div class="containerComment">
 			<h3>Liste de commentaire:</h3> <br>
-			<?php
-				echo "<ul class='list_comment'>";
-				$i=0;
-				foreach ($liste_comment as $value){
-						echo "<li>";
-						//Affiche le pseudo de la personne qui a poster le commentaire
-						echo "<span id='username_comment'><a href=\"../../../account/".$value->getId_User()."\">".$user_avatar[$value->getId_User()]["name"]."</a> <span>".$value->getDate_publication()."</span></span>"; 
-						echo "<p>".$value->getContent()."</p>";
-						echo "<img id='avatar_comment' src='../../../images/".$user_avatar[$value->getId_User()]["avatar"]."'>";
-						echo "</li>";
-						$i++;
-				}
-				//S'il n'y a pas de commentaire, alors j'avertie l'internaute
-				if($i==0){ echo "Il n'y pas encore de commentaire pour cette épisode!";}
-				echo "</ul>";
-			 ?>
+			<div id="listeComment">
+				
+			</div>
 		</div>
+		<button id="showMore"> Voir plus !!! </button>
 	</div>
 </div>
+
+<script type="text/javascript" src="/js/serie/comment.js"></script>

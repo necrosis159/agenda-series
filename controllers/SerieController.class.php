@@ -87,35 +87,12 @@ class SerieController extends baseView {
 				
 				//On récupère la liste des episode de la saison
 				$liste_episode=$episode->getListeEpisode($id,$id_season);
-			
+
 				//On envoie la liste des episodes
 				$this->assign('liste_episode',$liste_episode);
 
 				//on récupère l'episode
-				$result=$episode->getElementEpisode($id,$id_season,$nb2);
-
-				//Si l'episode existe
-				if(!empty($result))
-				{
-					$id_episode=$result[0]->getId();
-
-					$liste_comment=$comment->getElementComment($id_episode);
-					
-					//Si un commentaire existe
-					if(!empty($result))
-					{
-						$userAvatar = [];
-						foreach ($liste_comment as $value) {
-							$userAvatar[$value->getId_user()] = 
-							['name' => $user->getNameById($value->getId_user()),
-							 'avatar' => $user->getAvatarById($value->getId_user())];
-						}
-					}
-
-					//On envoie la liste des commentaires
-					$this->assign('liste_comment',$liste_comment);
-					$this->assign('user_avatar',$userAvatar);
-				}				
+				$result=$episode->getElementEpisode($id,$id_season,$nb2);			
 			}
 		}
 		//On envoie les variables et appel la view
@@ -152,25 +129,64 @@ class SerieController extends baseView {
 		$this->render("serie/serieIndex");
 	}
 
-	//Pages des series
-	public function lesSeries()
+	public function getPageSerie()
 	{
 		$serie = new Serie();
-		$query = $serie->getSerieAll();
+		$query = $serie->getSeriePage($_POST['page']*5,5);
 
-		$this->assign("lesSeries", $query);
-		$this->render("serie/serieIndex");
+		foreach ($query as $serie) {
+			echo "<span class='sticker'>";
+			echo "<a href='/serie/".$serie->getId()."'><img src='".$serie->getImage()."'></a>";
+			echo "</span>";
+		}
 	}
 
-	public function search()
+	public function getPageComment()
 	{
-		$search=trim(strip_tags($_POST['search']));
-		$serie = new Serie();
+		$comment = new Comment();
+		$user = new User();
+		$query = $comment->getCommentPage($_POST['page']*5,5,$_POST['id_episode']);
 
-		$result=$serie->getLinkImageBySearch($search);
+		//Si un commentaire existe
+		if(!empty($query))
+		{
+			$user_avatar = [];
+			foreach ($query as $value) {
+				$user_avatar[$value->getId_user()] = 
+				['name' => $user->getNameById($value->getId_user()),
+				'avatar' => $user->getAvatarById($value->getId_user())];
+			}
+		}
 
-		$this->assign('search_result',$result);
+		echo "<ul class='list_comment'>";
+		$i=0;
+		foreach ($query as $value){
+			echo "<li>";
+						//Affiche le pseudo de la personne qui a poster le commentaire
+			echo "<span id='username_comment'><a href=\"../../../account/".$value->getId_User()."\">".$user_avatar[$value->getId_User()]["name"]."</a> <span>".$value->getDate_publication()."</span></span>"; 
+			echo "<p>".$value->getContent()."</p>";
+			echo "<img id='avatar_comment' src='../../../images/".$user_avatar[$value->getId_User()]["avatar"]."'>";
+			echo "</li>";
+			$i++;
+		}
+				//S'il n'y a pas de commentaire, alors j'avertie l'internaute
+		if($i==0){ echo "Il n'y pas encore de commentaire pour cette épisode!";}
+		echo "</ul>";
+	}
 
-		$this->render("serie/serieResult","empty");
+	public function ajaxSearchAllSeriesByName()
+	{
+		$model_serie = new Serie();
+		$result = $model_serie->searchSeriesByName($_GET['term']);
+		$data = array();
+
+		if (!empty($result)) {
+			foreach ($result as $serie) {
+				$data[] = $serie['serie_name'];
+			}
+		}
+
+		var_dump(json_encode($data));
+
 	}
 }

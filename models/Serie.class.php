@@ -26,9 +26,10 @@ class Serie extends baseModels{
 			return $query;
 	}
 
-	//Retourne toutes les séries
-	public function getSerieAll(){
-		$query= $this->SelectAll()
+	//Retourne toutes les séries par 5
+	public function getSeriePage($page,$number){
+		$query= $this->selectObject('serie_id','serie_image')
+				->limit($page,$number)
 				->executeObject();
 		return $query;
 	}
@@ -79,7 +80,15 @@ class Serie extends baseModels{
                 ->execute();
 
         return $query[0]["COUNT(*)"];
-	}   
+	}
+
+	public function searchSeriesByName($serie_name){
+		$query = $this->select($serie_name)
+                ->from(array("serie"), array("serie_name"))
+                ->where("serie_name", "LIKE", $serie_name)
+                ->execute();
+        return $query;
+	}
 	//ID
 		public function setID($serie_id){
 		$this->serie_id=$serie_id;

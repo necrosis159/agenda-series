@@ -10,6 +10,7 @@ class baseModels {
     private $columns_select = array();
     private $from = "";
     private $where = "";
+    private $limit = "";
     private $select_subquery = "";
     private $columns_subquery = array();
     private $from_subquery = "";
@@ -165,7 +166,7 @@ class baseModels {
 
     //execute la requète
     public function executeObject() {
-        $req = $this->pdo->prepare($this->query . $this->where);
+        $req = $this->pdo->prepare($this->query . $this->where . $this->limit);
 //        var_dump($this->query.$this->where);die();
         $req->execute();
 
@@ -173,6 +174,7 @@ class baseModels {
         $this->select = "";
         $this->from = "";
         $this->where = "";
+        $this->limit= "";
         $this->columns_select = array();
 
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
@@ -256,6 +258,12 @@ class baseModels {
 
 
         $this->where .= " $key $col $operator $val";
+        return $this;
+    }
+
+    public function limit($start,$quantity)
+    {
+        $this->limit = " LIMIT $start , $quantity ";
         return $this;
     }
 
