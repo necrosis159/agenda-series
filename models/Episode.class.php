@@ -4,7 +4,7 @@ class Episode extends baseModels{
 
 	private $episode_id='';
 	private $episode_id_serie;
-	private $episode_id_season;
+	private $episode_id_saison;
 	private $episode_name;
 	private $episode_number;
 	private $episode_overview;
@@ -14,23 +14,6 @@ class Episode extends baseModels{
 
 	public function __construct(){
 		parent::__construct();
-	}
-
-	public function getListeEpisode($id,$id_season){
-		$query = $this->selectObject('episode_number', 'episode_id', 'episode_name','episode_overview','episode_notation','episode_air_date')
-				->where('episode_id_serie',"=", $id)
-				->andwhere('episode_id_season',"=",$id_season)
-				->executeObject();
-		return $query;
-	}
-
-	public function getElementEpisode($id,$id_season,$nb2){
-		$query = $this->selectObject('episode_id', 'episode_name','episode_overview','episode_notation','episode_air_date', 'episode_number')
-				->where('episode_id_serie', "=", $id)
-				->andwhere('episode_id_season', "=", $id_season)
-				->andwhere('episode_number', "=", $nb2)
-				->executeObject();
-		return $query;
 	}
 
 	//Id
@@ -52,12 +35,12 @@ class Episode extends baseModels{
 	}
 
 	//Id_saison
-		public function setIDSeason($episode_id_season){
-		$this->episode_id_season=$episode_id_season;
+		public function setIDSeason($episode_id_saison){
+		$this->episode_id_saison=$episode_id_saison;
 	}
 
 	public function getIDSeason(){
-		return $this->episode_id_season;
+		return $this->episode_id_saison;
 	}
 
 	//Name
@@ -66,7 +49,6 @@ class Episode extends baseModels{
 	}
 
 	public function getName(){
-		//echo "<script>alert('".$this->episode_name."');</script>";
 		return $this->episode_name;
 	}
 

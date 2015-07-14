@@ -56,7 +56,7 @@
          $content .= '</div>';
 
          $this->assign("calendar", $content);
-         $this->render("calendarShow");
+         $this->render("calendar");
       }
    }
 ?>

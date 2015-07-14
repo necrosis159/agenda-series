@@ -179,22 +179,7 @@ class User extends baseModels {
         );
         $this->insert($data, "serie_user");
     }
-
-    //Retourne le nom d'un user par son ID
-    public function getNameById($id){
-        $query = $this->selectObject('user_username')
-            ->where('user_id',"=",$id)
-            ->executeObject();
-        return $query[0]->getUsername();
-    }
     
-    //Retourne l'avatar par son ID
-    public function getAvatarById($id){
-        $query = $this->selectObject('user_avatar')
-            ->where('user_id',"=",$id)
-            ->executeObject();
-        return $query[0]->getAvatar();
-    }
     // GETTER AND SETTER
     //Id
     public function setId($user_id) {

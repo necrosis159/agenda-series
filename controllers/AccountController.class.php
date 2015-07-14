@@ -626,18 +626,22 @@ class AccountController extends baseView {
       $this->render("calendar");
     }
 
-    //  Affichage le calendrier d'un utilisateur
-    public function search() {
+   // Controller de la page de recherche de l'administrateur
+   public function search() {
+
+      if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
+          $this->redirect("index", "");
+      }
 
       $content = null;
-      $type = "default";
+      $type = "";
       $title = "";
       $date = "";
       $oldTitle = "";
       $oldDate = "";
-      $oldType = "default";
+      $oldType = "";
 
-      if(isset($_GET["type"]) && $_GET["type"] != "default") {
+      if(isset($_GET["type"]) && $_GET["type"] != "") {
          $type = $_GET["type"];
          $oldType = $_GET["type"];
       }
@@ -672,7 +676,9 @@ class AccountController extends baseView {
       // // Récupération des données de la page en fonction
       // $data = $admin->pagination_data($rows, $current_page, $pages_number, $table);
 
-      $content = $admin->_searchContent($type, $title, $date);
+      if(isset($_GET["type"]) && $_GET["type"] != "") {
+         $content = $admin->_searchContent($type, $title, $date);
+      }
 
       // if($type == "serie") {
       //    $this->dateConvert($content['']);
@@ -689,6 +695,66 @@ class AccountController extends baseView {
       $this->assign("oldType", $oldType);
       $this->assign("oldDate", $oldDate);
       $this->assign("content", $content);
-      $this->render("account/search");
-    }
+      $this->render("admin/search");
+   }
+
+   //  Controller de la page d'édition des commentaires
+   public function getComments() {
+
+      // On vérifie que l'utilisateur est bien un administrateur
+      // if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
+      //    $this->redirect("index", "");
+      // }
+
+      $idUser = $_SESSION['user_id'];
+
+      $comment = new Comment();
+
+      // if(isset($_POST["submit"])) {
+      //    $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
+      //    $comment->_updateEditedComment($idComment, $data_update);
+      //    $update = true;
+      // }
+
+      // On récupère le contenu du commentaire
+      $content = $comment->_getComments($idUser);
+
+      // $this->assign("update", $update);
+      // $this->assign("idComment", $idComment);
+      $this->assign("content", $content);
+      $this->render("account/comments");
+   }
+
+   //  Controller de la page d'édition des commentaires
+   public function editComment($idComment) {
+
+      // Variable utilisée pour indiquer s'il y a eu une modification ou non
+      $update = false;
+
+      // On vérifie que l'utilisateur est bien un administrateur
+      if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
+         $this->redirect("index", "");
+      }
+
+      $comment = new Comment();
+
+      if(isset($_POST["submit"])) {
+         $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
+         $comment->_updateEditedComment($idComment, $data_update);
+         $update = true;
+      }
+
+      // On récupère le contenu du commentaire
+      $content = $comment->_getEditedComment($idComment);
+
+      // On test l'existance du commentaire, s'il n'existe pas on redirige l'utilisateur vers l'accueil
+      if(count($content) == 0) {
+         $this->redirect("index", "");
+      }
+
+      $this->assign("update", $update);
+      $this->assign("idComment", $idComment);
+      $this->assign("data", $content[0]);
+      $this->render("admin/editComment");
+   }
 }

@@ -1,7 +1,7 @@
 <?php
 
    /*
-      Script de mise à jour des séries enregistrées dans la base de données d'Agenda-Serie - beta unstable
+      Script de mise à jour des séries enregistrées dans la base de données d'Agenda-Serie - beta
       Ludovic COURTIAL - Agenda-Serie.fr
 
       Features:
@@ -26,27 +26,6 @@
      return $db;
    }
 
-   // Fonction de description courte
-   // function truncate($str, $length = 300, $trailing = '...') {
-   //    // take off chars for the trailing
-   //    $length -= mb_strlen($trailing);
-   //
-   //    if(mb_strlen($str) == 0) {
-   //       $result = "";
-   //    }
-   //    else if (mb_strlen($str) > $length)
-   //    {
-   //       // string exceeded length, truncate and add trailing dots
-   //       return mb_substr($str, 0, $length) . $trailing;
-   //    }
-   //    else {
-   //       // string was already short enough, return the string
-   //       $result = $str;
-   //    }
-   //
-   //    return $result;
-   // }
-
    // Lancement du script
    $timestart = microtime(true);
 
@@ -65,14 +44,8 @@
    // On parcours chaque série de la base de données
    foreach($shows as $show) {
 
-      // echo "<pre>";
-      //    var_dump($show);
-      //    // die(var_dump($changes[$i]));
-      // echo "</pre>";
-
       // On récupère les modifications de l'API
       $changes = $tmdb->getChangedTVShow($show['serie_id']);
-      // $changes = $tmdb->getChangedTVShow(40075);
 
       // On vérifie que le tableau des changements de l'API existe (correction d'un bug API)
       if(isset($changes["changes"])) {
@@ -140,62 +113,71 @@
                            else {
                               echo "<br>Changement autre!";
                            }
-                        }
-                        else {
-                           echo "<br>Changement dans une langue etrangere.";
-                        }
 
-                        if($season[$s]['key'] == "episode") {
+                           if($season[$s]['key'] == "episode") {
 
-                           for($e = 0; $e < count($season[$s]['items']); $e++) {
+                              for($e = 0; $e < count($season[$s]['items']); $e++) {
 
-                              // On récupère l'ID de l'épisode concerné
-                              $idEpisode = $season[$s]['items'][$e]['value']['episode_id'];
+                                 // On récupère l'ID de l'épisode concerné
+                                 $idEpisode = $season[$s]['items'][$e]['value']['episode_id'];
 
-                              // On récupère les changements sur l'épisode
-                              $episode = $tmdb->getChangedEpisode($idEpisode);
+                                 // On récupère les changements sur l'épisode
+                                 $episode = $tmdb->getChangedEpisode($idEpisode);
 
-                              // On vérifie que le tableau des changements de l'API existe (correction d'un bug API)
-                              if(isset($episode["changes"])) {
-                                 // On vérifie que le tableau retourné n'est pas vide
-                                 $empty = array_filter($episode["changes"]);
-                                 $episode = $episode["changes"];
-                              }
-                              // S'il n'existe pas on retourne un tableau vide pour le test
-                              else {
-                                 $empty = array();
-                              }
+                                 // On vérifie que le tableau des changements de l'API existe (correction d'un bug API)
+                                 if(isset($episode["changes"])) {
+                                    // On vérifie que le tableau retourné n'est pas vide
+                                    $empty = array_filter($episode["changes"]);
+                                    $episode = $episode["changes"];
+                                 }
+                                 // S'il n'existe pas on retourne un tableau vide pour le test
+                                 else {
+                                    $empty = array();
+                                 }
 
-                              if(!empty($empty)) {
+                                 if(!empty($empty)) {
 
-                                 if($episode[0]['key'] == "name" || $episode[0]['key'] == "overview" || $episode[0]['key'] == "notation") {
-                                    echo "<br>Modification du champ : " . $episode[0]['key'];
+                                             // echo "<pre>";
+                                             //    // var_dump($changes[$i]['items'][0]['value']);
+                                             //    die(var_dump($episode[$e]));
+                                             // echo "</pre>";
+                                    for($e = 0; $e < count($episode); $e++) {
 
-                                    if(isset($episode[0]['items'][0]['value'])) {
-                                       $value = $episode[0]['items'][0]['value'];
-                                    }
-                                    else {
-                                       $value = $episode[0]['items'][1]['value'];
-                                    }
 
-                                    if($episode[0]['items'][0]['action'] == "updated" || $episode[0]['items'][0]['action'] == "added") {
-                                       $query = $db->prepare('UPDATE episode SET episode_date_update = "' . date('Y-m-d') . '", episode_' . $episode[0]['key'] . ' = "' . $value . '" WHERE episode_id = ' . $idEpisode);
-                                       $query->execute();
+                                          if($episode[$e]['key'] == "name" || $episode[$e]['key'] == "overview" || $episode[$e]['key'] == "notation") {
+                                             echo "<br>Modification du champ : " . $episode[$e]['key'];
 
-                                       echo "<br><u>Le champ '" . $episode[0]['key'] . "' a ete modifie avec succes! ID Episode : " . $idEpisode . "</u><br>";
-                                    }
-                                    else {
-                                       $query = $db->prepare('UPDATE episode SET episode_' . $episode[0]['key'] . ' = "" WHERE episode_id = ' . $idEpisode);
-                                       $query->execute();
 
-                                       echo "<br><u>Le champ '" . $episode[0]['key'] . "' est maintenant vide! ID Episode : " . $idEpisode . "</u><br>";
+                                             if(isset($episode[$e]['items'][0]['value'])) {
+                                                $value = $episode[$e]['items'][0]['value'];
+                                             }
+                                             else {
+                                                $value = $episode[$e]['items'][1]['value'];
+                                             }
+
+                                             if($episode[$e]['items'][0]['action'] == "updated" || $episode[$e]['items'][0]['action'] == "added") {
+                                                $query = $db->prepare('UPDATE episode SET episode_date_update = "' . date('Y-m-d') . '", episode_' . $episode[$e]['key'] . ' = "' . $value . '" WHERE episode_id = ' . $idEpisode);
+                                                $query->execute();
+
+                                                echo "<br><u>Le champ '" . $episode[$e]['key'] . "' a ete modifie avec succes! ID Episode : " . $idEpisode . "</u><br>";
+                                             }
+                                             else {
+                                                $query = $db->prepare('UPDATE episode SET episode_' . $episode[$e]['key'] . ' = "" WHERE episode_id = ' . $idEpisode);
+                                                $query->execute();
+
+                                                echo "<br><u>Le champ '" . $episode[$e]['key'] . "' est maintenant vide! ID Episode : " . $idEpisode . "</u><br>";
+                                             }
+                                          }
+                                          else {
+                                             echo "<br><b>Erreur de l'API!</b>";
+                                          }
                                     }
                                  }
                               }
-                              else {
-                                 echo "<br><b>Erreur de l'API!</b>";
-                              }
                            }
+                        }
+                        else {
+                           echo "<br>Changement dans une langue etrangere.";
                         }
                      }
                   }
@@ -214,11 +196,6 @@
                if($changes[$i]['key'] == "name" || $changes[$i]['key'] == "overview" || $changes[$i]['key'] == "images") {
 
                   echo "<br>Modification du champ : " . $changes[$i]['key'];
-
-                  // echo "<pre>";
-                  //    var_dump($changes[$i]['items'][0]['value']);
-                  //    die(var_dump($changes[$i]));
-                  // echo "</pre>";
 
                   $query = $db->prepare('UPDATE serie SET serie_date_update = "' . date('Y-m-d') . '", serie_' . $changes[$i]['key'] . ' = "' . $changes[$i]['items'][0]['value'] . '" WHERE serie_id = ' . $show['id']);
                   $query->execute();

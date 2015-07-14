@@ -10,7 +10,6 @@ class baseModels {
     private $columns_select = array();
     private $from = "";
     private $where = "";
-    private $limit = "";
     private $select_subquery = "";
     private $columns_subquery = array();
     private $from_subquery = "";
@@ -19,7 +18,7 @@ class baseModels {
     //initialisation
     public function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaseltserie", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            $this->pdo = new PDO("mysql:host=localhost;dbname=agenda", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             $this->table = get_called_class();
         } catch (Exception $e) {
             die("Erreur BDD " . $e->getMessage());
@@ -36,6 +35,7 @@ class baseModels {
         }
 
         $query = $this->pdo->prepare('INSERT INTO ' . strtolower($table) . '(' . implode(",", array_keys($data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
+
         $query->execute();
     }
 
@@ -166,15 +166,14 @@ class baseModels {
 
     //execute la requète
     public function executeObject() {
-        $req = $this->pdo->prepare($this->query . $this->where . $this->limit);
-//        var_dump($this->query.$this->where);die();
+        $req = $this->pdo->prepare($this->query . $this->where);
+      //  var_dump($req);die();
         $req->execute();
 
         $this->query = "";
         $this->select = "";
         $this->from = "";
         $this->where = "";
-        $this->limit= "";
         $this->columns_select = array();
 
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
@@ -258,12 +257,6 @@ class baseModels {
 
 
         $this->where .= " $key $col $operator $val";
-        return $this;
-    }
-
-    public function limit($start,$quantity)
-    {
-        $this->limit = " LIMIT $start , $quantity ";
         return $this;
     }
 
