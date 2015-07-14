@@ -11,11 +11,17 @@
     $router->get('/user/test', 'User@test');
 
     //Index serie, recherche
-    $router->get('/serie/index', 'Serie@searchindex');
-    $router->post('/serie/search', 'Serie@search');
-
+    $router->get('/serie', 'Serie@searchindex');
+    $router->post('/serie/page', 'Serie@getPageSerie');
+    $router->get('/serie/ajaxSearchAllSeriesByName', 'Serie@ajaxSearchAllSeriesByName');
+    //Redirection serie après recherche
+    $router->get('/serie/ajaxRedirectionSerie', 'Serie@ajaxRedirectionSerie');
+    
+    
     //Ajouter un commentaire
     $router->post('/serie/comment', 'Serie@comment');
+    //Afficher les commentaires
+    $router->post('/serie/commentShow', 'Serie@getPageComment');
     //Ajout user
     $router->post('/user/insert', 'User@insert');
     //404

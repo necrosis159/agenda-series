@@ -17,6 +17,23 @@ class Comment extends baseModels{
 
 	}
 
+	//Retourne toutes les comment par 5
+	public function getCommentPage($page,$number,$id_episode){
+		$query= $this->selectObject('comment_id_user','comment_date_publication','comment_content')
+				->where('comment_id_episode', "=", $id_episode)
+				->limit($page,$number)
+				->executeObject();
+		return $query;
+	}
+
+	//Retourne toutes les commentaires highlight
+	public function getCommentAllHighlight(){
+		$query = $this->selectObject('comment_id', 'comment_id_episode', 'comment_id_user', 'comment_content', 'comment_title')
+					->where('comment_highlighting', "=", "1")
+					->executeObject();
+			return $query;
+	}
+
 	public function getElementComment($id_episode){
 		$query = $this->selectObject('comment_id_user','comment_date_publication','comment_title','comment_content','comment_status')
 				->where('comment_id_episode', "=", $id_episode)

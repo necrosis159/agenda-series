@@ -17,14 +17,31 @@ class Serie extends baseModels{
 	public function __construct(){
 		parent::__construct();
 	}
+
+	//Retourne toutes les séries highlight
+	public function getSerieAllHighlight(){
+		$query = $this->selectObject('serie_id', 'serie_name', 'serie_image', 'serie_overview')
+					->where('serie_highlighting', "=", "1")
+					->executeObject();
+			return $query;
+	}
+
+	//Retourne toutes les séries par 5
+	public function getSeriePage($page,$number){
+		$query= $this->selectObject('serie_id','serie_image')
+				->limit($page,$number)
+				->executeObject();
+		return $query;
+	}
         
         public function getIdSerieByName($serie_name) {
             $query = $this->select()
                     ->from(array("serie"), array("serie_id"))
                     ->where("serie_name", "=", $serie_name)
                     ->execute();
-            
-            return $query[0];
+                    
+            if(!empty($query))
+            	return $query[0];
         }
 
         public function getNameSerieById($id){
@@ -48,7 +65,31 @@ class Serie extends baseModels{
 					->executeObject();
 			return $query;
         }
-        
+
+     public function countSeasonByIdSerie($id){
+		$query = $this->count()
+                ->from(array("season"))
+                ->where("season_id_serie", "=", $id)
+                ->execute();
+        return $query[0]["COUNT(*)"];
+	}
+
+	public function countEpisodeByIdSerie($id){
+		$query = $this->count()
+                ->from(array("episode"))
+                ->where("episode_id_serie", "=", $id)
+                ->execute();
+
+        return $query[0]["COUNT(*)"];
+	}
+
+	public function searchSeriesByName($serie_name){
+		$query = $this->select($serie_name)
+                ->from(array("serie"), array("serie_name"))
+                ->where("serie_name", "LIKE", $serie_name)
+                ->execute();
+        return $query;
+	}
 	//ID
 		public function setID($serie_id){
 		$this->serie_id=$serie_id;
