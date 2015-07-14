@@ -9,8 +9,19 @@
     //Ajout d'utilisateur
     $router->get('/user/ajout', 'User@index');
     $router->get('/user/test', 'User@test');
+
+    //Index serie, recherche
+    $router->get('/serie', 'Serie@searchindex');
+    $router->post('/serie/page', 'Serie@getPageSerie');
+    $router->get('/serie/ajaxSearchAllSeriesByName', 'Serie@ajaxSearchAllSeriesByName');
+    //Redirection serie après recherche
+    $router->get('/serie/ajaxRedirectionSerie', 'Serie@ajaxRedirectionSerie');
+    
+    
     //Ajouter un commentaire
     $router->post('/serie/comment', 'Serie@comment');
+    //Afficher les commentaires
+    $router->post('/serie/commentShow', 'Serie@getPageComment');
     //Ajout user
     $router->post('/user/insert', 'User@insert');
     //404
@@ -28,6 +39,7 @@
     $router->get('/account/profile', 'Account@profile');
     $router->get('/account/edit', 'Account@edit');
     $router->get('/account/series', 'Account@series');
+    $router->get('/account/search', 'Account@search');
     $router->get('/account/ajaxSearchSeriesByName', 'Account@ajaxSearchSeriesByName');
     $router->get('/account/ajaxAddSerieToUser', 'Account@ajaxAddSerieToUser');
     $router->get('/account/ajaxDeleteSerieUser', 'Account@ajaxDeleteSerieUser');
