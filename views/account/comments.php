@@ -25,7 +25,7 @@
                      <?php echo $this->dateConvert($value['comment_date_publication']); ?>
                   </td>
                   <td class="table_mod">
-                     <a href="#">
+                     <a href="/serie/<?php echo $value['serie_id'] ?>/Saison<?php echo $value['season_number'] ?>/Episode<?php echo $value['episode_number'] ?>">
                         <img class="tab_icons" src="../images/files.png" title="Consulter" alt="Consulter" />
                      </a>
                      <?php if($_SESSION['user_status'] == 1): ?>

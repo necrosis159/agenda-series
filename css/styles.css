@@ -570,6 +570,7 @@ td input:focus {
 }
 .last_comments {
 	margin-bottom: 30px;
+	clear: both;
 }
 .img_1 {
 	float:right;
