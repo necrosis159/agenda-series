@@ -12,7 +12,7 @@
             </tr>
          </thead>
 
-         <tbody>
+         <tbody id="result_table">
             <?php if(count($content) > 0):
                // die(var_dump($content));
                foreach($content as $value): ?>
@@ -40,5 +40,15 @@
             <?php endif; ?>
          </tbody>
       </table>
+
+      <!-- Affichage du chargement supplémentaire de résultats s'il y en a et qu'il y en a plus que le nombre d'affichage de base -->
+      <?php if(count($content) > 0 && count($content) > 5): ?>
+         <p style="text-align: center;">
+            <button class="button" id="loadMore">Charger plus</button>
+         </p>
+         <br>
+      <?php endif; ?>
    </section>
 </div>
+
+<script src="/js/script.js"></script>

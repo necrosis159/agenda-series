@@ -26,13 +26,17 @@
             <thead>
                <tr>
                   <th class="th_small">ID</th>
-                  <th>Titre</th>
+                  <?php if($oldType == "comment"): ?>
+                     <th>Posté sur</th>
+                  <?php else: ?>
+                     <th>Titre</th>
+                  <?php endif; ?>
                   <th class="th_small">Date publication</th>
                   <th class="th_small">Actions</th>
                </tr>
             </thead>
 
-            <tbody>
+            <tbody id="result_table">
                <?php if(count($content) > 0):
                   foreach($content as $value): ?>
                   <tr>
@@ -79,6 +83,17 @@
                <?php  endif; ?>
             </tbody>
          </table>
+
+         <!-- Affichage du chargement supplémentaire de résultats s'il y en a et qu'il y en a plus que le nombre d'affichage de base -->
+         <?php if(count($content) > 0 && count($content) > 5): ?>
+            <p style="text-align: center;">
+               <button class="button" id="loadMore">Charger plus</button>
+            </p>
+            <br>
+         <?php endif; ?>
+
       <?php endif; ?>
    </section>
 </div>
+
+<script src="/js/script.js"></script>
