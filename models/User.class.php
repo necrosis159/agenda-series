@@ -19,36 +19,46 @@ class User extends baseModels {
     public function __construct() {
         parent::__construct();
     }
-    
+
+
+    //ChiTaï
+
     public function test() {
 //        $query = $this->selectAll();
 //        return $query;
-                $query = $this->select()
+        $query = $this->select()
                 ->from(array("u" => "user"), array("user_id", "user_name"))
                 ->where("u.user_id", "=", 11)
                 ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
                 ->join(array("s" => "serie"), array("serie_name"), "su.su_id_serie = s.serie_id")
                 ->execute();
-                return $query;
+        return $query;
     }
-    
+
     // Récupère toutes les informations concernant un utilisateur par son pseudo
     public function getUserByUsername($username) {
         $query = $this->select()
                 ->from(array("u" => "user"), array("user_id", "user_password", "user_status"))
                 ->where("u.user_username", "=", $username)
                 ->execute();
+        return $query[0];
+    }
+
+    //Récupère toutes les informations concernant tout les utilisateurs
+    public function getAllUser() {
+        $query = $this->select()
+                ->from(array("u" => "user"), array("user_id", "user_name", "user_surname", "user_username","user_birthdate", "user_creation_date", "user_last_login", "user_newsletter", "user_status"))
+                ->execute();
         return $query;
     }
-    
     // Récupère toutes les informations concernant un utilisateur par son id
     public function getUserById($user_id) {
         $query = $this->select()
-                ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login", "uers_newsletter"))
+                ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login", "user_status", "user_newsletter"))
                 ->where("user_id", "=", $user_id)
                 ->execute();
 
-        return $query;
+        return $query[0];
     }
 
     // Vérifie l'existence de l'adresse email dans la bdd pour un utilisateur
@@ -65,14 +75,14 @@ class User extends baseModels {
             return 1;
         }
     }
-    
+
     // Vérifie l'existence de l'adresse email dans la bdd pour un utilisateur autre que l'utilisateur en cours
     // Retourne 1 si le mail existe déjà sinon 0
     function isEmailExistsWhenUpdate($id_user, $email) {
         $query = $this->select()
                 ->from(array("user"), array("user_id", "user_email"))
                 ->where("user_email", "=", $email)
-                ->addWhere("AND","user_id", "!=", $id_user)
+                ->addWhere("AND", "user_id", "!=", $id_user)
                 ->execute();
 
         if (empty($query)) {
@@ -81,7 +91,7 @@ class User extends baseModels {
             return 1;
         }
     }
-    
+
     // Vérifie l'existence du pseudo
     // Retourne 1 si le pseudo existe déjà sinon 0
     function isUsernameExists($username) {
@@ -96,65 +106,6 @@ class User extends baseModels {
             return 1;
         }
     }
-
-    // Vérifie si l'utilisateur est inscrit a la newsletter
-    // Retourne 1 si c'est le cas sinon 0
-    function isSubscribeNewsletter($username) {
-        $query = $this->select()
-                ->from(array("u" => "user"), array("user_id", "user_username"))
-                ->where("user_username", "=", $username)
-                ->addWhere("AND","user_newsletter", "=", "1")
-                ->execute();
-
-        if (empty($query)) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-    
-    /////////////////////////////////////////////ChiTaï
-    /////////////////////////////////////////////
-    /////////////////////////////////////////////
-    //Fonctions pour la newsletter
-
-    //Fonction qui récupère tout les utilisateurs qui sont inscrit a la newsletter : test user_newsletter = 1 et on récupère les ID + Mail
-    public function newsletter() {
-            $query = $this->select()
-                    ->from(array("u" =>"user"), array("user_id, user_email, user_surname"))
-                    ->where("u.user_newsletter", "=", "1")
-                    ->execute();
-            return $query;
-        }
-
-    //On récupère ensuite les series de chaque user_id
-
-    public function serieUser($user_id) {
-            $query = $this->select()
-                    ->from(array("u" =>"user", "s" => "serie"))
-                    ->where("u.user_id", "=", $user_id)
-                    ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
-                    ->join(array("s" => "serie"), array("serie_id, serie_name"), "su.su_id_serie = s.serie_id")
-                    ->execute();
-            return $query;
-        }
-
-
-
-    // public function newsletterXXXX() {
-    //         $query = $this->select()
-    //                 ->from(array("u" =>"user"), array("user_id", "user_name", "user_email"))
-    //                 ->where("u.user_id", "=", 1)
-    //                 ->join(array("su" => "serie_user"), array("su_id_serie, su_id_user"), "u.user_id = su.su_id_user")
-    //                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "su.su_id_serie = s.serie_id")
-    //                 ->execute();
-    //         return $query;
-    //     }
-
-    //Fin ChiTaï /////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
 
     // Insère un utilisateur
     function addUser($data) {
@@ -193,7 +144,7 @@ class User extends baseModels {
                 ->where("$column", "=", $user_id)
                 ->execute();
 
-        return $query["COUNT(*)"];
+        return $query[0]["COUNT(*)"];
     }
 
     // Fonction pour éditer n'importe quelle information concernant un utilisateur
@@ -204,7 +155,41 @@ class User extends baseModels {
                 ->where("user_id", "=", $id_user)
                 ->executeObject();
     }
-
+    
+    // Retourne toutes les séries suivies par un utilisateur
+    public function getSeriesByUser($id_user) {
+        $query = $this->select()
+                ->from(array("u" => "user"), array("user_id", "user_name"))
+                ->where("u.user_id", "=", $id_user)
+                ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
+                ->join(array("s" => "serie"), array("serie_id", "serie_name", "serie_image", "serie_notation"), "su.su_id_serie = s.serie_id")
+                ->execute();
+        return $query;
+    }
+    
+    // Retourne le résultat de la recherche de séries de l'utilisateur en fonction de ce qu'il a entré comme chaine
+    // Ne retourne pas les séries déjà suivies par l'utilisateur
+    public function searchSeriesFromUser($id_user, $serie_name) {
+        $query = $this->select()
+                ->from(array("serie"), array("serie_name"))
+                ->where("serie_name", "LIKE", $serie_name)
+                ->addWhere("AND", "serie_id", "NOT IN", null, false)
+                ->select_subquery()
+                ->from_subquery(array("serie_user"), array("su_id_serie"))
+                ->where_subquery("WHERE", "su_id_user", "=", $id_user)
+                ->execute();
+        return $query;
+    }
+    
+    // Ajoute une série suivie à l'utilisateur
+    public function addSerieToUser($serie_id, $user_id) {
+        $data = array(
+            "su_id_serie" => $serie_id,
+            "su_id_user" => $user_id
+        );
+        $this->insert($data, "serie_user");
+    }
+    
     // GETTER AND SETTER
     //Id
     public function setId($user_id) {
