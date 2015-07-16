@@ -67,7 +67,7 @@ class baseView {
 
         return $date_fr;
     }
-    
+
     // Fonction de pagination
     function paginate_function($serie_per_page, $page, $total_serie, $total_pages) {
         $pagination = '';
@@ -86,7 +86,7 @@ class baseView {
                 for ($i = ($page - 2); $i < $page; $i++) { //Create left-hand side links
                     if ($i > 0) {
                         $pagination .= '<li><a href="/account/series/page/'.$i.'" data-page="' . $i . '" title="Page' . $i . '">' . $i . '</a></li>';
-                    }
+}
                 }
                 $first_link = false; //set first link to false
             }

@@ -38,9 +38,6 @@
 
                                 $weeksInMonth = $calendar->_weeksInMonth($month, $year);
                                 $dataEpisode = $calendar->_requestData($month, $year);
-                              //   echo "<pre>";
-                              //       die(var_dump($dataEpisode));
-                              //   echo "</pre>";
 
                                 // Création des semaines
                                 for($i = 0; $i < $weeksInMonth; $i++) {
@@ -59,7 +56,7 @@
          $content .= '</div>';
 
          $this->assign("calendar", $content);
-         $this->render("calendarShow");
+         $this->render("calendar");
       }
    }
 ?>

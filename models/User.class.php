@@ -21,14 +21,18 @@ class User extends baseModels {
     }
 
     public function test() {
-//        $query = $this->selectAll();
-//        return $query;
-        $query = $this->select()
-                ->from(array("u" => "user"), array("user_id", "user_name"))
-                ->where("u.user_id", "=", 11)
-                ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
-                ->join(array("s" => "serie"), array("serie_name"), "su.su_id_serie = s.serie_id")
-                ->execute();
+        $query = $this->selectDistinct()
+                ->from(array("e" => "episode"), array("episode_number", "episode_air_date"))
+                ->where("e.episode_air_date", ">=", "2015-07-01")
+                ->andWhere("e.episode_air_date", "<=", "2015-07-31")
+                ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
+                ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                ->addWhere("AND", "s.serie_id", "IN", null, false)
+                ->select_subquery()
+                ->from_subquery(array("serie_user"), array("su_id_serie"))
+                ->where_subquery("WHERE", "su_id_user", "=", 10)
+                ->execute()
+        ;
         return $query;
     }
 
@@ -102,9 +106,9 @@ class User extends baseModels {
         $user = new User();
         // Ajout d'un avatar par défaut en fonction du genre de l'utilisateur
         if ($data["user_gender"] == 1) {
-            $data["user_avatar"] = 'avatar/avatar_woman.png';
+            $data["user_avatar"] = 'avatar_woman.png';
         } else {
-            $data["user_avatar"] = 'avatar/avatar_man.png';
+            $data["user_avatar"] = 'avatar_man.png';
         }
 
         $data["user_creation_date"] = date("Y-m-d");
@@ -145,18 +149,20 @@ class User extends baseModels {
                 ->where("user_id", "=", $id_user)
                 ->executeObject();
     }
-    
+
     // Retourne toutes les séries suivies par un utilisateur
-    public function getSeriesByUser($id_user) {
+    public function getSeriesByUser($id_user, $first_serie, $serie_per_page) {
         $query = $this->select()
                 ->from(array("u" => "user"), array("user_id", "user_name"))
                 ->where("u.user_id", "=", $id_user)
                 ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
                 ->join(array("s" => "serie"), array("serie_id", "serie_name", "serie_image", "serie_notation"), "su.su_id_serie = s.serie_id")
+                ->order("serie_name")
+                ->limit($first_serie, $serie_per_page)
                 ->execute();
         return $query;
     }
-    
+
     // Retourne le résultat de la recherche de séries de l'utilisateur en fonction de ce qu'il a entré comme chaine
     // Ne retourne pas les séries déjà suivies par l'utilisateur
     public function searchSeriesFromUser($id_user, $serie_name) {
@@ -170,7 +176,7 @@ class User extends baseModels {
                 ->execute();
         return $query;
     }
-    
+
     // Ajoute une série suivie à l'utilisateur
     public function addSerieToUser($serie_id, $user_id) {
         $data = array(
@@ -179,7 +185,32 @@ class User extends baseModels {
         );
         $this->insert($data, "serie_user");
     }
+
+    public function getUserRole($user_id) {
+        $query = $this->select()
+                ->from(array('user'), array("user_status"))
+                ->where("user_id", "=", $user_id)
+                ->execute();
+
+        return $query[0]["user_status"];
+    }
+
+    //Retourne le nom d'un user par son ID
+    public function getNameById($id){
+        $query = $this->selectObject('user_username')
+            ->where('user_id',"=",$id)
+            ->executeObject();
+        return $query[0]->getUsername();
+    }
     
+    //Retourne l'avatar par son ID
+    public function getAvatarById($id){
+        $query = $this->selectObject('user_avatar')
+            ->where('user_id',"=",$id)
+            ->executeObject();
+        return $query[0]->getAvatar();
+    }
+
     // GETTER AND SETTER
     //Id
     public function setId($user_id) {

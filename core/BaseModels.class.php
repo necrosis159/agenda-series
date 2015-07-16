@@ -10,6 +10,8 @@ class baseModels {
     private $columns_select = array();
     private $from = "";
     private $where = "";
+    private $order = "";
+    private $limit = "";
     private $select_subquery = "";
     private $columns_subquery = array();
     private $from_subquery = "";
@@ -166,7 +168,7 @@ class baseModels {
 
     //execute la requète
     public function executeObject() {
-        $req = $this->pdo->prepare($this->query . $this->where);
+        $req = $this->pdo->prepare($this->query . $this->where . $this->limit);
 //        var_dump($this->query.$this->where);die();
         $req->execute();
 
@@ -174,6 +176,7 @@ class baseModels {
         $this->select = "";
         $this->from = "";
         $this->where = "";
+        $this->limit= "";
         $this->columns_select = array();
 
         $data = $req->fetchAll(PDO::FETCH_CLASS, $this->table);
@@ -183,8 +186,8 @@ class baseModels {
     public function execute() {
         $columns = implode(",", $this->columns_select);
         $columns_subquery = implode(",", $this->columns_subquery);
-        $this->query = $this->select . $columns . $this->from . $this->where . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
-//        var_dump($this->query);die();
+        $this->query = $this->select . $columns . $this->from . $this->where . $this->order . $this->limit . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
+//        var_dump($this->query);
         $req = $this->pdo->prepare($this->query);
         $req->execute();
 
@@ -193,6 +196,8 @@ class baseModels {
         $this->from = "";
         $this->where = "";
         $this->columns_select = array();
+        $this->order = "";
+        $this->limit = "";
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
@@ -241,7 +246,7 @@ class baseModels {
 //            $val = $operator;
 //            $operator = '=';
 //        }
-        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN'])) {
+        if (!in_array($operator, ['=', '!=', '<', '<=', '>', '>=', 'LIKE', 'NOT IN', 'IN'])) {
             $operator = '=';
         }
 
@@ -257,6 +262,16 @@ class baseModels {
 
 
         $this->where .= " $key $col $operator $val";
+        return $this;
+    }
+
+    public function order($order) {
+        $this->order = " ORDER BY " . $order;
+        return $this;
+    }
+
+    public function limit($start, $quantity) {
+        $this->limit = " LIMIT $start , $quantity ";
         return $this;
     }
 

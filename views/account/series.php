@@ -9,9 +9,6 @@
                     <input type="button" class="button" value="Ajouter" id="add_serie_button">
                 </form>
             </div>
-            <div id="results_bloc">
-                <div id="results"></div>
-            </div>
         </section>
         <section id="user_series">
             <h5 class="heading">Mes séries</h5>
@@ -35,6 +32,16 @@
                 endif;
                 ?>
             </div>
+<!--            <div id="pagination" style="clear: both;">
+                <ul class="pagination">
+                    <?php 
+                        for($i = 1 ; $i <= $total_pages ; $i++) {
+                            echo "<li><a href='/account/series/page/$i'>$i</a></li>";
+                        }
+                    ?>
+                </ul>
+            </div>-->
+            <div id="pagination_bloc"><?php echo $pagination; ?></div>
         </section>
     </section>
 
