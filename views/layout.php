@@ -70,7 +70,7 @@
                             <li><a href="/serie">Les séries</a></li>
                             <li><a href="/calendar/show">Calendrier</a></li>
                             <li><a href="#">Contact</a></li>
-                            <li><a href="#">Gestion</a>
+                            <?php if(isset($_SESSION['user_id'])) {?><li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
                                     <li><a href="/admin/search">Recherche</a></li>
                                     <!-- <li><a href="#">Administration</a></li> -->
@@ -83,11 +83,11 @@
                                     <li><a href="/account/comments">Mes commentaires</a></li>
                                     <li><a href="/account/calendar/show">Mon calendrier</a></li>
                                 </ul>
-                            </li>
+                            </li><?php } ?>
 
-                            <li><a href="/account/login">Connexion</a></li>
-                            <li><a href="/account/register">Inscription</a></li>
-                            <li><a href="/account/logout">Déconnexion</a></li>
+                            <?php if(!isset($_SESSION['user_id'])) {?><li><a href="/account/login">Connexion</a></li><?php } ?>
+                            <?php if(!isset($_SESSION['user_id'])) {?><li><a href="/account/register">Inscription</a></li><?php } ?>
+                            <?php if(isset($_SESSION['user_id'])) {?><li><a href="/account/logout">Déconnexion</a></li><?php } ?>
                         </ul>
                     </div>
 

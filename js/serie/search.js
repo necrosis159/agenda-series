@@ -32,7 +32,14 @@ $(document).ready(function() {
             data:'page='+page,
             dataType : 'text',
             success : function(code_html, statut){
+                if(code_html!="")
+                {
                 $("#listeSerie").append(code_html);
+                }   
+                else
+                {
+                    $("#showMore").fadeOut(500);
+                }
             },
             error : function(resultat, statut, erreur){
             },
