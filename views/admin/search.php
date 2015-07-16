@@ -106,7 +106,7 @@
                            echo "/serie/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'] . "#" . $value['comment_id'];
                         }
                         elseif($oldType == "user") {
-                           echo "/account/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'];
+                           echo "#";
                         } ?>">
                            <img class="tab_icons" src="../images/files.png" title="Consulter" alt="Consulter" />
                         </a>
