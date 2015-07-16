@@ -67,11 +67,7 @@
    // $shows = $tmdb->getTopRatedTVShow();
 
    // Création d'un tableau avec l'ID des séries que l'on souhaite récupérer
-<<<<<<< HEAD
    $tabShows = array(1399, 1396, 40008, 1418, 37680, 61664, 41727, 47665, 1402, 1405, 44217, 61889, 60708, 60699, 62560, 48866);
-=======
-   $tabShows = array(1399, 1396, 40008, 1418, 37680, 61664, 41727, 47665, 1402, 1405, 44217);
->>>>>>> origin/release
    $shows = array();
 
    // On transforme chaque élément du tableau en objet TVShow et on l'ajoute dans un tableau
