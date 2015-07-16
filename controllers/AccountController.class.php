@@ -414,7 +414,7 @@ class AccountController extends baseView {
             $arrayErrors = array();
             $data = array();
             // On vérifie qu'aucun champ du formulaire n'a été ajouté par l'utilisateur
-            $liste_champs = array("gender", "name", "surname", "email", "password", "password_confirm", "submit");
+            $liste_champs = array("gender", "name", "surname", "email", "password", "password_confirm", "newsletter" ,"submit");
             if (count(array_diff($liste_champs, array_keys($_POST))) === 0) {
                 $error = 0;
 
@@ -423,6 +423,7 @@ class AccountController extends baseView {
                 $name = trim($_POST['name']);
                 $surname = trim($_POST['surname']);
                 $email = trim($_POST['email']);
+                $newsletter = trim($_POST['newsletter']);
 
                 // Champ name
                 if (strlen($name) > 50) {
@@ -470,6 +471,11 @@ class AccountController extends baseView {
                         }
                     }
                 }
+                // Champ Newsletter
+                if (strlen($newsletter) > 1) {
+                    $arrayErrors[] = "L'id de la newsletter n'est pas valide";
+                    $error ++;
+                }
 
                 // Si il y a une erreur on retourne le message d'erreur sinon on insert dans la bdd
                 if ($error > 0) {
@@ -479,6 +485,7 @@ class AccountController extends baseView {
                     $data["user_name"] = $name;
                     $data["user_surname"] = $surname;
                     $data["user_email"] = $email;
+                    $data["user_newsletter"] = $newsletter;
                     $model_user->updateUser($_SESSION['user_id'], $data);
                     $message = $this->validMessage("Modifications effectuées");
                     $this->assign("message", $message);
@@ -495,12 +502,14 @@ class AccountController extends baseView {
         $name = $result["user_name"];
         $surname = $result["user_surname"];
         $email = $result["user_email"];
+        $newsletter = $result["user_newsletter"];
 
         $this->assign("id", $id);
         $this->assign("gender", $gender);
         $this->assign("name", $name);
         $this->assign("surname", $surname);
         $this->assign("email", $email);
+        $this->assign("newsletter", $newsletter);
         $this->render("account/edit");
     }
 

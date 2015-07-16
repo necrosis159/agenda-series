@@ -1,4 +1,5 @@
-<?php if(isset($message)) echo $message; ?>
+<?php if(isset($message)) echo $message;?>
+
 <div id="erreurFormulaire">
   <?php
   if (isset($_POST["submit"])) {
@@ -12,9 +13,13 @@
   ?>
 </div>
 <div class="wrap">
-  <h5 class="heading">Mes Informations</h5>
+  <h5 class="heading">Utilisateur : <?php if (isset($username)) echo $username ?> </h5>
   <div class="form_account_bloc">
     <form action="" method="POST" id="article_form">
+
+      <label for="id">ID
+      <input type='text' id='id' name='id' class="input_form" placeholder='ID' size="30" maxlength="50" value='<?php if (isset($id)) echo $id ?>'>
+      </label>
 
       <label for="name">Nom
       <input type='text' id='name' name='name' class="input_form" placeholder='Nom' size="30" maxlength="50" value='<?php if (isset($name)) echo $name ?>'>
@@ -24,19 +29,8 @@
       <input type='text' id='surname' name='surname' class="input_form" placeholder='Prénom' size="30" maxlength="50" value='<?php if (isset($surname)) echo $surname ?>'>
       </label>
 
-      <label for="gender">Genre
-      <?php
-      if ($gender == 0): ?>
-        <p>
-          <input type='radio' name='gender' value='0' checked> Masculin
-          <input type='radio' name='gender' value='1'> Féminin
-        </p>
-      <?php else : ?>
-        <p>
-          <input type='radio' name='gender' value='0'> Masculin
-          <input type='radio' name='gender' value='1' checked> Féminin
-        </p>
-      <?php endif; ?>
+      <label for="username">Username
+      <input type='text' id='username' name='username' class="input_form" placeholder='Username' size="30" maxlength="50" value='<?php if (isset($username)) echo $username ?>'>
       </label>
 
       <label for="email">Adresse Mail
@@ -51,20 +45,16 @@
       <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
       </label>
 
-      <?php
-      if ($newsletter == 0): ?>
-      <label for="newsletter">S'inscrire à la newsletter <br>
-      <input type='checkbox' id='newsletter' name='newsletter' value='1'>
-
+      <label for="status">Status
+      <input type='text' id='status' name='status' class="input_form" placeholder='Status' size="30" maxlength="50" value='<?php if (isset($status)) echo $status ?>'>
       </label>
-      <?php else : ?>
-      <label for="newsletter">S'inscrire à la newsletter <br>
-      <input type='checkbox' id='newsletter' name='newsletter' value='1' checked>
-      <input type='hidden' id='newsletter' name='newsletter' value='0'>
-      <?php endif; ?>
+
+      <label for="newsletter">Newsletter
+      <input type='text' id='newsletter' name='newsletter' class="input_form" placeholder='0 ou 1' size="30" maxlength="50" value='<?php if (isset($newsletter)) echo $newsletter ?>'>
       </label>
 
       <input class="button" type='submit' id='submit' name='submit' value='Modifier'>
     </form>
   </div>
 </div>
+

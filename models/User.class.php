@@ -44,7 +44,7 @@ class User extends baseModels {
     // Récupère toutes les informations concernant un utilisateur par son id
     public function getUserById($user_id) {
         $query = $this->select()
-                ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login"))
+                ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login", "user_status", "user_newsletter"))
                 ->where("user_id", "=", $user_id)
                 ->execute();
 

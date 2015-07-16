@@ -61,7 +61,12 @@ $router->get('/admin/comment/edit/:id', 'Admin@editComment')
         ->with('id', '[0-9]+');
 $router->post('/admin/comment/edit/:id', 'Admin@editComment')
         ->with('id', '[0-9]+');
-
+//Partie ChiTaï, hey Ludo c'est ici !
+$router->get('/admin/edituser/:id', 'User@edit')
+        ->with('id', '[0-9]+');
+$router->post('/admin/edituser/:id', 'User@edit')
+        ->with('id', '[0-9]+');
+$router->get('/admin/userlist', 'User@userlist');
 //Route Avec Paramètre
 //Affiche user
 $router->get('/user/show/:name-:username', 'User@show')

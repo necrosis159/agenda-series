@@ -73,6 +73,8 @@
                             <?php if(isset($_SESSION['user_id'])) {?><li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
                                     <li><a href="/admin/search">Recherche</a></li>
+                                    <li><a href="/admin/userlist">Liste Utilisateurs</a></li>
+
                                     <!-- <li><a href="#">Administration</a></li> -->
                                 </ul>
                             </li>
