@@ -12,23 +12,7 @@ class SerieController extends baseView {
 		$result=$serie->getElementSerie($id);
 
 		//Recupération des genres
-		$genre="";
-		$genre_result=$serie->getGenreById($id);
-
-		foreach ($genre_result as $value) {
-			if($genre!="")
-				$genre.=" - ".$value['genre_name'];
-			else
-				$genre=$value['genre_name'];
-		}
-		//Conversion date en fr
-		foreach ($result as $value) {
-			$value->setFirstAirDate($this->dateConvert($value->getFirstAirDate()));
-		}
-
-		//Compter les saisons et les episodes
-		$nb_season=$serie->countSeasonByIdSerie($id);
-		$nb_episode=$serie->countEpisodeByIdSerie($id);
+		//A FAIRE
 
 		//On récupère la liste des saisons de la serie
 		$liste_season=$season->getListeSeason($id);
@@ -38,9 +22,6 @@ class SerieController extends baseView {
 
 		//On envoie les variables et appel la view
 		$this->assign('id_serie',$id);
-		$this->assign('genre',$genre);
-		$this->assign('nb_season',$nb_season);
-		$this->assign('nb_episode',$nb_episode);
 		$this->assign('serie_result',$result);
 		$this->render("serie/serieShow");
 	}
@@ -58,11 +39,6 @@ class SerieController extends baseView {
 		//On récupère les éléments de la saison
 		$result=$season->getElementSeason($id,$nb1);
 		
-		//Conversion date en fr
-		foreach ($result as $value) {
-			$value->setYearStart($this->dateConvert($value->getYearStart()));
-		}
-
 		//Si la saison existe
 		if(!empty($result))
 		{
@@ -116,12 +92,7 @@ class SerieController extends baseView {
 				$this->assign('liste_episode',$liste_episode);
 
 				//on récupère l'episode
-				$result=$episode->getElementEpisode($id,$id_season,$nb2);
-
-				//Conversion date en fr
-				foreach ($result as $value) {
-					$value->setAirDate($this->dateConvert($value->getAirDate()));
-				}			
+				$result=$episode->getElementEpisode($id,$id_season,$nb2);			
 			}
 		}
 		//On envoie les variables et appel la view
@@ -138,11 +109,11 @@ class SerieController extends baseView {
 
 		//On defini toutes les variables
 		$tab['comment_id_episode']=$_POST['id_episode'];
-		$tab['comment_id_user']=$_SESSION['user_id'];
-		//Date du jour
-		$tab['comment_date_publication']=date("Y-m-d");
+		$tab['comment_id_user']=$_POST['id_session'];
+		$tab['comment_date_publication']='0000-00-00';
 
 		//Verifications des contenus de title et comment
+		$tab['comment_title']=trim(strip_tags(htmlspecialchars($_POST['title_comment'], ENT_QUOTES)));
 		$tab['comment_content']=trim(strip_tags(htmlspecialchars($_POST['content_comment'], ENT_QUOTES)));
 
 		$tab['comment_notation']=0;
@@ -188,6 +159,7 @@ class SerieController extends baseView {
 		}
 
 		echo "<ul class='list_comment'>";
+		$i=0;
 		foreach ($query as $value){
 			echo "<li>";
 						//Affiche le pseudo de la personne qui a poster le commentaire
@@ -195,7 +167,10 @@ class SerieController extends baseView {
 			echo "<p>".$value->getContent()."</p>";
 			echo "<img id='avatar_comment' src='../../../images/".$user_avatar[$value->getId_User()]["avatar"]."'>";
 			echo "</li>";
+			$i++;
 		}
+				//S'il n'y a pas de commentaire, alors j'avertie l'internaute
+		if($i==0){ echo "Il n'y pas encore de commentaire pour cette épisode!";}
 		echo "</ul>";
 	}
 

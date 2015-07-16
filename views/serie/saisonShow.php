@@ -2,32 +2,25 @@
 <?php
 if(!empty($season_result))
 {	
+
 	//Liste des episode
+	
 	?>
 <div id="serie_detail">
 		<div id="ban">
 		</div>
 		<div id="containerSerie">
 			<div id="divLeft">
-				<?php if($season_result[0]->getImage()!="")
-					echo "<img src=".$season_result[0]->getImage()." alt=".$name_serie."/>";
-				else
-					echo "<img src='/images/No_Image_Available' alt=".$name_serie."/>";
-				 ?>
+					<?php echo "<img src=".$season_result[0]->getImage()." alt=".$name_serie."/>"; ?>
 			</div>
 			<div id="divRight">
 
 				<span id="title"> <?php echo $season_result[0]->getName();?> </span><br>
 				<div id='subtitle'>
-					<?php echo "Nombre d'épisode: ".$season_result[0]->getNbepisode()."<br>";
-					echo "Date : ".$season_result[0]->getYearstart(); ?>
+					<?php echo "Nombre d'épisode: ".$season_result[0]->getNbepisode()."<br>Date de publication:".$season_result[0]->getYearstart(); ?>
 				</div>
 				<h3>Description:</h3><br>
-				<?php if($season_result[0]->getOverview()!="")
-						echo $season_result[0]->getOverview();
-					else
-						echo "Aucun description disponible";
-				?>
+				<?php echo $season_result[0]->getOverview(); ?>
 			</div>
 			<div id="episode">
 				<br>
@@ -55,9 +48,9 @@ if(!empty($season_result))
 			</div>
 		</div>
 	</div>
-<?php
+	<?php
 }
 else
 {
-	header('Location:/404');
+	header('Location:http://'.$_SERVER['HTTP_HOST'].'/404');
 }?>

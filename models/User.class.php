@@ -35,7 +35,7 @@ class User extends baseModels {
     // Récupère toutes les informations concernant un utilisateur par son pseudo
     public function getUserByUsername($username) {
         $query = $this->select()
-                ->from(array("u" => "user"), array("user_id", "user_password", "user_status","user_avatar","user_username"))
+                ->from(array("u" => "user"), array("user_id", "user_password", "user_status"))
                 ->where("u.user_username", "=", $username)
                 ->execute();
         return $query[0];

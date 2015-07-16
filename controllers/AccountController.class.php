@@ -41,8 +41,6 @@ class AccountController extends baseView {
                     if ($data['user_password'] == md5($_POST['password'])) {
                         $_SESSION['user_status'] = $data['user_status'];
                         $_SESSION['user_id'] = $data['user_id'];
-                        $_SESSION['user_avatar'] = $data['user_avatar'];
-                        $_SESSION['user_username'] = $data['user_username'];
                         $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
                         $model_user->updateUser($data['user_id'], $data_update);
                         $page = htmlspecialchars($_POST['page']);

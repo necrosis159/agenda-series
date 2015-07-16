@@ -188,7 +188,7 @@ class baseModels {
         $req = $this->pdo->prepare($this->query);
       //   die(var_dump($req));
         $req->execute();
-        
+
         $this->query = "";
         $this->select = "";
         $this->from = "";

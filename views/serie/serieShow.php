@@ -8,46 +8,34 @@ if(!empty($serie_result))
 			</div>
 		<div id="containerSerie">
 			<div id="divLeft">
-				<?php if($serie_result[0]->getImage()!="")
-				 echo "<img src='". $serie_result[0]->getImage()."' alt=".$serie_result[0]->getName()." style='width : 80%'/>";
-				else 
-				echo "<img src='/images/No_Image_Available' alt=".$serie_result[0]->getName()." style='width : 80%'/>";?>
+				<?php echo "<img src=".$serie_result[0]->getImage()." alt=".$serie_result[0]->getName()." style='width : 80%'/>"; ?>
+		
 
 				</div>
 
 			<div id="divRight">
-								<span id="title"><?php echo $serie_result[0]->getName();?></span><br>
+								<span id="title"> <?php echo $serie_result[0]->getName();?> </span><br>
 				<div id='subtitle'>
 					<?php 
-						echo "Date : ".$serie_result[0]->getFirstAirDate()."<br>"; 
-					    
-					    echo $nb_season." saisons -"; 
-					    
-					    echo $nb_episode." episodes <br>";
-						
-						if($serie_result[0]->getNationality()!="")
-							echo "Nationalité: ".$serie_result[0]->getNationality()."<br>";
-						if($serie_result[0]->getNotation()!="")
-							echo "Note: ".$serie_result[0]->getNotation()."<br>";
-						if($genre!="")
-							echo "Genre: ".$genre;
-						else
-							echo "Aucun Genre";
+						echo $serie_result[0]->getFirstAirDate()."<br>"; 
+					    echo " 5 saisons - 5 episodes <br>";
+						echo "Nationalité: ".$serie_result[0]->getNationality()."<br>";
+						echo "Note: ".$serie_result[0]->getNotation();
 					?>
 				</div>
+				<h3>Synopsis:</h3><br>
+				<?php
+					echo $serie_result[0]->getOverview();
+				?>
+
 				<h3>Description:</h3><br>
 				<?php
-					if($serie_result[0]->getOverview()!="")
-						echo $serie_result[0]->getOverview();
-					else
-						echo "Aucun description disponible";
+					echo "Description";
 				?>
-				<br>
-				<br>
 				<div id="user_options">
 					<h2>Options:</h2>
-					<?php echo "<a class='button' id='favorite' name='favorite' href=''>Favori</a>";?>
-					<a class="button" href="/calendar/show">Calendrier</a> <br>
+					<?php echo "<a class='button' id='favorite' name='favorite' href='../../series/serie_detail.php?id=&addFavorite=1'>Favori</a>";?>
+					<a class="button" href="#calendrier">Calendrier</a> <br>
 				</div>
 				<div id="seasons_list">
 					<h2>Saisons:</h2>
@@ -66,8 +54,6 @@ if(!empty($serie_result))
 			</div>
 		</div>
 	</div>
-
-	<script type="text/javascript" src="/js/serie/serie.js"></script>
 <?php
 }
 else

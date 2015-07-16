@@ -21,7 +21,7 @@
 	</div>
 </div>
 
- <div id="showMore"><button> Voir plus </button></div>
+ <div id="showMore"><button> Voir plus !!! </button></div>
 
 
 <script type="text/javascript" src="/js/serie/search.js"></script>
