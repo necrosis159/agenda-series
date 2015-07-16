@@ -67,5 +67,52 @@ class baseView {
 
         return $date_fr;
     }
+    
+    // Fonction de pagination
+    function paginate_function($serie_per_page, $page, $total_serie, $total_pages) {
+        $pagination = '';
+        if ($total_pages > 0 && $total_pages != 1 && $page <= $total_pages) { //verify total pages and current page number
+            $pagination .= '<ul class="pagination">';
+
+            $right_links = $page + 3;
+            $previous = $page - 1;
+            $next = $page + 1;
+            $first_link = true;
+
+            if ($page > 1) {
+                $previous_link = ($previous == 0) ? 1 : $previous;
+                $pagination .= '<li class="first"><a href="/account/series/page/1" data-page="1" title="First">&laquo;</a></li>'; //first link
+                $pagination .= '<li><a href="/account/series/page/'.$previous.'" data-page="' . $previous_link . '" title="Previous">&lt;</a></li>';
+                for ($i = ($page - 2); $i < $page; $i++) { //Create left-hand side links
+                    if ($i > 0) {
+                        $pagination .= '<li><a href="/account/series/page/'.$i.'" data-page="' . $i . '" title="Page' . $i . '">' . $i . '</a></li>';
+                    }
+                }
+                $first_link = false; //set first link to false
+            }
+
+            if ($first_link) { //if current active page is first link
+                $pagination .= '<li class="first active">' . $page . '</li>';
+            } elseif ($page == $total_pages) { //if it's the last active link
+                $pagination .= '<li class="last active">' . $page . '</li>';
+            } else { //regular current link
+                $pagination .= '<li class="active">' . $page . '</li>';
+            }
+
+            for ($i = $page + 1; $i < $right_links; $i++) { //create right-hand side links
+                if ($i <= $total_pages) {
+                    $pagination .= '<li><a href="/account/series/page/'.$i.'" data-page="' . $i . '" title="Page ' . $i . '">' . $i . '</a></li>';
+                }
+            }
+            if ($page < $total_pages) {
+                $next_link = ($page > $total_pages) ? $total_pages : $next;
+                $pagination .= '<li><a href="/account/series/page/'.$next_link.'" data-page="' . $next_link . '" title="Next">&gt;</a></li>'; //next link
+                $pagination .= '<li class="last"><a href="/account/series/page/'.$total_pages.'" data-page="' . $total_pages . '" title="Last">&raquo;</a></li>'; //last link
+            }
+
+            $pagination .= '</ul>';
+        }
+        return $pagination;
+    }
 
 }
