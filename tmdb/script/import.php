@@ -22,7 +22,7 @@
    // Fonction de connection PDO
    function call_pdo() {
      try {
-       $db = new PDO('mysql:host=localhost;dbname=agendaserie;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+       $db = new PDO('mysql:host=localhost;dbname=agenda;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
      } catch (Exception $e) {
        die('Erreur : ' . $e->getMessage());
      }
@@ -67,7 +67,7 @@
    // $shows = $tmdb->getTopRatedTVShow();
 
    // Création d'un tableau avec l'ID des séries que l'on souhaite récupérer
-   $tabShows = array(1399, 1396, 40008, 1418);
+   $tabShows = array(1399, 1396, 40008, 1418, 37680, 61664, 41727, 47665, 1402, 1405, 44217);
    $shows = array();
 
    // On transforme chaque élément du tableau en objet TVShow et on l'ajoute dans un tableau

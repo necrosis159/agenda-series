@@ -2,187 +2,225 @@
 class SerieController extends baseView {
 	
 
-	public function serie($name)
+	public function serie($id)
 	{
 		$serie = new Serie();
-		$category = new Category();
 		$season = new Season();
 		$result;
 
 		//On récupère les élements de la serie
-		$serie->select('id','description','nationality','year_start','year_end','image','notation','id_category','status')
-				->where('name', $name);
-		$result=$serie->execute();
+		$result=$serie->getElementSerie($id);
 
-		//Si la serie existe
-		if(!empty($result))
-		{
-			//On récupère l'id de la série
-			$id=$result[0]->getId();
+		//Recupération des genres
+		$genre="";
+		$genre_result=$serie->getGenreById($id);
 
-			//On récupère le nom de la category
-			$category->select('category')
-					->where('id',$result[0]->getId_category());
-			$category=$category->execute();
-			$category=$category[0]->getCategory();
-
-			//On envoie le nom de la category (seulement si la serie existe)
-			$this->assign('serie_category',$category);
-
-			//On récupère la liste des saisons de la serie
-			$season->select('number')
-					->where('id_serie', $id);
-			$liste_season=$season->execute();
-			
-			//On envoie la liste des saisons
-			$this->assign('liste_season',$liste_season);
+		foreach ($genre_result as $value) {
+			if($genre!="")
+				$genre.=" - ".$value['genre_name'];
+			else
+				$genre=$value['genre_name'];
+		}
+		//Conversion date en fr
+		foreach ($result as $value) {
+			$value->setFirstAirDate($this->dateConvert($value->getFirstAirDate()));
 		}
 
+		//Compter les saisons et les episodes
+		$nb_season=$serie->countSeasonByIdSerie($id);
+		$nb_episode=$serie->countEpisodeByIdSerie($id);
+
+		//On récupère la liste des saisons de la serie
+		$liste_season=$season->getListeSeason($id);
+
+		//On envoie la liste des saisons
+		$this->assign('liste_season',$liste_season);
+
 		//On envoie les variables et appel la view
-		$this->assign('name_serie',$name);
+		$this->assign('id_serie',$id);
+		$this->assign('genre',$genre);
+		$this->assign('nb_season',$nb_season);
+		$this->assign('nb_episode',$nb_episode);
 		$this->assign('serie_result',$result);
-		$this->render("serieShow");
+		$this->render("serie/serieShow");
 	}
 
-	public function saison($name,$nb1)
+	public function saison($id,$nb1)
 	{
 		$serie = new Serie();
-		$category = new Category();
 		$season = new Season();
 		$episode = new Episode();
 		$result;
 
-		//On récupère l'id et l'image de la serie
-		$serie->select('id','image')
-				->where('name', $name);
-		$result=$serie->execute();
+		//On récupère le nom de la serie
+		$name_serie=$serie->getNameSerieById($id);
+		
+		//On récupère les éléments de la saison
+		$result=$season->getElementSeason($id,$nb1);
+		
+		//Conversion date en fr
+		foreach ($result as $value) {
+			$value->setYearStart($this->dateConvert($value->getYearStart()));
+		}
 
-		//Si la serie existe
+		//Si la saison existe
 		if(!empty($result))
 		{
-			$image=$result[0]->getImage();
-			$id_serie=$result[0]->getId();
-		
-			//On récupère les éléments de la saison
-			$season->select('id','nb_episode','name','overview','notation','year_start')
-					->where('id_serie', $id_serie)
-					->andwhere('number',$nb1);
-			$result=$season->execute();
+			//On récupère l'id de la saison
+			$id_season=$result[0]->getId();
 
-			//Si la saison existe
-			if(!empty($result))
-			{
-				//On récupère l'id de la saison
-				$id_season=$result[0]->getId();
-				//On récupère la liste des episode de la saison
-				$episode->select('number')
-						->where('id_serie', $id_serie)
-						->andwhere('id_season',$id_season);
-				$liste_episode=$episode->execute();
-				
-				//On envoie la liste des episodes
-				$this->assign('liste_episode',$liste_episode);
-			}
-			//on envoie l'image (seulement si la serie existe)
-			$this->assign('image_serie',$image);
-
+			//On récupère la liste des episode de la saison
+			$liste_episode=$episode->getListeEpisode($id,$id_season);
+			
+			//On envoie la liste des episodes
+			$this->assign('liste_episode',$liste_episode);
 		}
+
 		//On envoie les variables et appel la view
-		$this->assign('name_serie',$name);
+		$this->assign('id_serie',$id);
+		$this->assign('name_serie',$name_serie);
 		$this->assign('number_season',$nb1);
 		$this->assign('season_result',$result);
-		$this->render("saisonShow");
+		$this->render("serie/saisonShow");
 	}
 
-	public function episode($name,$nb1,$nb2)
+	public function episode($id,$nb1,$nb2)
 	{
 		$serie = new Serie();
-		$category = new Category();
 		$season = new Season();
 		$episode = new Episode();
 		$comment = new Comment();
 		$user = new User();
 		$result;
 
-		//On récupère l'id de la serie
-		$serie->select('id','image')
-				->where('name', $name);
-		$result=$serie->execute();
-		
-		//Si la serie existe :
-		if(!empty($result))
-		{
-			$image=$result[0]->getImage();
-			$id=$result[0]->getId();
+		//On récupère le nom de la serie
+		$name_serie=$serie->getNameSerieById($id);
 
+		$title=$name_serie." - Saison ".$nb1." - Episode ".$nb2;
+
+		//Si la serie existe :
+		if(!empty($name_serie))
+		{
 			//on récupère l'id de la season
-			$season->select('id')
-					->where('id_serie', $id)
-					->andwhere('number',$nb1);
-			$result=$season->execute();
+			$result=$season->getIdSeasonByNb($id,$nb1);
 
 			//Si la saison existe
 			if(!empty($result))
 			{	
-				$id_saison=$result[0]->getId();
+				$id_season=$result[0]->getId();
 				
+				//On récupère la liste des episode de la saison
+				$liste_episode=$episode->getListeEpisode($id,$id_season);
+
+				//On envoie la liste des episodes
+				$this->assign('liste_episode',$liste_episode);
+
 				//on récupère l'episode
-				$episode->select('id','overview','summary','notation','duration')
-						->where('id_serie', $id)
-						->andwhere('id_season', $id_saison)
-						->andwhere('number', $nb2);
-				$result=$episode->execute();
-				
-				//Si l'episode existe
-				if(!empty($result))
-				{
-					$id_episode=$result[0]->getId();
+				$result=$episode->getElementEpisode($id,$id_season,$nb2);
 
-					$comment->select('id_user','date_publication','title','content')
-						->where('id_episode', $id_episode);
-					$liste_comment=$comment->execute();
-					
-					//Si un commentaire existe
-					if(!empty($result))
-					{
-						foreach ($liste_comment as$value) {
-							$user->select('username')
-								->where('id',$value->getId_user());
-							$username=$user->execute();
-							$value->setId_user($username[0]->getUsername());
-						}
-					}
-
-					//On envoie la liste des commentaires
-					$this->assign('liste_comment',$liste_comment);
-				}				
+				//Conversion date en fr
+				foreach ($result as $value) {
+					$value->setAirDate($this->dateConvert($value->getAirDate()));
+				}			
 			}
-			//on envoie l'image (seulement si la serie existe)
-			$this->assign('serie_image',$image);
 		}
-
 		//On envoie les variables et appel la view
-		$this->assign('season_number',$nb1);
-		$this->assign('episode_number',$nb2);
-		$this->assign('serie_name',$name);
+		$this->assign("title",$title);
+		$this->assign('number_season',$nb1);
+		$this->assign('number_episode',$nb2);
+		$this->assign('id_serie',$id);
 		$this->assign('episode_result',$result);
-		$this->render("episodeShow");
+		$this->render("serie/episodeShow");
 	}
 
 	public function comment(){
 		$comment = new Comment();
 
 		//On defini toutes les variables
-		$comment->setid_episode($_POST['id_episode']);
-		$comment->setid_user($_POST['id_session']);
-		$comment->setdate_publication('0000-00-00');
-		$comment->settitle($_POST['title_comment']);
-		$comment->setcontent($_POST['content_comment']);
-		$comment->setnotation(0);
-		$comment->setstatus(0);
-		$comment->sethighlighting(0);
+		$tab['comment_id_episode']=$_POST['id_episode'];
+		$tab['comment_id_user']=$_SESSION['user_id'];
+		//Date du jour
+		$tab['comment_date_publication']=date("Y-m-d");
+
+		//Verifications des contenus de title et comment
+		$tab['comment_content']=trim(strip_tags(htmlspecialchars($_POST['content_comment'], ENT_QUOTES)));
+
+		$tab['comment_notation']=0;
+		$tab['comment_status']=0;
+		$tab['comment_highlighting']=0;
 		
 		//on insère
-		$comment->insert();
+		$comment->insert($tab);
+	}
+
+	public function searchindex()
+	{
+		$this->render("serie/serieIndex");
+	}
+
+	public function getPageSerie()
+	{
+		$serie = new Serie();
+		$query = $serie->getSeriePage($_POST['page']*5,5);
+
+		foreach ($query as $serie) {
+			echo "<span class='sticker'>";
+			echo "<a href='/serie/".$serie->getId()."'><img src='".$serie->getImage()."'></a>";
+			echo "</span>";
+		}
+	}
+
+	public function getPageComment()
+	{
+		$comment = new Comment();
+		$user = new User();
+		$query = $comment->getCommentPage($_POST['page']*5,5,$_POST['id_episode']);
+
+		//Si un commentaire existe
+		if(!empty($query))
+		{
+			$user_avatar = [];
+			foreach ($query as $value) {
+				$user_avatar[$value->getId_user()] = 
+				['name' => $user->getNameById($value->getId_user()),
+				'avatar' => $user->getAvatarById($value->getId_user())];
+			}
+		}
+
+		echo "<ul class='list_comment'>";
+		foreach ($query as $value){
+			echo "<li>";
+						//Affiche le pseudo de la personne qui a poster le commentaire
+			echo "<span id='username_comment'><a href=\"../../../account/".$value->getId_User()."\">".$user_avatar[$value->getId_User()]["name"]."</a> <span>".$value->getDate_publication()."</span></span>"; 
+			echo "<p>".$value->getContent()."</p>";
+			echo "<img id='avatar_comment' src='../../../images/".$user_avatar[$value->getId_User()]["avatar"]."'>";
+			echo "</li>";
+		}
+		echo "</ul>";
+	}
+
+	public function ajaxSearchAllSeriesByName()
+	{
+		$model_serie = new Serie();
+		$result = $model_serie->searchSeriesByName($_GET['term']);
+		$data = array();
+
+		if (!empty($result)) {
+			foreach ($result as $serie) {
+				$data[] = $serie['serie_name'];
+			}
+		}	
+
+		echo json_encode($data);
+
+	}
+
+	public function ajaxRedirectionSerie()
+	{
+		$serie_name = $_GET["serie_name"];
+        $model_serie = new Serie();
+        $serie_id = $model_serie->getIdSerieByName($serie_name);
+
+        echo $serie_id["serie_id"];
 	}
 }

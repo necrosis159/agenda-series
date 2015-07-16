@@ -17,6 +17,30 @@ class Season extends baseModels{
 
 	}
 
+	public function getIdSeasonByNb($id,$nb1){
+		
+		$query = $this->selectObject('season_id')
+			->where('season_id_serie',"=", $id)
+			->andwhere('season_number',"=", $nb1)
+			->executeObject();
+		return $query;
+    }
+
+	public function getListeSeason($id){
+		$query = $this->selectObject('season_number')
+				->where('season_id_serie',"=", $id)
+				->executeObject();
+		return $query;
+	}
+
+	public function getElementSeason($id,$nb1){
+		$query = $this->selectObject('season_id','season_nb_episode','season_name','season_overview','season_image','season_notation','season_year_start')
+				->where('season_id_serie',"=", $id)
+				->andwhere('season_number',"=",$nb1)
+				->executeObject();
+		return $query;
+	}
+
 	//Id
 	public function setID($season_id){
 		$this->season_id=$season_id;
