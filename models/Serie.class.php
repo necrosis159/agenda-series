@@ -17,18 +17,91 @@ class Serie extends baseModels{
 	public function __construct(){
 		parent::__construct();
 	}
-        
-        public function getIdSerieByName($serie_name) {
-            $query = $this->select()
-                    ->from(array("serie"), array("serie_id"))
-                    ->where("serie_name", "=", $serie_name)
-                    ->execute();
-            
-            return $query[0];
-        }
-        
+
+	//Retourne toutes les séries highlight
+	public function getSerieAllHighlight(){
+		$query = $this->selectObject('serie_id', 'serie_name', 'serie_image', 'serie_overview')
+		->where('serie_highlighting', "=", "1")
+		->executeObject();
+		return $query;
+	}
+
+	//Retourne toutes les séries par 5
+	public function getSeriePage($page,$number){
+		$query= $this->selectObject('serie_id','serie_image')
+		->limit($page,$number)
+		->executeObject();
+		return $query;
+	}
+
+	public function getIdSerieByName($serie_name) {
+		$query = $this->select()
+		->from(array("serie"), array("serie_id"))
+		->where("serie_name", "=", $serie_name)
+		->execute();
+
+		if(!empty($query))
+			return $query[0];
+	}
+
+	public function getNameSerieById($id){
+		$query = $this->selectObject('serie_name')
+		->where('serie_id', "=", $id)
+		->executeObject();
+		return $query[0]->getName();
+	}
+
+	public function getElementSerie($id){
+
+		$query = $this->selectObject('serie_name','serie_overview','serie_nationality','serie_first_air_date','serie_image','serie_notation')
+		->where('serie_id','=', $id)
+		->executeObject();
+		return $query;
+	}
+
+	public function getLinkImageBySearch($search){
+		$query = $this->selectObject('serie_id','serie_name','serie_image')
+		->where('serie_name','LIKE',$search)
+		->executeObject();
+		return $query;
+	}
+	public function getGenreById($id){
+		$query = $this->select()
+		->from(array("u" => "serie"), array())
+		->where("serie_id", "=", $id)
+		->join(array("gs" => "genre_serie"), array(), "gs.gs_id_serie = u.serie_id")
+		->join(array("g" => "genre"), array("genre_id","genre_name"), "g.genre_id = gs.gs_id_genre")
+		->execute();
+
+		return $query;
+	}
+
+	public function countSeasonByIdSerie($id){
+		$query = $this->count()
+		->from(array("season"))
+		->where("season_id_serie", "=", $id)
+		->execute();
+		return $query[0]["COUNT(*)"];
+	}
+
+	public function countEpisodeByIdSerie($id){
+		$query = $this->count()
+		->from(array("episode"))
+		->where("episode_id_serie", "=", $id)
+		->execute();
+
+		return $query[0]["COUNT(*)"];
+	}
+
+	public function searchSeriesByName($serie_name){
+		$query = $this->select($serie_name)
+		->from(array("serie"), array("serie_name"))
+		->where("serie_name", "LIKE", $serie_name)
+		->execute();
+		return $query;
+	}
 	//ID
-		public function setID($serie_id){
+	public function setID($serie_id){
 		$this->serie_id=$serie_id;
 	}
 
@@ -46,7 +119,7 @@ class Serie extends baseModels{
 	}
 
 	//Overview
-		public function setOverview($serie_overview){
+	public function setOverview($serie_overview){
 		$this->serie_overview=$serie_overview;
 	}
 
@@ -55,7 +128,7 @@ class Serie extends baseModels{
 	}
 
 	//Nationality
-		public function setNationality($serie_nationality){
+	public function setNationality($serie_nationality){
 		$this->serie_nationality=$serie_nationality;
 	}
 
@@ -73,7 +146,7 @@ class Serie extends baseModels{
 	}
 
 	//Image
-		public function setImage($serie_image){
+	public function setImage($serie_image){
 		$this->serie_image=$serie_image;
 	}
 
@@ -91,7 +164,7 @@ class Serie extends baseModels{
 	}
 
 	//Status
-		public function setStatus($serie_status){
+	public function setStatus($serie_status){
 		$this->serie_status=$serie_status;
 	}
 

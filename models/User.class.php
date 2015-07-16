@@ -35,7 +35,7 @@ class User extends baseModels {
     // Récupère toutes les informations concernant un utilisateur par son pseudo
     public function getUserByUsername($username) {
         $query = $this->select()
-                ->from(array("u" => "user"), array("user_id", "user_password", "user_status"))
+                ->from(array("u" => "user"), array("user_id", "user_password", "user_status","user_avatar","user_username"))
                 ->where("u.user_username", "=", $username)
                 ->execute();
         return $query[0];
@@ -44,7 +44,7 @@ class User extends baseModels {
     // Récupère toutes les informations concernant un utilisateur par son id
     public function getUserById($user_id) {
         $query = $this->select()
-                ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login"))
+                ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login", "user_status", "user_newsletter"))
                 ->where("user_id", "=", $user_id)
                 ->execute();
 
@@ -179,7 +179,22 @@ class User extends baseModels {
         );
         $this->insert($data, "serie_user");
     }
+
+    //Retourne le nom d'un user par son ID
+    public function getNameById($id){
+        $query = $this->selectObject('user_username')
+            ->where('user_id',"=",$id)
+            ->executeObject();
+        return $query[0]->getUsername();
+    }
     
+    //Retourne l'avatar par son ID
+    public function getAvatarById($id){
+        $query = $this->selectObject('user_avatar')
+            ->where('user_id',"=",$id)
+            ->executeObject();
+        return $query[0]->getAvatar();
+    }
     // GETTER AND SETTER
     //Id
     public function setId($user_id) {

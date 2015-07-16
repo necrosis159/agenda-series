@@ -41,6 +41,8 @@ class AccountController extends baseView {
                     if ($data['user_password'] == md5($_POST['password'])) {
                         $_SESSION['user_status'] = $data['user_status'];
                         $_SESSION['user_id'] = $data['user_id'];
+                        $_SESSION['user_avatar'] = $data['user_avatar'];
+                        $_SESSION['user_username'] = $data['user_username'];
                         $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
                         $model_user->updateUser($data['user_id'], $data_update);
                         $page = htmlspecialchars($_POST['page']);
@@ -412,7 +414,7 @@ class AccountController extends baseView {
             $arrayErrors = array();
             $data = array();
             // On vérifie qu'aucun champ du formulaire n'a été ajouté par l'utilisateur
-            $liste_champs = array("gender", "name", "surname", "email", "password", "password_confirm", "submit");
+            $liste_champs = array("gender", "name", "surname", "email", "password", "password_confirm", "newsletter" ,"submit");
             if (count(array_diff($liste_champs, array_keys($_POST))) === 0) {
                 $error = 0;
 
@@ -421,6 +423,7 @@ class AccountController extends baseView {
                 $name = trim($_POST['name']);
                 $surname = trim($_POST['surname']);
                 $email = trim($_POST['email']);
+                $newsletter = trim($_POST['newsletter']);
 
                 // Champ name
                 if (strlen($name) > 50) {
@@ -468,6 +471,11 @@ class AccountController extends baseView {
                         }
                     }
                 }
+                // Champ Newsletter
+                if (strlen($newsletter) > 1) {
+                    $arrayErrors[] = "L'id de la newsletter n'est pas valide";
+                    $error ++;
+                }
 
                 // Si il y a une erreur on retourne le message d'erreur sinon on insert dans la bdd
                 if ($error > 0) {
@@ -477,6 +485,7 @@ class AccountController extends baseView {
                     $data["user_name"] = $name;
                     $data["user_surname"] = $surname;
                     $data["user_email"] = $email;
+                    $data["user_newsletter"] = $newsletter;
                     $model_user->updateUser($_SESSION['user_id'], $data);
                     $message = $this->validMessage("Modifications effectuées");
                     $this->assign("message", $message);
@@ -493,12 +502,14 @@ class AccountController extends baseView {
         $name = $result["user_name"];
         $surname = $result["user_surname"];
         $email = $result["user_email"];
+        $newsletter = $result["user_newsletter"];
 
         $this->assign("id", $id);
         $this->assign("gender", $gender);
         $this->assign("name", $name);
         $this->assign("surname", $surname);
         $this->assign("email", $email);
+        $this->assign("newsletter", $newsletter);
         $this->render("account/edit");
     }
 
@@ -568,63 +579,73 @@ class AccountController extends baseView {
     //  Affichage le calendrier d'un utilisateur
     public function showCalendar() {
 
-      $calendar = new Calendar();
-      $user = new User();
+        $calendar = new Calendar();
+        $user = new User();
 
-      $userID = $_SESSION['user_id'];
+        $userID = $_SESSION['user_id'];
 
-      $year = null;
-      $month = null;
+        $year = null;
+        $month = null;
 
-      if($year == null && isset($_GET['year'])) {
-          $year = $_GET['year'];
-      }
-      else if($year == null) {
-          $year = date("Y", time());
-      }
+        if ($year == null && isset($_GET['year'])) {
+            $year = $_GET['year'];
+        } else if ($year == null) {
+            $year = date("Y", time());
+        }
 
-      if($month == null && isset($_GET['month'])) {
-          $month = $_GET['month'];
-      }
-      else if($month == null) {
-          $month = date("m", time());
-      }
+        if ($month == null && isset($_GET['month'])) {
+            $month = $_GET['month'];
+        } else if ($month == null) {
+            $month = date("m", time());
+        }
 
+        $calendar->setCurrentYear($year);
+        $calendar->setCurrentMonth($month);
+        $calendar->setDaysInMonth($calendar->_daysInMonth($month, $year));
 
-      $calendar->setCurrentYear($year);
-      $calendar->setCurrentMonth($month);
-      $calendar->setDaysInMonth($calendar->_daysInMonth($month, $year));
+        $content = '<div id="calendar">' .
+                '<div class="box">' .
+                $calendar->_createNavi("account") .
+                '</div>' .
+                '<div class="box-content">' .
+                '<ul class="label">' . $calendar->_createLabels() . '</ul>';
+        $content .= '<div class="clear"></div>';
+        $content .= '<ul class="dates">';
 
-      $content = '<div id="calendar">'.
-                      '<div class="box">'.
-                      $calendar->_createNavi("account").
-                      '</div>'.
-                      '<div class="box-content">'.
-                              '<ul class="label">' . $calendar->_createLabels() . '</ul>';
-                              $content .= '<div class="clear"></div>';
-                              $content .= '<ul class="dates">';
+        $weeksInMonth = $calendar->_weeksInMonth($month, $year);
+        $dataEpisode = $calendar->_requestDataUser($month, $year, $userID);
 
-                              $weeksInMonth = $calendar->_weeksInMonth($month, $year);
-                              $dataEpisode = $calendar->_requestDataUser($month, $year, $userID);
+        // Création des semaines
+        for ($i = 0; $i < $weeksInMonth; $i++) {
 
-                              // Création des semaines
-                              for($i = 0; $i < $weeksInMonth; $i++) {
+            //Création des jours
+            for ($j = 1; $j <= 7; $j++) {
+                $content .= $calendar->_showDay($i * 7 + $j, $dataEpisode);
+            }
+        }
 
-                                  //Création des jours
-                                  for($j = 1; $j <= 7; $j++){
-                                      $content .= $calendar->_showDay($i * 7 + $j, $dataEpisode);
-                                  }
-                              }
+        $content .= '</ul>';
+        $content .= '<div class="clear"></div>';
 
-                              $content .= '</ul>';
-                              $content .= '<div class="clear"></div>';
+        $content .= '</div>';
 
-                      $content .= '</div>';
+        $content .= '</div>';
 
-      $content .= '</div>';
-
-      $this->assign("calendar", $content);
-      $this->render("calendar");
+        $this->assign("calendar", $content);
+        $this->render("calendar");
     }
 
+    //  Controller de la page d'édition des commentaires
+    public function getComments() {
+
+        $idUser = $_SESSION['user_id'];
+
+        $comment = new Comment();
+
+        // On récupère le contenu du commentaire
+        $content = $comment->_getComments($idUser);
+
+        $this->assign("content", $content);
+        $this->render("account/comments");
+    }
 }

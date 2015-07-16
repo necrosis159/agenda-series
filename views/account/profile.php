@@ -18,6 +18,8 @@
                     <li>Dernière connexion : <?php echo $result['user_last_login']; ?></li>
                     <li>Nombre de séries suivies : <?php echo $nb_series_follow; ?></li>
                     <li>Nombre de commentaires postés : <?php echo $nb_comments_posted;   ?></li>
+                    <li>Inscrit à la newsletter : <?php if ($result['user_newsletter'] == 1) echo 'Oui' ; else echo 'Non';   ?></li>
+
                 </ul>
                 <a href='/account/edit' class="button">Modifier les informations</a>
             </div>
