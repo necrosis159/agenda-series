@@ -140,11 +140,40 @@
 
                $result = $this->execute();
             }
+         }
+         elseif($type == "user") {
+            if($title == "" && $date == "") {
+               $this->selectDistinct()
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_creation_date"));
+
+               $result = $this->execute();
+            }
+            elseif($title == "" && $date != "") {
+               $this->selectDistinct()
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_creation_date"))
+                           ->where($prefix . "." . $type . "_creation_date", "=", $date);
+
+               $result = $this->execute();
+            }
+            elseif($title != "" && $date == "") {
+               $this->selectDistinct()
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_creation_date"))
+                           ->where($prefix . '.' . $type . '_name', "LIKE", $title);
+
+               $result = $this->execute();
+            }
+            elseif($title != "" && $date == "") {
+               $this->selectDistinct()
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_creation_date"))
+                           ->where($prefix . '.' . $type . '_name', "LIKE", $title);
+
+               $result = $this->execute();
+            }
             else {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_air_date"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_creation_date"))
                            ->where($prefix . '.' . $type . '_name', "LIKE", $title)
-                              ->addWhere("AND", $prefix . "." . $type . "_air_date", "=", $date);
+                              ->addWhere("AND", $prefix . "." . $type . "_creation_date", "=", $date);
 
                $result = $this->execute();
             }

@@ -1,29 +1,37 @@
-// Chargement des lignes supplémentaire : v1.0 Souple - Ludo
-$(document).ready(function () {
-   // On masque les résultats
-   $("#result_table tr").hide();
+$(document).ready(function(){
 
-   // On récupère le total de lignes
-   total = $("#result_table tr").size();
+    // Saisie automatique dans la recherche de séries de account/series
+   $("#global_search").autocomplete({
+        source: "/serie/ajaxSearchAllSeriesByName",
+        minLength : 3
+    });
 
-   // On choisi combien on souhaite en afficher de base
-   x = 5;
-   totalStart = 5;
 
-   // On affiche le nombre lignes de base entré en paramètre précédemment
-   $('#result_table tr:lt(' + x + ')').show();
+    $("#results").on('click', '.serie_add', function() {
+        $("#global_search").val($(this).html()); // Ajout le nom de la série dans le champ de recherche
+        $("#results").hide(); // cache la liste des résultats de la recherche
+    });
 
-   // Fonction pour afficher les lignes supplémentaires
-   $('#loadMore').click(function () {
-     x = (x + 5 <= total) ? x + 5 : total;
-     $('#result_table tr:lt(' + x + ')').show();
+    // Appel la fonction ajax global_searchui redirige vers la serie
+    $('#global_search_submit').click(function() {
+        if ($('#global_search').val().trim() != '') {
+            redirSerie();
+        }
+    });
 
-     // On incrémente le nombre des valeurs affichées
-     totalStart += 5;
-
-     // Quand on a atteint ou dépassé le nombre total de valeur à afficher on masque le bouton de chargement
-     if(totalStart >= total) {
-        $('#loadMore').hide();
-     }
-   });
+    //redirige vers la serie
+    function redirSerie(){
+        var serie_name = $("#global_search").val();
+        // on envoie la valeur recherché en GET au fichier de traitement
+        $.ajax({
+            type: 'GET', // envoi des données en GET ou POST
+            url: '/serie/ajaxRedirectionSerie', // url du fichier de traitement
+            data: 'serie_name=' + serie_name, // données à envoyer en  GET ou POST
+            beforeSend: function() { // traitements JS à faire AVANT l'envoi
+            },
+            success: function(data) { // traitements JS à faire APRES le retour d'ajax_add_serie.php
+                window.location="/serie/"+data;
+            }
+        });
+    }
 });

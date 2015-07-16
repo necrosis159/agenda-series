@@ -41,6 +41,8 @@ class AccountController extends baseView {
                     if ($data['user_password'] == md5($_POST['password'])) {
                         $_SESSION['user_status'] = $data['user_status'];
                         $_SESSION['user_id'] = $data['user_id'];
+                        $_SESSION['user_avatar'] = $data['user_avatar'];
+                        $_SESSION['user_username'] = $data['user_username'];
                         $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
                         $model_user->updateUser($data['user_id'], $data_update);
                         $page = htmlspecialchars($_POST['page']);
@@ -568,193 +570,73 @@ class AccountController extends baseView {
     //  Affichage le calendrier d'un utilisateur
     public function showCalendar() {
 
-      $calendar = new Calendar();
-      $user = new User();
+        $calendar = new Calendar();
+        $user = new User();
 
-      $userID = $_SESSION['user_id'];
+        $userID = $_SESSION['user_id'];
 
-      $year = null;
-      $month = null;
+        $year = null;
+        $month = null;
 
-      if($year == null && isset($_GET['year'])) {
-          $year = $_GET['year'];
-      }
-      else if($year == null) {
-          $year = date("Y", time());
-      }
+        if ($year == null && isset($_GET['year'])) {
+            $year = $_GET['year'];
+        } else if ($year == null) {
+            $year = date("Y", time());
+        }
 
-      if($month == null && isset($_GET['month'])) {
-          $month = $_GET['month'];
-      }
-      else if($month == null) {
-          $month = date("m", time());
-      }
+        if ($month == null && isset($_GET['month'])) {
+            $month = $_GET['month'];
+        } else if ($month == null) {
+            $month = date("m", time());
+        }
 
-      $calendar->setCurrentYear($year);
-      $calendar->setCurrentMonth($month);
-      $calendar->setDaysInMonth($calendar->_daysInMonth($month, $year));
+        $calendar->setCurrentYear($year);
+        $calendar->setCurrentMonth($month);
+        $calendar->setDaysInMonth($calendar->_daysInMonth($month, $year));
 
-      $content = '<div id="calendar">'.
-                      '<div class="box">'.
-                      $calendar->_createNavi("account").
-                      '</div>'.
-                      '<div class="box-content">'.
-                              '<ul class="label">' . $calendar->_createLabels() . '</ul>';
-                              $content .= '<div class="clear"></div>';
-                              $content .= '<ul class="dates">';
+        $content = '<div id="calendar">' .
+                '<div class="box">' .
+                $calendar->_createNavi("account") .
+                '</div>' .
+                '<div class="box-content">' .
+                '<ul class="label">' . $calendar->_createLabels() . '</ul>';
+        $content .= '<div class="clear"></div>';
+        $content .= '<ul class="dates">';
 
-                              $weeksInMonth = $calendar->_weeksInMonth($month, $year);
-                              $dataEpisode = $calendar->_requestDataUser($month, $year, $userID);
+        $weeksInMonth = $calendar->_weeksInMonth($month, $year);
+        $dataEpisode = $calendar->_requestDataUser($month, $year, $userID);
 
-                              // Création des semaines
-                              for($i = 0; $i < $weeksInMonth; $i++) {
+        // Création des semaines
+        for ($i = 0; $i < $weeksInMonth; $i++) {
 
-                                  //Création des jours
-                                  for($j = 1; $j <= 7; $j++){
-                                      $content .= $calendar->_showDay($i * 7 + $j, $dataEpisode);
-                                  }
-                              }
+            //Création des jours
+            for ($j = 1; $j <= 7; $j++) {
+                $content .= $calendar->_showDay($i * 7 + $j, $dataEpisode);
+            }
+        }
 
-                              $content .= '</ul>';
-                              $content .= '<div class="clear"></div>';
+        $content .= '</ul>';
+        $content .= '<div class="clear"></div>';
 
-                      $content .= '</div>';
+        $content .= '</div>';
 
-      $content .= '</div>';
+        $content .= '</div>';
 
-      $this->assign("calendar", $content);
-      $this->render("calendar");
+        $this->assign("calendar", $content);
+        $this->render("calendar");
     }
 
-   // Controller de la page de recherche de l'administrateur
-   public function search() {
+    //  Controller de la page d'édition des commentaires
+    public function getComments() {
 
-      if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
-          $this->redirect("index", "");
-      }
+        $idUser = $_SESSION['user_id'];
 
-      $content = null;
-      $type = "";
-      $title = "";
-      $date = "";
-      $oldTitle = "";
-      $oldDate = "";
-      $oldType = "";
+        $comment = new Comment();
 
-      if(isset($_GET["type"]) && $_GET["type"] != "") {
-         $type = $_GET["type"];
-         $oldType = $_GET["type"];
-      }
+        // On récupère le contenu du commentaire
+        $content = $comment->_getComments($idUser);
 
-      if(isset($_GET["title"]) && $_GET["title"] != "") {
-         $title = $_GET["title"];
-         $oldTitle = $_GET["title"];
-      }
-
-      if(isset($_GET["date"]) && $_GET["date"] != "") {
-         $date = $_GET["date"];
-         $oldDate = $_GET["date"];
-      }
-
-      $admin = new Admin();
-
-      // // Déclaration des paramètres de la pagination
-      // $rows = 5;
-      // $table = "serie";
-      // // $status_table = "status_user";
-      //
-      // if(isset($_GET['page'])) {
-      //    $current_page = intval($_GET['page']);
-      // }
-      // else {
-      //    $current_page = 1; // La page actuelle est la n°1
-      // }
-      //
-      // // Récupération du nombre de pages
-      // $pages_number = $admin->pagination($rows, $table, $current_page);
-      //
-      // // Récupération des données de la page en fonction
-      // $data = $admin->pagination_data($rows, $current_page, $pages_number, $table);
-
-      if(isset($_GET["type"]) && $_GET["type"] != "") {
-         $content = $admin->_searchContent($type, $title, $date);
-      }
-
-      // if($type == "serie") {
-      //    $this->dateConvert($content['']);
-      // }
-      // elseif($type == "serie") {
-      //
-      // }
-
-      //   echo "<pre>";
-      //       die(var_dump($content));
-      //   echo "</pre>";
-
-      $this->assign("oldTitle", $oldTitle);
-      $this->assign("oldType", $oldType);
-      $this->assign("oldDate", $oldDate);
-      $this->assign("content", $content);
-      $this->render("admin/search");
-   }
-
-   //  Controller de la page d'édition des commentaires
-   public function getComments() {
-
-      // On vérifie que l'utilisateur est bien un administrateur
-      // if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
-      //    $this->redirect("index", "");
-      // }
-
-      $idUser = $_SESSION['user_id'];
-
-      $comment = new Comment();
-
-      // if(isset($_POST["submit"])) {
-      //    $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
-      //    $comment->_updateEditedComment($idComment, $data_update);
-      //    $update = true;
-      // }
-
-      // On récupère le contenu du commentaire
-      $content = $comment->_getComments($idUser);
-
-      // $this->assign("update", $update);
-      // $this->assign("idComment", $idComment);
-      $this->assign("content", $content);
-      $this->render("account/comments");
-   }
-
-   //  Controller de la page d'édition des commentaires
-   public function editComment($idComment) {
-
-      // Variable utilisée pour indiquer s'il y a eu une modification ou non
-      $update = false;
-
-      // On vérifie que l'utilisateur est bien un administrateur
-      if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
-         $this->redirect("index", "");
-      }
-
-      $comment = new Comment();
-
-      if(isset($_POST["submit"])) {
-         $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
-         $comment->_updateEditedComment($idComment, $data_update);
-         $update = true;
-      }
-
-      // On récupère le contenu du commentaire
-      $content = $comment->_getEditedComment($idComment);
-
-      // On test l'existance du commentaire, s'il n'existe pas on redirige l'utilisateur vers l'accueil
-      if(count($content) == 0) {
-         $this->redirect("index", "");
-      }
-
-      $this->assign("update", $update);
-      $this->assign("idComment", $idComment);
-      $this->assign("data", $content[0]);
-      $this->render("admin/editComment");
-   }
+        $this->assign("content", $content);
+        $this->render("account/comments");
+    }
 }

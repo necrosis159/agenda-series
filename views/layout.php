@@ -12,34 +12,16 @@
         <!--<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"/>-->
     </head>
     <body>
-      <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+              <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-64723668-1', 'auto');
-        ga('send', 'pageview');
+  ga('create', 'UA-64723668-1', 'auto');
+  ga('send', 'pageview');
 
-      </script>
-
-      <script>
-        window.fbAsyncInit = function() {
-          FB.init({
-            appId      : '868208133202056',
-            xfbml      : true,
-            version    : 'v2.4'
-          });
-        };
-
-        (function(d, s, id){
-           var js, fjs = d.getElementsByTagName(s)[0];
-           if (d.getElementById(id)) {return;}
-           js = d.createElement(s); js.id = id;
-           js.src = "//connect.facebook.net/en_US/sdk.js";
-           fjs.parentNode.insertBefore(js, fjs);
-         }(document, 'script', 'facebook-jssdk'));
-      </script>
+</script>
         <!-- start header -->
         <div class="header_bg">
             <div class="wrap">
@@ -88,7 +70,7 @@
                             <li><a href="/serie">Les séries</a></li>
                             <li><a href="/calendar/show">Calendrier</a></li>
                             <li><a href="#">Contact</a></li>
-                            <li><a href="#">Gestion</a>
+                            <?php if(isset($_SESSION['user_id'])) {?><li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
                                     <li><a href="/admin/search">Recherche</a></li>
                                     <!-- <li><a href="#">Administration</a></li> -->
@@ -101,18 +83,18 @@
                                     <li><a href="/account/comments">Mes commentaires</a></li>
                                     <li><a href="/account/calendar/show">Mon calendrier</a></li>
                                 </ul>
-                            </li>
+                            </li><?php } ?>
 
-                            <li><a href="/account/login">Connexion</a></li>
-                            <li><a href="/account/register">Inscription</a></li>
-                            <li><a href="/account/logout">Déconnexion</a></li>
+                            <?php if(!isset($_SESSION['user_id'])) {?><li><a href="/account/login">Connexion</a></li><?php } ?>
+                            <?php if(!isset($_SESSION['user_id'])) {?><li><a href="/account/register">Inscription</a></li><?php } ?>
+                            <?php if(isset($_SESSION['user_id'])) {?><li><a href="/account/logout">Déconnexion</a></li><?php } ?>
                         </ul>
                     </div>
 
                     <div class="h_search">
                         <form method="POST" action="/global_search.php">
-                            <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
-                            <input type="submit" value="">
+                            <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série">
+                            <input type="submit" id ="global_search_submit" value="">
                         </form>
                     </div>
                     <div class="clear"> </div>
@@ -122,6 +104,17 @@
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
         <?php include($view); ?>
+    <script type="text/javascript" src="/js/script.js"></script>
+ <div id="fb-root"></div>
+        <script>
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=868208133202056&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
          <div class="footer">
             <div class="wrap">
 
@@ -131,20 +124,12 @@
                      <ul>
                         <h3>Rejoignez-nous sur Facebook !</h3>
                         <li>
-                          <div class="fb-like-box" data-href="https://www.facebook.com/pages/Agenda-Seriefr/1377372375894645"
+                          <div class="fb-like-box" data-href="https://www.facebook.com/pages/Agenda-Seriefr/1377372375894645" 
                           data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true">
                           </div>
                         </li>
                         <div class="clear"> </div>
                      </ul>
-                     <br>
-                     <div id="fb-root"></div>
-                         <div
-                          class="fb-like"
-                          data-share="true"
-                          data-width="450"
-                          data-show-faces="true">
-                        </div>
                   </div>
 
                </div>
