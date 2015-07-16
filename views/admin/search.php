@@ -3,7 +3,6 @@
       <h1 class="heading">Recherche</h1>
 
       <form action="" method="GET" id="article_form" class="search adm_search">
-<<<<<<< HEAD
          Type :
          <select name="type" required>
             <option <?php if($oldType == "") { echo "selected"; } ?> value="">- Sélectionnez une option -</option>
@@ -17,19 +16,6 @@
 
          <!-- S'il y a du contenu on affiche le nombre de résultats -->
          <?php if($content != ""): ?>
-=======
-         <p>Titre/Nom :</p> <input name="title" type="text" placeholder="Entrez un titre" value="<?php echo $oldTitle; ?>">
-         <p>Date/Inscription :</p> <input name="date" type="date" value="<?php echo $oldDate; ?>">
-            Type :
-            <select name="type" required>
-               <option <?php if($oldType == "") { echo "selected"; } ?> value="">- Sélectionnez une option -</option>
-               <option <?php if($oldType == "serie") { echo "selected"; } ?> value="serie">Série</option>
-               <option <?php if($oldType == "episode") { echo "selected"; } ?> value="episode">Episode</option>
-               <option <?php if($oldType == "user") { echo "selected"; } ?> value="user">Utilisateur</option>
-               <option <?php if($oldType == "comment") { echo "selected"; } ?> value="comment">Commentaire</option>
-            </select><br>
-            <?php if($content != ""): ?>
->>>>>>> origin/release
             <p>
                Il y a <?php echo count($content); if(count($content) > 1) { echo " résultats "; } else { echo " résultat "; }?> pour votre recherche.
             </p>
@@ -43,7 +29,6 @@
             <thead>
                <tr>
                   <th class="th_small">ID</th>
-<<<<<<< HEAD
                   <?php if($oldType == "episode" || $oldType == "comment"): ?>
                      <th>Série</th>
                      <th class="th_small">Saison</th>
@@ -54,30 +39,18 @@
                      <th>Pseudo</th>
                   <?php elseif($oldType == "episode"): ?>
                      <th>Episode</th>
-=======
-                  <?php if($oldType == "user"): ?>
-                     <th>Pseudo</th>
-                  <?php elseif($oldType == "episode"): ?>
-                     <th>Série</th>
->>>>>>> origin/release
                   <?php elseif($oldType == "comment"): ?>
                      <th>Posté sur</th>
                   <?php else: ?>
                      <th>Titre</th>
                   <?php endif; ?>
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/release
                   <?php if($oldType == "user"): ?>
                      <th>Inscription</th>
                   <?php else: ?>
                      <th>Date publication</th>
                   <?php endif; ?>
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/release
                   <th class="th_small">Actions</th>
                </tr>
             </thead>
@@ -87,15 +60,10 @@
                   foreach($content as $value): ?>
                   <tr>
                      <td><span style="color: #d8871e;">#</span><?php echo $value[$oldType . '_id'] ?></td>
-<<<<<<< HEAD
                      <?php if($oldType == "episode" || $oldType == "comment"): ?>
                         <td><?php echo $value['serie_name'] ?></td>
                         <td><?php echo "Saison " . $value['season_number'] ?></td>
                         <td><?php echo $value['episode_number'] ?></td>
-=======
-                     <?php if($oldType == "episode"): ?>
-                        <td><?php echo $value['serie_title'] ?></td>
->>>>>>> origin/release
                      <?php endif; ?>
                      <td>
                         <?php
@@ -127,7 +95,6 @@
                         } ?>
                      </td>
                      <td class="table_mod">
-<<<<<<< HEAD
                         <a href="
                         <?php if($oldType == "serie") {
                            echo "/serie/" . $value['serie_id'];
@@ -139,11 +106,8 @@
                            echo "/serie/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'] . "#" . $value['comment_id'];
                         }
                         elseif($oldType == "user") {
-                           echo "/account/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'];
+                           echo "#";
                         } ?>">
-=======
-                        <a href="#">
->>>>>>> origin/release
                            <img class="tab_icons" src="../images/files.png" title="Consulter" alt="Consulter" />
                         </a>
                         <?php if($oldType == "comment"): ?>
