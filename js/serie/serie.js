@@ -3,7 +3,6 @@ $(function() {
   // Ajoute le suivi d'une série pour un utilisateur
   function addSerieToUser() {
     var serie_name = $("#title").html();
-    console.log(serie_name);
         // on envoie la valeur recherché en GET au fichier de traitement
         $.ajax({
             type: 'GET', // envoi des données en GET ou POST
@@ -12,7 +11,6 @@ $(function() {
             beforeSend: function() { // traitements JS à faire AVANT l'envoi
         },
             success: function(data) { // traitements JS à faire APRES le retour d'ajax_add_serie.php
-            console.log(data);
         }
     });
     }

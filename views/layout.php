@@ -93,8 +93,8 @@
 
                     <div class="h_search">
                         <form method="POST" action="/global_search.php">
-                            <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série, un utilisateur...">
-                            <input type="submit" value="">
+                            <input type="text" value="" name="search_text" id="global_search" placeholder="Rechercher une série">
+                            <input type="submit" id ="global_search_submit" value="">
                         </form>
                     </div>
                     <div class="clear"> </div>
@@ -104,6 +104,7 @@
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
         <?php include($view); ?>
+    <script type="text/javascript" src="/js/script.js"></script>
  <div id="fb-root"></div>
         <script>
         (function(d, s, id) {

@@ -27,8 +27,7 @@ $(function(){
 
     $("#showMore").click(paginationSerie);
 
-    function paginationSerie(button){
-        console.log(button);
+    function paginationSerie(){
 		var id_episode=$('#id_episode').val();
         $.ajax({
             url:'/serie/commentShow',
