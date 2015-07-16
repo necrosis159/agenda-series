@@ -3,6 +3,9 @@ $(document).ready(function () {
     var url = location.pathname;
     var explode_url = url.split('/');
     var page = explode_url[4];
+    if(explode_url[4] == undefined) {
+        page = 1;
+    }
     
     // Saisie automatique dans la recherche de séries de account/series
     $("#q").autocomplete({
