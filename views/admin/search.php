@@ -40,7 +40,7 @@
                   <?php elseif($oldType == "episode"): ?>
                      <th>Episode</th>
                   <?php elseif($oldType == "comment"): ?>
-                     <th>Posté sur</th>
+                     <th>Posté par</th>
                   <?php else: ?>
                      <th>Titre</th>
                   <?php endif; ?>
@@ -67,16 +67,19 @@
                      <?php endif; ?>
                      <td>
                         <?php
-                        if($oldType != "comment") {
+                        if($oldType != "comment" && $oldType != "user") {
                            if($value[$oldType . '_name'] != "") {
                               echo $value[$oldType . '_name'];
                            }
                            else {
-                              echo "<span style='color: red;'>Aucun titre n'est disponible<span style='color: red;'>";
+                              echo "<span style='color: red;'>Aucune information disponible<span style='color: red;'>";
                            }
                         }
+                        // elseif($oldType == "user") {
+                        //       echo $value[$oldType . '_username'];
+                        // }
                         else {
-                           echo $value['comment_title'];
+                           echo $value['user_username'];
                         }
                          ?>
                      </td>
@@ -95,24 +98,28 @@
                         } ?>
                      </td>
                      <td class="table_mod">
-                        <a href="
-                        <?php if($oldType == "serie") {
-                           echo "/serie/" . $value['serie_id'];
-                        }
-                        elseif($oldType == "episode") {
-                           echo "/serie/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'];
-                        }
-                        elseif($oldType == "comment") {
-                           echo "/serie/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'] . "#" . $value['comment_id'];
-                        }
-                        elseif($oldType == "user") {
-                           echo "#";
-                        } ?>">
-                           <img class="tab_icons" src="../images/files.png" title="Consulter" alt="Consulter" />
-                        </a>
+                        <?php if($oldType != "user"): ?>
+                           <a href="
+                           <?php if($oldType == "serie") {
+                              echo "/serie/" . $value['serie_id'];
+                           }
+                           elseif($oldType == "episode") {
+                              echo "/serie/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'];
+                           }
+                           elseif($oldType == "comment") {
+                              echo "/serie/" . $value['serie_id'] . "/Saison" . $value['season_number'] . "/Episode" . $value['episode_number'] . "#" . $value['comment_id'];
+                           } ?>">
+                              <img class="tab_icons" src="../images/files.png" title="Voir sur le site" alt="Consulter" />
+                           </a>
+                        <?php endif; ?>
+
                         <?php if($oldType == "comment"): ?>
                            <a href="/admin/comment/edit/<?php echo $value['comment_id'] ?>">
-                              <img class="tab_icons" src="../images/manage_edit.png" title="Modifier" alt="Modifier" />
+                              <img class="tab_icons" src="../images/manage_edit.png" title="Modifier le commentaire" alt="Modifier" />
+                           </a>
+                        <?php elseif($oldType == "user"): ?>
+                           <a href="#">
+                              <img class="tab_icons" src="../images/manage_edit.png" title="Modifier l'utilisateur" alt="Modifier" />
                            </a>
                         <?php endif; ?>
                      </td>
