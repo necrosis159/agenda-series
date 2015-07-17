@@ -20,7 +20,7 @@ class baseModels {
     //initialisation
     public function __construct() {
         try {
-            $this->pdo = new PDO("mysql:host=localhost;dbname=agendaserie", "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            $this->pdo = new PDO('mysql:host=localhost;dbname=agendaserie;charset=utf8', 'root', '', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
             $this->table = get_called_class();
         } catch (Exception $e) {
             die("Erreur BDD " . $e->getMessage());
@@ -37,7 +37,6 @@ class baseModels {
         }
 
         $query = $this->pdo->prepare('INSERT INTO ' . strtolower($table) . '(' . implode(",", array_keys($data)) . ') VALUES (' . implode(",", $sql_columns) . ')');
-
         $query->execute();
     }
 
@@ -109,7 +108,7 @@ class baseModels {
         return $this;
     }
 
-    // $table : tableau contenant en clé le préfixe et en valeur le nom de la table 
+    // $table : tableau contenant en clé le préfixe et en valeur le nom de la table
     // ou juste en valeur le nom de la table (si requête sur une seule table)
     // $columns : tableau contenant les champs de la table SQL que l'on veut récupérer
     public function from($table = array(), $columns = array()) {
@@ -176,6 +175,7 @@ class baseModels {
         $this->select = "";
         $this->from = "";
         $this->where = "";
+        $this->order= "";
         $this->limit= "";
         $this->columns_select = array();
 
@@ -187,22 +187,22 @@ class baseModels {
         $columns = implode(",", $this->columns_select);
         $columns_subquery = implode(",", $this->columns_subquery);
         $this->query = $this->select . $columns . $this->from . $this->where . $this->order . $this->limit . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
-//        var_dump($this->query);
         $req = $this->pdo->prepare($this->query);
+//        var_dump($this->query);
         $req->execute();
 
         $this->query = "";
         $this->select = "";
         $this->from = "";
         $this->where = "";
-        $this->columns_select = array();
         $this->order = "";
         $this->limit = "";
+        $this->columns_select = array();
         $result = $req->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
     }
-
+    
     public function where($col, $operator, $val = null, $escape = true) {
         return $this->addWhere('WHERE', $col, $operator, $val, $escape);
     }
@@ -264,13 +264,14 @@ class baseModels {
         $this->where .= " $key $col $operator $val";
         return $this;
     }
-
+    
     public function order($order) {
         $this->order = " ORDER BY " . $order;
         return $this;
     }
-
-    public function limit($start, $quantity) {
+    
+    public function limit($start,$quantity)
+    {
         $this->limit = " LIMIT $start , $quantity ";
         return $this;
     }
@@ -285,5 +286,4 @@ class baseModels {
 
         return false;
     }
-
 }

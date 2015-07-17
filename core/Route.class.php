@@ -1,7 +1,7 @@
 <?php
 
 class Route {
-	
+
 	private $path;
 	private $callable;
 	private $matches = [];
@@ -50,13 +50,15 @@ class Route {
 	//Appel le controller, la method et envoie les paramètres.
 	public function call() {
 		$pathParam = explode('@', $this->callable);
-		
+
 		$controller = $pathParam[0].'Controller';
+
 		if (!class_exists($controller)) {
 			throw new Exception("Error Processing Request", 1);
 		}
 
 		$obj = new $controller();
+		
 		if ( !in_array($pathParam[1], get_class_methods($obj))) {
 			throw new Exception("Error Processing Request", 1);
 		}

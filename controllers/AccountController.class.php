@@ -1,5 +1,4 @@
 <?php
-
 class AccountController extends baseView {
 
     public function index() {
@@ -39,16 +38,14 @@ class AccountController extends baseView {
                 $data = $model_user->getUserByUsername($username);
                 if (!empty($data)) {
                     if ($data['user_password'] == md5($_POST['password'])) {
-                        if ($data["user_status"] == 2) {
-                            $message = $this->errorMessage('Votre compte est désactivé.');
-                        } else {
-                            $_SESSION['user_status'] = $data['user_status'];
-                            $_SESSION['user_id'] = $data['user_id'];
-                            $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
-                            $model_user->updateUser($data['user_id'], $data_update);
-                            $page = htmlspecialchars($_POST['page']);
-                            header("Location: " . $page);
-                        }
+                        $_SESSION['user_status'] = $data['user_status'];
+                        $_SESSION['user_id'] = $data['user_id'];
+                        $_SESSION['user_avatar'] = $data['user_avatar'];
+                        $_SESSION['user_username'] = $data['user_username'];
+                        $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
+                        $model_user->updateUser($data['user_id'], $data_update);
+                        $page = htmlspecialchars($_POST['page']);
+                        $this->redirect("index", "");
                     } else {
                         $message = $this->errorMessage('Le mot de passe n\'est pas correct');
                     }
@@ -216,11 +213,6 @@ class AccountController extends baseView {
     }
 
     public function profile() {
-
-        if (!isset($_SESSION["user_id"])) {
-            $this->redirect("account", "login");
-        }
-
         $model_user = new User();
         $result = $model_user->getUserById($_SESSION['user_id']);
         $message = "";
@@ -275,7 +267,6 @@ class AccountController extends baseView {
                                 // Récup données formulaires
                                 // Texte à écrire sur l'image
                                 $texte = $_POST["description"];
-                                echo $texte;
                                 // Taile de la police
                                 if (is_numeric($_POST["font_size"])) {
                                     $font_size = $_POST["font_size"];
@@ -346,13 +337,13 @@ class AccountController extends baseView {
                                     putenv('GDFONTPATH=' . realpath('.'));
                                     imagettftext($image, $font_size, $rotation, $x, $y, $font_color, $font, $texte);
                                     imagepng($image, $upload_directory . "/" . $nom);
-                                    //                echo "<br/>Prévisualisation - ";
-                                    //                echo "<a href=\"download.php?file=" . $nom . "&root=" . $upload_directory . "/\">Télécharger</a>";
-                                    //                echo "<br/><br/>";
-                                    //                                    echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
+//                echo "<br/>Prévisualisation - ";
+//                echo "<a href=\"download.php?file=" . $nom . "&root=" . $upload_directory . "/\">Télécharger</a>";
+//                echo "<br/><br/>";
+//                                    echo "<img src='" . $upload_directory . "/" . $nom . "' width='200px' height='200px'>";
                                     $data = array("user_avatar" => $nom);
                                     $model_user->updateUser($_SESSION['user_id'], $data);
-                                    unlink($upload_directory . "/" . $result["user_avatar"]);
+                                    unlink($upload_directory."/".$result["user_avatar"]);
                                     $result = $model_user->getUserById($_SESSION['user_id']);
                                     $error = -1;
                                 } else {
@@ -364,12 +355,12 @@ class AccountController extends baseView {
                         } else {
                             $message = $this->errorMessage("Extension incorrecte");
                         }
-                        //} 
-                        //        else {
-                        //          echo $upload_directory . "/" . $nom; 
-                        //          updateAvatar();
-                        //          validMessage('Avatar modifié');
-                        //        }
+                        //}
+//        else {
+//          echo $upload_directory . "/" . $nom;
+//          updateAvatar();
+//          validMessage('Avatar modifié');
+//        }
                     }
                 } else {
                     switch ($_FILES['image']['error']) {
@@ -405,8 +396,6 @@ class AccountController extends baseView {
 
         $age = $model_user->age($result["user_birthdate"]);
         $result["user_creation_date"] = $this->dateConvert($result["user_creation_date"]);
-        $date_last_login = explode(" ", $result['user_last_login']);
-        $result['user_last_login'] = $this->dateConvert($date_last_login[0]) . " - " . $date_last_login[1];
         $this->assign("result", $result);
         $this->assign("age", $age);
         $this->assign("message", $message);
@@ -414,10 +403,6 @@ class AccountController extends baseView {
     }
 
     public function edit() {
-
-        if (!isset($_SESSION["user_id"])) {
-            $this->redirect("account", "login");
-        }
 
         $model_user = new User();
 
@@ -427,7 +412,7 @@ class AccountController extends baseView {
             $arrayErrors = array();
             $data = array();
             // On vérifie qu'aucun champ du formulaire n'a été ajouté par l'utilisateur
-            $liste_champs = array("gender", "name", "surname", "email", "password", "password_confirm", "submit");
+            $liste_champs = array("gender", "name", "surname", "email", "password", "password_confirm", "newsletter" ,"submit");
             if (count(array_diff($liste_champs, array_keys($_POST))) === 0) {
                 $error = 0;
 
@@ -436,6 +421,7 @@ class AccountController extends baseView {
                 $name = trim($_POST['name']);
                 $surname = trim($_POST['surname']);
                 $email = trim($_POST['email']);
+                $newsletter = trim($_POST['newsletter']);
 
                 // Champ name
                 if (strlen($name) > 50) {
@@ -483,6 +469,11 @@ class AccountController extends baseView {
                         }
                     }
                 }
+                // Champ Newsletter
+                if (strlen($newsletter) > 1) {
+                    $arrayErrors[] = "L'id de la newsletter n'est pas valide";
+                    $error ++;
+                }
 
                 // Si il y a une erreur on retourne le message d'erreur sinon on insert dans la bdd
                 if ($error > 0) {
@@ -492,6 +483,7 @@ class AccountController extends baseView {
                     $data["user_name"] = $name;
                     $data["user_surname"] = $surname;
                     $data["user_email"] = $email;
+                    $data["user_newsletter"] = $newsletter;
                     $model_user->updateUser($_SESSION['user_id'], $data);
                     $message = $this->validMessage("Modifications effectuées");
                     $this->assign("message", $message);
@@ -508,65 +500,33 @@ class AccountController extends baseView {
         $name = $result["user_name"];
         $surname = $result["user_surname"];
         $email = $result["user_email"];
+        $newsletter = $result["user_newsletter"];
 
         $this->assign("id", $id);
         $this->assign("gender", $gender);
         $this->assign("name", $name);
         $this->assign("surname", $surname);
         $this->assign("email", $email);
+        $this->assign("newsletter", $newsletter);
         $this->render("account/edit");
     }
 
-    public function series($page = null) {
-        if (!isset($_SESSION["user_id"])) {
-            $this->redirect("account", "login");
-        }
-
+    public function series() {
         $model_user = new User();
-        $total_serie = $model_user->rowCountByIdUser($_SESSION["user_id"], "serie_user", "su_id_user");
-        $serie_per_page = 3;
-        $total_pages = ceil($total_serie / $serie_per_page);
+        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
 
-        if (isset($page)) {
-            $page = intval($page);
-
-            if ($page > $total_pages) {
-                $page = $total_pages;
-            }
-        } else {
-            $page = 1;
-        }
-
-        $first_serie = ($page - 1) * $serie_per_page;
-        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"], $first_serie, $serie_per_page);
-        
-        $pagination = $this->paginate_function($serie_per_page, $page, $total_serie, $total_pages);
-        
         $this->assign("data", $series_user);
-        $this->assign("total_pages", $total_pages);
-        $this->assign("pagination", $pagination);
         $this->render("account/series");
     }
 
-    public function ajaxRefreshPagination() {
-        $page = $_GET["page"];
-        $model_user = new User();
-        $total_serie = $model_user->rowCountByIdUser($_SESSION["user_id"], "serie_user", "su_id_user");
-        $serie_per_page = 3;
-        $total_pages = ceil($total_serie / $serie_per_page);
-        echo $this->paginate_function($serie_per_page, $page, $total_serie, $total_pages);
-    }
-    
     // Retourne le résultat de la recherche de séries d'un utilisateur
     public function ajaxSearchSeriesByName() {
         $model_user = new User();
         $result = $model_user->searchSeriesFromUser($_SESSION['user_id'], $_GET['term']);
-        $data = array();
 
         if (!isset($result[0])) {
-            $results = array();
-            $results[] = $result;
-            foreach ($results as $serie) {
+            $data = array();
+            foreach ($result as $serie) {
                 $data[] = $serie['serie_name'];
             }
         } else {
@@ -581,15 +541,12 @@ class AccountController extends baseView {
     // Ajoute une série suivie pour l'utilisateur
     public function ajaxAddSerieToUser() {
         $serie_name = $_GET["serie_name"];
-        $page = $_GET["page"];
         $model_serie = new Serie();
         $model_user = new User();
         $serie_id = $model_serie->getIdSerieByName($serie_name);
         $model_user->addSerieToUser($serie_id["serie_id"], $_SESSION["user_id"]);
 
-        $serie_per_page = 3;
-        $first_serie = ($page - 1) * $serie_per_page;
-        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"], $first_serie, $serie_per_page);
+        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
         foreach ($series_user as $serie) {
             echo "<li class='serie_user'>
                     <span class='serie_delete' serie_id='" . $serie['serie_id'] . "'><img src='/images/serie_delete.png'></span>
@@ -602,17 +559,10 @@ class AccountController extends baseView {
     // Supprime une série suivie par l'utilisateur
     public function ajaxDeleteSerieUser() {
         $serie_id = $_GET["serie_id"];
-        $page = $_GET["page"];
         $model_user = new User();
         $model_user->delete("serie_user", array("su_id_serie" => $serie_id));
 
-        $serie_per_page = 3;
-        $first_serie = ($page - 1) * $serie_per_page;
-        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"], $first_serie, $serie_per_page);
-        if(empty($series_user) && $page > 1)  {
-            $first_serie = ($page - 2) * $serie_per_page;
-            $series_user = $model_user->getSeriesByUser($_SESSION["user_id"], $first_serie, $serie_per_page);
-        }
+        $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
         foreach ($series_user as $serie) {
             echo "<li class='serie_user'>
                     <span class='serie_delete' serie_id='" . $serie['serie_id'] . "'><img src='/images/serie_delete.png'></span>
@@ -681,134 +631,17 @@ class AccountController extends baseView {
         $this->render("calendar");
     }
 
-    // Controller de la page de recherche de l'administrateur
-    public function search() {
-
-        if ((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
-            $this->redirect("index", "");
-        }
-
-        $content = null;
-        $type = "";
-        $title = "";
-        $date = "";
-        $oldTitle = "";
-        $oldDate = "";
-        $oldType = "";
-
-        if (isset($_GET["type"]) && $_GET["type"] != "") {
-            $type = $_GET["type"];
-            $oldType = $_GET["type"];
-        }
-
-        if (isset($_GET["title"]) && $_GET["title"] != "") {
-            $title = $_GET["title"];
-            $oldTitle = $_GET["title"];
-        }
-
-        if (isset($_GET["date"]) && $_GET["date"] != "") {
-            $date = $_GET["date"];
-            $oldDate = $_GET["date"];
-        }
-
-        $admin = new Admin();
-
-        // // Déclaration des paramètres de la pagination
-        // $rows = 5;
-        // $table = "serie";
-        // // $status_table = "status_user";
-        //
-      // if(isset($_GET['page'])) {
-        //    $current_page = intval($_GET['page']);
-        // }
-        // else {
-        //    $current_page = 1; // La page actuelle est la n°1
-        // }
-        //
-      // // Récupération du nombre de pages
-        // $pages_number = $admin->pagination($rows, $table, $current_page);
-        //
-      // // Récupération des données de la page en fonction
-        // $data = $admin->pagination_data($rows, $current_page, $pages_number, $table);
-
-        if (isset($_GET["type"]) && $_GET["type"] != "") {
-            $content = $admin->_searchContent($type, $title, $date);
-        }
-
-        // if($type == "serie") {
-        //    $this->dateConvert($content['']);
-        // }
-        // elseif($type == "serie") {
-        //
-      // }
-        //   echo "<pre>";
-        //       die(var_dump($content));
-        //   echo "</pre>";
-
-        $this->assign("oldTitle", $oldTitle);
-        $this->assign("oldType", $oldType);
-        $this->assign("oldDate", $oldDate);
-        $this->assign("content", $content);
-        $this->render("admin/search");
-    }
-
     //  Controller de la page d'édition des commentaires
     public function getComments() {
-
-        // On vérifie que l'utilisateur est bien un administrateur
-        // if((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
-        //    $this->redirect("index", "");
-        // }
 
         $idUser = $_SESSION['user_id'];
 
         $comment = new Comment();
 
-        // if(isset($_POST["submit"])) {
-        //    $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
-        //    $comment->_updateEditedComment($idComment, $data_update);
-        //    $update = true;
-        // }
         // On récupère le contenu du commentaire
         $content = $comment->_getComments($idUser);
 
-        // $this->assign("update", $update);
-        // $this->assign("idComment", $idComment);
         $this->assign("content", $content);
         $this->render("account/comments");
     }
-
-    //  Controller de la page d'édition des commentaires
-    public function editComment($idComment) {
-
-        // Variable utilisée pour indiquer s'il y a eu une modification ou non
-        $update = false;
-
-        // On vérifie que l'utilisateur est bien un administrateur
-        if ((!isset($_SESSION['user_status'])) || ($_SESSION['user_status'] != 1)) {
-            $this->redirect("index", "");
-        }
-
-        $comment = new Comment();
-
-        if (isset($_POST["submit"])) {
-            $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
-            $comment->_updateEditedComment($idComment, $data_update);
-            $update = true;
-        }
-
-        // On récupère le contenu du commentaire
-        $content = $comment->_getEditedComment($idComment);
-
-        // On test l'existance du commentaire, s'il n'existe pas on redirige l'utilisateur vers l'accueil
-        if (count($content) == 0) {
-            $this->redirect("index", "");
-        }
-
-        $this->assign("update", $update);
-        $this->assign("idComment", $idComment);
-        $this->assign("data", $content[0]);
-        $this->render("admin/editComment");
-    }
-
 }

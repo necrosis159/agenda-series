@@ -17,8 +17,8 @@ $router->post('/serie/page', 'Serie@getPageSerie');
 $router->get('/serie/ajaxSearchAllSeriesByName', 'Serie@ajaxSearchAllSeriesByName');
 //Redirection serie après recherche
 $router->get('/serie/ajaxRedirectionSerie', 'Serie@ajaxRedirectionSerie');
-    
-    
+
+
 //Ajouter un commentaire
 $router->post('/serie/comment', 'Serie@comment');
     //Afficher les commentaires
@@ -56,12 +56,17 @@ $router->post('/account/comments', 'Account@getComments');
 $router->get('/account/comments', 'Account@getComments');
 
 //Admin
-$router->get('/admin/search', 'Account@search');
-$router->get('/admin/comment/edit/:id', 'Account@editComment')
+$router->get('/admin/search', 'Admin@search');
+$router->get('/admin/comment/edit/:id', 'Admin@editComment')
         ->with('id', '[0-9]+');
-$router->post('/admin/comment/edit/:id', 'Account@editComment')
+$router->post('/admin/comment/edit/:id', 'Admin@editComment')
         ->with('id', '[0-9]+');
-
+//Partie ChiTaï, hey Ludo c'est ici !
+$router->get('/admin/edituser/:id', 'User@edit')
+        ->with('id', '[0-9]+');
+$router->post('/admin/edituser/:id', 'User@edit')
+        ->with('id', '[0-9]+');
+$router->get('/admin/userlist', 'User@userlist');
 //Route Avec Paramètre
 //Affiche user
 $router->get('/user/show/:name-:username', 'User@show')
@@ -93,6 +98,7 @@ $router->post('/serie/:id/Saison:nb1/Episode:nb2', 'Serie@episode')
         ->with('nb2', '[0-9]+');
 //Si l'url existe on prend l'url, sinon on mets "/"
 $url = (isset($_GET['url'])) ? $_GET['url'] : '/';
+
 
 //Traitement de l'url
 $router->parse($url);

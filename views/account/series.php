@@ -16,32 +16,28 @@
                 <?php
                 if (count($data)):
                     ?>
-                    <ul>
+                    <ul id="series_list">
                         <?php foreach ($data as $value) : ?>
-                        <?php // var_dump($value);  ?>
                             <li class='serie_user'>
                                 <span class="serie_delete" serie_id="<?php echo $value['serie_id'] ?>"><img src="/images/serie_delete.png"></span>
-                                <a href="#"><p><span class="serie_txt_img"><?php echo $value['serie_name']."<br>"."Note : ".$value['serie_notation'] ?></span></p><img src='<?php echo $value['serie_image']; ?>' class='image_serie'></a>
+                                <a href="#"><p><span class="serie_txt_img"><?php echo $value['serie_name'] . "<br>" . "Note : " . $value['serie_notation'] ?></span></p><img src='<?php echo $value['serie_image']; ?>' class='image_serie'></a>
                                 <span class="serie_title"><?php echo $value['serie_name']; ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
-                <?php
+                    <?php
                 else :
                     echo "Vous ne suivez actuellement aucune série";
                 endif;
                 ?>
+                <!-- Affichage du chargement supplémentaire de résultats s'il y en a et qu'il y en a plus que le nombre d'affichage de base -->
+                <?php if (count($data) > 0 && count($data) > 5): ?>
+                    <p style="text-align: center;">
+                        <button class="button" id="loadMore">Charger plus</button>
+                    </p>
+                    <br>
+                <?php endif; ?>
             </div>
-<!--            <div id="pagination" style="clear: both;">
-                <ul class="pagination">
-                    <?php 
-                        for($i = 1 ; $i <= $total_pages ; $i++) {
-                            echo "<li><a href='/account/series/page/$i'>$i</a></li>";
-                        }
-                    ?>
-                </ul>
-            </div>-->
-            <div id="pagination_bloc"><?php echo $pagination; ?></div>
         </section>
     </section>
 

@@ -176,6 +176,9 @@ body {
     -o-transition: border 0.15s linear 0s, box-shadow 0.15s linear 0s, color 0.15s linear 0s;
 }
 
+#article_form input[type="checkbox"] {
+    display: block;
+}
 select {
     border-style: solid;
     border-width: 1px;

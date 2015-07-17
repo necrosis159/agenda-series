@@ -17,7 +17,7 @@ class Routing{
 	private static function add($method, $path, $callable) {
 		$route = new Route($path, $callable);
 		self::$routes[$method][] = $route;
-	
+
 		$name = str_replace('@', '.', strtolower($callable));
 		self::$namedRoutes[$name] = $route;
 
@@ -27,12 +27,14 @@ class Routing{
 	//Si l'url existe on appelle call() sinon exception
 	public static function parse($url) {
 		$method = $_SERVER['REQUEST_METHOD'];
-		
+		// die(var_dump($method));
+
 		if ( !isset(self::$routes[$method]) ) {
 			throw new Exception('No routes with this request method');
 		}
 
 		foreach (self::$routes[$method] as $route) {
+
 			if ($route->match($url)) {
 				return $route->call();
 			}

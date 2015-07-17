@@ -18,6 +18,8 @@
                     <li>Dernière connexion : <?php echo $result['user_last_login']; ?></li>
                     <li>Nombre de séries suivies : <?php echo $nb_series_follow; ?></li>
                     <li>Nombre de commentaires postés : <?php echo $nb_comments_posted;   ?></li>
+                    <li>Inscrit à la newsletter : <?php if ($result['user_newsletter'] == 1) echo 'Oui' ; else echo 'Non';   ?></li>
+
                 </ul>
                 <a href='/account/edit' class="button">Modifier les informations</a>
             </div>
@@ -98,7 +100,7 @@
                     <input type="checkbox" name="font_italic" id="font_italic" <?php if (isset($_POST["font_bold"])) echo "checked" ?> >
                     <br><br>
                     Rotation : <input type="number" name="rotation" step="5" value="<?php if (isset($_POST["rotation"])) echo $_POST["rotation"] ?>"> degrés<br/><br/>
-                    <textarea class="yo" id="yo" name="description" placeholder="Texte à écrire sur l'image"><?php if (isset($_POST["description"])) echo $_POST["description"] ?></textarea>
+                    <textarea id="image_text" name="description" placeholder="Texte à écrire sur l'image"><?php if (isset($_POST["description"])) echo $_POST["description"] ?></textarea>
                 </div>
                 <br/><br/>
                 <input type="submit" id="logo_submit" class="button" name="submit" value="Télécharger l'image">
