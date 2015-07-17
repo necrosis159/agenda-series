@@ -93,6 +93,7 @@
                             <li><a href="#">Gestion</a>
                                 <ul id="gestion_menu">
                                     <li><a href="/admin/search">Recherche</a></li>
+                                    <li><a href="/admin/userlist">Liste Utilisateurs</a></li>
                                 </ul>
                             </li>
                             <?php endif; ?>
@@ -128,6 +129,16 @@
         <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
         <?php include($view); ?>
         <script type="text/javascript" src="/js/script.js"></script>
+ <div id="fb-root"></div>
+        <script>
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=868208133202056&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
          <div class="footer">
             <div class="wrap">
 
