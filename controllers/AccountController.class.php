@@ -550,7 +550,7 @@ class AccountController extends baseView {
         foreach ($series_user as $serie) {
             echo "<li class='serie_user'>
                     <span class='serie_delete' serie_id='" . $serie['serie_id'] . "'><img src='/images/serie_delete.png'></span>
-                    <a href='#'><p><span class='serie_txt_img'>" . $serie['serie_name'] . "<br> Note : " . $serie['serie_notation'] . "</span></p><img src='" . $serie['serie_image'] . "' class='image_serie'></a>
+                    <a href='/serie/".$serie['serie_id']."'><p><span class='serie_txt_img'>" . $serie['serie_name'] . "<br> Note : " . $serie['serie_notation'] . "</span></p><img src='" . $serie['serie_image'] . "' class='image_serie'></a>
                     <span class='serie_title'>" . $serie['serie_name'] . "</span>
                 </li>";
         }
@@ -566,7 +566,7 @@ class AccountController extends baseView {
         foreach ($series_user as $serie) {
             echo "<li class='serie_user'>
                     <span class='serie_delete' serie_id='" . $serie['serie_id'] . "'><img src='/images/serie_delete.png'></span>
-                    <a href='#'><p><span class='serie_txt_img'>" . $serie['serie_name'] . "<br> Note : " . $serie['serie_notation'] . "</span></p><img src='" . $serie['serie_image'] . "' class='image_serie'></a>
+                    <a href='/serie/".$serie['serie_id']."'><p><span class='serie_txt_img'>" . $serie['serie_name'] . "<br> Note : " . $serie['serie_notation'] . "</span></p><img src='" . $serie['serie_image'] . "' class='image_serie'></a>
                     <span class='serie_title'>" . $serie['serie_name'] . "</span>
                 </li>";
         }
