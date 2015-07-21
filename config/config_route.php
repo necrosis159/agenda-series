@@ -10,19 +10,27 @@ $router->get('/index', 'Index@index');
 //Ajout d'utilisateur
 $router->get('/user/ajout', 'User@index');
 $router->get('/user/test', 'User@test');
-
+$router->get('/user/details/:id', 'User@details')
+        ->with('id', '[0-9]+');
+//Contact
+$router->get('/contact', 'Contact@contact');
+$router->post('/contact', 'Contact@contact');
 //Index serie, recherche
 $router->get('/serie', 'Serie@searchindex');
 $router->post('/serie/page', 'Serie@getPageSerie');
 $router->get('/serie/ajaxSearchAllSeriesByName', 'Serie@ajaxSearchAllSeriesByName');
 //Redirection serie après recherche
 $router->get('/serie/ajaxRedirectionSerie', 'Serie@ajaxRedirectionSerie');
+//Newsletter
+$router->get('/admin/newsletter', 'Newsletter@newsletter');
 
 
 //Ajouter un commentaire
 $router->post('/serie/comment', 'Serie@comment');
-    //Afficher les commentaires
-    $router->post('/serie/commentShow', 'Serie@getPageComment');
+//Afficher les commentaires
+$router->post('/serie/commentShow', 'Serie@getPageComment');
+//Signaler un commentaire
+$router->post('/serie/commentSignal', 'Serie@commentSignal');
 //Ajout user
 $router->post('/user/insert', 'User@insert');
 //404
@@ -56,7 +64,10 @@ $router->post('/account/comments', 'Account@getComments');
 $router->get('/account/comments', 'Account@getComments');
 
 //Admin
-$router->get('/admin/search', 'Admin@search');
+$router->get('/admin/ajaxHighlightUpdateSerie', 'Admin@ajaxHighlightUpdateSerie');
+$router->get('/admin/ajaxHighlightUpdateComment', 'Admin@ajaxHighlightUpdateComment');
+
+$router->get('/admin/', 'Admin@search');
 $router->get('/admin/comment/edit/:id', 'Admin@editComment')
         ->with('id', '[0-9]+');
 $router->post('/admin/comment/edit/:id', 'Admin@editComment')
