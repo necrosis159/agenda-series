@@ -511,6 +511,7 @@ td input:focus {
 
 .l-grid-1 #buttonVoirSerie{
     margin-top: 10px;
+    text-decoration: underline;
 }
 .l-grid-1 img
 {
@@ -637,8 +638,7 @@ td input:focus {
 }
 .footer-right
 {
-    float: none;
-    width: 100%;
+    float: left;
 }
 .footer-right span
 {
@@ -921,6 +921,7 @@ td input:focus {
     .first_grid_2 {
         padding: 1.4em 1.5em;
         width: 57%;
+        min-height:241px;
     }
     .hover:hover {
         margin-left: 0em;
@@ -1541,10 +1542,9 @@ ACCOUNT
 }
 
 #user_series {
-    width: 100%;
+    width: 1200px;
     margin: auto;
     display: block;
-    float: left;
     margin-bottom: 20px;
 }
 

@@ -31,7 +31,15 @@ class User extends baseModels {
                 ->execute();
         return $query;
     }
-
+    
+    // Récupère tous les id de tous les utilisateurs du site
+    public function getAllIdUser() {
+        $query = $this->select()
+                ->from(array("u" => "user"), array("user_id"))
+                ->execute();
+        return $query;
+    }
+    
     // Récupère toutes les informations concernant un utilisateur par son pseudo
     public function getUserByUsername($username) {
         $query = $this->select()

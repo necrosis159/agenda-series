@@ -202,4 +202,41 @@ class UserController extends baseView {
         $this->render("admin/edituser");
 
         }
+        
+    public function details($id) {
+        $model_user = new User();
+        $users_id = $model_user->getAllIdUser();
+
+        foreach ($users_id as $user_id) {
+            $data[] = $user_id["user_id"];
+        }
+
+        if(!in_array($id, $data)) {
+            $this->redirect("index", "");
+        }
+        $result = $model_user->getUserById($id);
+
+        $explode_birthdate = explode('-', $result['user_birthdate']);
+        $birthdate = $explode_birthdate[1] . '/' . $explode_birthdate[0] . '/' . $explode_birthdate[2];
+        $avatar = $result['user_avatar'];
+
+        $nb_series_follow = $model_user->rowCountByIdUser($id, "serie_user", "su_id_user");
+        $nb_comments_posted = $model_user->rowCountByIdUser($id, "comment", "comment_id_user");
+
+        $this->assign("nb_series_follow", $nb_series_follow);
+        $this->assign("nb_comments_posted", $nb_comments_posted);
+
+        $age = $model_user->age($result["user_birthdate"]);
+        $result["user_creation_date"] = $this->dateConvert($result["user_creation_date"]);
+        $date_last_login = explode(" ", $result['user_last_login']);
+        $result['user_last_login'] = $this->dateConvert($date_last_login[0]) . " - " . $date_last_login[1];
+        $this->assign("result", $result);
+        $this->assign("age", $age);
+
+        $series_user = $model_user->getSeriesByUser($id);
+
+        $this->assign("data", $series_user);
+
+        $this->render("user/details");
+    }
 }
