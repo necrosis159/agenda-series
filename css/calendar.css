@@ -4,16 +4,17 @@ div#calendar{
   margin: 50px auto;
   padding: 0px;
   width: 902px;
-  font-family: Helvetica, "Times New Roman", Times, serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 div#calendar div.box{
    position: relative;
+   border-radius: 4px 4px 0 0;
    top: 0px;
    left: 0px;
    width: 100%;
    height: 40px;
-   background-color: #787878 ;
+   background-color: #2F7485 ;
 }
 
 div#calendar div.header{
@@ -38,7 +39,7 @@ div#calendar div.header a.prev, div#calendar div.header a.next{
 }
 
 div#calendar div.header a.prev:hover, div#calendar div.header a.next:hover {
-   color: #EB6841;
+   color: #21B7C6;
 }
 
 div#calendar div.header span.title {
@@ -57,7 +58,7 @@ div#calendar div.header a.next{
 /******************************* Design des cellules *********************************/
 
 div#calendar div.box-content{
-   border: 1px solid #787878 ;
+   border: 1px solid #2F7485;
    border-top: none;
 }
 
@@ -112,18 +113,23 @@ div#calendar ul.dates li{
 
 div#calendar ul.dates li a{
    font-size: 11px;
-   float: left !important;
+   /*float: left !important;*/
+   text-align: center;
    margin-left: 3px;
-   color: #2F7485;
+   color: #56AFC5;
 }
 
 div#calendar ul.dates li a:hover{
-   text-decoration: underline;
-   color: #56AFC5;
+   /*text-decoration: underline;*/
+   color: #2F7485;
 }
 
 div#calendar ul.dates li.start{
    margin-left: 10px;
+}
+
+div#calendar ul.dates li.mask{
+   background-color: #fff;
 }
 
 :focus{

@@ -1,6 +1,6 @@
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Recherche</h1>
+      <h1 class="heading">Tableau de bord</h1>
 
       <form action="" method="GET" id="article_form" class="search adm_search">
          Type :
@@ -29,6 +29,10 @@
             <thead>
                <tr>
                   <th class="th_small">ID</th>
+                  <?php if($oldType == "comment"): ?>
+                     <th class="th_small">Statut</th>
+                  <?php endif; ?>
+
                   <?php if($oldType == "episode" || $oldType == "comment"): ?>
                      <th>Série</th>
                      <th class="th_small">Saison</th>
@@ -47,8 +51,10 @@
 
                   <?php if($oldType == "user"): ?>
                      <th>Inscription</th>
+                  <?php elseif($oldType == "comment"): ?>
+                     <th class="th_small">Date publication</th>
                   <?php else: ?>
-                     <th>Date publication</th>
+                     <th class="th_small">Date de sortie</th>
                   <?php endif; ?>
 
                   <th class="th_small">Actions</th>
@@ -60,6 +66,20 @@
                   foreach($content as $value): ?>
                   <tr>
                      <td><span style="color: #d8871e;">#</span><?php echo $value[$oldType . '_id'] ?></td>
+                     <?php if($oldType == "comment"): ?>
+                        <td>
+                              if($value['comment_status'] == 0) {
+                                 echo "<span style='color: #2aa81a;'>Validé</span>";
+                              }
+                              elseif($value['comment_status'] == 1) {
+                                 echo "<span style='color: #d11b1b;'>Refusé</span>";
+                              }
+                              elseif($value['comment_status'] == 2) {
+                                 echo "<span style='color: #dd8d15;'>Signalé</span>";
+                              }
+                        </td>
+                     <?php endif; ?>
+
                      <?php if($oldType == "episode" || $oldType == "comment"): ?>
                         <td><?php echo $value['serie_name'] ?></td>
                         <td><?php echo "Saison " . $value['season_number'] ?></td>
@@ -118,14 +138,28 @@
                               <img class="tab_icons" src="../images/manage_edit.png" title="Modifier le commentaire" alt="Modifier" />
                            </a>
                         <?php elseif($oldType == "user"): ?>
-                           <a href="#">
+                           <a href="/admin/edituser/<?php echo $value['user_id'] ?>">
                               <img class="tab_icons" src="../images/manage_edit.png" title="Modifier l'utilisateur" alt="Modifier" />
                            </a>
+                        <?php endif; ?>
+
+                        <?php if($oldType == "serie"):
+                           if($value['serie_highlighting'] == 1): ?>
+                              <img style="cursor: pointer;" id="highlight_red" serie_id="<?php echo $value['serie_id'] ?>" class="tab_icons" src="../images/highlight-red.png" title="Ne plus mettre en avant" alt="Désactiver" />
+                           <?php else: ?>
+                              <img style="cursor: pointer;" id="highlight_green" serie_id="<?php echo $value['serie_id'] ?>" class="tab_icons" src="../images/highlight-green.png" title="Mettre en avant" alt="Activer" />
+                           <?php endif; ?>
+                        <?php elseif($oldType == "comment"):
+                           if($value['comment_highlighting'] == 1): ?>
+                              <img style="cursor: pointer;" id="highlight_red_comment" comment_id="<?php echo $value['comment_id'] ?>" class="tab_icons" src="../images/highlight-red.png" title="Ne plus mettre en avant" alt="Désactiver" />
+                           <?php else: ?>
+                              <img style="cursor: pointer;" id="highlight_green_comment" comment_id="<?php echo $value['comment_id'] ?>" class="tab_icons" src="../images/highlight-green.png" title="Mettre en avant" alt="Activer" />
+                           <?php endif; ?>
                         <?php endif; ?>
                      </td>
                   </tr>
                <?php endforeach; else: ?>
-                  <td style="padding-top: 6px;" colspan="6">Aucun résultat</td>
+                  <td style="padding-top: 6px;" colspan="<?php if($oldType == "serie") { echo "6"; } else { echo "7"; } ?>">Aucun résultat</td>
                <?php  endif; ?>
             </tbody>
          </table>
@@ -143,3 +177,4 @@
 </div>
 
 <script src="/js/admin/loadMore.js"></script>
+<script src="/js/admin/highlight.js"></script>

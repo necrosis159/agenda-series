@@ -145,12 +145,11 @@ class SerieController extends baseView {
 		//Verifications des contenus de title et comment
 		$tab['comment_content']=trim(strip_tags(htmlspecialchars($_POST['content_comment'], ENT_QUOTES)));
 
-		$tab['comment_notation']=0;
 		$tab['comment_status']=0;
 		$tab['comment_highlighting']=0;
-		
+
 		//on insère
-		$comment->insert($tab);
+		$comment->insert($tab,"comment");
 	}
 
 	public function searchindex()
@@ -164,9 +163,11 @@ class SerieController extends baseView {
 		$query = $serie->getSeriePage($_POST['page']*5,5);
 
 		foreach ($query as $serie) {
-			echo "<span class='sticker'>";
-			echo "<a href='/serie/".$serie->getId()."'><img src='".$serie->getImage()."'></a>";
-			echo "</span>";
+			echo "<li class='serie_user'><a href='/serie/".$serie->getId()."'><p>
+			<span class='serie_txt_img'>".$serie->getName()."<br>Note : " . $serie->getNotation()."</span>
+			</p><img src='".$serie->getImage()."' class='image_serie'></a>
+            <span class='serie_title'>".$serie->getName()."</span></li>";
+                
 		}
 	}
 
@@ -191,9 +192,10 @@ class SerieController extends baseView {
 		foreach ($query as $value){
 			echo "<li>";
 						//Affiche le pseudo de la personne qui a poster le commentaire
-			echo "<span id='username_comment'><a href=\"../../../account/".$value->getId_User()."\">".$user_avatar[$value->getId_User()]["name"]."</a> <span>".$value->getDate_publication()."</span></span>"; 
+			echo "<span id='username_comment'>".$user_avatar[$value->getId_User()]["name"]." <span>".$value->getDate_publication()."</span></span>"; 
+			echo "<img id='signal_comment' src='/images/signal.png''>";
 			echo "<p>".$value->getContent()."</p>";
-			echo "<img id='avatar_comment' src='../../../images/".$user_avatar[$value->getId_User()]["avatar"]."'>";
+			echo "<img id='avatar_comment' src='/images/avatar/".$user_avatar[$value->getId_User()]["avatar"]."'>";
 			echo "</li>";
 		}
 		echo "</ul>";

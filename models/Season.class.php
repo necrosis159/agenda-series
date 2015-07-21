@@ -27,8 +27,9 @@ class Season extends baseModels{
     }
 
 	public function getListeSeason($id){
-		$query = $this->selectObject('season_number')
+		$query = $this->selectObject('season_number', 'season_name', 'season_nb_episode', 'season_image')
 				->where('season_id_serie',"=", $id)
+				->order('season_number')
 				->executeObject();
 		return $query;
 	}

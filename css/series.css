@@ -69,7 +69,7 @@
 
 #serie_detail{
 	padding: 50px 0px 50px 0px;
-	width: 1000px;
+	width: 80%;
 	margin: auto;
 	height: auto;
 	overflow: auto;
@@ -94,8 +94,12 @@
 }
 
 #divLeft{
-	width: 65%;
+	width: 64%;
 	float: left;
+}
+
+#divLeft img{
+	max-width: 100%;
 }
 
 #divLeft #subtitle{
@@ -103,37 +107,54 @@
 	font-size: 1.2em;
 }
 
-#divRight{
-	float: right;
-	width: 30%;
+#divLeft #subtitle #star{
+	width: 6%;
 }
 
-#divRight #user_options{
+#divLeftSerie{
+	width: 28%;
+	float: left;
+}
+
+#divRight{
+	float: right;
+	width: 23%;
+}
+
+#divRightSerie{
+	float:right;
+	width: 58%;
+}
+
+#divRightSerie #user_options, #divRight #user_options{
 	background-color: #2e7385;
 	border-radius: 5px;
 	padding: 20px 10px 20px 10px;
+	float:right;
+	width:212px;
 }
 
-#divRight h2{
+#divRightSerie h2, #divRight h2{
 	color: #fff;
 	font-size: 1.2em;
 }
 
-#divRight #seasons_list{
+#divRightSerie #seasons_list, #divRight #seasons_list{
+	margin-top: 20px;
+	background-color: #2e7385;
+	border-radius: 5px;
+	padding: 20px 10px 20px 10px;
+	float:right;
+}
+
+#divRightSerie #episode_easy_access, #divRight #episode_easy_access{
 	margin-top: 20px;
 	background-color: #2e7385;
 	border-radius: 5px;
 	padding: 20px 10px 20px 10px;
 }
 
-#divRight #episode_easy_access{
-	margin-top: 20px;
-	background-color: #2e7385;
-	border-radius: 5px;
-	padding: 20px 10px 20px 10px;
-}
-
-#divRight .button{
+#divRightSerie .button, #divRight .button{
 	background-image: linear-gradient(#b2b2b2, #898989);
 	border-radius: 5px;
 	border: 1px solid #898989;
@@ -293,4 +314,13 @@
 #showMore button:active {
  position:relative;
  top:1px;
+}
+#signal_comment{
+	float:right;
+	margin-top:10px;
+	margin-right:10px;
+	cursor:pointer;
+}
+#submit_comment{
+	cursor:pointer;
 }

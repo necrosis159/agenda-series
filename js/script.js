@@ -30,7 +30,7 @@ $(document).ready(function(){
             beforeSend: function() { // traitements JS à faire AVANT l'envoi
             },
             success: function(data) { // traitements JS à faire APRES le retour d'ajax_add_serie.php
-                window.location="/serie/"+data;
+                if(data!="")window.location="/serie/"+data;
             }
         });
     }

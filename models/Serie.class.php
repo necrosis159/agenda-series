@@ -28,7 +28,7 @@ class Serie extends baseModels{
 
 	//Retourne toutes les séries par 5
 	public function getSeriePage($page,$number){
-		$query= $this->selectObject('serie_id','serie_image')
+		$query= $this->selectObject('serie_id','serie_image','serie_name','serie_notation')
 		->limit($page,$number)
 		->executeObject();
 		return $query;
@@ -100,6 +100,13 @@ class Serie extends baseModels{
 		->execute();
 		return $query;
 	}
+
+	public function updateSerie($serie_id, $data){
+		$this->update($data)
+					->where("serie_id", "=", $serie_id)
+						->executeObject();
+	}
+
 	//ID
 	public function setID($serie_id){
 		$this->serie_id=$serie_id;

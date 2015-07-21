@@ -38,6 +38,9 @@ class AccountController extends baseView {
                 $data = $model_user->getUserByUsername($username);
                 if (!empty($data)) {
                     if ($data['user_password'] == md5($_POST['password'])) {
+                        if ($data["user_status"] == 2) {
+                            $message = $this->errorMessage('Votre compte est désactivé.');
+                        } else {
                         $_SESSION['user_status'] = $data['user_status'];
                         $_SESSION['user_id'] = $data['user_id'];
                         $_SESSION['user_avatar'] = $data['user_avatar'];
@@ -45,7 +48,8 @@ class AccountController extends baseView {
                         $data_update = array("user_last_login" => date("Y-m-d H:i:s"));
                         $model_user->updateUser($data['user_id'], $data_update);
                         $page = htmlspecialchars($_POST['page']);
-                        $this->redirect("index", "");
+                            header("Location: " . $page);
+                        }
                     } else {
                         $message = $this->errorMessage('Le mot de passe n\'est pas correct');
                     }
@@ -213,6 +217,11 @@ class AccountController extends baseView {
     }
 
     public function profile() {
+
+        if (!isset($_SESSION["user_id"])) {
+            $this->redirect("account", "login");
+        }
+
         $model_user = new User();
         $result = $model_user->getUserById($_SESSION['user_id']);
         $message = "";
@@ -396,6 +405,8 @@ class AccountController extends baseView {
 
         $age = $model_user->age($result["user_birthdate"]);
         $result["user_creation_date"] = $this->dateConvert($result["user_creation_date"]);
+        $date_last_login = explode(" ", $result['user_last_login']);
+        $result['user_last_login'] = $this->dateConvert($date_last_login[0]) . " - " . $date_last_login[1];
         $this->assign("result", $result);
         $this->assign("age", $age);
         $this->assign("message", $message);
@@ -403,6 +414,10 @@ class AccountController extends baseView {
     }
 
     public function edit() {
+
+        if (!isset($_SESSION["user_id"])) {
+            $this->redirect("account", "login");
+        }
 
         $model_user = new User();
 
@@ -512,6 +527,10 @@ class AccountController extends baseView {
     }
 
     public function series() {
+        if (!isset($_SESSION["user_id"])) {
+            $this->redirect("account", "login");
+        }
+        
         $model_user = new User();
         $series_user = $model_user->getSeriesByUser($_SESSION["user_id"]);
 

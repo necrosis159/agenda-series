@@ -44,7 +44,7 @@ class User extends baseModels {
     // Récupère toutes les informations concernant un utilisateur par son id
     public function getUserById($user_id) {
         $query = $this->select()
-                ->from(array("u" => $this->table), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login", "user_status", "user_newsletter"))
+                ->from(array("user"), array("user_id", "user_name", "user_surname", "user_avatar", "user_gender", "user_username", "user_email", "user_birthdate", "user_creation_date", "user_last_login", "user_status", "user_newsletter"))
                 ->where("user_id", "=", $user_id)
                 ->execute();
 
@@ -153,7 +153,6 @@ class User extends baseModels {
                 ->where("u.user_id", "=", $id_user)
                 ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
                 ->join(array("s" => "serie"), array("serie_id", "serie_name", "serie_image", "serie_notation"), "su.su_id_serie = s.serie_id")
-                ->order("s.serie_name")
                 ->execute();
         return $query;
     }
@@ -180,16 +179,7 @@ class User extends baseModels {
         );
         $this->insert($data, "serie_user");
     }
-    
-    public function getUserRole($user_id) {
-        $query = $this->select()
-                ->from(array('user'), array("user_status"))
-                ->where("user_id", "=", $user_id)
-                ->execute();
 
-        return $query[0]["user_status"];
-    }
-    
     //Retourne le nom d'un user par son ID
     public function getNameById($id){
         $query = $this->selectObject('user_username')
@@ -205,6 +195,29 @@ class User extends baseModels {
             ->executeObject();
         return $query[0]->getAvatar();
     }
+
+    //Fonctions pour la newsletter
+    //Fonction qui récupère tout les utilisateurs qui sont inscrit a la newsletter : test user_newsletter = 1 et on récupère les ID + Mail
+    public function getNewsletter() {
+            $query = $this->select()
+                    ->from(array("u" =>"user"), array("user_id, user_email, user_surname"))
+                    ->where("u.user_newsletter", "=", "1")
+                    ->execute();
+            return $query;
+        }
+
+    //On récupère ensuite les series de chaque user_id
+
+    public function serieUser($user_id) {
+            $query = $this->select()
+                    ->from(array("u" =>"user", "s" => "serie"))
+                    ->where("u.user_id", "=", $user_id)
+                    ->join(array("su" => "serie_user"), array(), "u.user_id = su.su_id_user")
+                    ->join(array("s" => "serie"), array("serie_id, serie_name"), "su.su_id_serie = s.serie_id")
+                    ->execute();
+            return $query;
+    }
+
     // GETTER AND SETTER
     //Id
     public function setId($user_id) {

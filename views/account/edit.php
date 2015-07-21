@@ -51,17 +51,11 @@
       <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
       </label>
 
-      <?php
-      if ($newsletter == 0): ?>
-      <label for="newsletter">S'inscrire à la newsletter <br>
-      <input type='checkbox' id='newsletter' name='newsletter' value='1'>
-
-      </label>
-      <?php else : ?>
-      <label for="newsletter">S'inscrire à la newsletter <br>
-      <input type='checkbox' id='newsletter' name='newsletter' value='1' checked>
-      <input type='hidden' id='newsletter' name='newsletter' value='0'>
-      <?php endif; ?>
+      <label for="newsletter">Inscription newsletter<br>
+      <select name="newsletter">
+        <option <?php if($newsletter == "0") { echo "selected"; } ?> value="0">Non</option>
+        <option <?php if($newsletter == "1") { echo "selected"; } ?> value="1">Oui</option>
+      </select><br>
       </label>
 
       <input class="button" type='submit' id='submit' name='submit' value='Modifier'>

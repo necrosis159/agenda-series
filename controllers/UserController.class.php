@@ -129,16 +129,6 @@ class UserController extends baseView {
                     $error ++;
                 }
 
-                // Champ email
-                if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    // On vérifie si le mail existe dans la bdd et que ce n'est pas le mail de l'utilisateur
-                    $result = $model_user->isEmailExistsWhenUpdate($_SESSION['user_id'], $email);
-                    if ($result != 0) {
-                        $arrayErrors[] = "Le mail existe déjà";
-                        $error ++;
-                    }
-                }
-
                 // Champ password
                 $password = trim($_POST["password"]);
                 if (!empty($password)) {
@@ -165,7 +155,7 @@ class UserController extends baseView {
                 }
 
                 // Champ Newsletter
-                if (strlen($newsletter) > 50) {
+                if (strlen($newsletter) > 3) {
                     $arrayErrors[] = "L'id de la newsletter n'est pas valide";
                     $error ++;
                 }
@@ -212,5 +202,4 @@ class UserController extends baseView {
         $this->render("admin/edituser");
 
         }
-
 }

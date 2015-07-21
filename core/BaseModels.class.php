@@ -167,7 +167,7 @@ class baseModels {
 
     //execute la requète
     public function executeObject() {
-        $req = $this->pdo->prepare($this->query . $this->where . $this->limit);
+        $req = $this->pdo->prepare($this->query . $this->where . $this->order. $this->limit);
 //        var_dump($this->query.$this->where);die();
         $req->execute();
 
@@ -188,7 +188,7 @@ class baseModels {
         $columns_subquery = implode(",", $this->columns_subquery);
         $this->query = $this->select . $columns . $this->from . $this->where . $this->order . $this->limit . $this->select_subquery . $columns_subquery . $this->from_subquery . $this->where_subquery;
         $req = $this->pdo->prepare($this->query);
-//        var_dump($this->query);
+      //   die(var_dump($req));
         $req->execute();
 
         $this->query = "";
@@ -202,7 +202,7 @@ class baseModels {
 
         return $result;
     }
-    
+
     public function where($col, $operator, $val = null, $escape = true) {
         return $this->addWhere('WHERE', $col, $operator, $val, $escape);
     }
@@ -264,12 +264,12 @@ class baseModels {
         $this->where .= " $key $col $operator $val";
         return $this;
     }
-    
-    public function order($order) {
-        $this->order = " ORDER BY " . $order;
+
+    public function order($field, $order = null) {
+        $this->order = " ORDER BY " . $field . " " . $order;
         return $this;
     }
-    
+
     public function limit($start,$quantity)
     {
         $this->limit = " LIMIT $start , $quantity ";

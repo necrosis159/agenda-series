@@ -8,45 +8,47 @@
 
 <div class="wrap">
    <section id="manage">
-      <h1 class="heading">Modérer le commentaire : <?php echo "#" . $idComment . ' - "' . $data['comment_title']; ?>"</h1>
+      <h1 class="heading">Modérer le commentaire : <?php echo "#" . $idComment . ' - "' . $data['serie_name'] . " : " . $data['episode_name']; ?>"</h1>
 
       <form id="article_form" action="" method="POST">
 
          <div>
-            <label>Titre
-               <input id="title" name="title" type="text" value="<?php echo $data['comment_title']; ?>" placeholder="Titre du commentaire" required="required" autofocus="">
-            </label>
-         </div>
-
-         <div>
             <label>Statut<br>
                <select name="status">
-                  <option <?php if($data['comment_status'] == 0) { echo "selected"; } ?> value="0">Refusé</option>
-                  <option <?php if($data['comment_status'] == 1) { echo "selected"; } ?> value="1">Validé</option>
+                  <option <?php if($data['comment_status'] == 0) { echo "selected"; } ?> value="0">Validé</option>
+                  <option <?php if($data['comment_status'] == 1) { echo "selected"; } ?> value="1">Refusé</option>
+                  <option <?php if($data['comment_status'] == 2) { echo "selected"; } ?> value="2">Signalé</option>
                </select>
             </label>
          </div>
 
          <div>
-            <label>Note</label><br>
-               <?php
-                  for($i= 1; $i <= $data['comment_notation']; $i++) {
-                    echo '<img style="width: 2.5%;" src="../../../images/star.png" />';
-                  }
-                  if(strpos($data['comment_notation'], '.')) {
-                    echo '<img style="width: 2.5%;" src="../../../images/half_star.png" />';
-                    $i++;
-                  }
-                  while($i <= 5) {
-                    echo '<img style="width: 2.5%;" src="../../../images/blank_star.png" />';
-                    $i++;
-                  }
-               ?>
+            <label>Mettre en avant<br>
+               <select name="highlight">
+                  <option <?php if($data['comment_highlighting'] == 0) { echo "selected"; } ?> value="0">Activer</option>
+                  <option <?php if($data['comment_highlighting'] == 1) { echo "selected"; } ?> value="1">Désactiver</option>
+               </select>
+            </label>
          </div>
+
+
+         <?php
+            // for($i= 1; $i <= $data['comment_notation']; $i++) {
+            //   echo '<img style="width: 2.5%;" src="../../../images/star.png" />';
+            // }
+            // if(strpos($data['comment_notation'], '.')) {
+            //   echo '<img style="width: 2.5%;" src="../../../images/half_star.png" />';
+            //   $i++;
+            // }
+            // while($i <= 5) {
+            //   echo '<img style="width: 2.5%;" src="../../../images/blank_star.png" />';
+            //   $i++;
+            // }
+         ?>
 
          <div>
             <label>Contenu
-               <textarea id="content" name="content"><?php echo $data['comment_content']; ?></textarea>
+               <textarea rows="7" id="content" name="content"><?php echo $data['comment_content']; ?></textarea>
             </label>
          </div>
 

@@ -15,14 +15,17 @@
       - Détection des genres et des liaisons avec les séries déjà présentes en BDD
    */
 
-   include('../tmdb-api.php');
+   $path = dirname(dirname(__FILE__));
+   define('ROOT',dirname($path));
+
+   require ROOT.'/tmdb/tmdb-api.php';
 
    // Fonctions utilitaires
 
    // Fonction de connection PDO
    function call_pdo() {
      try {
-        $db = new PDO('mysql:host=agendaseltserie.mysql.db;dbname=agendaseltserie;charset=utf8', 'agendaseltserie', 'yUzuP2ebraha', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db = new PDO('mysql:host=agendaseltserie.mysql.db;dbname=agendaseltserie;charset=utf8', 'agendaseltserie', 'yUzuP2ebraha', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
      } catch (Exception $e) {
        die('Erreur : ' . $e->getMessage());
      }

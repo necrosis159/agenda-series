@@ -68,15 +68,18 @@
  * 		// Person images		http://api.themoviedb.org/3/person/287/images
  */
 
-include("data/Movie.php");
-include("data/TVShow.php");
-include("data/Season.php");
-include("data/Episode.php");
-include("data/Person.php");
-include("data/Role.php");
-include("data/roles/MovieRole.php");
-include("data/roles/TVShowRole.php");
-include("data/Collection.php");
+$path = dirname(dirname(__FILE__));
+define('ROOT',dirname($path));
+
+require ROOT.'/tmdb/data/Movie.php';
+require ROOT.'/tmdb/data/TVShow.php';
+require ROOT.'/tmdb/data/Season.php';
+require ROOT.'/tmdb/data/Episode.php';
+require ROOT.'/tmdb/data/Person.php';
+require ROOT.'/tmdb/data/Role.php';
+require ROOT.'/tmdb/data/roles/MovieRole.php';
+require ROOT.'/tmdb/data/roles/TVShowRole.php';
+require ROOT.'/tmdb/data/Collection.php';
 
 class TMDB{
 

@@ -20,6 +20,7 @@ class Episode extends baseModels{
 		$query = $this->selectObject('episode_number', 'episode_id', 'episode_name','episode_overview','episode_notation','episode_air_date')
 				->where('episode_id_serie',"=", $id)
 				->andwhere('episode_id_season',"=",$id_season)
+				->order('episode_number')
 				->executeObject();
 		return $query;
 	}
@@ -32,7 +33,20 @@ class Episode extends baseModels{
 				->executeObject();
 		return $query;
 	}
+	public function airDate($id_serie) {
+		$date = date('Y-m-d');
+        $nextweek = date('Y-m-d', strtotime($date .' +7 day'));
+        $query = $this->select()
+                ->from(array("e" => "episode"), array("episode_number", "episode_air_date", "episode_name"))
+                ->where('e.episode_air_date', ">=", $date)
+                ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
+                ->join(array("s" => "serie"), array("serie_name, serie_id"), "se.season_id_serie = s.serie_id")
+            	->addWhere("AND",'e.episode_air_date', "<=", $nextweek)
+            	->addWhere("AND","serie_id", "=", $id_serie)
 
+				->execute();
+                return $query;
+	}
 	//Id
 		public function setId($episode_id){
 		$this->episode_id=$episode_id;

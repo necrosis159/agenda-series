@@ -45,12 +45,18 @@
       <input type='password' id='password_confirm' name='password_confirm'  class="input_form"placeholder='Confirmation' maxlength="20" size="30">
       </label>
 
-      <label for="status">Status
-      <input type='text' id='status' name='status' class="input_form" placeholder='Status' size="30" maxlength="50" value='<?php if (isset($status)) echo $status ?>'>
-      </label>
+      <label for="status">Status<br>
+      <select name="status">
+        <option <?php if($status == "0") { echo "selected"; } ?> value="0">Utilisateur</option>
+        <option <?php if($status == "1") { echo "selected"; } ?> value="1">Administrateur</option>
+        <option <?php if($status == "2") { echo "selected"; } ?> value="2">Suspendu</option>
+      </select><br>
 
-      <label for="newsletter">Newsletter
-      <input type='text' id='newsletter' name='newsletter' class="input_form" placeholder='0 ou 1' size="30" maxlength="50" value='<?php if (isset($newsletter)) echo $newsletter ?>'>
+      <label for="newsletter">Inscription newsletter<br>
+      <select name="newsletter">
+        <option <?php if($newsletter == "0") { echo "selected"; } ?> value="0">Non</option>
+        <option <?php if($newsletter == "1") { echo "selected"; } ?> value="1">Oui</option>
+      </select><br>
       </label>
 
       <input class="button" type='submit' id='submit' name='submit' value='Modifier'>

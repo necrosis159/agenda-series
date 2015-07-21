@@ -19,27 +19,27 @@
          if($type == "serie") {
             if($title == "" && $date == "") {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date"));
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date", $type . "_highlighting"));
 
                $result = $this->execute();
             }
             elseif($title == "" && $date != "") {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date", $type . "_highlighting"))
                            ->where($prefix . "." . $type . "_first_air_date", "=", $date);
 
                $result = $this->execute();
             }
             elseif($title != "" && $date == "") {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date", $type . "_highlighting"))
                            ->where($prefix . '.' . $type . '_name', "LIKE", $title);
 
                $result = $this->execute();
             }
             else {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_first_air_date", $type . "_highlighting"))
                            ->where($prefix . '.' . $type . '_name', "LIKE", $title)
                               ->addWhere("AND", $prefix . "." . $type . "_first_air_date", "=", $date);
 
@@ -52,7 +52,8 @@
                         ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_air_date", $type . "_number"))
                            ->where($type . "_name", "LIKE", "")
                               ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                    ->order('e.episode_air_date', 'DESC');
 
                $result = $this->execute();
             }
@@ -61,7 +62,8 @@
                         ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_air_date", $type . "_number"))
                            ->where($prefix . "." . $type . "_air_date", "=", $date)
                               ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                    ->order('e.episode_air_date', 'DESC');
 
                $result = $this->execute();
             }
@@ -70,7 +72,8 @@
                         ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_air_date", $type . "_number"))
                            ->where($prefix . '.' . $type . '_name', "LIKE", $title)
                               ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                    ->order('e.episode_air_date', 'DESC');
 
                $result = $this->execute();
             }
@@ -79,7 +82,8 @@
                         ->from(array($prefix => $type), array($type . "_id", $type . "_name", $type . "_air_date", $type . "_number"))
                            ->where($prefix . '.' . $type . '_name', "LIKE", $title)
                               ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                 ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                    ->order('e.episode_air_date', 'DESC');
 
                $result = $this->execute();
             }
@@ -124,54 +128,59 @@
          elseif($type == "comment") {
             if($title == "" && $date == "") {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_title", $type . "_date_publication"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_status", $type . "_date_publication", $type . "_highlighting"))
                            ->where($type . "_title", "LIKE", "")
                               ->join(array("u" => "user"), array("user_username"), "c.comment_id_user = u.user_id")
                                  ->join(array("e" => "episode"), array("episode_number"), "c.comment_id_episode = e.episode_id")
                                     ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                       ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                       ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                          ->order('c.comment_status', 'DESC');
 
                $result = $this->execute();
             }
             elseif($title == "" && $date != "") {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_title", $type . "_date_publication"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_status", $type . "_title", $type . "_date_publication", $type . "_highlighting"))
                            ->where($prefix . "." . $type . "_date_publication", "=", $date)
                               ->join(array("u" => "user"), array("user_username"), "c.comment_id_user = u.user_id")
                                  ->join(array("e" => "episode"), array("episode_number"), "c.comment_id_episode = e.episode_id")
                                     ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                       ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                       ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                          ->order('c.comment_status', 'DESC');
 
                $result = $this->execute();
             }
             elseif($title != "" && $date == "") {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_title", $type . "_date_publication"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_status", $type . "_date_publication", $type . "_highlighting"))
                            ->where('s.serie_name', "LIKE", $title)
                               ->join(array("u" => "user"), array("user_username"), "c.comment_id_user = u.user_id")
                                  ->join(array("e" => "episode"), array("episode_number"), "c.comment_id_episode = e.episode_id")
                                     ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                       ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                       ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                          ->order('c.comment_status', 'DESC');
 
                $result = $this->execute();
             }
             elseif($title != "" && $date != "") {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_title", $type . "_date_publication"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_status", $type . "_date_publication", $type . "_highlighting"))
                            ->where('s.serie_name', "LIKE", $title)
                               ->addWhere("AND", $prefix . "." . $type . "_date_publication", "=", $date)
                                  ->join(array("u" => "user"), array("user_username"), "c.comment_id_user = u.user_id")
                                     ->join(array("e" => "episode"), array("episode_number"), "c.comment_id_episode = e.episode_id")
                                        ->join(array("se" => "season"), array("season_number"), "e.episode_id_season = se.season_id")
-                                          ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id");
+                                          ->join(array("s" => "serie"), array("serie_name", "serie_id"), "se.season_id_serie = s.serie_id")
+                                             ->order('c.comment_status', 'DESC');
 
                $result = $this->execute();
             }
             else {
                $this->selectDistinct()
-                        ->from(array($prefix => $type), array($type . "_id", $type . "_title", $type . "_date_publication"))
+                        ->from(array($prefix => $type), array($type . "_id", $type . "_status", $type . "_date_publication", $type . "_highlighting"))
                            ->where($prefix . '.' . $type . '_title', "LIKE", $title)
-                              ->addWhere("AND", $prefix . "." . $type . "_date_publication", "=", $date);
+                              ->addWhere("AND", $prefix . "." . $type . "_date_publication", "=", $date)
+                                 ->order('c.comment_status', 'DESC');
 
                $result = $this->execute();
             }

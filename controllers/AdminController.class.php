@@ -59,7 +59,7 @@
           $comment = new Comment();
 
           if (isset($_POST["submit"])) {
-              $data_update = array("comment_title" => $_POST["title"], "comment_content" => $_POST["content"], "comment_status" => $_POST["status"]);
+              $data_update = array("comment_content" => $_POST["content"], "comment_status" => $_POST["status"], "comment_highlighting" => $_POST["highlight"]);
               $comment->_updateEditedComment($idComment, $data_update);
               $update = true;
           }
@@ -76,6 +76,32 @@
           $this->assign("idComment", $idComment);
           $this->assign("data", $content[0]);
           $this->render("admin/editComment");
+      }
+
+      // Met à jour le champ de mise en avant pour une série
+      public function ajaxHighlightUpdateSerie() {
+
+          $serie_id = $_GET["serie_id"];
+          $valueHighlight = $_GET["value"];
+
+          $model_serie = new Serie();
+
+          $data_update = array("serie_highlighting" => $valueHighlight);
+
+          $model_serie->updateSerie($serie_id, $data_update);
+      }
+
+      // Met à jour le champ de mise en avant pour un commentaire
+      public function ajaxHighlightUpdateComment() {
+
+          $comment_id = $_GET["comment_id"];
+          $valueHighlight = $_GET["value"];
+
+          $model_comment = new Comment();
+
+          $data_update = array("comment_highlighting" => $valueHighlight);
+
+          $model_comment->_updateEditedComment($comment_id, $data_update);
       }
    }
 

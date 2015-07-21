@@ -7,6 +7,7 @@
             <tr>
                <th class="th_small">ID</th>
                <th>Posté sur</th>
+               <th>Extrait</th>
                <th class="th_small">Date publication</th>
                <th class="th_small">Actions</th>
             </tr>
@@ -14,13 +15,13 @@
 
          <tbody id="result_table">
             <?php if(count($content) > 0):
-               // die(var_dump($content));
                foreach($content as $value): ?>
                <tr>
                   <td><span style="color: #d8871e;">#</span><?php echo $value['comment_id'] ?></td>
                   <td>
                      <?php echo $value['serie_name'] . " : S" . $value['season_number'] . "E" . $value['episode_number']; ?>
                   </td>
+                  <td><?php echo $value['comment_content'] ?></td>
                   <td>
                      <?php echo $this->dateConvert($value['comment_date_publication']); ?>
                   </td>

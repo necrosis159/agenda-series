@@ -19,8 +19,9 @@ class Comment extends baseModels{
 
 	//Retourne toutes les comment par 5
 	public function getCommentPage($page,$number,$id_episode){
-		$query= $this->selectObject('comment_id_user','comment_date_publication','comment_content')
+		$query= $this->selectObject('comment_id','comment_id_user','comment_date_publication','comment_content')
 				->where('comment_id_episode', "=", $id_episode)
+				->andWhere('comment_status','!=',1)
 				->limit($page,$number)
 				->executeObject();
 		return $query;
@@ -44,7 +45,7 @@ class Comment extends baseModels{
 	public function _getComments($idUser) {
 
 		$this->selectDistinct()
-					->from(array("c" => "comment"), array("comment_id", "comment_title", "comment_notation", "comment_content", "comment_notation", "comment_status", "comment_date_publication"))
+					->from(array("c" => "comment"), array("comment_id", "comment_content", "comment_status", "comment_date_publication"))
 						->where('comment_id_user', "=", $idUser)
 							->join(array("e" => "episode"), array("episode_name", "episode_number"), "e.episode_id = c.comment_id_episode")
 								->join(array("s" => "season"), array("season_number"), "e.episode_id_season = s.season_id")
@@ -58,8 +59,11 @@ class Comment extends baseModels{
 	public function _getEditedComment($idComment) {
 
 		$this->selectDistinct()
-					->from(array("c" => "comment"), array("comment_title", "comment_notation", "comment_content", "comment_notation", "comment_status"))
-						->where('comment_id', "=", $idComment);
+					->from(array("c" => "comment"), array("comment_id", "comment_content", "comment_status", "comment_date_publication", "comment_highlighting"))
+						->where('c.comment_id', "=", $idComment)
+							->join(array("e" => "episode"), array("episode_name", "episode_number"), "e.episode_id = c.comment_id_episode")
+								->join(array("s" => "season"), array("season_number"), "e.episode_id_season = s.season_id")
+									->join(array("se" => "serie"), array("serie_name", "serie_id"), "e.episode_id_serie = se.serie_id");
 		$result = $this->execute();
 
 		return $result;
