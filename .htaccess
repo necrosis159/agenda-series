@@ -1,9 +1,11 @@
-RewriteEngine on
+Options +FollowSymLinks
+RewriteEngine On
 
-RewriteCond %{Request_URI} !^.*/images/.*$
-RewriteRule ^les-series$ series/series_list.php [L]
-RewriteRule ^les-series/([a-zA-Z0-9]+)-([0-9]+)$ series/serie_detail.php?id=$2&name=$1 [L]
-RewriteRule ^les-series/([a-zA-Z0-9]+)-([0-9]+)/saison-([0-9]+)$ series/season_detail.php?id=$2&name=$1&saison=$3 [L]
-RewriteRule ^les-series/([a-zA-Z0-9]+)-([0-9]+)/saison-([0-9]+)/episode-([0-9]+)$ series/episode_detail.php?id=$2&name=$1&saison=$3&episode=$4 [L]
-RewriteRule ^account/([a-zA-Z0-9]+)$ account/account_user.php?username=$1 [L]
-RewriteRule ^account/series/([a-zA-Z0-9]+)$ account/account_user_series.php?username=$1 [L]
+#RewriteBase /www/
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{Request_URI} !/web
+
+#RewriteRule ^.*$ /index.php [L]
+RewriteRule ^(.*)$ /index.php?url=$1 [QSA,L]
