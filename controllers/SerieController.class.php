@@ -71,7 +71,9 @@ class SerieController extends baseView {
 
 			//On récupère la liste des episode de la saison
 			$liste_episode=$episode->getListeEpisode($id,$id_season);
-			
+			foreach ($liste_episode as $value) {
+			$value->seAirDate($this->dateConvert($value->getAirDate()));
+			}
 			//On envoie la liste des episodes
 			$this->assign('liste_episode',$liste_episode);
 		}
@@ -117,11 +119,7 @@ class SerieController extends baseView {
 
 				//on récupère l'episode
 				$result=$episode->getElementEpisode($id,$id_season,$nb2);
-
-				//Conversion date en fr
-				foreach ($result as $value) {
-					$value->setAirDate($this->dateConvert($value->getAirDate()));
-				}			
+		
 			}
 		}
 		//On envoie les variables et appel la view
